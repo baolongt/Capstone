@@ -3,18 +3,14 @@ module.exports = {
     browser: true,
     es2021: true
   },
-  extends: ['plugin:react/recommended', 'standard-with-typescript'],
+  extends: ['plugin:react/recommended'],
   overrides: [],
   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module'
+    project: './tsconfig.json'
   },
-  plugins: ['react'],
+  plugins: ['react', '@typescript-eslint'],
+  parser: '@typescript-eslint/parser',
   rules: {
-    'react/jsx-filename-extension': [
-      'error',
-      { extensions: ['.js', '.jsx', '.tsx'] }
-    ],
-    'prettier/prettier': 'error'
+    '@typescript-eslint/dot-notation': 'off'
   }
 };
