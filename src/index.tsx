@@ -8,6 +8,7 @@ interface Props {}
 
 const store = configureStore();
 
+// eslint-disable-next-line no-unused-vars
 const Root: React.FC<Props> = (props) => {
   return (
     <React.StrictMode>

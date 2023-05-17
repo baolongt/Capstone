@@ -1,4 +1,4 @@
-import { Button } from 'antd';
+import { Button } from '@mui/material';
 import React, { FunctionComponent } from 'react';
 
 export interface Props {
@@ -23,7 +23,7 @@ const CounterComponent: FunctionComponent<Props> = (props) => {
   return (
     <div>
       <h1>{counter}</h1>
-      <Button onClick={onLoad} type="primary">
+      <Button onClick={onLoad} variant="outlined">
         Load
       </Button>
     </div>
