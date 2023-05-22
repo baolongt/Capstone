@@ -1,29 +1,36 @@
-import { Button } from '@mui/material';
-import React, { FunctionComponent } from 'react';
+import { Button, CircularProgress } from '@mui/material';
+import { useSelector, useDispatch } from 'react-redux';
+import React from 'react';
+import {
+  increment,
+  decrement,
+  incrementByAmount,
+  getAsync
+} from '../../redux/reducers/counter';
+import { AppState } from '../../redux/reducers/rootReducer';
 
-export interface Props {
-  counter: number;
-  isLoading: boolean;
-  error: Error | string | null;
-  onLoad(): void;
-}
-
-const CounterComponent: FunctionComponent<Props> = (props) => {
-  const { counter, isLoading, error, onLoad } = props;
-
-  if (error) {
-    console.log('error: ', error);
-    return <div>{error.toString()}</div>;
-  }
-
-  if (isLoading) {
-    return <div>{'Loading..'}</div>;
-  }
+const CounterComponent: React.FC = () => {
+  const value = useSelector((state: AppState) => state.counter.value);
+  const isLoading = useSelector((state: AppState) => state.loading.isLoading);
+  const dispatch = useDispatch();
 
   return (
     <div>
-      <h1>{counter}</h1>
-      <Button onClick={onLoad} variant="outlined">
+      <Button onClick={() => dispatch(increment())} variant="outlined">
+        +
+      </Button>
+      {isLoading ? <CircularProgress /> : <span>{value}</span>}
+
+      <Button onClick={() => dispatch(decrement())} variant="outlined">
+        -
+      </Button>
+      <Button
+        onClick={() => dispatch(incrementByAmount(10))}
+        variant="outlined"
+      >
+        +10
+      </Button>
+      <Button onClick={() => dispatch(getAsync())} variant="outlined">
         Load
       </Button>
     </div>

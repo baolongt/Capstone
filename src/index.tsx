@@ -1,12 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import configureStore from './redux/store/store';
+import store from './redux/store/store';
 import { Provider } from 'react-redux';
 
 interface Props {}
-
-const store = configureStore();
 
 // eslint-disable-next-line no-unused-vars
 const Root: React.FC<Props> = (props) => {

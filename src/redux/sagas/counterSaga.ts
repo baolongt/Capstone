@@ -1,21 +1,21 @@
-import { put, call, takeEvery, all, fork } from "redux-saga/effects";
-import * as actionCreators from "../actionCreators/counterActionCreator";
-import * as actionTypes from "../actionTypes/counterActionTypes";
-import { fetchCounter } from "../services/counter";
+import { put, call, takeLatest } from 'redux-saga/effects';
+import { get, getAsync } from '../reducers/counter';
+import { setError } from '../reducers/error';
+import { startLoading, stopLoading } from '../reducers/loading';
+import { fetchCounter } from '../services/counter';
 
-function* onLoadCounter() {
-	try {
-		const counter: number = yield call(fetchCounter);
-		yield put(actionCreators.getCounterSuccess(counter));
-	} catch (error) {
-		yield put(actionCreators.getCounterFailure(error as Error));
-	}
+export function* handleGetCounter() {
+  try {
+    yield put(startLoading());
+    const response: number = yield call(fetchCounter);
+    yield put(get(response));
+    yield put(stopLoading());
+  } catch (error) {
+    console.log('Error fetching counter:', error);
+    yield put(setError(error));
+  }
 }
 
-function* watchOnLoadCounter() {
-	yield takeEvery(actionTypes.GET_COUNTER, onLoadCounter);
-}
-
-export default function* counterSaga() {
-	yield all([fork(watchOnLoadCounter)]);
+export default function* watchGetCounter() {
+  yield takeLatest(getAsync.type, handleGetCounter);
 }

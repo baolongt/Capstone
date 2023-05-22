@@ -1,12 +1,12 @@
-import { combineReducers } from "@reduxjs/toolkit";
-import counterReducer from "./counter";
-import errorReducer from "./errorReducer";
-import isLoadingReducer from "./isLoadingReducer";
+import { combineReducers } from '@reduxjs/toolkit';
+import counterReducer from './counter';
+import errorReducer from './error';
+import loadingReducer from './loading';
 
 const rootReducer = combineReducers({
-	counter: counterReducer,
-	isLoading: isLoadingReducer,
-	error: errorReducer
+  counter: counterReducer,
+  loading: loadingReducer,
+  error: errorReducer
 });
 
 export type AppState = ReturnType<typeof rootReducer>;
