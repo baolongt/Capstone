@@ -1,11 +1,13 @@
 import React from 'react';
 import './App.css';
-import Counter from './components/counter/CounterComponent';
+import Editor from './components/ckedtior/WrappedEditor';
+// import Counter from './components/counter/CounterComponent';
 
 function App() {
   return (
     <div className="App">
-      <Counter />
+      <Editor />
+      {/* <Counter /> */}
     </div>
   );
 }
