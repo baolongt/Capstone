@@ -3,7 +3,7 @@
   border-radius: var(--ck-border-radius);
 
   /* Set vertical boundaries for the document editor. */
-  max-height: 700px;
+  max-height: 1000px;
 
   /* This element is a flex container for easier rendering. */
   display: flex;
@@ -39,6 +39,7 @@
 .ck.ck-editor__editable_inline {
   padding: var(--document-margin-top) var(--document-margin-right)
     var(--document-margin-bottom) var(--document-margin-left);
+  min-height: var(--document-min-height);
 }
 .document-editor__editable-container
   .document-editor__editable.ck-editor__editable {
