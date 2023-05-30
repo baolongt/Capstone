@@ -14,12 +14,12 @@ const WrappedEditor = () => {
     '--document-background-color': '#f7f7f7',
     '--document-color': '#333',
     '--document-margin-left': '96px',
-    '--document-margin-right': '96px'
+    '--document-margin-right': '96px',
+    '--document-min-height': '1000px'
   } as any;
 
   return (
     <div>
-      <h1>Test import word</h1>
       <div style={{ backgroundColor: '#e3e8ed' }} className="document-editor">
         <div id="toolbar-container" className="document-editor__toolbar"></div>
         <div style={{}} className="document-editor__editable-container">

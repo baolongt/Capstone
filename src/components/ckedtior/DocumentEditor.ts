@@ -92,7 +92,7 @@ DecoupledEditor.defaultConfig = {
       'fontsize',
       'fontColor',
       'fontBackgroundColor',
-      '-',
+      '|',
       'bold',
       'italic',
       'underline',
