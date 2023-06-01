@@ -5,6 +5,7 @@ import Editor from './components/ckedtior/WrappedEditor';
 import Dashboard from './components/layout/Dashboard';
 import { Box } from '@mui/material';
 import useCurrentPath from './hooks/useCurrentPath';
+import CreateDocumentForm from './components/document/CreateDocumentForm';
 
 const Placeholder: React.FC = () => {
   const path = useCurrentPath();
@@ -30,14 +31,11 @@ function App() {
           <Route index={false} path="editor" element={<Editor />}></Route>
           <Route index={false} path="Index" element={<Placeholder />}></Route>
           <Route index={false} path="Started" element={<Placeholder />}></Route>
-          <Route index={false} path="route">
-            <Route index={true} element={<>test</>}></Route>
-            <Route
-              index={false}
-              path="editor"
-              element={<h1>editor</h1>}
-            ></Route>
-          </Route>
+          <Route
+            index={false}
+            path="create-document"
+            element={<CreateDocumentForm />}
+          ></Route>
         </Route>
       </Routes>
     </Dashboard>
