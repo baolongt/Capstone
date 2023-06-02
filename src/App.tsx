@@ -6,6 +6,7 @@ import Dashboard from './components/layout/Dashboard';
 import { Box } from '@mui/material';
 import useCurrentPath from './hooks/useCurrentPath';
 import CreateDocumentForm from './components/document/CreateDocumentForm';
+import DocumentTable from './components/document/DocumentTable';
 
 const Placeholder: React.FC = () => {
   const path = useCurrentPath();
@@ -28,9 +29,8 @@ function App() {
       <Routes>
         <Route path="/">
           <Route index={true} element={<Placeholder />}></Route>
-          <Route index={false} path="editor" element={<Editor />}></Route>
-          <Route index={false} path="Index" element={<Placeholder />}></Route>
-          <Route index={false} path="Started" element={<Placeholder />}></Route>
+          <Route path="editor" element={<Editor />}></Route>
+          <Route path="document" element={<DocumentTable />}></Route>
           <Route
             index={false}
             path="create-document"
