@@ -1,7 +1,7 @@
 import { applyMiddleware, compose, createStore } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
 import rootReducer from '../reducers/rootReducer';
-//import rootSaga from '../sagas/rootSaga';
+import rootSaga from '../sagas/rootSaga';
 declare global {
   // eslint-disable-next-line no-unused-vars
   interface Window {
@@ -17,6 +17,6 @@ const store = createStore(
   composeEnhancers(applyMiddleware(sagaMiddleware))
 );
 
-//sagaMiddleware.run(rootSaga);
+sagaMiddleware.run(rootSaga);
 
 export default store;
