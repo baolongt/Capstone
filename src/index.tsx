@@ -9,7 +9,7 @@ interface Props {}
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: '*',
     element: <App />
   }
 ]);
