@@ -17,7 +17,6 @@ import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import SidebarItems from './SidebarItems';
 import DefaultFooter from './DefaultFooter';
-import useCurrentPath from '../../hooks/useCurrentPath';
 import DynamicBreadcrums from './DynamicBreadcrums';
 
 type DashboardLayoutProps = {
@@ -25,10 +24,6 @@ type DashboardLayoutProps = {
 };
 
 const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
-  const currentPath = useCurrentPath();
-
-  console.log(currentPath);
-
   const headerEdgeTrigger: any = {
     children: (open: any, setOpen: any) => (
       <IconButton onClick={() => setOpen(!open)}>
