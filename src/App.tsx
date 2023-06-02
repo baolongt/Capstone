@@ -1,15 +1,13 @@
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
 import './App.css';
-import Editor from './components/ckedtior/WrappedEditor';
-import Dashboard from './components/layout/Dashboard';
 import { Box } from '@mui/material';
-import useCurrentPath from './hooks/useCurrentPath';
-import CreateDocumentForm from './components/document/CreateDocumentForm';
-import DocumentTable from './components/document/DocumentTable';
+import { Route, Routes } from 'react-router-dom';
+import DocumentManagement from './pages/document-management';
+import UserManagement from './pages/user-management';
+import Dashboard from './components/layouts/Layout';
+import Setting from './pages/setting';
 
 const Placeholder: React.FC = () => {
-  const path = useCurrentPath();
   return (
     <Box
       height="500px"
@@ -18,7 +16,7 @@ const Placeholder: React.FC = () => {
       justifyContent="center"
       textAlign="center"
     >
-      <span>This is path {path}</span>
+      <span>Just me here </span>
     </Box>
   );
 };
@@ -29,13 +27,9 @@ function App() {
       <Routes>
         <Route path="/">
           <Route index={true} element={<Placeholder />}></Route>
-          <Route path="editor" element={<Editor />}></Route>
-          <Route path="document" element={<DocumentTable />}></Route>
-          <Route
-            index={false}
-            path="create-document"
-            element={<CreateDocumentForm />}
-          ></Route>
+          <Route path="documents" element={<DocumentManagement />} />
+          <Route path="users" element={<UserManagement />} />
+          <Route path="setting" element={<Setting />} />
         </Route>
       </Routes>
     </Dashboard>

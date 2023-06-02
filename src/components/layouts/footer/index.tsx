@@ -1,7 +1,7 @@
 import React, { FC, ReactElement } from 'react';
 import { Box, Container, Grid, Typography } from '@mui/material';
 
-export const DefaultFooter: FC = (): ReactElement => {
+const Footer: FC = (): ReactElement => {
   return (
     <Box
       sx={{
@@ -29,4 +29,4 @@ export const DefaultFooter: FC = (): ReactElement => {
   );
 };
 
-export default DefaultFooter;
+export default Footer;
