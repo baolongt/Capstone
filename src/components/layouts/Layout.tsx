@@ -21,10 +21,11 @@ import DefaultHeader from './header';
 // import DynamicBreadcrums from './DynamicBreadcrums';
 
 type DashboardLayoutProps = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
 };
 
 const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
+  // TODO: handle open/close sidebar to show only icon
   const headerEdgeTrigger: any = {
     children: (open: any, setOpen: any) => (
       <IconButton onClick={() => setOpen(!open)}>
@@ -80,10 +81,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
             {...sideBarEdgeTrigger}
           ></EdgeTrigger>
         </EdgeSidebar>
-        <Content sx={{ minHeight: '1000px' }}>
-          {/* <DynamicBreadcrums /> */}
-          {children}
-        </Content>
+        <Content sx={{ minHeight: '1000px' }}>{children}</Content>
         <Footer>
           <DefaultFooter />
         </Footer>
