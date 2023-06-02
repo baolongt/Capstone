@@ -1,39 +1,81 @@
-import { Box, MenuItem, Stack } from '@mui/material';
 import React from 'react';
-import { Path } from '../../../models/path';
-import { HEADER_HEIGHT, SIDEBAR_WIDTH } from '../../../constants/common';
+import {
+  Collapse,
+  List,
+  ListItemButton,
+  ListItemIcon,
+  ListItemProps,
+  ListItemText,
+  ListSubheader
+} from '@mui/material';
 import paths from '../../../constants/routes';
+import { Path } from '../../../models/path';
 import { NavLink } from 'react-router-dom';
+import { ExpandLess, ExpandMore } from '@mui/icons-material';
 
-const Sidebar = () => {
+const Item = (
+  props: Path & {
+    isSubItem?: boolean;
+  } & ListItemProps
+) => {
+  const { icon, label, path, isSubItem } = props;
   return (
-    <Box
-      sx={{
-        width: SIDEBAR_WIDTH,
-        height: `calc(100vh - ${HEADER_HEIGHT})`,
-        bgcolor: '#fff',
-        paddingTop: 3,
-        boxShadow: 'rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px'
-      }}
-    >
-      <Stack>
-        {paths.map((path: Path, i) => (
-          <NavLink key={i} to={path.path}>
-            <MenuItem>
-              <Stack
-                direction={'row'}
-                gap={1}
-                sx={{ fontSize: '14px', alignItems: 'center', gap: 1 }}
-              >
-                {path.icon}
-                {path.label}
-              </Stack>
-            </MenuItem>
-          </NavLink>
-        ))}
-      </Stack>
-    </Box>
+    <NavLink to={path}>
+      <ListItemButton sx={isSubItem ? { pl: 4 } : {}}>
+        <ListItemIcon>{icon}</ListItemIcon>
+        <ListItemText primary={`${label}`} />
+      </ListItemButton>
+    </NavLink>
   );
 };
 
-export default Sidebar;
+const CollapseItems = (props: Path) => {
+  const { icon, label, subPaths } = props;
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleClick = () => setOpen(!open);
+
+  return (
+    <>
+      <ListItemButton onClick={handleClick}>
+        <ListItemIcon>{icon}</ListItemIcon>
+        <ListItemText primary={`${label}`} />
+        {open ? <ExpandLess /> : <ExpandMore />}
+      </ListItemButton>
+      <Collapse in={open} timeout="auto" unmountOnExit>
+        {subPaths.map((path: Path, i) => {
+          return <Item key={i} {...path} isSubItem={true} />;
+        })}
+      </Collapse>
+    </>
+  );
+};
+
+const SidebarItems: React.FC = () => {
+  return (
+    <>
+      <List
+        sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
+        component="nav"
+        aria-labelledby="nested-list-subheader"
+        subheader={
+          <ListSubheader
+            component="div"
+            id="nested-list-subheader"
+          ></ListSubheader>
+        }
+      >
+        {paths.map((path: Path, i) => {
+          return path.subPaths != null ? (
+            <CollapseItems key={i} {...path} />
+          ) : (
+            <Item key={i} {...path} />
+          );
+        })}
+      </List>
+    </>
+  );
+};
+
+export default SidebarItems;

@@ -10,6 +10,23 @@ import {
 import React from 'react';
 import { Path } from '../models/path';
 // import { dark } from '@mui/material/styles/createPalette';
+
+const incomingDocumentSubPaths: Path[] = [
+  {
+    label: 'Sổ văn bản đến',
+    path: '/',
+    icon: <FolderIcon />
+  }
+];
+
+const outGoingDocumentSubPaths: Path[] = [
+  {
+    label: 'Sổ văn bản đi',
+    path: '/',
+    icon: <FolderIcon />
+  }
+];
+
 const paths: Path[] = [
   {
     label: 'Trang chủ',
@@ -17,9 +34,16 @@ const paths: Path[] = [
     icon: <DashboardIcon />
   },
   {
-    label: 'Tài liệu',
+    label: 'Văn bản đến',
     path: '/documents',
-    icon: <FolderIcon />
+    icon: <FolderIcon />,
+    subPaths: incomingDocumentSubPaths
+  },
+  {
+    label: 'Văn bản đi',
+    path: '/documents',
+    icon: <FolderIcon />,
+    subPaths: outGoingDocumentSubPaths
   },
   {
     label: 'Quản lí người dùng',
