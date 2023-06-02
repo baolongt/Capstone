@@ -39,15 +39,15 @@ const Header = () => {
       >
         <Toolbar>
           <Box
-            component={'img'}
-            src={
-              'https://bloggytalky.com/wp-content/uploads/2017/07/create-a-free-logo-design-logo-designs-design-a-free-logo-design-a-free-logo-alltech-just-free-logo-design.png'
-            }
+            //component={'img'}
+            // src={
+            //   'https://bloggytalky.com/wp-content/uploads/2017/07/create-a-free-logo-design-logo-designs-design-a-free-logo-design-a-free-logo-alltech-just-free-logo-design.png'
+            // }
             sx={{ height: '40px', width: '60px', cursor: 'pointer' }}
           />
-          <IconButton sx={{ ml: '55px', color: '#fff' }}>
+          {/* <IconButton sx={{ ml: '55px', color: '#fff' }}>
             <MenuIcon />
-          </IconButton>
+          </IconButton> */}
         </Toolbar>
 
         <Stack direction={'row'} spacing={3}>
