@@ -3,7 +3,7 @@ import './App.css';
 import { Box } from '@mui/material';
 import { Route, Routes } from 'react-router-dom';
 import Dashboard from './components/layouts/Layout';
-import DocumentTable from './components/document/DocumentTable';
+import IncomingDocumentManagement from './pages/incoming-document-management';
 
 const Placeholder: React.FC = () => {
   return (
@@ -24,8 +24,12 @@ function App() {
     <Dashboard>
       <Routes>
         <Route path="/">
-          <Route index={true} element={<Placeholder />}></Route>
-          <Route index={false} path="incoming" element={<DocumentTable />} />
+          <Route index={true} element={<Placeholder />} />
+          <Route
+            index={false}
+            path="incoming-documents"
+            element={<IncomingDocumentManagement />}
+          />
         </Route>
       </Routes>
     </Dashboard>

@@ -5,12 +5,19 @@ import store from './redux/store/store';
 import { Provider } from 'react-redux';
 import './index.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import IncomingDocumentManagement from './pages/incoming-document-management';
 interface Props {}
 
 const router = createBrowserRouter([
   {
     path: '*',
-    element: <App />
+    element: <App />,
+    children: [
+      {
+        path: 'incoming-documents',
+        element: <IncomingDocumentManagement />
+      }
+    ]
   }
 ]);
 
