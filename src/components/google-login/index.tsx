@@ -5,11 +5,12 @@ import axios from 'axios';
 import { Button, Grid, TextField } from '@mui/material';
 
 // eslint-disable-next-line no-undef
-const CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+const CLIENT_ID =
+  '964935534460-2hm07mf427skqk3hfpre4th57vbkfob3.apps.googleusercontent.com';
 // eslint-disable-next-line no-undef
-const API_KEY = process.env.REACT_APP_API_KEY;
+const API_KEY = 'AIzaSyAig2vfxwoMb7SLoxOr56tWcYFQzDs3LeA';
 // eslint-disable-next-line no-undef
-const SCOPES = process.env.REACT_APP_SCOPES;
+const SCOPES = 'https://www.googleapis.com/auth/drive';
 
 const LoginGoogleButton: React.FC<{ handleLogin: any }> = ({ handleLogin }) => {
   const onSuccess = (res: any) => {

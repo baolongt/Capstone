@@ -42,6 +42,9 @@ import { FindAndReplace } from '@ckeditor/ckeditor5-find-and-replace';
 
 export default class DecoupledEditor extends DecoupledEditorBase {}
 
+const DEV_TOKEN =
+  'https://98150.cke-cs.com/token/dev/078aadaf66cf8f705d81f36d39bf0f583f999905b3e90175aa85b99a1b4e?limit=10';
+
 // Plugins to include in the build.
 DecoupledEditor.builtinPlugins = [
   Essentials,
@@ -117,12 +120,10 @@ DecoupledEditor.defaultConfig = {
     contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells']
   },
   cloudServices: {
-    tokenUrl:
-      'https://97308.cke-cs.com/token/dev/0e6d17ce0b94ea7fa69a9da4f722d0cfabdae8cc0bc13768ee9f97379800?limit=10'
+    tokenUrl: DEV_TOKEN
   },
   importWord: {
-    tokenUrl:
-      'https://97308.cke-cs.com/token/dev/0e6d17ce0b94ea7fa69a9da4f722d0cfabdae8cc0bc13768ee9f97379800?limit=10',
+    tokenUrl: DEV_TOKEN,
     defaultStyles: true
   },
   htmlSupport: {
