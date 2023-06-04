@@ -5,6 +5,7 @@ import { Route, Routes } from 'react-router-dom';
 import Dashboard from './components/layouts/Layout';
 import IncomingDocumentManagement from './pages/incoming-document-management';
 import { CreateDocPage } from './components/google-login';
+import WrappedEditor from './components/ckedtior/WrappedEditor';
 
 const Placeholder: React.FC = () => {
   return (
@@ -32,6 +33,7 @@ function App() {
             element={<IncomingDocumentManagement />}
           />
           <Route path="poc" element={<CreateDocPage />} />
+          <Route path="editor" element={<WrappedEditor />} />
         </Route>
       </Routes>
     </Dashboard>
