@@ -15,20 +15,17 @@ import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/icons-material/Menu';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-import SidebarItems from './SidebarItems';
-import DefaultFooter from './DefaultFooter';
-import useCurrentPath from '../../hooks/useCurrentPath';
-import DynamicBreadcrums from './DynamicBreadcrums';
+import SidebarItems from './sidebar';
+import DefaultFooter from './footer';
+import DefaultHeader from './header';
+// import DynamicBreadcrums from './DynamicBreadcrums';
 
 type DashboardLayoutProps = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
 };
 
 const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
-  const currentPath = useCurrentPath();
-
-  console.log(currentPath);
-
+  // TODO: handle open/close sidebar to show only icon
   const headerEdgeTrigger: any = {
     children: (open: any, setOpen: any) => (
       <IconButton onClick={() => setOpen(!open)}>
@@ -65,7 +62,6 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
               flex: 1,
               display: 'flex',
               alignItems: 'center',
-              px: 2,
               gap: 1
             }}
           >
@@ -73,7 +69,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
               target={{ anchor: 'left', field: 'open' }}
               {...headerEdgeTrigger}
             ></EdgeTrigger>
-            Test apps
+            <DefaultHeader />
           </Box>
         </Header>
         <EdgeSidebar anchor="left">
@@ -85,10 +81,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
             {...sideBarEdgeTrigger}
           ></EdgeTrigger>
         </EdgeSidebar>
-        <Content sx={{ minHeight: '1000px' }}>
-          <DynamicBreadcrums />
-          {children}
-        </Content>
+        <Content sx={{ minHeight: '1000px' }}>{children}</Content>
         <Footer>
           <DefaultFooter />
         </Footer>

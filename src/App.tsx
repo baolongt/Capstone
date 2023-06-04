@@ -1,13 +1,12 @@
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
 import './App.css';
-import Editor from './components/ckedtior/WrappedEditor';
-import Dashboard from './components/layout/Dashboard';
 import { Box } from '@mui/material';
-import useCurrentPath from './hooks/useCurrentPath';
+import { Route, Routes } from 'react-router-dom';
+import Dashboard from './components/layouts/Layout';
+import IncomingDocumentManagement from './pages/incoming-document-management';
+import { CreateDocPage } from './components/google-login';
 
 const Placeholder: React.FC = () => {
-  const path = useCurrentPath();
   return (
     <Box
       height="500px"
@@ -16,7 +15,7 @@ const Placeholder: React.FC = () => {
       justifyContent="center"
       textAlign="center"
     >
-      <span>This is path {path}</span>
+      <span>Just me here </span>
     </Box>
   );
 };
@@ -26,18 +25,13 @@ function App() {
     <Dashboard>
       <Routes>
         <Route path="/">
-          <Route index={true} element={<Placeholder />}></Route>
-          <Route index={false} path="editor" element={<Editor />}></Route>
-          <Route index={false} path="Index" element={<Placeholder />}></Route>
-          <Route index={false} path="Started" element={<Placeholder />}></Route>
-          <Route index={false} path="route">
-            <Route index={true} element={<>test</>}></Route>
-            <Route
-              index={false}
-              path="editor"
-              element={<h1>editor</h1>}
-            ></Route>
-          </Route>
+          <Route index={true} element={<Placeholder />} />
+          <Route
+            index={false}
+            path="incoming-documents"
+            element={<IncomingDocumentManagement />}
+          />
+          <Route path="poc" element={<CreateDocPage />} />
         </Route>
       </Routes>
     </Dashboard>
