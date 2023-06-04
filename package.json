@@ -9,8 +9,7 @@
     "prebuild": "npm run clean",
     "build": "webpack --config webpack.config.js --mode production",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "precommit": "lint-staged",
-    "install": "npm install --force"
+    "precommit": "lint-staged"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
