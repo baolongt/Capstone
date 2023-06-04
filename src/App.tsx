@@ -4,6 +4,7 @@ import { Box } from '@mui/material';
 import { Route, Routes } from 'react-router-dom';
 import Dashboard from './components/layouts/Layout';
 import IncomingDocumentManagement from './pages/incoming-document-management';
+import { CreateDocPage } from './components/google-login';
 
 const Placeholder: React.FC = () => {
   return (
@@ -30,6 +31,7 @@ function App() {
             path="incoming-documents"
             element={<IncomingDocumentManagement />}
           />
+          <Route path="poc" element={<CreateDocPage />} />
         </Route>
       </Routes>
     </Dashboard>
