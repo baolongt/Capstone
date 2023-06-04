@@ -4,9 +4,7 @@ const { styles } = require('@ckeditor/ckeditor5-dev-utils');
 
 module.exports = {
   mode: 'development',
-
   entry: './src/index.tsx',
-
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js'
