@@ -6,10 +6,11 @@
   "scripts": {
     "start": "webpack-dev-server --mode development --open",
     "clean": "rm -rf ./dist",
-    "prebuild": "npm run clean && npm run lint:fix",
+    "prebuild": "npm run clean",
     "build": "webpack --config webpack.config.js --mode production",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "install": "npm install --force"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
