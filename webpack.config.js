@@ -1,6 +1,7 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const { styles } = require('@ckeditor/ckeditor5-dev-utils');
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
   mode: 'development',
@@ -78,7 +79,8 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: './public/index.html'
-    })
+    }),
+    new Dotenv()
   ],
 
   devServer: {
