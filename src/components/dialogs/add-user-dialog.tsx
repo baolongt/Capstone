@@ -89,7 +89,6 @@ export default function AddUserDialog(props: AddUserDialogProps) {
   });
   const {
     handleSubmit
-    // formState: { isValid, isSubmitted }
   } = form;
 
   const createUserMutation = useMutation({
