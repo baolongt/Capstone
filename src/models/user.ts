@@ -49,14 +49,14 @@ export interface CreateUserPayload {
   password: string;
   email: string;
   citizenIdentification: string;
-  roleID: 0 | 1;
-  jobPositionID: 0 | 1 | 2 | 3 | 4 | 5 | 6;
+  roleID: 1 | 2;
+  jobPositionID: 1 | 2 | 3 | 4 | 5 | 6 | 7;
 }
 export interface UpdateUserPayload {
   name: string;
   password: string;
   email: string;
   citizenIdentification: string;
-  roleID: 0 | 1;
-  jobPositionID: 0 | 1 | 2 | 3 | 4 | 5 | 6;
+  roleID: 1 | 2;
+  jobPositionID: 1 | 2 | 3 | 4 | 5 | 6 | 7;
 }

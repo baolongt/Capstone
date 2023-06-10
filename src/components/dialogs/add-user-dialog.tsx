@@ -1,20 +1,20 @@
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-import { Box, Stack, Typography } from "@mui/material";
-import CustomButton from "../common/button";
-import * as yup from "yup";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { InputField } from "../common/form-control/input-field";
-import { SelectField } from "../common/form-control/select-field";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createUser } from "../../api/admin";
-import { CreateUserPayload } from "../../models/user";
-import { toast } from "react-toastify";
-import { ToastMessage } from "../toast";
-import React from "react";
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import { Box, Stack, Typography } from '@mui/material';
+import CustomButton from '../common/button';
+import * as yup from 'yup';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { InputField } from '../common/form-control/input-field';
+import { SelectField } from '../common/form-control/select-field';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { createUser } from '../../api/admin';
+import { CreateUserPayload } from '../../models/user';
+import { toast } from 'react-toastify';
+import { ToastMessage } from '../toast';
+import React from 'react';
 
 interface AddUserDialogProps {
   isOpen: boolean;
@@ -24,27 +24,43 @@ interface AddUserDialogProps {
 
 const roleOptions = [
   {
-    title: "Quản trị viên",
-    value: 0,
+    title: 'Quản trị viên',
+    value: 2
   },
   {
-    title: "Công chức",
-    value: 1,
-  },
+    title: 'Công chức',
+    value: 1
+  }
 ];
 const jobPositionOptions = [
   {
-    title: "Giám đốc",
-    value: 0,
+    title: 'Cán bộ',
+    value: 1
   },
   {
-    title: "Phó giám đốc",
-    value: 1,
+    title: 'Phó trưởng phòng',
+    value: 2
   },
   {
-    title: "Trưởng phòng",
-    value: 2,
+    title: 'Trưởng phòng',
+    value: 3
   },
+  {
+    title: 'Phó vụ trưởng',
+    value: 4
+  },
+  {
+    title: 'Phó tổng cục trưởng',
+    value: 5
+  },
+  {
+    title: 'Tổng cục trưởng',
+    value: 6
+  },
+  {
+    title: 'Lãnh đạo cấp cao',
+    value: 7
+  }
 ];
 
 export default function AddUserDialog(props: AddUserDialogProps) {
@@ -56,37 +72,35 @@ export default function AddUserDialog(props: AddUserDialogProps) {
     email: yup.string().required(`Email là bắt buộc`),
     citizenIdentification: yup.string().required(`CCCD/CMND là bắt buộc`),
     roleID: yup.string().required(`Vai trò là bắt buộc`),
-    jobPositionID: yup.string().required(`Chức vụ là bắt buộc`),
+    jobPositionID: yup.string().required(`Chức vụ là bắt buộc`)
   });
 
   const form = useForm({
     defaultValues: {
-      name: "",
-      password: "",
-      email: "",
-      citizenIdentification: "",
+      name: '',
+      password: '',
+      email: '',
+      citizenIdentification: '',
       roleID: 1,
-      jobPositionID: 0,
+      jobPositionID: 0
     },
-    resolver: yupResolver(schema), 
+    resolver: yupResolver(schema)
   });
   const {
     handleSubmit,
-    formState: { isValid, isSubmitted },
+    formState: { isValid, isSubmitted }
   } = form;
 
-
-  const createUserMutation = useMutation({ 
-    mutationFn: (body:CreateUserPayload) => createUser(body),
+  const createUserMutation = useMutation({
+    mutationFn: (body: CreateUserPayload) => createUser(body),
     onSuccess: () => {
-      toast.success(<ToastMessage  message={'Thêm người dùng thành công'} />);
+      toast.success(<ToastMessage message={'Thêm người dùng thành công'} />);
       queryClient.invalidateQueries({ queryKey: ['getAllUsers'] });
     },
     onError: () => {
-      toast.error(<ToastMessage  message={'Thêm người dùng thất bại'} />);
-    },
-  })
-
+      toast.error(<ToastMessage message={'Thêm người dùng thất bại'} />);
+    }
+  });
 
   const onSubmit = () => {
     const body: any = {
@@ -95,7 +109,7 @@ export default function AddUserDialog(props: AddUserDialogProps) {
       email: form.getValues().email,
       citizenIdentification: form.getValues().citizenIdentification,
       roleID: form.getValues().roleID,
-      jobPositionID: form.getValues().jobPositionID,
+      jobPositionID: form.getValues().jobPositionID
     };
     createUserMutation.mutate(body);
     form.reset();
@@ -107,15 +121,19 @@ export default function AddUserDialog(props: AddUserDialogProps) {
       open={isOpen}
       onClose={onClose}
       sx={{
-        "& .MuiDialog-paper": {
-          minWidth: { lg: "600px", md: "600px", xs: "75vw" },
-        },
+        '& .MuiDialog-paper': {
+          minWidth: { lg: '600px', md: '600px', xs: '75vw' }
+        }
       }}
     >
       <DialogTitle fontWeight={600}>Thêm người dùng mới</DialogTitle>
 
       <DialogContent>
-        <Stack component='form' id='add-user-form' onSubmit={handleSubmit(onSubmit)}>
+        <Stack
+          component="form"
+          id="add-user-form"
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <Box>
             <Typography>
               Tên người dùng
@@ -175,7 +193,7 @@ export default function AddUserDialog(props: AddUserDialogProps) {
             />
           </Box>
 
-          <Stack direction={"row"} gap={3}>
+          <Stack direction={'row'} gap={3}>
             <Box mt={2}>
               <Typography>
                 Vai trò
@@ -209,9 +227,9 @@ export default function AddUserDialog(props: AddUserDialogProps) {
           </Stack>
         </Stack>
       </DialogContent>
-      <DialogActions sx={{ p: "0 24px 24px 0" }}>
+      <DialogActions sx={{ p: '0 24px 24px 0' }}>
         <CustomButton label="Hủy bỏ" onClick={onClose} variant="outlined" />
-        <CustomButton label="Thêm" type = 'submit' form = 'add-user-form'/>
+        <CustomButton label="Thêm" type="submit" form="add-user-form" />
       </DialogActions>
     </Dialog>
   );
