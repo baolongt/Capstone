@@ -1,10 +1,10 @@
-import React from 'react'
+import { Box } from "@mui/material"
+import React from "react"
+
 
 const DocumentManagement = () => {
   return (
-    <div>
-      Document Management
-    </div>
+    <Box sx = {{ width: '100%'}}>DocumentManagement</Box>
   )
 }
 

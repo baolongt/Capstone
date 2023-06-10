@@ -1,28 +1,13 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
-import store from './redux/store/store';
-import { Provider } from 'react-redux';
+import ReactDOM from 'react-dom/client';
 import './index.css';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-interface Props {}
+import App from './App';
 
-const router = createBrowserRouter([
-  {
-    path: '*',
-    element: <App />
-  }
-]);
-
-// eslint-disable-next-line no-unused-vars
-const Root: React.FC<Props> = (props) => {
-  return (
-    <React.StrictMode>
-      <Provider store={store}>
-        <RouterProvider router={router} />
-      </Provider>
-    </React.StrictMode>
-  );
-};
-
-ReactDOM.render(<Root />, document.getElementById('root'));
+const root = ReactDOM.createRoot(
+  document.getElementById('root') as HTMLElement
+);
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
