@@ -2,7 +2,6 @@ import {
   Avatar,
   Box,
   Divider,
-  IconButton,
   ListItemIcon,
   Menu,
   MenuItem,
@@ -11,8 +10,6 @@ import {
   Badge
 } from '@mui/material';
 import React from 'react';
-import MenuIcon from '@mui/icons-material/Menu';
-
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { Logout, Settings } from '@mui/icons-material';
 import { HEADER_HEIGHT } from '../../../constants/common';
@@ -38,7 +35,7 @@ const Header = () => {
         }}
       >
         <Toolbar>
-          <Box
+          {/* <Box
             component={'img'}
             src={
               'https://bloggytalky.com/wp-content/uploads/2017/07/create-a-free-logo-design-logo-designs-design-a-free-logo-design-a-free-logo-alltech-just-free-logo-design.png'
@@ -47,7 +44,7 @@ const Header = () => {
           />
           <IconButton sx={{ ml: '55px', color: '#fff' }}>
             <MenuIcon />
-          </IconButton>
+          </IconButton> */}
         </Toolbar>
 
         <Stack direction={'row'} spacing={3}>

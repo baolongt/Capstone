@@ -1,10 +1,9 @@
+import { Box } from '@mui/material'
 import React from 'react'
 
 const Setting = () => {
   return (
-    <div>
-      Setting
-    </div>
+     <Box sx = {{ width: '100%'}}>Setting</Box>
   )
 }
 
