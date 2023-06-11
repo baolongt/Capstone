@@ -100,9 +100,7 @@ const DocumentTable = () => {
                   <TableCell>
                     <Box sx={{ '& button': { m: 0.2 } }}>
                       <div>
-                        <Button size="small">Xem</Button>
-                        <Button size="small">Xử lý</Button>
-                        <Button size="small">Hoàn tất</Button>
+                        <Button size="small">Chi tiết</Button>
                       </div>
                     </Box>
                   </TableCell>
