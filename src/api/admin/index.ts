@@ -1,5 +1,5 @@
 import { CreateUserPayload, UpdateUserPayload } from '../../models/user';
-import axiosInstance from '../axios';
+import axiosInstance from '../../utils/axios';
 
 export const getAllUsers = async () => {
   const url = '/api/users';

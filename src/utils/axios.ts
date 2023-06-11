@@ -1,11 +1,11 @@
-import axios from "axios";
-import { API_URL } from "../constants/common";
+import axios from 'axios';
+import { API_URL } from '../constants/common';
 
 const axiosInstance = axios.create({
   baseURL: API_URL,
   headers: {
-    "Content-type": "application/json",
-  },
+    'Content-type': 'application/json'
+  }
 });
 
 // Add a request interceptor

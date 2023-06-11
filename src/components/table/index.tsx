@@ -10,13 +10,13 @@ import CustomTableHead from './table-head';
 import { Column, columns } from '../../models/user';
 import { HEADER_HEIGHT } from '../../constants/common';
 import { useQuery } from '@tanstack/react-query';
-import { getAllUsers } from '../../api/admin';
+import { admin } from '../../api';
 import React from 'react';
 
 const CustomTable = () => {
   const { data, isLoading } = useQuery({
     queryKey: ['getAllUsers'],
-    queryFn: async () => await getAllUsers()
+    queryFn: async () => await admin.getAllUsers()
   });
 
   return (

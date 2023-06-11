@@ -10,6 +10,7 @@ import Setting from './pages/setting';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ToastContainer } from 'react-toastify';
 import React from 'react';
+import OutGoingDocumentTable from './components/document/outgoing/DocumentTable';
 
 const queryClient = new QueryClient();
 
@@ -27,6 +28,10 @@ const App = () => {
                 <Route path={'/documents'} element={<DocumentManagement />} />
                 <Route path={'/users'} element={<UserManagement />} />
                 <Route path={'/setting'} element={<Setting />} />
+                <Route
+                  path={'/outgoing-documents'}
+                  element={<OutGoingDocumentTable />}
+                />
               </Routes>
               <ToastContainer
                 position="bottom-left"
