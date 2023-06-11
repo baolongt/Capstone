@@ -1,125 +1,63 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import { styled } from '@mui/material/styles';
-import { fakerVI as faker } from '@faker-js/faker';
-import Link from '@mui/material/Link';
+// import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import { TablePagination } from '@mui/material';
+import { HEADER_HEIGHT } from '../../../constants/common';
+import TableHeader from './TableHeader';
+import { useQuery } from '@tanstack/react-query';
+import { getAllOutgoingDocuments } from '../../../api/outgoingDocument';
+import { outgoingDocument } from '../../../models';
 
-type IDocument = {
-  title: string;
-  code: string;
-  department: string;
-  createdDate: string;
-  signer: string;
-  status: string;
-};
+const OutGoingDocumentTable = () => {
+  const { data, isLoading } = useQuery({
+    queryKey: ['getAllUsers'],
+    queryFn: async () => await getAllOutgoingDocuments()
+  });
+  // const [page, setPage] = useState(0);
+  // const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
-const documents: IDocument[] = [];
+  // const handleChangePage = (event: unknown, newPage: number) => {
+  //   setPage(newPage);
+  // };
 
-for (let i = 0; i < 20; i++) {
-  const newDocument: IDocument = {
-    title: faker.lorem.words({ min: 15, max: 60 }),
-    code: faker.number.int({ min: 1_000_000, max: 9_999_999 }) + '',
-    department: faker.company.name(),
-    createdDate: new Date(faker.date.past().toISOString()).toLocaleDateString(
-      'en-GB',
-      {
-        day: 'numeric',
-        month: 'numeric',
-        year: 'numeric'
-      }
-    ),
-    signer: faker.person.fullName(),
-    status: 'Pending'
-  };
-  documents.push(newDocument);
-}
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(odd)': {
-    backgroundColor: theme.palette.action.hover
-  },
-  // hide last border
-  '&:last-child td, &:last-child th': {
-    border: 0
-  }
-}));
-
-const DocumentTable = () => {
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
-  const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
+  // const handleChangeRowsPerPage = (
+  //   event: React.ChangeEvent<HTMLInputElement>
+  // ) => {
+  //   setRowsPerPage(+event.target.value);
+  //   setPage(0);
+  // };
   return (
-    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-      <TableContainer component={Paper}>
-        <Table stickyHeader sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell style={{ width: '30%' }}>Trích yếu</TableCell>
-              <TableCell>Số ký hiệu</TableCell>
-              <TableCell>Cơ quan ban hành</TableCell>
-              <TableCell>Ngày tạo</TableCell>
-              <TableCell>Người ký</TableCell>
-              <TableCell>Trạng thái</TableCell>
-              <TableCell style={{ width: '25%' }}></TableCell>
-            </TableRow>
-          </TableHead>
+    <Box width={'100%'}>
+      <TableContainer
+        sx={{
+          height: `calc(100vh - 32px - 54px - ${HEADER_HEIGHT})`,
+          border: '1px solid #ccc'
+        }}
+      >
+        <Table stickyHeader sx={{ minWidth: '900px' }} size="medium">
+          <TableHeader />
           <TableBody>
-            {documents
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((document, i) => (
-                <StyledTableRow key={i}>
-                  <TableCell component="th" scope="row">
-                    <Link href="#">{document.title}</Link>
-                  </TableCell>
-                  <TableCell component="th" scope="row">
-                    {document.code}
-                  </TableCell>
-                  <TableCell>{document.department}</TableCell>
-                  <TableCell>{document.createdDate}</TableCell>
-                  <TableCell>{document.signer}</TableCell>
-                  <TableCell>{document.status}</TableCell>
-                  <TableCell>
-                    <Box sx={{ '& button': { m: 0.2 } }}>
-                      <div>
-                        <Button size="small">Chi tiết</Button>
-                      </div>
-                    </Box>
-                  </TableCell>
-                </StyledTableRow>
+            {!isLoading &&
+              data.map((user: any, index: number) => (
+                <TableRow key={index}>
+                  {outgoingDocument.columns.map(
+                    (column: outgoingDocument.Column, index: number) => (
+                      <TableCell key={index}>
+                        {user[`${column.value}`]}
+                      </TableCell>
+                    )
+                  )}
+                </TableRow>
               ))}
           </TableBody>
         </Table>
       </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[10, 15, 20]}
-        component="div"
-        count={documents.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
-    </Paper>
+    </Box>
   );
 };
 
-export default DocumentTable;
+export default OutGoingDocumentTable;
