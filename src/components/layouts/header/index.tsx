@@ -38,7 +38,7 @@ const Header = () => {
         }}
       >
         <Toolbar>
-          <Box
+          {/* <Box
             component={'img'}
             src={
               'https://bloggytalky.com/wp-content/uploads/2017/07/create-a-free-logo-design-logo-designs-design-a-free-logo-design-a-free-logo-alltech-just-free-logo-design.png'
@@ -47,7 +47,7 @@ const Header = () => {
           />
           <IconButton sx={{ ml: '55px', color: '#fff' }}>
             <MenuIcon />
-          </IconButton>
+          </IconButton> */}
         </Toolbar>
 
         <Stack direction={'row'} spacing={3}>
