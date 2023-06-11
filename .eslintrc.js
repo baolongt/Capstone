@@ -12,5 +12,10 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   rules: {
     '@typescript-eslint/dot-notation': 'off'
+  },
+  settings: {
+    react: {
+      version: 'detect'
+    }
   }
 };

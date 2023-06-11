@@ -2,7 +2,6 @@ import {
   Avatar,
   Box,
   Divider,
-  IconButton,
   ListItemIcon,
   Menu,
   MenuItem,
@@ -11,8 +10,6 @@ import {
   Badge
 } from '@mui/material';
 import React from 'react';
-import MenuIcon from '@mui/icons-material/Menu';
-
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { Logout, Settings } from '@mui/icons-material';
 import { HEADER_HEIGHT } from '../../../constants/common';

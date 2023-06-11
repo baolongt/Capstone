@@ -12,7 +12,15 @@ export interface InputFieldProps extends BaseTextFieldProps {
 }
 
 export function InputField(props: InputFieldProps) {
-  const { name, label, form, disabled = false, placeholder, sx = {}, ...resProps } = props;
+  const {
+    name,
+    label,
+    form,
+    disabled = false,
+    placeholder,
+    sx = {},
+    ...resProps
+  } = props;
   const { control } = form;
 
   return (
@@ -20,7 +28,7 @@ export function InputField(props: InputFieldProps) {
       <Controller
         control={control}
         name={name}
-        render={({ field, fieldState, formState }) => (
+        render={({ field, fieldState }) => (
           <TextField
             {...field}
             label={label}
@@ -34,7 +42,7 @@ export function InputField(props: InputFieldProps) {
               }
             }}
             fullWidth
-            size='small'
+            size="small"
             sx={{ '& input': { py: 1.25 }, ...sx }}
             {...resProps}
           />

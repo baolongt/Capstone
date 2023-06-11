@@ -64,6 +64,7 @@ const jobPositionOptions = [
 ];
 
 export default function AddUserDialog(props: AddUserDialogProps) {
+  // eslint-disable-next-line no-unused-vars
   const { isOpen, onClose, onConfirm } = props;
   const queryClient = useQueryClient();
   const schema = yup.object({
@@ -87,8 +88,8 @@ export default function AddUserDialog(props: AddUserDialogProps) {
     resolver: yupResolver(schema)
   });
   const {
-    handleSubmit,
-    formState: { isValid, isSubmitted }
+    handleSubmit
+    // formState: { isValid, isSubmitted }
   } = form;
 
   const createUserMutation = useMutation({

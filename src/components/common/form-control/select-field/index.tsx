@@ -10,7 +10,7 @@ import {
 import { makeStyles } from '@mui/styles';
 import React from 'react';
 import { Controller, FieldValues } from 'react-hook-form';
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   menuPaper: {
     maxHeight: 160
   }
@@ -26,7 +26,16 @@ export interface SelectFieldProps extends SelectProps {
 }
 
 export function SelectField(props: SelectFieldProps) {
-  const { data, name, label, form, disabled = false, placeholder, sx = {}, ...resProps } = props;
+  const {
+    data,
+    name,
+    label,
+    form,
+    disabled = false,
+    placeholder,
+    sx = {},
+    ...resProps
+  } = props;
 
   const { control } = form;
   const classes = useStyles();
@@ -35,8 +44,13 @@ export function SelectField(props: SelectFieldProps) {
       <Controller
         control={control}
         name={name}
-        render={({ field, fieldState, formState }) => (
-          <FormControl fullWidth size='small' disabled={disabled} sx={{ m: 0, ...sx }}>
+        render={({ field, fieldState }) => (
+          <FormControl
+            fullWidth
+            size="small"
+            disabled={disabled}
+            sx={{ m: 0, ...sx }}
+          >
             <Select
               {...field}
               label={label}
@@ -48,12 +62,14 @@ export function SelectField(props: SelectFieldProps) {
               renderValue={(selected) => {
                 if (selected.length === 0) {
                   return (
-                    <Box component='span' sx={{ opacity: 0.4 }}>
+                    <Box component="span" sx={{ opacity: 0.4 }}>
                       {placeholder}
                     </Box>
                   );
                 }
-                return data?.find((item) => item.value === selected)?.title ?? '';
+                return (
+                  data?.find((item) => item.value === selected)?.title ?? ''
+                );
               }}
             >
               {data?.map((item, index) => (
@@ -75,7 +91,7 @@ export function SelectField(props: SelectFieldProps) {
                 </MenuItem>
               ))}
             </Select>
-            <FormHelperText color='error.main' sx={{ m: 0, color: '#F52F23' }}>
+            <FormHelperText color="error.main" sx={{ m: 0, color: '#F52F23' }}>
               {fieldState?.error?.message}
             </FormHelperText>
           </FormControl>
