@@ -14,7 +14,7 @@ import { Path } from '../models/path';
 const incomingDocumentSubPaths: Path[] = [
   {
     label: 'Sổ văn bản đến',
-    path: '/',
+    path: '/incoming-documents',
     icon: <FolderIcon />
   }
 ];
@@ -22,7 +22,7 @@ const incomingDocumentSubPaths: Path[] = [
 const outGoingDocumentSubPaths: Path[] = [
   {
     label: 'Sổ văn bản đi',
-    path: '/',
+    path: '/outgoing-documents',
     icon: <FolderIcon />
   }
 ];
@@ -51,8 +51,13 @@ const paths: Path[] = [
     icon: <AdminPanelSettings />
   },
   {
-    label: 'Cài đặt',
-    path: '/setting',
+    label: 'Edtior-demo',
+    path: '/editor',
+    icon: <SettingsApplicationsSharp />
+  },
+  {
+    label: 'Create doc demo',
+    path: '/poc',
     icon: <SettingsApplicationsSharp />
   }
 ];

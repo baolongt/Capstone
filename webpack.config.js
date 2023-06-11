@@ -1,14 +1,13 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const { styles } = require('@ckeditor/ckeditor5-dev-utils');
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
   mode: 'development',
-
   entry: './src/index.tsx',
-
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'build'),
     filename: 'bundle.js'
   },
 
@@ -78,11 +77,15 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: './public/index.html'
+    }),
+    new Dotenv({
+      path: './.env'
     })
   ],
 
   devServer: {
     historyApiFallback: true,
-    open: true
+    open: true,
+    port: 3000
   }
 };
