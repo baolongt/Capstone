@@ -11,6 +11,8 @@ import TableHeader from './TableHeader';
 import { useQuery } from '@tanstack/react-query';
 import { getAllOutgoingDocuments } from '../../../api/outgoingDocument';
 import { outgoingDocument } from '../../../models';
+import Button from '@mui/material/Button';
+import Skeleton from '@mui/material/Skeleton';
 
 const OutGoingDocumentTable = () => {
   const { data, isLoading } = useQuery({
@@ -38,22 +40,36 @@ const OutGoingDocumentTable = () => {
           border: '1px solid #ccc'
         }}
       >
-        <Table stickyHeader sx={{ minWidth: '900px' }} size="medium">
+        <Table
+          stickyHeader
+          sx={{ minWidth: '100%', minHeight: '1000px' }}
+          size="medium"
+        >
           <TableHeader />
-          <TableBody>
-            {!isLoading &&
-              data.map((user: any, index: number) => (
+          {isLoading ? (
+            <Skeleton
+              variant="rectangular"
+              sx={{ minWidth: '900px', minHeight: '1000px' }}
+              height={60}
+            />
+          ) : (
+            <TableBody>
+              {data.map((document: Record<string, unknown>, index: number) => (
                 <TableRow key={index}>
                   {outgoingDocument.columns.map(
                     (column: outgoingDocument.Column, index: number) => (
                       <TableCell key={index}>
-                        {user[`${column.value}`]}
+                        {document[`${column.value}`]}
                       </TableCell>
                     )
                   )}
+                  <TableCell>
+                    <Button variant="text">Xem</Button>
+                  </TableCell>
                 </TableRow>
               ))}
-          </TableBody>
+            </TableBody>
+          )}
         </Table>
       </TableContainer>
     </Box>
