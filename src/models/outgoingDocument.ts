@@ -9,12 +9,12 @@ export const columns: Column[] = [
   {
     heading: 'Trích yếu',
     value: 'epitomize',
-    minWidth: '30px'
+    minWidth: '300px'
   },
   {
     heading: 'Ký hiệu văn bản',
     value: 'documentNotation',
-    minWidth: '100px'
+    minWidth: '50px'
   },
   {
     heading: 'Nơi nhận',

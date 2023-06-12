@@ -22,6 +22,15 @@ const TableHeader = () => {
             </TableCell>
           )
         )}
+        <TableCell
+          sx={{
+            minWidth: '100px',
+            pl: '16px !important',
+            height: '50px'
+          }}
+          align={'left'}
+          padding="checkbox"
+        ></TableCell>
       </TableRow>
     </TableHead>
   );
