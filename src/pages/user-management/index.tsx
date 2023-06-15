@@ -9,10 +9,10 @@ import React from 'react';
 
 const UserManagement = () => {
 
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-
-  const handleOpenDialog = () => setIsOpen(true)
-  const handleCloseDialog = () => setIsOpen(false)
+  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState<boolean>(false);
+  
+  const handleOpenCreateDialog = () => setIsCreateDialogOpen(true)
+  const handleCloseCreateDialog = () => setIsCreateDialogOpen(false)
 
   return (
     <Box sx = {{ width: '100%'}}>
@@ -21,17 +21,17 @@ const UserManagement = () => {
         <CustomButton
           label='Thêm người dùng'
           icon={<AddIcon/>}
-          onClick={handleOpenDialog}
+          onClick={handleOpenCreateDialog}
         />
       </Box>
 
       <CustomTable/>
 
       <AddUserDialog
-        isOpen={isOpen}
-        onClose={handleCloseDialog}
+        mode = 'create'
+        isOpen={isCreateDialogOpen}
+        onClose={handleCloseCreateDialog}
       />
-
     </Box>
   )
 }

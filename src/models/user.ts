@@ -14,7 +14,7 @@ export const columns: Column[] = [
   },
   {
     heading: "Tên",
-    minWidth: "300px",
+    minWidth: "200px",
     type: "text",
     value: "name",
   },
@@ -41,6 +41,12 @@ export const columns: Column[] = [
     minWidth: "200px",
     type: "text",
     value: "jobPositionName",
+  },
+    {
+    heading: "Action",
+    minWidth: "200px",
+    type: "text",
+    value: "",
   },
 ];
 

@@ -1,22 +1,38 @@
 import {
   Box,
+  IconButton,
+  Stack,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableRow
 } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import CustomTableHead from './table-head';
-import { Column, columns } from '../../models/user';
+import { Column, UpdateUserPayload, columns } from '../../models/user';
 import { HEADER_HEIGHT } from '../../constants/common';
 import { useQuery } from '@tanstack/react-query';
-import { admin } from '../../api';
-import React from 'react';
+import { getAllUsers } from '../../api/admin';
+import React, { useState } from 'react';
+import AddUserDialog from '../dialogs/add-user-dialog';
 
 const CustomTable = () => {
+  const [isUpdateDialogOpen, setIsUpdateDialogOpen] = useState<boolean>(false);
+  const [currentUser, setCurentUser] = useState<UpdateUserPayload | undefined>(null);
+
+  const handleOpenUpdateDialog = () => setIsUpdateDialogOpen(true);
+  const handleCloseUpdateDialog = () => setIsUpdateDialogOpen(false);
+
+  const handleUpateUser = (user: UpdateUserPayload) => {
+    setCurentUser(user);
+    handleOpenUpdateDialog();
+  };
+
   const { data, isLoading } = useQuery({
     queryKey: ['getAllUsers'],
-    queryFn: async () => await admin.getAllUsers()
+    queryFn: async () => await getAllUsers()
   });
 
   return (
@@ -32,15 +48,50 @@ const CustomTable = () => {
           <TableBody>
             {!isLoading &&
               data?.data.map((user: any, index: number) => (
-                <TableRow key={index}>
-                  {columns.map((column: Column, index: number) => (
-                    <TableCell key={index}>{user[`${column.value}`]}</TableCell>
-                  ))}
+                <TableRow key={index} hover>
+                  {columns.map((column: Column, index: number) => {
+                    if (column.heading !== 'Action') {
+                      return (
+                        <TableCell
+                          sx={{ minWidth: column.minWidth }}
+                          key={index}
+                        >
+                          {user[`${column.value}`]}
+                        </TableCell>
+                      );
+                    } else {
+                      return (
+                        <TableCell>
+                          <Stack direction={'row'} gap={1}>
+                            <IconButton onClick={() => handleUpateUser(user)}>
+                              <EditIcon />
+                            </IconButton>
+                            <IconButton>
+                              <DeleteIcon />
+                            </IconButton>
+                          </Stack>
+                        </TableCell>
+                      );
+                    }
+                  })}
                 </TableRow>
               ))}
+
+            {/* <TableCell>
+                <Stack direction={'row'} gap = {1}>
+                  <IconButton><DeleteIcon/></IconButton>
+                  <IconButton><EditIcon/></IconButton>
+                </Stack>
+              <TableCell/> */}
           </TableBody>
         </Table>
       </TableContainer>
+      <AddUserDialog
+        userProfile={currentUser}
+        mode="update"
+        isOpen={isUpdateDialogOpen}
+        onClose={handleCloseUpdateDialog}
+      />
     </Box>
   );
 };

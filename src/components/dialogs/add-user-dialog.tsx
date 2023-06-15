@@ -10,16 +10,23 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { InputField } from '../common/form-control/input-field';
 import { SelectField } from '../common/form-control/select-field';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { createUser } from '../../api/admin';
-import { CreateUserPayload } from '../../models/user';
+import { createUser, updateUser } from '../../api/admin';
+import { CreateUserPayload, UpdateUserPayload } from '../../models/user';
 import { toast } from 'react-toastify';
 import { ToastMessage } from '../toast';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 interface AddUserDialogProps {
+  mode: 'update' | 'create';
+  userProfile?: UpdateUserPayload;
   isOpen: boolean;
   onClose: () => void;
   onConfirm?: () => void;
+}
+
+interface UpdatePayLoad {
+  id: number;
+  body: UpdateUserPayload;
 }
 
 const roleOptions = [
@@ -64,8 +71,7 @@ const jobPositionOptions = [
 ];
 
 export default function AddUserDialog(props: AddUserDialogProps) {
-  // eslint-disable-next-line no-unused-vars
-  const { isOpen, onClose, onConfirm } = props;
+  const { isOpen, onClose, mode, userProfile} = props;
   const queryClient = useQueryClient();
   const schema = yup.object({
     name: yup.string().required(`Tên người dùng là bắt buộc`),
@@ -83,15 +89,14 @@ export default function AddUserDialog(props: AddUserDialogProps) {
       email: '',
       citizenIdentification: '',
       roleID: 1,
-      jobPositionID: 0
+      jobPositionID: 1,
     },
     resolver: yupResolver(schema)
   });
-  const {
-    handleSubmit
-  } = form;
+  
+  const { handleSubmit, setValue } = form;
 
-  const createUserMutation = useMutation({
+  const {mutate: createUserMutation, isLoading: isCreateLoading} = useMutation({
     mutationFn: (body: CreateUserPayload) => createUser(body),
     onSuccess: () => {
       toast.success(<ToastMessage message={'Thêm người dùng thành công'} />);
@@ -102,6 +107,23 @@ export default function AddUserDialog(props: AddUserDialogProps) {
     }
   });
 
+
+    const {mutate: updateUserMutation, isLoading: isUpdateLoading} = useMutation({
+    mutationFn: (payload: UpdatePayLoad) => updateUser(payload.id, payload.body),
+    onSuccess: () => {
+      toast.success(<ToastMessage message={'Cập nhật người dùng thành công'} />);
+      queryClient.invalidateQueries({ queryKey: ['getAllUsers'] });
+    },
+    onError: () => {
+      toast.error(<ToastMessage message={'Cập nhật người dùng thất bại'} />);
+    }
+  });
+
+  const handleClose = () =>{
+    onClose();
+    form.reset();
+  }
+
   const onSubmit = () => {
     const body: any = {
       name: form.getValues().name,
@@ -111,10 +133,27 @@ export default function AddUserDialog(props: AddUserDialogProps) {
       roleID: form.getValues().roleID,
       jobPositionID: form.getValues().jobPositionID
     };
-    createUserMutation.mutate(body);
-    form.reset();
-    onClose();
+    if(mode === 'create'){
+      createUserMutation(body);
+    }else {
+      updateUserMutation({
+        id: 10,
+        body: body
+      })
+    }
+    handleClose()
   };
+
+  useEffect(() => {
+    if(userProfile){
+      setValue('name', userProfile.name || '')
+      setValue('password', userProfile.password || '')
+      setValue('email', userProfile.email || '')
+      setValue('citizenIdentification', userProfile.citizenIdentification || '')
+      setValue('roleID', userProfile.roleID || 1)
+      setValue('jobPositionID', userProfile.jobPositionID || 1)
+    }
+  }, [userProfile])
 
   return (
     <Dialog
@@ -126,7 +165,7 @@ export default function AddUserDialog(props: AddUserDialogProps) {
         }
       }}
     >
-      <DialogTitle fontWeight={600}>Thêm người dùng mới</DialogTitle>
+      <DialogTitle fontWeight={600}>{mode === 'create' ? 'Thêm người dùng mới' : 'Cập nhật thông tin'}</DialogTitle>
 
       <DialogContent>
         <Stack
