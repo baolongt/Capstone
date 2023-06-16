@@ -8,6 +8,7 @@ import { ToastContainer } from 'react-toastify';
 import React from 'react';
 import OutGoingDocumentTable from './components/document/outgoing/DocumentTable';
 import DashboardLayout from './components/layouts/Layout';
+import DepartmentManagement from './pages/department-management';
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
         <Route path={'/'} element={<Dashboard />} />
         <Route path={'/documents'} element={<DocumentManagement />} />
         <Route path={'/users'} element={<UserManagement />} />
+        <Route path={'/departments'} element={<DepartmentManagement />} />
         <Route path={'/setting'} element={<Setting />} />
         <Route
           path={'/outgoing-documents'}

@@ -15,6 +15,7 @@ import { CreateUserPayload, UpdateUserPayload } from '../../models/user';
 import { toast } from 'react-toastify';
 import { ToastMessage } from '../toast';
 import React, { useEffect } from 'react';
+import { jobPositionOptions, roleOptions } from '../../models/enums';
 
 interface AddUserDialogProps {
   mode: 'update' | 'create';
@@ -28,47 +29,6 @@ interface UpdatePayLoad {
   id: number;
   body: UpdateUserPayload;
 }
-
-const roleOptions = [
-  {
-    title: 'Quản trị viên',
-    value: 2
-  },
-  {
-    title: 'Công chức',
-    value: 1
-  }
-];
-const jobPositionOptions = [
-  {
-    title: 'Cán bộ',
-    value: 1
-  },
-  {
-    title: 'Phó trưởng phòng',
-    value: 2
-  },
-  {
-    title: 'Trưởng phòng',
-    value: 3
-  },
-  {
-    title: 'Phó vụ trưởng',
-    value: 4
-  },
-  {
-    title: 'Phó tổng cục trưởng',
-    value: 5
-  },
-  {
-    title: 'Tổng cục trưởng',
-    value: 6
-  },
-  {
-    title: 'Lãnh đạo cấp cao',
-    value: 7
-  }
-];
 
 export default function AddUserDialog(props: AddUserDialogProps) {
   const { isOpen, onClose, mode, userProfile} = props;
@@ -137,7 +97,7 @@ export default function AddUserDialog(props: AddUserDialogProps) {
       createUserMutation(body);
     }else {
       updateUserMutation({
-        id: 10,
+        id: userProfile?.id!,
         body: body
       })
     }
