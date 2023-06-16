@@ -6,13 +6,12 @@ import Button from '@mui/material/Button';
 import { FormControl } from '@mui/base';
 import {
   Autocomplete,
-  ButtonGroup,
   Divider,
   Grid,
   InputLabel,
   Typography
 } from '@mui/material';
-import AttachFileIcon from '@mui/icons-material/AttachFile';
+import Dropzone from '../dropzone/dropzone';
 
 const CreateDocumentForm = () => {
   const [input, setInput] = useState({
@@ -199,26 +198,22 @@ const CreateDocumentForm = () => {
               renderInput={(params) => <TextField {...params} label="" />}
             />
           </Grid>
-          <Grid item xs={6}>
-            <Button variant="outlined" startIcon={<AttachFileIcon />}>
-              Đính kèm file
-            </Button>
+          <Grid item xs={12}>
+            <InputLabel id="field-label">File đính kèm (nếu có)</InputLabel>
+            <Dropzone />
           </Grid>
         </Grid>
       </FormControl>
       <Grid style={{ width: '100%' }} container spacing={2}>
-        <Grid item xs={6}>
-          <ButtonGroup
-            variant="contained"
-            aria-label="outlined primary button group"
-          >
-            <Button variant="contained" color="primary" type="submit">
-              Chuyển cán bộ khác
-            </Button>
-            <Button variant="contained" color="primary" type="submit">
-              Chuyển lãnh đạo phê duyệt
-            </Button>
-          </ButtonGroup>
+        <Grid item xs={2}>
+          <Button fullWidth variant="contained" color="primary" type="submit">
+            Chuyển cán bộ khác
+          </Button>
+        </Grid>
+        <Grid item xs={3}>
+          <Button fullWidth variant="contained" color="primary" type="submit">
+            Chuyển lãnh đạo phê duyệt
+          </Button>
         </Grid>
       </Grid>
     </Box>

@@ -19,17 +19,22 @@ export const columns: Column[] = [
   {
     heading: 'Nơi nhận',
     value: 'receiver',
-    minWidth: '100px'
+    minWidth: '50px'
   },
   {
     heading: 'Ngày phát hành',
     value: 'publishDate',
     type: 'date',
-    minWidth: '100px'
+    minWidth: '60px'
   },
   {
     heading: 'Loại văn bản',
     value: 'documentType',
+    minWidth: '100px'
+  },
+  {
+    heading: 'Trạng thái',
+    value: 'status',
     minWidth: '100px'
   }
 ];
@@ -51,6 +56,7 @@ export interface OutgoingDocument {
   processDeadline: Date;
   isRepliedDocument: boolean;
   note: string;
+  status: string;
 }
 
 export interface CreateOutgoingDocument {

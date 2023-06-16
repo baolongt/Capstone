@@ -8,6 +8,7 @@ for (let i = 0; i < 20; i++) {
     documentNotation: faker.string.alphanumeric(10),
     receiver: faker.internet.email(),
     publishDate: faker.date.past().toISOString(),
+    status: faker.helpers.arrayElement(['active', 'inactive']),
     documentType: faker.helpers.arrayElement([
       'Nghị quyết',
       'Quyết định',
