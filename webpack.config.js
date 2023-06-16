@@ -29,14 +29,6 @@ module.exports = {
         use: ['style-loader', 'css-loader'],
         exclude: /ckeditor5-[^/\\]+[/\\]theme[/\\].+\.css$/
       },
-      // {
-      //   test: /\.svg$/,
-      //   loader: 'svg-inline-loader'
-      // },
-      // {
-      //   test: /\.s[ac]ss$/i,
-      //   use: ['style-loader', 'css-loader', 'sass-loader']
-      // },
       {
         test: /\.(png|jpg|gif)$/i,
         type: 'asset/resource'
