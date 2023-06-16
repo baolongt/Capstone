@@ -11,7 +11,7 @@ import {
   InputLabel,
   Typography
 } from '@mui/material';
-import { MuiFileInput } from 'mui-file-input';
+import Dropzone from '../../dropzone/dropzone';
 
 const CreateDocumentForm = () => {
   const [input, setInput] = useState({
@@ -135,10 +135,6 @@ const CreateDocumentForm = () => {
             </TextField>
           </Grid>
           <Grid item xs={6}>
-            <InputLabel id="field-label">Đính kèm file</InputLabel>
-            <MuiFileInput fullWidth size="small" />
-          </Grid>
-          <Grid item xs={6}>
             <InputLabel id="field-label">Cấp độ</InputLabel>
             <TextField
               fullWidth
@@ -170,6 +166,10 @@ const CreateDocumentForm = () => {
               sx={{ width: 300 }}
               renderInput={(params) => <TextField {...params} label="" />}
             />
+          </Grid>
+          <Grid item xs={6}>
+            <InputLabel id="field-label">File đính kèm</InputLabel>
+            <Dropzone />
           </Grid>
         </Grid>
       </FormControl>
