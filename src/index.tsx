@@ -7,7 +7,14 @@ import { HashRouter } from 'react-router-dom';
 import { ThemeProvider } from '@mui/styles';
 import theme from './components/theme/theme';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: 0,
+    },
+  },
+});
 
 interface Props {}
 

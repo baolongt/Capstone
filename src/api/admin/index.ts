@@ -20,10 +20,7 @@ export const deleteUser = async (id: number) => {
     params: { id: id }
   });
 };
-export const updateUser = async (id: number, payload: UpdateUserPayload) => {
-  const url = `/api/users/${id}`;
-  return await axiosInstance.put(url, {
-    params: { id: id },
-    body: payload
-  });
-};
+export const updateUser = async (id:number, payload: UpdateUserPayload) => {
+    const url = `/api/users?id=${id}`;
+    return await axiosInstance.put(url, payload);
+}

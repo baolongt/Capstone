@@ -10,7 +10,7 @@ import {
 import React from 'react';
 import { Path } from '../models/path';
 // import { dark } from '@mui/material/styles/createPalette';
-
+import Diversity3Icon from '@mui/icons-material/Diversity3';
 const incomingDocumentSubPaths: Path[] = [
   {
     label: 'Sổ văn bản đến',
@@ -49,6 +49,11 @@ const paths: Path[] = [
     label: 'Quản lí người dùng',
     path: '/users',
     icon: <AdminPanelSettings />
+  },
+  {
+    label: 'Quản lí phòng ban',
+    path: '/departments',
+    icon: <Diversity3Icon />
   },
   {
     label: 'Edtior-demo',

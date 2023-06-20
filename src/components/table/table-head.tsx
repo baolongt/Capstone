@@ -1,8 +1,14 @@
 import { TableCell, TableHead, TableRow } from "@mui/material";
-import { Column, columns } from "../../models/user";
+import { Column } from "../../models/user";
 import React from "react";
 
-const CustomTableHead = () => {
+interface CustomTableHeadProps {
+  columns: Column[];
+
+}
+
+const CustomTableHead = (props: CustomTableHeadProps) => {
+  const {columns} = props;
   return (
     <TableHead>
       <TableRow>
