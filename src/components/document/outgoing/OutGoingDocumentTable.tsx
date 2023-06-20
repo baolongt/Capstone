@@ -34,25 +34,25 @@ const OutGoingDocumentTable = () => {
   // };
   return (
     <Box width={'100%'}>
-      <TableContainer
-        sx={{
-          height: `calc(100vh - 32px - 54px - ${HEADER_HEIGHT})`,
-          border: '1px solid #ccc'
-        }}
-      >
-        <Table
-          stickyHeader
-          sx={{ minWidth: '100%', minHeight: '1000px' }}
-          size="medium"
+      {isLoading ? (
+        <Skeleton
+          variant="rectangular"
+          sx={{ minWidth: '900px', minHeight: '1000px' }}
+          height={60}
+        />
+      ) : (
+        <TableContainer
+          sx={{
+            height: `calc(100vh - 32px - 54px - ${HEADER_HEIGHT})`,
+            border: '1px solid #ccc'
+          }}
         >
-          <TableHeader />
-          {isLoading ? (
-            <Skeleton
-              variant="rectangular"
-              sx={{ minWidth: '900px', minHeight: '1000px' }}
-              height={60}
-            />
-          ) : (
+          <Table
+            stickyHeader
+            sx={{ minWidth: '100%', minHeight: '1000px' }}
+            size="medium"
+          >
+            <TableHeader />
             <TableBody>
               {data.map((document: Record<string, unknown>, index: number) => (
                 <TableRow key={index}>
@@ -69,9 +69,9 @@ const OutGoingDocumentTable = () => {
                 </TableRow>
               ))}
             </TableBody>
-          )}
-        </Table>
-      </TableContainer>
+          </Table>
+        </TableContainer>
+      )}
     </Box>
   );
 };

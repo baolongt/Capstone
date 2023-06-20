@@ -15,6 +15,7 @@ const useStyles = makeStyles(() => ({
     maxHeight: 160
   }
 }));
+
 export interface SelectFieldProps extends SelectProps {
   data: Array<any>;
   name: string;
@@ -53,7 +54,7 @@ export function SelectField(props: SelectFieldProps) {
           >
             <Select
               {...field}
-              label={label}
+              label={label ?? ''}
               disabled={disabled}
               placeholder={placeholder}
               error={Boolean(fieldState?.error)}

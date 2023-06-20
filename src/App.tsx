@@ -7,7 +7,7 @@ import { ToastContainer } from 'react-toastify';
 import React from 'react';
 import DashboardLayout from './components/layouts/Layout';
 import OutgoingDocumentManagement from './pages/outgoing-document-management';
-import CreateDocumentForm from './components/document/IncomingDocumentForm';
+import CreateOutgoingDocumentPage from './pages/outgoing-document-management/create';
 
 const App = () => {
   return (
@@ -18,7 +18,7 @@ const App = () => {
         <Route path={'/setting'} element={<Setting />} />
         <Route path={'/outgoing-documents'}>
           <Route index element={<OutgoingDocumentManagement />} />
-          <Route path="create" element={<CreateDocumentForm />} />
+          <Route path="create" element={<CreateOutgoingDocumentPage />} />
         </Route>
       </Routes>
       <ToastContainer

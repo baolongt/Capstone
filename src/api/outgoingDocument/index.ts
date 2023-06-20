@@ -35,6 +35,6 @@ for (let i = 0; i < 20; i++) {
 }
 export const getAllOutgoingDocuments = async () => {
   // TODO: change to real api
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  await new Promise((resolve) => setTimeout(resolve, 3000));
   return documents;
 };
