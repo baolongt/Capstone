@@ -1,12 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import { FormControl } from '@mui/base';
-import { Grid, InputLabel, Typography } from '@mui/material';
-import DragAndDropBox from './DragAndDropBox';
+import { Grid, Typography } from '@mui/material';
 import { outgoingDocument } from '../../../models';
 import {
-  FieldErrors,
   FieldValues,
   UseFormHandleSubmit,
   UseFormReturn
@@ -57,19 +54,11 @@ const useStyles = makeStyles((theme: any) => ({
   },
   required: {
     color: '#FF6347'
-  },
-  asterisk: {
-    display: 'inline'
   }
 }));
 
 type createDocumentFormProps = {
-  form: UseFormReturn<outgoingDocument.CreateOutgoingDocument>;
-  errors: FieldErrors<FieldValues>;
-  input: Partial<outgoingDocument.CreateOutgoingDocument>;
-  setInput: React.Dispatch<
-    React.SetStateAction<Partial<outgoingDocument.CreateOutgoingDocument>>
-  >;
+  form: UseFormReturn<any>;
   handleSubmit: UseFormHandleSubmit<FieldValues, undefined>;
   onSubmitHandler: (
     // eslint-disable-next-line no-unused-vars
@@ -77,26 +66,35 @@ type createDocumentFormProps = {
   ) => void;
 };
 
-const CreateDocumentForm: React.FC<createDocumentFormProps> = (props) => {
-  const { input, setInput, onSubmitHandler, form } = props;
+const CreateDocumentForm: React.FC<createDocumentFormProps> = ({
+  form,
+  onSubmitHandler
+}) => {
   const classes = useStyles();
   const [documentTypeOptions, setDocumentTypeOptions] = useState<SelectItem[]>(
     []
   );
 
+  const {
+    getValues,
+    formState: { errors, isDirty }
+  } = form;
+
   const testSubmit = (e: any) => {
     e.preventDefault();
-    onSubmitHandler(input);
+    console.log('dirty', isDirty);
+    console.log('errors', errors);
+    console.log(getValues());
+    onSubmitHandler(getValues());
   };
 
-  const onChangeDocumentField = (event: any) => {
-    setDocumentTypeOptions(documentTypeOptionsMap[event.target.value]);
-    setInput({ ...input, documentFieldId: event.target.value });
+  const onChangeDocumentField = () => {
+    setDocumentTypeOptions(documentTypeOptionsMap[getValues().documentFieldId]);
   };
 
-  const onChangeFiles = (files: File[]) => {
-    setInput({ ...input, files });
-  };
+  useEffect(() => {
+    setDocumentTypeOptions(documentTypeOptionsMap[getValues().documentFieldId]);
+  }, []);
 
   return (
     <>
@@ -123,7 +121,6 @@ const CreateDocumentForm: React.FC<createDocumentFormProps> = (props) => {
                     <InputField
                       label=""
                       className={classes.textfield}
-                      id="epitomize"
                       form={form}
                       name="epitomize"
                     />
@@ -138,7 +135,6 @@ const CreateDocumentForm: React.FC<createDocumentFormProps> = (props) => {
                     <SelectField
                       data={documentFieldOptions}
                       onChange={onChangeDocumentField}
-                      id="documentFieldId"
                       form={form}
                       name="documentFieldId"
                     />
@@ -152,7 +148,6 @@ const CreateDocumentForm: React.FC<createDocumentFormProps> = (props) => {
                     </Box>
                     <SelectField
                       data={documentTypeOptions}
-                      id="documentTypeId"
                       form={form}
                       name="documentTypeId"
                     />
@@ -166,9 +161,9 @@ const CreateDocumentForm: React.FC<createDocumentFormProps> = (props) => {
                     </Box>
                     <SelectField
                       data={statusOptions}
-                      id="status"
                       form={form}
                       name="status"
+                      sx={{ maxWidth: '100%' }}
                     />
                   </Typography>
                 </Grid>
@@ -178,17 +173,12 @@ const CreateDocumentForm: React.FC<createDocumentFormProps> = (props) => {
                     <Box component="span" color="error.main">
                       *
                     </Box>
-                    <MultilineTextField
-                      id="note"
-                      form={form}
-                      name="note"
-                      minRows={4}
-                    />
+                    <MultilineTextField form={form} name="note" minRows={4} />
                   </Typography>
                 </Grid>
                 <Grid item xs={12}>
                   <Typography>
-                    Ghi chú
+                    File đính kèm
                     <Box component="span" color="error.main">
                       *
                     </Box>
@@ -199,36 +189,28 @@ const CreateDocumentForm: React.FC<createDocumentFormProps> = (props) => {
                     />
                   </Typography>
                 </Grid>
-              </Grid>
-              <FormControl style={{ width: '100%', marginTop: '20px' }}>
-                <Grid container spacing={2}>
+                <Grid className={classes.buttonGroup} container spacing={2}>
                   <Grid item xs={12}>
-                    <InputLabel id="field-label">File đính kèm</InputLabel>
-                    <DragAndDropBox onChangeFiles={onChangeFiles} />
+                    <Button variant="contained" color="primary" type="submit">
+                      Ký số
+                    </Button>
+                    <Button
+                      style={{ marginLeft: '10px' }}
+                      variant="contained"
+                      color="primary"
+                      type="submit"
+                    >
+                      Chuyển cán bộ khác
+                    </Button>
+                    <Button
+                      style={{ marginLeft: '10px' }}
+                      variant="contained"
+                      color="primary"
+                      type="submit"
+                    >
+                      Chuyển lãnh đạo phê duyệt
+                    </Button>
                   </Grid>
-                </Grid>
-              </FormControl>
-              <Grid className={classes.buttonGroup} container spacing={2}>
-                <Grid item xs={12}>
-                  <Button variant="contained" color="primary" type="submit">
-                    Ký số
-                  </Button>
-                  <Button
-                    style={{ marginLeft: '10px' }}
-                    variant="contained"
-                    color="primary"
-                    type="submit"
-                  >
-                    Chuyển cán bộ khác
-                  </Button>
-                  <Button
-                    style={{ marginLeft: '10px' }}
-                    variant="contained"
-                    color="primary"
-                    type="submit"
-                  >
-                    Chuyển lãnh đạo phê duyệt
-                  </Button>
                 </Grid>
               </Grid>
             </Box>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import { makeStyles } from '@mui/styles';
 import { Accept, useDropzone } from 'react-dropzone';
@@ -83,6 +83,7 @@ export type DragAndDropBoxProps = {
   fileAccpetType?: Accept;
   error: Boolean;
   helperText: string;
+  value: File[];
   // eslint-disable-next-line no-unused-vars
   onChange: (...event: any[]) => void;
 };
@@ -146,10 +147,10 @@ const DragAndDropBox: React.FC<DragAndDropBoxProps> = ({
   fileAccpetType,
   error,
   helperText,
-  onChange
+  onChange,
+  value
 }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const [previews, setPreviews] = useState([]);
   const classes = useStyles();
 
   const onDrop = (acceptedFiles: File[]) => {
@@ -158,12 +159,13 @@ const DragAndDropBox: React.FC<DragAndDropBoxProps> = ({
         preview: URL.createObjectURL(file)
       })
     );
-    const files = [...format, ...previews];
-    setPreviews(files);
+    const files = [...format, ...value];
+    onChange(files);
   };
 
   const deletePreview = (name: string) => {
-    setPreviews((prevFiles) => prevFiles.filter((file) => file.name !== name));
+    const filesLeft = value.filter((file) => file.name !== name);
+    onChange(filesLeft);
   };
 
   const { getRootProps, isDragActive } = useDropzone({
@@ -172,15 +174,11 @@ const DragAndDropBox: React.FC<DragAndDropBoxProps> = ({
     multiple: true
   });
 
-  useEffect(() => {
-    onChange(previews);
-  }, [previews]);
-
   const preventClick = (e: any) => {
     e.stopPropagation();
   };
 
-  const thumbs = previews.map((file, idx) => (
+  const thumbs = value.map((file, idx) => (
     <Thumb
       key={idx}
       file={file}
@@ -207,7 +205,7 @@ const DragAndDropBox: React.FC<DragAndDropBoxProps> = ({
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        {previews.length === 0 ? (
+        {value.length === 0 ? (
           <Box className={classes.thumbContainer}>
             {isDragActive ? (
               <p>Kéo file vào đây</p>
@@ -237,8 +235,13 @@ export const WrappedDragDropFileBox: React.FC<WrappedDragDropFileBoxProps> = (
   const { name, form, fileAccpetType } = props;
   const { control } = form;
 
-  const onChange = (files: PreviewFile[]) => {
-    console.log(files);
+  const hanldeInputFiles = (
+    files: PreviewFile[],
+    // eslint-disable-next-line no-unused-vars
+    onChange: (value: any) => void
+  ) => {
+    onChange(files);
+    console.log('hanldeInputFiles', files);
   };
 
   return (
@@ -246,14 +249,14 @@ export const WrappedDragDropFileBox: React.FC<WrappedDragDropFileBoxProps> = (
       <Controller
         control={control}
         name={name}
-        render={({ field, fieldState }) => {
+        render={({ field: { onChange, value }, fieldState }) => {
           return (
             <DragAndDropBox
-              {...field}
+              value={value}
+              onChange={(e) => hanldeInputFiles(e, onChange)}
               fileAccpetType={fileAccpetType}
               error={Boolean(fieldState?.error)}
               helperText={fieldState?.error?.message}
-              onChange={onChange}
             />
           );
         }}

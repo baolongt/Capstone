@@ -77,16 +77,17 @@ export function SelectField(props: SelectFieldProps) {
                 <MenuItem
                   key={index}
                   value={item.value}
-                  sx={{
-                    fontSize: '14px',
-                    textOverflow: 'ellipsis',
-                    WebkitLineClamp: 1,
-                    WebkitBoxOrient: 'vertical',
-                    display: '-webkit-box',
-                    overflow: 'hidden',
-                    cursor: 'pointer',
-                    maxWidth: '450px'
-                  }}
+                  // sx={{
+                  //   fontSize: '14px',
+                  //   textOverflow: 'ellipsis',
+                  //   WebkitLineClamp: 1,
+                  //   WebkitBoxOrient: 'vertical',
+                  //   display: '-webkit-box',
+                  //   overflow: 'hidden',
+                  //   cursor: 'pointer',
+                  //  TODO : if enable this please get maxWidth from xs in props
+                  //   maxWidth: '450px'
+                  // }}
                 >
                   {item.title}
                 </MenuItem>
