@@ -241,7 +241,6 @@ export const WrappedDragDropFileBox: React.FC<WrappedDragDropFileBoxProps> = (
     onChange: (value: any) => void
   ) => {
     onChange(files);
-    console.log('hanldeInputFiles', files);
   };
 
   return (

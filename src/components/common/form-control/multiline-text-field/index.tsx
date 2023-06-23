@@ -38,6 +38,11 @@ export function MultilineTextField(props: MultilineTextFieldProps) {
             disabled={disabled}
             error={Boolean(fieldState?.error?.message)}
             helperText={fieldState?.error?.message}
+            FormHelperTextProps={{
+              style: {
+                margin: 0
+              }
+            }}
             size="small"
             fullWidth
             multiline

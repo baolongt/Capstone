@@ -3,11 +3,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { Grid, Typography } from '@mui/material';
 import { outgoingDocument } from '../../../models';
-import {
-  FieldValues,
-  UseFormHandleSubmit,
-  UseFormReturn
-} from 'react-hook-form';
+import { UseFormReturn } from 'react-hook-form';
 import { makeStyles } from '@mui/styles';
 import {
   InputField,
@@ -59,33 +55,19 @@ const useStyles = makeStyles((theme: any) => ({
 
 type createDocumentFormProps = {
   form: UseFormReturn<any>;
-  handleSubmit: UseFormHandleSubmit<FieldValues, undefined>;
-  onSubmitHandler: (
-    // eslint-disable-next-line no-unused-vars
-    data: Partial<outgoingDocument.CreateOutgoingDocument>
-  ) => void;
 };
 
-const CreateDocumentForm: React.FC<createDocumentFormProps> = ({
-  form,
-  onSubmitHandler
-}) => {
+const CreateDocumentForm: React.FC<createDocumentFormProps> = ({ form }) => {
   const classes = useStyles();
   const [documentTypeOptions, setDocumentTypeOptions] = useState<SelectItem[]>(
     []
   );
 
-  const {
-    getValues,
-    formState: { errors, isDirty }
-  } = form;
+  const { getValues, handleSubmit } = form;
 
-  const testSubmit = (e: any) => {
-    e.preventDefault();
-    console.log('dirty', isDirty);
-    console.log('errors', errors);
-    console.log(getValues());
-    onSubmitHandler(getValues());
+  const submitHandler = () => {
+    //TODO: call api
+    console.log('values', getValues());
   };
 
   const onChangeDocumentField = () => {
@@ -109,8 +91,8 @@ const CreateDocumentForm: React.FC<createDocumentFormProps> = ({
                 container
                 spacing={2}
                 component="form"
-                id="add-user-form"
-                onSubmit={testSubmit}
+                id="create-document-form"
+                onSubmit={handleSubmit(submitHandler)}
               >
                 <Grid item xs={12}>
                   <Typography>
@@ -118,13 +100,13 @@ const CreateDocumentForm: React.FC<createDocumentFormProps> = ({
                     <Box component="span" color="error.main">
                       *
                     </Box>
-                    <InputField
-                      label=""
-                      className={classes.textfield}
-                      form={form}
-                      name="epitomize"
-                    />
                   </Typography>
+                  <InputField
+                    label=""
+                    className={classes.textfield}
+                    form={form}
+                    name="epitomize"
+                  />
                 </Grid>
                 <Grid item xs={6}>
                   <Typography>
@@ -146,12 +128,12 @@ const CreateDocumentForm: React.FC<createDocumentFormProps> = ({
                     <Box component="span" color="error.main">
                       *
                     </Box>
-                    <SelectField
-                      data={documentTypeOptions}
-                      form={form}
-                      name="documentTypeId"
-                    />
                   </Typography>
+                  <SelectField
+                    data={documentTypeOptions}
+                    form={form}
+                    name="documentTypeId"
+                  />
                 </Grid>
                 <Grid item xs={12}>
                   <Typography>
@@ -159,13 +141,13 @@ const CreateDocumentForm: React.FC<createDocumentFormProps> = ({
                     <Box component="span" color="error.main">
                       *
                     </Box>
-                    <SelectField
-                      data={statusOptions}
-                      form={form}
-                      name="status"
-                      sx={{ maxWidth: '100%' }}
-                    />
                   </Typography>
+                  <SelectField
+                    data={statusOptions}
+                    form={form}
+                    name="status"
+                    sx={{ maxWidth: '100%' }}
+                  />
                 </Grid>
                 <Grid item xs={12}>
                   <Typography>
@@ -173,21 +155,16 @@ const CreateDocumentForm: React.FC<createDocumentFormProps> = ({
                     <Box component="span" color="error.main">
                       *
                     </Box>
-                    <MultilineTextField form={form} name="note" minRows={4} />
                   </Typography>
+                  <MultilineTextField form={form} name="note" minRows={4} />
                 </Grid>
                 <Grid item xs={12}>
-                  <Typography>
-                    File đính kèm
-                    <Box component="span" color="error.main">
-                      *
-                    </Box>
-                    <WrappedDragDropFileBox
-                      fileAccpetType={fileAccpetType}
-                      form={form}
-                      name="files"
-                    />
-                  </Typography>
+                  <Typography>File đính kèm</Typography>
+                  <WrappedDragDropFileBox
+                    fileAccpetType={fileAccpetType}
+                    form={form}
+                    name="files"
+                  />
                 </Grid>
                 <Grid className={classes.buttonGroup} container spacing={2}>
                   <Grid item xs={12}>
