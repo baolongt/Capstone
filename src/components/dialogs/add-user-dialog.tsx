@@ -38,8 +38,8 @@ export default function AddUserDialog(props: AddUserDialogProps) {
     password: yup.string().required(`Mật khẩu là bắt buộc`),
     email: yup.string().required(`Email là bắt buộc`),
     citizenIdentification: yup.string().required(`CCCD/CMND là bắt buộc`),
-    roleID: yup.string().required(`Vai trò là bắt buộc`),
-    jobPositionID: yup.string().required(`Chức vụ là bắt buộc`)
+    roleID: yup.number().required(`Vai trò là bắt buộc`),
+    jobPositionID: yup.number().required(`Chức vụ là bắt buộc`)
   });
 
   const form = useForm({

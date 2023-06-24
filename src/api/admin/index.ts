@@ -6,8 +6,7 @@ export const getAllUsers = async () => {
   return await axiosInstance.get(url);
 };
 export const getUserById = async (id: string) => {
-  console.log(id);
-  const url = '/api/users';
+  const url = `/api/users/${id}`;
   return await axiosInstance.get(url);
 };
 export const createUser = async (payload: CreateUserPayload) => {

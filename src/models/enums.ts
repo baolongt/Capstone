@@ -1,4 +1,9 @@
-export const roleOptions = [
+export interface SelectOption {
+  title: string;
+  value: number | string;
+}
+
+export const roleOptions : SelectOption[] = [
   {
     title: 'Quản trị viên',
     value: 2
@@ -8,7 +13,7 @@ export const roleOptions = [
     value: 1
   }
 ];
-export const jobPositionOptions = [
+export const jobPositionOptions : SelectOption[] = [
   {
     title: 'Cán bộ',
     value: 1

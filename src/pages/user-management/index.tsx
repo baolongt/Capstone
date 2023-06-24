@@ -65,7 +65,9 @@ const UserManagement = () => {
   };
   const { data, isLoading } = useQuery({
     queryKey: ['getAllUsers'],
-    queryFn: async () => await getAllUsers()
+    queryFn: async () => await getAllUsers(),
+    cacheTime: 5*1000,
+    staleTime: 4*1000,
   });
 
   const [tableState, setTableState] = useState<TableState>(initTableState);
