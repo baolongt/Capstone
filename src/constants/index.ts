@@ -1,1 +1,1 @@
-export const API_URL = 'https://dmscapstonebe.azurewebsites.net'
+export * as api from './api';
