@@ -1,4 +1,4 @@
-export type SelectItem = {
-  value: number | string;
+export type SelectOption = {
   title: string;
-};
+  value: number | string;
+}
