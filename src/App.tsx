@@ -1,13 +1,13 @@
 import 'react-toastify/dist/ReactToastify.css';
 import Dashboard from './pages/dashboard';
 import { Route, Routes } from 'react-router-dom';
-import DocumentManagement from './pages/document-management';
 import UserManagement from './pages/user-management';
 import Setting from './pages/setting';
 import { ToastContainer } from 'react-toastify';
 import React from 'react';
-import OutGoingDocumentTable from './components/document/outgoing/DocumentTable';
 import DashboardLayout from './components/layouts/Layout';
+import OutgoingDocumentManagement from './pages/outgoing-document-management';
+import CreateOutgoingDocumentPage from './pages/outgoing-document-management/create';
 import DepartmentManagement from './pages/department-management';
 
 const App = () => {
@@ -15,14 +15,13 @@ const App = () => {
     <DashboardLayout>
       <Routes>
         <Route path={'/'} element={<Dashboard />} />
-        <Route path={'/documents'} element={<DocumentManagement />} />
         <Route path={'/users'} element={<UserManagement />} />
         <Route path={'/departments'} element={<DepartmentManagement />} />
         <Route path={'/setting'} element={<Setting />} />
-        <Route
-          path={'/outgoing-documents'}
-          element={<OutGoingDocumentTable />}
-        />
+        <Route path={'/outgoing-documents'}>
+          <Route index element={<OutgoingDocumentManagement />} />
+          <Route path="create" element={<CreateOutgoingDocumentPage />} />
+        </Route>
       </Routes>
       <ToastContainer
         position="bottom-left"

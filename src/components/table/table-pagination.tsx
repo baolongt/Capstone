@@ -9,8 +9,11 @@ interface PaginationProps {
   totalPages: number;
   selected: readonly string[];
   option: number[];
+  // eslint-disable-next-line no-unused-vars
   handleChangePage: (event: any, value: number) => void;
+  // eslint-disable-next-line no-unused-vars
   handleChangeRowsPerPage: (event: any) => void;
+  // eslint-disable-next-line no-unused-vars
   handleChangeGoToPage: (event: any) => void;
 }
 
@@ -29,19 +32,19 @@ const TablePagination = (props: PaginationProps) => {
       }}
     >
       <Box visibility={props.selected.length === 0 ? 'hidden' : 'visible'}>
-        <Box component='span' color='#5B6166'>
-          Đã chọn: 
+        <Box component="span" color="#5B6166">
+          Đã chọn:
         </Box>
-        <Box component='span' fontWeight={500}>
+        <Box component="span" fontWeight={500}>
           {props.selected.length}/{props.totalElements}
         </Box>
       </Box>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
         <Box>
-          <Box component='span' color='#5B6166'>
+          <Box component="span" color="#5B6166">
             {props.totalTaskLabel}
           </Box>
-          <Box component='span' fontWeight={500}>
+          <Box component="span" fontWeight={500}>
             Tổng số: {props.totalElements}
           </Box>
         </Box>
@@ -53,9 +56,9 @@ const TablePagination = (props: PaginationProps) => {
               fontSize: '14px'
             }
           }}
-          size='medium'
+          size="medium"
           count={props.totalPages}
-          shape='rounded'
+          shape="rounded"
           showFirstButton
           showLastButton
         />
@@ -80,13 +83,13 @@ const TablePagination = (props: PaginationProps) => {
             </MenuItem>
           ))}
         </Select>
-        <Box display='flex' alignItems='center' gap='5px'>
-          <Box component='span' fontSize={14} color='#5B6166'>
+        <Box display="flex" alignItems="center" gap="5px">
+          <Box component="span" fontSize={14} color="#5B6166">
             Đi tới trang{' '}
           </Box>
           <TextField
-            size='small'
-            id='outlined-number'
+            size="small"
+            id="outlined-number"
             onChange={(event) => props.handleChangeGoToPage(event)}
             inputProps={{
               style: {

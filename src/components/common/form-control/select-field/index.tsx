@@ -15,6 +15,7 @@ const useStyles = makeStyles(() => ({
     maxHeight: 160
   }
 }));
+
 export interface SelectFieldProps extends SelectProps {
   data: Array<any>;
   name: string;
@@ -53,7 +54,7 @@ export function SelectField(props: SelectFieldProps) {
           >
             <Select
               {...field}
-              label={label}
+              label={label ?? ''}
               disabled={disabled}
               placeholder={placeholder}
               error={Boolean(fieldState?.error)}
@@ -76,16 +77,17 @@ export function SelectField(props: SelectFieldProps) {
                 <MenuItem
                   key={index}
                   value={item.value}
-                  sx={{
-                    fontSize: '14px',
-                    textOverflow: 'ellipsis',
-                    WebkitLineClamp: 1,
-                    WebkitBoxOrient: 'vertical',
-                    display: '-webkit-box',
-                    overflow: 'hidden',
-                    cursor: 'pointer',
-                    maxWidth: '450px'
-                  }}
+                  // sx={{
+                  //   fontSize: '14px',
+                  //   textOverflow: 'ellipsis',
+                  //   WebkitLineClamp: 1,
+                  //   WebkitBoxOrient: 'vertical',
+                  //   display: '-webkit-box',
+                  //   overflow: 'hidden',
+                  //   cursor: 'pointer',
+                  //  TODO : if enable this please get maxWidth from xs in props
+                  //   maxWidth: '450px'
+                  // }}
                 >
                   {item.title}
                 </MenuItem>

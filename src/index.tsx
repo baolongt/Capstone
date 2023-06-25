@@ -3,7 +3,9 @@ import './index.css';
 import ReactDOM from 'react-dom';
 import App from './App';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { BrowserRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
+import { ThemeProvider } from '@mui/styles';
+import theme from './components/theme/theme';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -19,13 +21,13 @@ interface Props {}
 // eslint-disable-next-line no-unused-vars
 const Root: React.FC<Props> = (props) => {
   return (
-    <React.StrictMode>
-      <BrowserRouter>
-        <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClient}>
+      <HashRouter>
+        <ThemeProvider theme={theme}>
           <App />
-        </QueryClientProvider>
-      </BrowserRouter>
-    </React.StrictMode>
+        </ThemeProvider>
+      </HashRouter>
+    </QueryClientProvider>
   );
 };
 

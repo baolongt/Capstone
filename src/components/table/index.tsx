@@ -12,42 +12,30 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import CustomTableHead from './table-head';
 import { Column, UpdateUserPayload } from '../../models/user';
-import { HEADER_HEIGHT } from '../../constants/common';
-import {
-  QueryClient,
-  useMutation,
-  useQuery,
-  useQueryClient
-} from '@tanstack/react-query';
-import { deleteUser, getAllUsers } from '../../api/admin';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { deleteUser } from '../../api/admin';
 import React, { useState } from 'react';
 import AddUserDialog from '../dialogs/add-user-dialog';
 import ConfirmDialog from '../dialogs/confirm-dialog';
 import { ToastMessage } from '../toast';
 import { toast } from 'react-toastify';
 import TablePagination from './table-pagination';
-import { TableState } from '../../models/table';
 import { debounce } from 'lodash';
 interface CustomTableProps {
   data: any[];
   columns: Column[];
   dataPagination: any;
+  // eslint-disable-next-line no-unused-vars
   onChangePage: (newPage: number) => void;
+  // eslint-disable-next-line no-unused-vars
   onChangeSize: (newSize: number) => void;
   isLoading?: boolean;
-  height: string; 
+  height: string;
 }
 
 const CustomTable = (props: CustomTableProps) => {
-  const {
-    data,
-    columns,
-    onChangePage,
-    onChangeSize,
-    dataPagination,
-    height,
-    isLoading
-  } = props;
+  const { data, columns, onChangePage, onChangeSize, dataPagination, height } =
+    props;
   const queryClient = useQueryClient();
 
   const [isUpdateDialogOpen, setIsUpdateDialogOpen] = useState<boolean>(false);
@@ -123,7 +111,7 @@ const CustomTable = (props: CustomTableProps) => {
                       );
                     } else {
                       return (
-                        <TableCell>
+                        <TableCell key={index}>
                           <Stack direction={'row'} gap={1}>
                             <IconButton onClick={() => handleUpateUser(user)}>
                               <EditIcon />

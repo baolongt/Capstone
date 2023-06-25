@@ -8,6 +8,7 @@ for (let i = 0; i < 20; i++) {
     documentNotation: faker.string.alphanumeric(10),
     receiver: faker.internet.email(),
     publishDate: faker.date.past().toISOString(),
+    status: faker.helpers.arrayElement(['active', 'inactive']),
     documentType: faker.helpers.arrayElement([
       'Nghị quyết',
       'Quyết định',
@@ -34,6 +35,6 @@ for (let i = 0; i < 20; i++) {
 }
 export const getAllOutgoingDocuments = async () => {
   // TODO: change to real api
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  await new Promise((resolve) => setTimeout(resolve, 3000));
   return documents;
 };

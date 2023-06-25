@@ -31,7 +31,7 @@ interface UpdatePayLoad {
 }
 
 export default function AddUserDialog(props: AddUserDialogProps) {
-  const { isOpen, onClose, mode, userProfile} = props;
+  const { isOpen, onClose, mode, userProfile } = props;
   const queryClient = useQueryClient();
   const schema = yup.object({
     name: yup.string().required(`Tên người dùng là bắt buộc`),
@@ -49,40 +49,44 @@ export default function AddUserDialog(props: AddUserDialogProps) {
       email: '',
       citizenIdentification: '',
       roleID: 1,
-      jobPositionID: 1,
+      jobPositionID: 1
     },
     resolver: yupResolver(schema)
   });
-  
+
   const { handleSubmit, setValue } = form;
 
-  const {mutate: createUserMutation, isLoading: isCreateLoading} = useMutation({
-    mutationFn: (body: CreateUserPayload) => createUser(body),
-    onSuccess: () => {
-      toast.success(<ToastMessage message={'Thêm người dùng thành công'} />);
-      queryClient.invalidateQueries({ queryKey: ['getAllUsers'] });
-    },
-    onError: () => {
-      toast.error(<ToastMessage message={'Thêm người dùng thất bại'} />);
-    }
-  });
+  const { mutate: createUserMutation /*, isLoading: isCreateLoading*/ } =
+    useMutation({
+      mutationFn: (body: CreateUserPayload) => createUser(body),
+      onSuccess: () => {
+        toast.success(<ToastMessage message={'Thêm người dùng thành công'} />);
+        queryClient.invalidateQueries({ queryKey: ['getAllUsers'] });
+      },
+      onError: () => {
+        toast.error(<ToastMessage message={'Thêm người dùng thất bại'} />);
+      }
+    });
 
+  const { mutate: updateUserMutation /*, isLoading: isUpdateLoading */ } =
+    useMutation({
+      mutationFn: (payload: UpdatePayLoad) =>
+        updateUser(payload.id, payload.body),
+      onSuccess: () => {
+        toast.success(
+          <ToastMessage message={'Cập nhật người dùng thành công'} />
+        );
+        queryClient.invalidateQueries({ queryKey: ['getAllUsers'] });
+      },
+      onError: () => {
+        toast.error(<ToastMessage message={'Cập nhật người dùng thất bại'} />);
+      }
+    });
 
-    const {mutate: updateUserMutation, isLoading: isUpdateLoading} = useMutation({
-    mutationFn: (payload: UpdatePayLoad) => updateUser(payload.id, payload.body),
-    onSuccess: () => {
-      toast.success(<ToastMessage message={'Cập nhật người dùng thành công'} />);
-      queryClient.invalidateQueries({ queryKey: ['getAllUsers'] });
-    },
-    onError: () => {
-      toast.error(<ToastMessage message={'Cập nhật người dùng thất bại'} />);
-    }
-  });
-
-  const handleClose = () =>{
+  const handleClose = () => {
     onClose();
     form.reset();
-  }
+  };
 
   const onSubmit = () => {
     const body: any = {
@@ -93,27 +97,30 @@ export default function AddUserDialog(props: AddUserDialogProps) {
       roleID: form.getValues().roleID,
       jobPositionID: form.getValues().jobPositionID
     };
-    if(mode === 'create'){
+    if (mode === 'create') {
       createUserMutation(body);
-    }else {
+    } else {
       updateUserMutation({
         id: userProfile?.id!,
         body: body
-      })
+      });
     }
-    handleClose()
+    handleClose();
   };
 
   useEffect(() => {
-    if(userProfile){
-      setValue('name', userProfile.name || '')
-      setValue('password', userProfile.password || '')
-      setValue('email', userProfile.email || '')
-      setValue('citizenIdentification', userProfile.citizenIdentification || '')
-      setValue('roleID', userProfile.roleID || 1)
-      setValue('jobPositionID', userProfile.jobPositionID || 1)
+    if (userProfile) {
+      setValue('name', userProfile.name || '');
+      setValue('password', userProfile.password || '');
+      setValue('email', userProfile.email || '');
+      setValue(
+        'citizenIdentification',
+        userProfile.citizenIdentification || ''
+      );
+      setValue('roleID', userProfile.roleID || 1);
+      setValue('jobPositionID', userProfile.jobPositionID || 1);
     }
-  }, [userProfile])
+  }, [userProfile]);
 
   return (
     <Dialog
@@ -125,7 +132,9 @@ export default function AddUserDialog(props: AddUserDialogProps) {
         }
       }}
     >
-      <DialogTitle fontWeight={600}>{mode === 'create' ? 'Thêm người dùng mới' : 'Cập nhật thông tin'}</DialogTitle>
+      <DialogTitle fontWeight={600}>
+        {mode === 'create' ? 'Thêm người dùng mới' : 'Cập nhật thông tin'}
+      </DialogTitle>
 
       <DialogContent>
         <Stack
