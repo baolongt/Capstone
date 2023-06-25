@@ -1,16 +1,14 @@
 import { Box } from '@mui/material';
-import CustomTable from '../../components/table';
-import CustomButton from '../../components/common/button';
-
 import AddIcon from '@mui/icons-material/Add';
 import { useState } from 'react';
 import AddUserDialog from '../../components/dialogs/add-user-dialog';
 import React from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { getAllUsers } from '../../api/admin';
+import {  useListUsers } from '../../apis';
 import { HEADER_HEIGHT } from '../../constants/common';
-import { TableState } from '../../models/table';
-import { Column } from '../../models/user';
+import { TableState, Column } from '../../types';
+import {CustomButton} from '../../components/common';
+import {UserTable} from '../../components/user';
+
 
 const UserManagement = () => {
   const columns: Column[] = [
@@ -63,12 +61,11 @@ const UserManagement = () => {
     page: 1,
     size: 10
   };
-  const { data, isLoading } = useQuery({
-    queryKey: ['getAllUsers'],
-    queryFn: async () => await getAllUsers(),
+  /* 
     cacheTime: 5*1000,
     staleTime: 4*1000,
-  });
+  */ 
+  const {data , isLoading} = useListUsers();
 
   const [tableState, setTableState] = useState<TableState>(initTableState);
 
@@ -93,7 +90,7 @@ const UserManagement = () => {
       </Box>
 
       <Box flexGrow={1} height={`calc(100vh - 86px - ${HEADER_HEIGHT})`}>
-        <CustomTable
+        <UserTable
           height={`calc(100vh - 32px - 54px - 50px - ${HEADER_HEIGHT})`}
           data={data?.data}
           columns={columns}

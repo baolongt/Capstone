@@ -17,7 +17,7 @@ interface PaginationProps {
   handleChangeGoToPage: (event: any) => void;
 }
 
-const TablePagination = (props: PaginationProps) => {
+const UserTablePagination: React.FC<PaginationProps> = (props) => {
   return (
     <Box
       sx={{
@@ -105,4 +105,4 @@ const TablePagination = (props: PaginationProps) => {
   );
 };
 
-export default TablePagination;
+export default UserTablePagination;

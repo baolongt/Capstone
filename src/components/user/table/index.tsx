@@ -10,18 +10,19 @@ import {
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import CustomTableHead from './table-head';
-import { Column, UpdateUserPayload } from '../../models/user';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { deleteUser } from '../../api/admin';
+import UserTableHead from './table-head';
+import { user } from '../../../models';
+import { useDeleteUser } from '../../../apis';
 import React, { useState } from 'react';
-import AddUserDialog from '../dialogs/add-user-dialog';
-import ConfirmDialog from '../dialogs/confirm-dialog';
-import { ToastMessage } from '../toast';
+import AddUserDialog from '../../dialogs/add-user-dialog';
+import ConfirmDialog from '../../dialogs/confirm-dialog';
+import { ToastMessage } from '../../toast';
 import { toast } from 'react-toastify';
 import TablePagination from './table-pagination';
 import { debounce } from 'lodash';
-interface CustomTableProps {
+import { Column } from '../../../types';
+
+interface UserTableProps {
   data: any[];
   columns: Column[];
   dataPagination: any;
@@ -33,15 +34,12 @@ interface CustomTableProps {
   height: string;
 }
 
-const CustomTable = (props: CustomTableProps) => {
-  const { data, columns, onChangePage, onChangeSize, dataPagination, height } =
-    props;
-  const queryClient = useQueryClient();
+export const UserTable : React.FC<UserTableProps> = ({ data, columns, onChangePage, onChangeSize, dataPagination, height } ) => {
 
   const [isUpdateDialogOpen, setIsUpdateDialogOpen] = useState<boolean>(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
 
-  const [currentUser, setCurentUser] = useState<UpdateUserPayload | undefined>(
+  const [currentUser, setCurentUser] = useState<user.UpdatePayload | undefined>(
     null
   );
 
@@ -49,10 +47,8 @@ const CustomTable = (props: CustomTableProps) => {
   const handleCloseUpdateDialog = () => setIsUpdateDialogOpen(false);
 
   const handleCloseDeleteDialog = () => setIsDeleteDialogOpen(false);
-  const { mutate: deleteUserMutate } = useMutation({
-    mutationFn: async (id: number) => deleteUser(id),
+  const { mutate: deleteUserMutate } = useDeleteUser({
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['getAllUsers'] });
       handleCloseDeleteDialog();
       toast.success(<ToastMessage message={'Xóa người dùng thành công'} />);
     },
@@ -73,14 +69,14 @@ const CustomTable = (props: CustomTableProps) => {
     }
   }, 1000);
 
-  const handleOpenDeleteDialog = (user: UpdateUserPayload) => {
+  const handleOpenDeleteDialog = (user: user.UpdatePayload) => {
     setCurentUser(user);
     setIsDeleteDialogOpen(true);
   };
 
   const handleDeleteUser = () => deleteUserMutate((currentUser as any)?.id);
 
-  const handleUpateUser = (user: UpdateUserPayload) => {
+  const handleUpateUser = (user: user.UpdatePayload) => {
     setCurentUser(user);
     handleOpenUpdateDialog();
   };
@@ -94,7 +90,7 @@ const CustomTable = (props: CustomTableProps) => {
         }}
       >
         <Table stickyHeader sx={{ minWidth: '900px' }} size="medium">
-          <CustomTableHead columns={columns} />
+          <UserTableHead columns={columns} />
           <TableBody>
             {data &&
               data.map((user: any, index: number) => (
@@ -176,4 +172,3 @@ const CustomTable = (props: CustomTableProps) => {
   );
 };
 
-export default CustomTable;

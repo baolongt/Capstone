@@ -1,14 +1,12 @@
 import { TableCell, TableHead, TableRow } from "@mui/material";
-import { Column } from "../../models/user";
 import React from "react";
+import { Column } from "../../../types";
 
-interface CustomTableHeadProps {
+interface UserTableHeadProps {
   columns: Column[];
-
 }
 
-const CustomTableHead = (props: CustomTableHeadProps) => {
-  const {columns} = props;
+const UserTableHead : React.FC<UserTableHeadProps> = ({columns}) => {
   return (
     <TableHead>
       <TableRow>
@@ -27,4 +25,4 @@ const CustomTableHead = (props: CustomTableHeadProps) => {
   );
 };
 
-export default CustomTableHead;
+export default UserTableHead;

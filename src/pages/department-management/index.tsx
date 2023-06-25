@@ -1,24 +1,25 @@
+
+
+// TODO: refactor this page like user page and remove line 4 :D
+/* eslint-disable no-unused-vars */
+
+
 import React, { useState } from 'react';
-import CustomTable from '../../components/table';
-import {
-  Column,
-  CreateUserPayload,
-  UpdateUserPayload
-} from '../../models/user';
-import { HEADER_HEIGHT } from '../../constants/common';
 import { Box } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
-import { getAllDepartments } from '../../api/department';
-import CustomButton from '../../components/common/button';
+import { getAllDepartments } from '../../apis/department';
 import AddIcon from '@mui/icons-material/Add';
-import { getAllUsers } from '../../api/admin';
 import AddDepartmentDialog from '../../components/dialogs/add-department-dialog';
-import { SelectOption } from '../../models/enums';
+import { Column, SelectOption } from '../../types';
+import { UserTable } from '../../components/user';
+import {CustomButton} from '../../components/common';
+import { HEADER_HEIGHT } from '../../constants/common';
 
 const DepartmentManagement = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [users, setUsers] = useState<SelectOption[]>([]);
 
+  
   const columns: Column[] = [
     {
       heading: '#',
@@ -40,27 +41,10 @@ const DepartmentManagement = () => {
     }
   ];
 
+  // TODO: refactor this like user 
   const { data: departmentsData } = useQuery({
     queryKey: ['getAllDepartments'],
     queryFn: () => getAllDepartments()
-  });
-
-  const { } = useQuery({
-    queryKey: ['getAllUsers'],
-    queryFn: async () => await getAllUsers(),
-    onSuccess: (data) => {
-      const format: SelectOption[] = data.data.map(
-        (user: UpdateUserPayload) => {
-          return {
-            title: user.name,
-            value: user.id
-          };
-        }
-      );
-      setUsers(format);
-    },
-    cacheTime: 6 * 50 * 1000,
-    staleTime: 5 * 60 * 1000
   });
 
 
@@ -76,7 +60,7 @@ const DepartmentManagement = () => {
           onClick={handleOpen}
         />
       </Box>
-      <CustomTable
+      <UserTable
         height={`calc(100vh - 54px - 50px - ${HEADER_HEIGHT})`}
         data={departmentsData?.data}
         columns={columns}
