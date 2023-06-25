@@ -1,7 +1,4 @@
-export interface SelectOption {
-  title: string;
-  value: number | string;
-}
+import { SelectOption } from "../types";
 
 export const roleOptions : SelectOption[] = [
   {

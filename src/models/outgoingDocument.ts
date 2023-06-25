@@ -1,11 +1,4 @@
-import { SelectItem } from '../types';
-
-export interface Column {
-  heading: string;
-  minWidth?: string;
-  type?: string;
-  value: string;
-}
+import { Column, SelectOption } from '../types';
 
 export const columns: Column[] = [
   {
@@ -70,7 +63,7 @@ export interface CreateOutgoingDocument {
   files: File[];
 }
 
-export const documentFieldOptions: Array<SelectItem> = [
+export const documentFieldOptions: Array<SelectOption> = [
   {
     value: 1,
     title: 'Văn bản hành chính'
@@ -81,7 +74,7 @@ export const documentFieldOptions: Array<SelectItem> = [
   }
 ];
 
-export const documentTypeOptionsMap: Record<number, Array<SelectItem>> = {
+export const documentTypeOptionsMap: Record<number, Array<SelectOption>> = {
   1: [
     {
       value: 1,
@@ -208,7 +201,7 @@ export const documentTypeOptionsMap: Record<number, Array<SelectItem>> = {
   ]
 };
 
-export const statusOptions: Array<SelectItem> = [
+export const statusOptions: Array<SelectOption> = [
   {
     value: 1,
     title: 'Đang xử lý'
