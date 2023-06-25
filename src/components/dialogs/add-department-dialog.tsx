@@ -3,21 +3,19 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Box, Stack, Typography } from '@mui/material';
-import CustomButton from '../common/button';
-import * as yup from 'yup';
+import {CustomButton} from '../common';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { InputField } from '../common/form-control/input-field';
 import { SelectField } from '../common/form-control/select-field';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { createUser, updateUser } from '../../api/admin';
-import { CreateUserPayload, UpdateUserPayload } from '../../models/user';
 import { toast } from 'react-toastify';
 import { ToastMessage } from '../toast';
-import React, { useEffect } from 'react';
-import { SelectOption, jobPositionOptions, roleOptions } from '../../models/enums';
-import { createDepartment } from '../../api/department';
+import React from 'react';
+import { createDepartment } from '../../apis/department';
 import { createDepartmentPayload } from '../../models/department';
+import { SelectOption } from '../../types';
+import { addDepartmentSchema } from './validations';
 
 interface AddDepartmentDialogProps {
   isOpen: boolean;
@@ -25,25 +23,22 @@ interface AddDepartmentDialogProps {
   usersData: SelectOption[];
 }
 
-export default function AddDepartmentDialog(props: AddDepartmentDialogProps) {
-  const { isOpen, onClose, usersData} = props;
+const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({isOpen, onClose, usersData}) => {
   const queryClient = useQueryClient();
-  const schema = yup.object({
-    name: yup.string().required(`Tên phòng ban là bắt buộc`),
-    departmentLeaderID: yup.number().required(`Trưởng phòng là bắt buộc`)
-  });
 
   const form = useForm({
     defaultValues: {
       name: '',
       departmentLeaderID: null,
     },
-    resolver: yupResolver(schema)
+    resolver: yupResolver(addDepartmentSchema)
   });
   
-  const { handleSubmit, setValue } = form;
+  const { handleSubmit } = form;
 
-  const {mutate: createDepartmentMutation, isLoading: isCreateLoading} = useMutation({
+
+  // TODO: change to useCreateDepartment
+  const {mutate: createDepartmentMutation} = useMutation({
     mutationFn: (body: createDepartmentPayload) => createDepartment(body),
     onSuccess: () => {
       toast.success(<ToastMessage message={'Thêm phòng ban thành công'} />);
@@ -132,3 +127,5 @@ export default function AddDepartmentDialog(props: AddDepartmentDialogProps) {
     </Dialog>
   );
 }
+
+export default AddDepartmentDialog;

@@ -6,10 +6,10 @@ import {
   Stack,
   Typography
 } from '@mui/material';
-import CustomButton from '../common/button';
 import { ReactElement } from 'react';
 import HelpOutlinedIcon from '@mui/icons-material/HelpOutlined';
 import React from 'react';
+import {CustomButton} from '../common';
 
 interface ConfirmDialogProps {
   isOpen: boolean;
@@ -18,8 +18,7 @@ interface ConfirmDialogProps {
   onClose: () => void;
 }
 
-const ConfirmDialog = (props: ConfirmDialogProps) => {
-  const { isOpen, onClose, onConfirm, message } = props;
+const ConfirmDialog: React.FC<ConfirmDialogProps> = ({ isOpen, onClose, onConfirm, message }) => {
 
   return (
     <Dialog
