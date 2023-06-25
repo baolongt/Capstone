@@ -9,29 +9,18 @@ import Box from '@mui/material/Box';
 import { HEADER_HEIGHT } from '../../../constants/common';
 import TableHeader from './TableHeader';
 import { useQuery } from '@tanstack/react-query';
-import { getAllOutgoingDocuments } from '../../../api/outgoingDocument';
+import { getAllOutgoingDocuments } from '../../../apis/outgoingDocument';
 import { outgoingDocument } from '../../../models';
 import Button from '@mui/material/Button';
 import Skeleton from '@mui/material/Skeleton';
+import { Column } from '../../../types';
 
 const OutGoingDocumentTable = () => {
   const { data, isLoading } = useQuery({
-    queryKey: ['getAllUsers'],
+    queryKey: ['documents'],
     queryFn: async () => await getAllOutgoingDocuments()
   });
-  // const [page, setPage] = useState(0);
-  // const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
-  // const handleChangePage = (event: unknown, newPage: number) => {
-  //   setPage(newPage);
-  // };
-
-  // const handleChangeRowsPerPage = (
-  //   event: React.ChangeEvent<HTMLInputElement>
-  // ) => {
-  //   setRowsPerPage(+event.target.value);
-  //   setPage(0);
-  // };
   return (
     <Box width={'100%'}>
       {isLoading ? (
@@ -57,7 +46,7 @@ const OutGoingDocumentTable = () => {
               {data.map((document: Record<string, unknown>, index: number) => (
                 <TableRow key={index}>
                   {outgoingDocument.columns.map(
-                    (column: outgoingDocument.Column, index: number) => (
+                    (column: Column, index: number) => (
                       <TableCell key={index}>
                         {document[`${column.value}`]}
                       </TableCell>

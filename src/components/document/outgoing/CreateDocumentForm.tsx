@@ -11,7 +11,7 @@ import {
   SelectField,
   WrappedDragDropFileBox
 } from '../../common/form-control';
-import { SelectItem } from '../../../types';
+import { SelectOption } from '../../../types';
 import { Accept } from 'react-dropzone';
 
 const fileAccpetType: Accept = {
@@ -59,7 +59,7 @@ type createDocumentFormProps = {
 
 const CreateDocumentForm: React.FC<createDocumentFormProps> = ({ form }) => {
   const classes = useStyles();
-  const [documentTypeOptions, setDocumentTypeOptions] = useState<SelectItem[]>(
+  const [documentTypeOptions, setDocumentTypeOptions] = useState<SelectOption[]>(
     []
   );
 
