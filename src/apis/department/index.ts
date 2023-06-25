@@ -1,5 +1,5 @@
 import { createDepartmentPayload } from "../../models/department";
-import axiosInstance from "../axios";
+import {axiosInstance} from '../../utils';
 
 export const getAllDepartments = async () => {
     const url = 'api/departments';
