@@ -1,6 +1,6 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '../../../constants';
-import { axiosInstance, queryClient } from '../../../utils';
+import { axiosInstance } from '../../../utils';
 
 export const deleteUser = async ({ id }: { id: number }) => {
   const url = `/api/users`;
@@ -15,6 +15,7 @@ export type useDeleteUserParams = {
 };
 
 export const useDeleteUser = ({ onSuccess, onError }: useDeleteUserParams) => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (payload: { id: number }) => deleteUser(payload),
     onSuccess: () => {

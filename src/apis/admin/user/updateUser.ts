@@ -1,7 +1,7 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '../../../constants';
 import { user } from '../../../models';
-import { axiosInstance, queryClient } from '../../../utils';
+import { axiosInstance } from '../../../utils';
 export const updateUser = async ({
   id,
   payload
@@ -19,6 +19,7 @@ export type useUpdateUserParams = {
 };
 
 export const useUpdateUser = ({ onSuccess, onError }: useUpdateUserParams) => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (payload: { id: number; payload: user.UpdatePayload }) => {
       return updateUser(payload);
