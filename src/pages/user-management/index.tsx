@@ -8,51 +8,40 @@ import { HEADER_HEIGHT } from '../../constants/common';
 import { TableState, Column } from '../../types';
 import {CustomButton} from '../../components/common';
 import {UserTable} from '../../components/user';
+import { user } from '../../models';
 
 
 const UserManagement = () => {
-  const columns: Column[] = [
+  const columns: Column<user.User>[] = [
     {
       heading: 'STT',
       minWidth: '30px',
-      type: 'text',
       value: 'id'
     },
     {
       heading: 'Tên',
       minWidth: '200px',
-      type: 'text',
       value: 'name'
     },
     {
       heading: 'Email',
       minWidth: '200px',
-      type: 'text',
       value: 'email'
     },
     {
       heading: 'Căn cước công dân',
       minWidth: '300px',
-      type: 'text',
       value: 'citizenIdentification'
     },
     {
       heading: 'Vai trò',
       minWidth: '100px',
-      type: 'text',
       value: 'roleName'
     },
     {
       heading: 'Chức vụ',
       minWidth: '200px',
-      type: 'text',
       value: 'jobPositionName'
-    },
-    {
-      heading: 'Action',
-      minWidth: '200px',
-      type: 'text',
-      value: ''
     }
   ];
 
@@ -61,10 +50,7 @@ const UserManagement = () => {
     page: 1,
     size: 10
   };
-  /* 
-    cacheTime: 5*1000,
-    staleTime: 4*1000,
-  */ 
+ 
   const {data , isLoading} = useListUsers();
 
   const [tableState, setTableState] = useState<TableState>(initTableState);
@@ -92,7 +78,7 @@ const UserManagement = () => {
       <Box flexGrow={1} height={`calc(100vh - 86px - ${HEADER_HEIGHT})`}>
         <UserTable
           height={`calc(100vh - 32px - 54px - 50px - ${HEADER_HEIGHT})`}
-          data={data?.data}
+          data={data?.data ?? []}
           columns={columns}
           isLoading={isLoading}
           onChangePage={(newPage: number) => handleChangePage(newPage)}

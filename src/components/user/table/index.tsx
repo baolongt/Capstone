@@ -20,11 +20,12 @@ import { ToastMessage } from '../../toast';
 import { toast } from 'react-toastify';
 import TablePagination from './table-pagination';
 import { debounce } from 'lodash';
-import { Column } from '../../../types';
+import { Column, Nullable } from '../../../types';
+import TableFooter from '@mui/material/TableFooter';
 
 interface UserTableProps {
-  data: any[];
-  columns: Column[];
+  data: user.User[];
+  columns: Column<user.User>[];
   dataPagination: any;
   // eslint-disable-next-line no-unused-vars
   onChangePage: (newPage: number) => void;
@@ -34,14 +35,18 @@ interface UserTableProps {
   height: string;
 }
 
-export const UserTable : React.FC<UserTableProps> = ({ data, columns, onChangePage, onChangeSize, dataPagination, height } ) => {
-
+export const UserTable: React.FC<UserTableProps> = ({
+  data,
+  columns,
+  onChangePage,
+  onChangeSize,
+  dataPagination,
+  height
+}) => {
   const [isUpdateDialogOpen, setIsUpdateDialogOpen] = useState<boolean>(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
-
-  const [currentUser, setCurentUser] = useState<user.UpdatePayload | undefined>(
-    null
-  );
+  const [currentUser, setCurentUser] =
+    useState<Nullable<user.UpdatePayload>>(null);
 
   const handleOpenUpdateDialog = () => setIsUpdateDialogOpen(true);
   const handleCloseUpdateDialog = () => setIsUpdateDialogOpen(false);
@@ -69,14 +74,14 @@ export const UserTable : React.FC<UserTableProps> = ({ data, columns, onChangePa
     }
   }, 1000);
 
-  const handleOpenDeleteDialog = (user: user.UpdatePayload) => {
+  const handleOpenDeleteDialog = (user: user.User) => {
     setCurentUser(user);
     setIsDeleteDialogOpen(true);
   };
 
   const handleDeleteUser = () => deleteUserMutate((currentUser as any)?.id);
 
-  const handleUpateUser = (user: user.UpdatePayload) => {
+  const handleUpateUser = (user: user.User) => {
     setCurentUser(user);
     handleOpenUpdateDialog();
   };
@@ -89,68 +94,62 @@ export const UserTable : React.FC<UserTableProps> = ({ data, columns, onChangePa
           border: '1px solid #ccc'
         }}
       >
-        <Table stickyHeader sx={{ minWidth: '900px' }} size="medium">
+        <Table
+          stickyHeader
+          sx={{ minWidth: '900px', minHeight: '800px' }}
+          size="medium"
+        >
           <UserTableHead columns={columns} />
           <TableBody>
             {data &&
-              data.map((user: any, index: number) => (
+              data.map((user: user.User, index: number) => (
                 <TableRow key={index} hover>
-                  {columns.map((column: Column, index: number) => {
-                    if (column.heading !== 'Action') {
-                      return (
-                        <TableCell
-                          sx={{ minWidth: column.minWidth }}
-                          key={index}
-                        >
-                          {user[`${column.value}`]}
-                        </TableCell>
-                      );
-                    } else {
-                      return (
-                        <TableCell key={index}>
-                          <Stack direction={'row'} gap={1}>
-                            <IconButton onClick={() => handleUpateUser(user)}>
-                              <EditIcon />
-                            </IconButton>
-                            <IconButton
-                              onClick={() => handleOpenDeleteDialog(user)}
-                            >
-                              <DeleteIcon />
-                            </IconButton>
-                          </Stack>
-                        </TableCell>
-                      );
-                    }
+                  {columns.map((column: Column<user.User>, index: number) => {
+                    return column.isAction ? (
+                      <TableCell sx={{ minWidth: column.minWidth }} key={index}>
+                        {user.getprop(column.value)}
+                      </TableCell>
+                    ) : (
+                      <TableCell key={index}>
+                        <Stack direction={'row'} gap={1}>
+                          <IconButton onClick={() => handleUpateUser(user)}>
+                            <EditIcon />
+                          </IconButton>
+                          <IconButton
+                            onClick={() => handleOpenDeleteDialog(user)}
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+                        </Stack>
+                      </TableCell>
+                    );
                   })}
                 </TableRow>
               ))}
-
-            {/* <TableCell>
-                <Stack direction={'row'} gap = {1}>
-                  <IconButton><DeleteIcon/></IconButton>
-                  <IconButton><EditIcon/></IconButton>
-                </Stack>
-              <TableCell/> */}
           </TableBody>
         </Table>
-        <TablePagination
-          page={dataPagination.currentPage}
-          rowsPerPage={dataPagination.itemsPerPage}
-          elementsCount={dataPagination.totalElements}
-          totalPages={dataPagination.totalPages}
-          totalElements={dataPagination.totalElements}
-          selected={[]}
-          option={[10, 15, 20, 25]}
-          handleChangePage={(_, value) => {
-            onChangePage(value);
-          }}
-          handleChangeRowsPerPage={(e) => {
-            onChangeSize(e.target.value);
-          }}
-          handleChangeGoToPage={(e) => {
-            debounceGotoPage(e.target.value);
-          }}
-        />
+        <TableFooter style={{ position: 'sticky', bottom: 0 }}>
+          <TableRow>
+            <TablePagination
+              page={dataPagination.currentPage}
+              rowsPerPage={dataPagination.itemsPerPage}
+              elementsCount={dataPagination.totalElements}
+              totalPages={dataPagination.totalPages}
+              totalElements={dataPagination.totalElements}
+              selected={[]}
+              option={[10, 15, 20, 25]}
+              handleChangePage={(_, value) => {
+                onChangePage(value);
+              }}
+              handleChangeRowsPerPage={(e) => {
+                onChangeSize(e.target.value);
+              }}
+              handleChangeGoToPage={(e) => {
+                debounceGotoPage(e.target.value);
+              }}
+            />
+          </TableRow>
+        </TableFooter>
       </TableContainer>
       <AddUserDialog
         userProfile={currentUser}
@@ -171,4 +170,3 @@ export const UserTable : React.FC<UserTableProps> = ({ data, columns, onChangePa
     </Box>
   );
 };
-

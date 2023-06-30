@@ -79,12 +79,12 @@ export const AddUserDialog: React.FC<AddUserDialogProps> = ({ isOpen, onClose, m
 
   useEffect(() => {
     reset({
-      name: userProfile.name || '',
-      password: userProfile.password || '',
-      email: userProfile.email || '',
-      citizenIdentification: userProfile.citizenIdentification || '',
-      roleID: userProfile.roleID || 1,
-      jobPositionID: userProfile.jobPositionID || 1
+      name: userProfile?.name ?? '',
+      password: userProfile?.password ?? '',
+      email: userProfile?.email ?? '',
+      citizenIdentification: userProfile?.citizenIdentification ?? '',
+      roleID: userProfile?.roleID ?? 1,
+      jobPositionID: userProfile?.jobPositionID ?? 1
     })
   }, [userProfile]);
 

@@ -14,29 +14,27 @@ import { Column, SelectOption } from '../../types';
 import { UserTable } from '../../components/user';
 import {CustomButton} from '../../components/common';
 import { HEADER_HEIGHT } from '../../constants/common';
+import { department } from '../../models';
 
 const DepartmentManagement = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [users, setUsers] = useState<SelectOption[]>([]);
 
-  
-  const columns: Column[] = [
+  //TODO: change to department
+  const columns: Column<any>[] = [
     {
       heading: '#',
       minWidth: '30px',
-      type: 'text',
       value: 'id'
     },
     {
       heading: 'Tên phòng ban',
       minWidth: '150px',
-      type: 'text',
       value: 'name'
     },
     {
       heading: 'Trưởng phòng',
       minWidth: '150px',
-      type: 'text',
       value: 'departmentLeaderName'
     }
   ];
