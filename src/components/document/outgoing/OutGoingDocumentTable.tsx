@@ -46,7 +46,7 @@ const OutGoingDocumentTable = () => {
               {data.map((document: Record<string, unknown>, index: number) => (
                 <TableRow key={index}>
                   {outgoingDocument.columns.map(
-                    (column: Column, index: number) => (
+                    (column: Column<outgoingDocument.OutgoingDocument>, index: number) => (
                       <TableCell key={index}>
                         {document[`${column.value}`]}
                       </TableCell>

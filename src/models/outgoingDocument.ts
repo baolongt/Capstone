@@ -1,6 +1,6 @@
 import { Column, SelectOption } from '../types';
 
-export const columns: Column[] = [
+export const columns: Column<OutgoingDocument>[] = [
   {
     heading: 'Trích yếu',
     value: 'epitomize',
@@ -19,7 +19,6 @@ export const columns: Column[] = [
   {
     heading: 'Ngày phát hành',
     value: 'publishDate',
-    type: 'date',
     minWidth: '60px'
   },
   {
