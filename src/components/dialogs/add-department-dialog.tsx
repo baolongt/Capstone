@@ -12,10 +12,9 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 import { ToastMessage } from '../toast';
 import React from 'react';
-import { createDepartment } from '../../apis/department';
-import { createDepartmentPayload } from '../../models/department';
 import { SelectOption } from '../../types';
 import { addDepartmentSchema } from './validations';
+import { useCreateDepartment } from '../../apis/department';
 
 interface AddDepartmentDialogProps {
   isOpen: boolean;
@@ -36,20 +35,15 @@ const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({isOpen, onClos
   
   const { handleSubmit } = form;
 
-
-  // TODO: change to useCreateDepartment
-  const {mutate: createDepartmentMutation} = useMutation({
-    mutationFn: (body: createDepartmentPayload) => createDepartment(body),
+  const {mutate: createDepartmentMutation} = useCreateDepartment({
     onSuccess: () => {
       toast.success(<ToastMessage message={'Thêm phòng ban thành công'} />);
-      queryClient.invalidateQueries({ queryKey: ['getAllDepartments'] });
-      handleClose()
+      handleClose();
     },
     onError: () => {
       toast.error(<ToastMessage message={'Thêm người dùng thất bại'} />);
     }
-  });
-
+  })
 
   const handleClose = () =>{
     onClose();

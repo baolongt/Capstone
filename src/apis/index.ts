@@ -10,3 +10,4 @@ export {
 } from './admin';
 export * as outgoingDocument from './outgoingDocument';
 export * as department from './department';
+export * as document from './document';
