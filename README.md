@@ -2,7 +2,7 @@
 
 ------
 
-## Last update 06/05/2023 
+## Last update 07/07/2023 
 
 [First ideal](https://lucid.app/lucidchart/0a241539-526f-4aa9-91b5-5bd295faccab/view?page=0_0#)
 
@@ -11,6 +11,9 @@
 [Project plan](https://docs.google.com/spreadsheets/d/1RnE0gb4YQmA0jegu4ucekXinwKjCz0GT8JERSmzUVNw/edit?usp=sharing) -- fpt mail
 
 -------
+
+## Design
+[Uizard](https://app.uizard.io/p/e9379f08/preview)
 
 
 2023 Capstone
