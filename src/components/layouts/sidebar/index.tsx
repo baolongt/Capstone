@@ -9,7 +9,7 @@ import {
   ListSubheader
 } from '@mui/material';
 import paths from '../../../constants/routes';
-import { Path } from '../../../models/path';
+import { Path } from '../../../types';
 import { NavLink } from 'react-router-dom';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 

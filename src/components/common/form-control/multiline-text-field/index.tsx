@@ -9,6 +9,7 @@ export interface MultilineTextFieldProps extends BaseTextFieldProps {
   disabled?: boolean;
   placeholder?: string;
   sx?: SxProps;
+  minRows?: number;
 }
 
 export function MultilineTextField(props: MultilineTextFieldProps) {
@@ -19,6 +20,7 @@ export function MultilineTextField(props: MultilineTextFieldProps) {
     disabled = false,
     placeholder,
     sx = {},
+    minRows,
     ...resProps
   } = props;
   const { control } = form;
@@ -31,15 +33,20 @@ export function MultilineTextField(props: MultilineTextFieldProps) {
         render={({ field, fieldState }) => (
           <TextField
             {...field}
-            label={label}
+            label={label ?? ''}
             placeholder={placeholder}
             disabled={disabled}
             error={Boolean(fieldState?.error?.message)}
             helperText={fieldState?.error?.message}
+            FormHelperTextProps={{
+              style: {
+                margin: 0
+              }
+            }}
             size="small"
             fullWidth
             multiline
-            minRows={10}
+            minRows={minRows ?? 10}
             sx={{ ...sx }}
             {...resProps}
           />

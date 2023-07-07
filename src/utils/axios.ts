@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { API_URL } from '../constants/common';
 
-const axiosInstance = axios.create({
+export const axiosInstance = axios.create({
   baseURL: API_URL,
   headers: {
     'Content-type': 'application/json'
@@ -28,4 +28,3 @@ axiosInstance.interceptors.response.use(
   }
 );
 
-export default axiosInstance;

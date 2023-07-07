@@ -4,7 +4,7 @@ import { Controller, FieldValues } from 'react-hook-form';
 
 export interface InputFieldProps extends BaseTextFieldProps {
   name: string;
-  label: string;
+  label?: string;
   form: FieldValues;
   disabled?: boolean;
   placeholder?: string;
@@ -31,7 +31,7 @@ export function InputField(props: InputFieldProps) {
         render={({ field, fieldState }) => (
           <TextField
             {...field}
-            label={label}
+            label={label ?? ''}
             placeholder={placeholder}
             disabled={disabled}
             error={Boolean(fieldState?.error)}

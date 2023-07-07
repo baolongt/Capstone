@@ -1,202 +1,200 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
-import { FormControl } from '@mui/base';
+import { Grid, Typography } from '@mui/material';
+import { outgoingDocument } from '../../../models';
+import { UseFormReturn } from 'react-hook-form';
+import { makeStyles } from '@mui/styles';
 import {
-  Autocomplete,
-  Divider,
-  Grid,
-  InputLabel,
-  Typography
-} from '@mui/material';
-import Dropzone from '../../dropzone/dropzone';
+  InputField,
+  MultilineTextField,
+  SelectField,
+  WrappedDragDropFileBox
+} from '../../common/form-control';
+import { SelectOption } from '../../../types';
+import { Accept } from 'react-dropzone';
 
-const CreateDocumentForm = () => {
-  const [input, setInput] = useState({
-    title: '',
-    documentField: '',
-    documentType: '',
-    level: '',
-    signer: ''
-  });
+const fileAccpetType: Accept = {
+  'image/jpeg': ['.jpg', '.jpeg'],
+  'image/png': ['.png'],
+  'application/msword': ['.doc'],
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document': [
+    '.docx'
+  ],
+  'application/vnd.ms-excel': ['.xls'],
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': ['.xlsx']
+};
 
-  const fields = [
-    {
-      value: 'van_ban_hanh_chinh',
-      label: 'Văn bản hành chính'
-    },
-    {
-      value: 'field2',
-      label: 'Field 2'
-    },
-    {
-      value: 'field3',
-      label: 'Field 3'
-    }
-  ];
+const { documentFieldOptions, documentTypeOptionsMap, statusOptions } =
+  outgoingDocument;
 
-  const signers = [
-    {
-      value: 'van_ban_hanh_chinh',
-      label: 'Nguyễn Văn A'
-    },
-    {
-      value: 'field2',
-      label: 'Trần Văn C'
-    },
-    {
-      value: 'field3',
-      label: 'Lê Thị B'
-    }
-  ];
-
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-    const { title, documentField, documentType, level, signer } = input;
-    console.log(title, documentField, documentType, level, signer);
-    // handle form submission (e.g. API submission) here
-  };
-
-  const defaultStyle = {
+const useStyles = makeStyles((theme: any) => ({
+  root: {
+    flexGrow: 1,
+    marginTop: theme.spacing(4)
+  },
+  grid: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  box: {
+    maxWidth: '100%'
+  },
+  textfield: {
     minWidth: '200px'
+  },
+  buttonGroup: {
+    marginTop: theme.spacing(6),
+    width: '100%'
+  },
+  required: {
+    color: '#FF6347'
+  }
+}));
+
+type createDocumentFormProps = {
+  form: UseFormReturn<any>;
+};
+
+const CreateDocumentForm: React.FC<createDocumentFormProps> = ({ form }) => {
+  const classes = useStyles();
+  const [documentTypeOptions, setDocumentTypeOptions] = useState<SelectOption[]>(
+    []
+  );
+
+  const { getValues, handleSubmit } = form;
+
+  const submitHandler = () => {
+    //TODO: call api
+    console.log('values', getValues());
   };
+
+  const onChangeDocumentField = () => {
+    setDocumentTypeOptions(documentTypeOptionsMap[getValues().documentFieldId]);
+  };
+
+  useEffect(() => {
+    setDocumentTypeOptions(documentTypeOptionsMap[getValues().documentFieldId]);
+  }, []);
 
   return (
-    <Box
-      component="form"
-      onSubmit={handleSubmit}
-      sx={{
-        '& > :not(style)': { m: 1, width: '25ch' }
-      }}
-      style={{ marginLeft: '50px', paddingRight: '50px' }}
-      noValidate
-      autoComplete="off"
-    >
-      <Typography variant="h4" gutterBottom>
-        Đăng ký văn bản đi
-      </Typography>
-      <Divider style={{ width: '100%', marginBottom: '20px' }} />
-      <FormControl style={{ width: '100%' }}>
-        <Grid container spacing={2}>
-          <Grid item xs={6}>
-            <InputLabel id="title-label">Trích yếu</InputLabel>
-            <TextField
-              fullWidth
-              size="small"
-              id="title"
-              variant="outlined"
-              required
-              multiline
-              maxRows={4}
-              value={input.title}
-              onChange={(e) => setInput({ ...input, title: e.target.value })}
-            />
-          </Grid>
-          <Grid item xs={3}>
-            <InputLabel id="field-label">Lĩnh vực văn bản</InputLabel>
-            <TextField
-              size="small"
-              fullWidth
-              defaultValue=""
-              id="field"
-              select
-              sx={defaultStyle}
-            >
-              <MenuItem value="">
-                <em>Trống</em>
-              </MenuItem>
-              {fields.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </TextField>
-          </Grid>
-          <Grid item xs={3}>
-            <InputLabel id="field-label">Loại văn bản</InputLabel>
-            <TextField
-              size="small"
-              fullWidth
-              defaultValue=""
-              id="field"
-              select
-              sx={defaultStyle}
-            >
-              <MenuItem value="">
-                <em>Trống</em>
-              </MenuItem>
-              {fields.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </TextField>
-          </Grid>
-          <Grid item xs={6}>
-            <InputLabel id="field-label">Cấp độ</InputLabel>
-            <TextField
-              fullWidth
-              defaultValue=""
-              size="small"
-              id="field"
-              select
-              sx={defaultStyle}
-            >
-              <MenuItem value="">
-                <em>Trống</em>
-              </MenuItem>
-              {fields.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </TextField>
-          </Grid>
-
-          <Grid item xs={6}>
-            <InputLabel id="field-label">Lãnh đạo phê duyệt</InputLabel>
-            <Autocomplete
-              disablePortal
-              size="small"
-              style={{ width: '100%' }}
-              id="combo-box-demo"
-              options={signers}
-              sx={{ width: 300 }}
-              renderInput={(params) => <TextField {...params} label="" />}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <InputLabel id="field-label">File đính kèm</InputLabel>
-            <Dropzone />
+    <>
+      <div className={classes.root}>
+        <Grid container className={classes.grid}>
+          <Grid item xs={12} sm={8} md={6}>
+            <Box className={classes.box}>
+              <Typography variant="h4" gutterBottom>
+                Đăng ký văn bản đi
+              </Typography>
+              <Grid
+                container
+                spacing={2}
+                component="form"
+                id="create-document-form"
+                onSubmit={handleSubmit(submitHandler)}
+              >
+                <Grid item xs={12}>
+                  <Typography>
+                    Trích yếu
+                    <Box component="span" color="error.main">
+                      *
+                    </Box>
+                  </Typography>
+                  <InputField
+                    label=""
+                    className={classes.textfield}
+                    form={form}
+                    name="epitomize"
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <Typography>
+                    Lĩnh vực văn bản
+                    <Box component="span" color="error.main">
+                      *
+                    </Box>
+                    <SelectField
+                      data={documentFieldOptions}
+                      onChange={onChangeDocumentField}
+                      form={form}
+                      name="documentFieldId"
+                    />
+                  </Typography>
+                </Grid>
+                <Grid item xs={6}>
+                  <Typography>
+                    Loại văn bản
+                    <Box component="span" color="error.main">
+                      *
+                    </Box>
+                  </Typography>
+                  <SelectField
+                    data={documentTypeOptions}
+                    form={form}
+                    name="documentTypeId"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography>
+                    Trạng thái
+                    <Box component="span" color="error.main">
+                      *
+                    </Box>
+                  </Typography>
+                  <SelectField
+                    data={statusOptions}
+                    form={form}
+                    name="status"
+                    sx={{ maxWidth: '100%' }}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography>
+                    Ghi chú
+                    <Box component="span" color="error.main">
+                      *
+                    </Box>
+                  </Typography>
+                  <MultilineTextField form={form} name="note" minRows={4} />
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography>File đính kèm</Typography>
+                  <WrappedDragDropFileBox
+                    fileAccpetType={fileAccpetType}
+                    form={form}
+                    name="files"
+                  />
+                </Grid>
+                <Grid className={classes.buttonGroup} container spacing={2}>
+                  <Grid item xs={12}>
+                    <Button variant="contained" color="primary" type="submit">
+                      Ký số
+                    </Button>
+                    <Button
+                      style={{ marginLeft: '10px' }}
+                      variant="contained"
+                      color="primary"
+                      type="submit"
+                    >
+                      Chuyển cán bộ khác
+                    </Button>
+                    <Button
+                      style={{ marginLeft: '10px' }}
+                      variant="contained"
+                      color="primary"
+                      type="submit"
+                    >
+                      Chuyển lãnh đạo phê duyệt
+                    </Button>
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Box>
           </Grid>
         </Grid>
-      </FormControl>
-      <Grid style={{ width: '100%' }} container spacing={2}>
-        <Grid item xs={6}>
-          <Button variant="contained" color="primary" type="submit">
-            Ký số
-          </Button>
-          <Button
-            style={{ marginLeft: '10px' }}
-            variant="contained"
-            color="primary"
-            type="submit"
-          >
-            Chuyển cán bộ khác
-          </Button>
-          <Button
-            style={{ marginLeft: '10px' }}
-            variant="contained"
-            color="primary"
-            type="submit"
-          >
-            Chuyển lãnh đạo phê duyệt
-          </Button>
-        </Grid>
-      </Grid>
-    </Box>
+      </div>
+    </>
   );
 };
 

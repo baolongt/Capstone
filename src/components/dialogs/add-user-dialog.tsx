@@ -3,78 +3,26 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Box, Stack, Typography } from '@mui/material';
-import CustomButton from '../common/button';
-import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { InputField } from '../common/form-control/input-field';
-import { SelectField } from '../common/form-control/select-field';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { createUser } from '../../api/admin';
-import { CreateUserPayload } from '../../models/user';
 import { toast } from 'react-toastify';
 import { ToastMessage } from '../toast';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { addUserSchema } from './validations';
 
-interface AddUserDialogProps {
+import { role } from '../../models';
+import { useCreateUser, useUpdateUser } from '../../apis';
+import { InputField,SelectField, CustomButton } from '../common';
+import {  user } from '../../models';
+
+type AddUserDialogProps  = {
+  mode: 'update' | 'create';
+  userProfile?: user.UpdatePayload;
   isOpen: boolean;
   onClose: () => void;
   onConfirm?: () => void;
 }
-
-const roleOptions = [
-  {
-    title: 'Quản trị viên',
-    value: 2
-  },
-  {
-    title: 'Công chức',
-    value: 1
-  }
-];
-const jobPositionOptions = [
-  {
-    title: 'Cán bộ',
-    value: 1
-  },
-  {
-    title: 'Phó trưởng phòng',
-    value: 2
-  },
-  {
-    title: 'Trưởng phòng',
-    value: 3
-  },
-  {
-    title: 'Phó vụ trưởng',
-    value: 4
-  },
-  {
-    title: 'Phó tổng cục trưởng',
-    value: 5
-  },
-  {
-    title: 'Tổng cục trưởng',
-    value: 6
-  },
-  {
-    title: 'Lãnh đạo cấp cao',
-    value: 7
-  }
-];
-
-export default function AddUserDialog(props: AddUserDialogProps) {
-  // eslint-disable-next-line no-unused-vars
-  const { isOpen, onClose, onConfirm } = props;
-  const queryClient = useQueryClient();
-  const schema = yup.object({
-    name: yup.string().required(`Tên người dùng là bắt buộc`),
-    password: yup.string().required(`Mật khẩu là bắt buộc`),
-    email: yup.string().required(`Email là bắt buộc`),
-    citizenIdentification: yup.string().required(`CCCD/CMND là bắt buộc`),
-    roleID: yup.string().required(`Vai trò là bắt buộc`),
-    jobPositionID: yup.string().required(`Chức vụ là bắt buộc`)
-  });
+export const AddUserDialog: React.FC<AddUserDialogProps> = ({ isOpen, onClose, mode, userProfile}) =>{
 
   const form = useForm({
     defaultValues: {
@@ -83,39 +31,62 @@ export default function AddUserDialog(props: AddUserDialogProps) {
       email: '',
       citizenIdentification: '',
       roleID: 1,
-      jobPositionID: 0
+      jobPositionID: 1
     },
-    resolver: yupResolver(schema)
+    resolver: yupResolver(addUserSchema)
   });
-  const {
-    handleSubmit
-    // formState: { isValid, isSubmitted }
-  } = form;
 
-  const createUserMutation = useMutation({
-    mutationFn: (body: CreateUserPayload) => createUser(body),
+  const { handleSubmit, getValues, reset } = form;
+
+  // Create Part
+  const {mutate: createUserMutate } = useCreateUser({
     onSuccess: () => {
       toast.success(<ToastMessage message={'Thêm người dùng thành công'} />);
-      queryClient.invalidateQueries({ queryKey: ['getAllUsers'] });
     },
     onError: () => {
       toast.error(<ToastMessage message={'Thêm người dùng thất bại'} />);
     }
   });
 
+  // Update part
+  const {mutate : updateUserMutate } = useUpdateUser({
+    onSuccess: () => {
+      toast.success(
+        <ToastMessage message={'Cập nhật người dùng thành công'} />
+        );
+    },
+    onError: () => {
+      toast.error(<ToastMessage message={'Cập nhật người dùng thất bại'} />);
+    }
+  });
+
+  const handleClose = () => {
+    onClose();
+    form.reset();
+  };
+
   const onSubmit = () => {
     const body: any = {
-      name: form.getValues().name,
-      password: form.getValues().password,
-      email: form.getValues().email,
-      citizenIdentification: form.getValues().citizenIdentification,
-      roleID: form.getValues().roleID,
-      jobPositionID: form.getValues().jobPositionID
+      ...getValues()
     };
-    createUserMutation.mutate(body);
-    form.reset();
-    onClose();
+    if (mode === 'create') {
+      createUserMutate(body);
+    } else {
+      updateUserMutate({id: userProfile?.id!, payload: body})
+    }
+    handleClose();
   };
+
+  useEffect(() => {
+    reset({
+      name: userProfile?.name ?? '',
+      password: userProfile?.password ?? '',
+      email: userProfile?.email ?? '',
+      citizenIdentification: userProfile?.citizenIdentification ?? '',
+      roleID: userProfile?.roleID ?? 1,
+      jobPositionID: userProfile?.jobPositionID ?? 1
+    })
+  }, [userProfile]);
 
   return (
     <Dialog
@@ -127,7 +98,9 @@ export default function AddUserDialog(props: AddUserDialogProps) {
         }
       }}
     >
-      <DialogTitle fontWeight={600}>Thêm người dùng mới</DialogTitle>
+      <DialogTitle fontWeight={600}>
+        {mode === 'create' ? 'Thêm người dùng mới' : 'Cập nhật thông tin'}
+      </DialogTitle>
 
       <DialogContent>
         <Stack
@@ -207,7 +180,7 @@ export default function AddUserDialog(props: AddUserDialogProps) {
                 form={form}
                 name="roleID"
                 placeholder="Chọn vai trò"
-                data={roleOptions}
+                data={role.roleOptions}
               />
             </Box>
 
@@ -222,7 +195,7 @@ export default function AddUserDialog(props: AddUserDialogProps) {
                 form={form}
                 name="jobPositionID"
                 placeholder="Chọn chức vụ"
-                data={jobPositionOptions}
+                data={role.jobPositionOptions}
               />
             </Box>
           </Stack>
@@ -235,3 +208,5 @@ export default function AddUserDialog(props: AddUserDialogProps) {
     </Dialog>
   );
 }
+
+export default AddUserDialog;

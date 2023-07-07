@@ -1,12 +1,17 @@
 import { TableCell, TableHead, TableRow } from "@mui/material";
-import { Column, columns } from "../../models/user";
 import React from "react";
+import { user } from "../../../models";
+import { Column } from "../../../types";
 
-const CustomTableHead = () => {
+interface UserTableHeadProps {
+  columns: Column<user.User>[];
+}
+
+const UserTableHead : React.FC<UserTableHeadProps> = ({columns}) => {
   return (
     <TableHead>
       <TableRow>
-        {columns.map((column: Column, index: number) => (
+        {columns.map((column: Column<user.User>, index: number) => (
           <TableCell
             sx={{ minWidth: column.minWidth, pl: "16px !important", height: '50px' }}
             key={index}
@@ -21,4 +26,4 @@ const CustomTableHead = () => {
   );
 };
 
-export default CustomTableHead;
+export default UserTableHead;
