@@ -6,12 +6,10 @@ import {
   Menu,
   MenuItem,
   Stack,
-  Toolbar,
-  Badge
+  Toolbar
 } from '@mui/material';
 import React from 'react';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import { Logout, Settings } from '@mui/icons-material';
+import { Logout } from '@mui/icons-material';
 import { HEADER_HEIGHT } from '../../../constants/common';
 const Header = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -24,7 +22,7 @@ const Header = () => {
   };
 
   return (
-    <Box sx={{ width: '100%', height: HEADER_HEIGHT, bgcolor: '#0f376b' }}>
+    <Box sx={{ width: '100%', height: HEADER_HEIGHT, bgcolor: '#2196f3' }}>
       <Stack
         direction={'row'}
         sx={{
@@ -48,16 +46,6 @@ const Header = () => {
         </Toolbar>
 
         <Stack direction={'row'} spacing={3}>
-          <Badge
-            badgeContent={25}
-            color="error"
-            sx={{ '& .MuiBadge-badge': { top: '6px', right: '4px' } }}
-          >
-            <NotificationsIcon
-              fontSize="large"
-              sx={{ color: '#fff', cursor: 'pointer' }}
-            />
-          </Badge>
           <Avatar
             onClick={handleClick}
             sx={{ width: '32px', height: '32px', cursor: 'pointer' }}
@@ -103,12 +91,12 @@ const Header = () => {
           <Avatar /> Profile
         </MenuItem>
         <Divider />
-        <MenuItem onClick={handleClose}>
+        {/* <MenuItem onClick={handleClose}>
           <ListItemIcon>
             <Settings fontSize="small" />
           </ListItemIcon>
           Settings
-        </MenuItem>
+        </MenuItem> */}
         <MenuItem onClick={handleClose}>
           <ListItemIcon>
             <Logout fontSize="small" />
