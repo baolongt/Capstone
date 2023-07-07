@@ -4,16 +4,16 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { HashRouter } from 'react-router-dom';
-import { ThemeProvider } from '@mui/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import theme from './components/theme/theme';
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       refetchOnWindowFocus: false,
-      retry: 0,
-    },
-  },
+      retry: 0
+    }
+  }
 });
 
 interface Props {}
@@ -21,13 +21,13 @@ interface Props {}
 // eslint-disable-next-line no-unused-vars
 const Root: React.FC<Props> = (props) => {
   return (
-    <QueryClientProvider client={queryClient}>
-      <HashRouter>
-        <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
+      <QueryClientProvider client={queryClient}>
+        <HashRouter>
           <App />
-        </ThemeProvider>
-      </HashRouter>
-    </QueryClientProvider>
+        </HashRouter>
+      </QueryClientProvider>
+    </ThemeProvider>
   );
 };
 
