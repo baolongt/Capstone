@@ -1,7 +1,7 @@
-export { InputField, InputFieldProps } from './input-field';
+export { WrappedDragDropFileBox } from './drag-and-drop-box';
+export { InputField, type InputFieldProps } from './input-field';
 export {
   MultilineTextField,
-  MultilineTextFieldProps
+  type MultilineTextFieldProps
 } from './multiline-text-field';
-export { SelectField, SelectFieldProps } from './select-field';
-export { WrappedDragDropFileBox } from './drag-and-drop-box';
+export { SelectField, type SelectFieldProps } from './select-field';

@@ -1,19 +1,20 @@
-import React from 'react';
+// import { styled } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Skeleton from '@mui/material/Skeleton';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
-// import { styled } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import { HEADER_HEIGHT } from '../../../constants/common';
-import TableHeader from './TableHeader';
 import { useQuery } from '@tanstack/react-query';
+import React from 'react';
+
 import { getAllOutgoingDocuments } from '../../../apis/outgoingDocument';
+import { HEADER_HEIGHT } from '../../../constants/common';
 import { outgoingDocument } from '../../../models';
-import Button from '@mui/material/Button';
-import Skeleton from '@mui/material/Skeleton';
 import { Column } from '../../../types';
+import TableHeader from './TableHeader';
 
 const OutGoingDocumentTable = () => {
   const { data, isLoading } = useQuery({
@@ -43,20 +44,24 @@ const OutGoingDocumentTable = () => {
           >
             <TableHeader />
             <TableBody>
-              {data.map((document: Record<string, unknown>, index: number) => (
-                <TableRow key={index}>
-                  {outgoingDocument.columns.map(
-                    (column: Column<outgoingDocument.OutgoingDocument>, index: number) => (
-                      <TableCell key={index}>
-                        {document[`${column.value}`]}
-                      </TableCell>
-                    )
-                  )}
-                  <TableCell>
-                    <Button variant="text">Xem</Button>
-                  </TableCell>
-                </TableRow>
-              ))}
+              {data &&
+                data.map((document: Record<string, unknown>, index: number) => (
+                  <TableRow key={index}>
+                    {outgoingDocument.columns.map(
+                      (
+                        column: Column<outgoingDocument.OutgoingDocument>,
+                        index: number
+                      ) => (
+                        <TableCell key={index}>
+                          {document[`${column.value}`]}
+                        </TableCell>
+                      )
+                    )}
+                    <TableCell>
+                      <Button variant="text">Xem</Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
             </TableBody>
           </Table>
         </TableContainer>

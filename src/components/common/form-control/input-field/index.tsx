@@ -31,6 +31,7 @@ export function InputField(props: InputFieldProps) {
         render={({ field, fieldState }) => (
           <TextField
             {...field}
+            fullWidth
             label={label ?? ''}
             placeholder={placeholder}
             disabled={disabled}
@@ -41,7 +42,6 @@ export function InputField(props: InputFieldProps) {
                 margin: 0
               }
             }}
-            fullWidth
             size="small"
             sx={{ '& input': { py: 1.25 }, ...sx }}
             {...resProps}

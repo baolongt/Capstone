@@ -7,8 +7,11 @@ export interface ToastMessageComponentProps extends Partial<ToastContentProps> {
   message: React.ReactNode;
 }
 
-export function ToastMessage({ message, title, ...rest }: ToastMessageComponentProps) {
-
+export function ToastMessage({
+  message,
+  title,
+  ...rest
+}: ToastMessageComponentProps) {
   const toastTitle = useMemo(() => {
     switch (rest?.toastProps?.type) {
       case 'success':

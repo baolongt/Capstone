@@ -1,20 +1,21 @@
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Box, Stack, Typography } from '@mui/material';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import { Box, Stack, Typography } from '@mui/material';
-import {CustomButton} from '../common';
+import { useQueryClient } from '@tanstack/react-query';
+import React from 'react';
 import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
+import { toast } from 'react-toastify';
+
+import { useCreateDepartment } from '../../apis/department';
+import { SelectOption } from '../../types';
+import { CustomButton } from '../common';
 import { InputField } from '../common/form-control/input-field';
 import { SelectField } from '../common/form-control/select-field';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { toast } from 'react-toastify';
 import { ToastMessage } from '../toast';
-import React from 'react';
-import { SelectOption } from '../../types';
 import { addDepartmentSchema } from './validations';
-import { useCreateDepartment } from '../../apis/department';
 
 interface AddDepartmentDialogProps {
   isOpen: boolean;
@@ -22,20 +23,22 @@ interface AddDepartmentDialogProps {
   usersData: SelectOption[];
 }
 
-const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({isOpen, onClose, usersData}) => {
-  const queryClient = useQueryClient();
-
+const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({
+  isOpen,
+  onClose,
+  usersData
+}) => {
   const form = useForm({
     defaultValues: {
       name: '',
-      departmentLeaderID: null,
+      departmentLeaderID: null
     },
     resolver: yupResolver(addDepartmentSchema)
   });
-  
+
   const { handleSubmit } = form;
 
-  const {mutate: createDepartmentMutation} = useCreateDepartment({
+  const { mutate: createDepartmentMutation } = useCreateDepartment({
     onSuccess: () => {
       toast.success(<ToastMessage message={'Thêm phòng ban thành công'} />);
       handleClose();
@@ -43,32 +46,35 @@ const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({isOpen, onClos
     onError: () => {
       toast.error(<ToastMessage message={'Thêm người dùng thất bại'} />);
     }
-  })
+  });
 
-  const handleClose = () =>{
+  const handleClose = () => {
     onClose();
     form.reset();
-  }
+  };
 
   const onSubmit = () => {
-    const body: any = {
+    const body: {
+      name: string;
+      departmentLeaderID: number;
+    } = {
       name: form.getValues().name,
       departmentLeaderID: form.getValues().departmentLeaderID
     };
 
     createDepartmentMutation(body);
-    handleClose()
+    handleClose();
   };
 
   return (
     <Dialog
       open={isOpen}
-      onClose={onClose}
       sx={{
         '& .MuiDialog-paper': {
           minWidth: { lg: '600px', md: '600px', xs: '75vw' }
         }
       }}
+      onClose={onClose}
     >
       <DialogTitle fontWeight={600}>Thêm phòng ban</DialogTitle>
 
@@ -95,8 +101,6 @@ const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({isOpen, onClos
           </Box>
 
           <Stack direction={'row'} gap={3}>
-     
-
             <Box mt={2}>
               <Typography>
                 Chọn trưởng phòng
@@ -115,11 +119,11 @@ const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({isOpen, onClos
         </Stack>
       </DialogContent>
       <DialogActions sx={{ p: '0 24px 24px 0' }}>
-        <CustomButton label="Hủy bỏ" onClick={onClose} variant="outlined" />
+        <CustomButton label="Hủy bỏ" variant="outlined" onClick={onClose} />
         <CustomButton label="Thêm" type="submit" form="add-deartment-form" />
       </DialogActions>
     </Dialog>
   );
-}
+};
 
 export default AddDepartmentDialog;

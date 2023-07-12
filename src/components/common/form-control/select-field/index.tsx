@@ -10,6 +10,9 @@ import {
 import { makeStyles } from '@mui/styles';
 import React from 'react';
 import { Controller, FieldValues } from 'react-hook-form';
+
+import { SelectOption } from '@/types';
+
 const useStyles = makeStyles(() => ({
   menuPaper: {
     maxHeight: 160
@@ -17,7 +20,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 export interface SelectFieldProps extends SelectProps {
-  data: Array<any>;
+  data: Array<SelectOption>;
   name: string;
   label?: string;
   form: FieldValues;

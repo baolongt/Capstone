@@ -1,14 +1,15 @@
 import 'react-toastify/dist/ReactToastify.css';
-import Dashboard from './pages/dashboard';
+
 import { Route, Routes } from 'react-router-dom';
-import UserManagement from './pages/user-management';
-import Setting from './pages/setting';
 import { ToastContainer } from 'react-toastify';
-import React from 'react';
+
 import DashboardLayout from './components/layouts/Layout';
+import Dashboard from './pages/dashboard';
+import DepartmentManagement from './pages/department-management';
 import OutgoingDocumentManagement from './pages/outgoing-document-management';
 import CreateOutgoingDocumentPage from './pages/outgoing-document-management/create';
-import DepartmentManagement from './pages/department-management';
+import Setting from './pages/setting';
+import UserManagement from './pages/user-management';
 
 const App = () => {
   return (
@@ -24,15 +25,15 @@ const App = () => {
         </Route>
       </Routes>
       <ToastContainer
+        closeOnClick
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
         position="bottom-left"
         autoClose={3000}
         hideProgressBar={true}
         newestOnTop={true}
-        closeOnClick
         rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
         theme="colored"
         style={{
           marginBottom: '24px',

@@ -1,5 +1,7 @@
-import { Box, Pagination, Select, MenuItem, TextField } from '@mui/material';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Box, MenuItem, Pagination, Select, TextField } from '@mui/material';
 import React from 'react';
+
 interface PaginationProps {
   page: number;
   rowsPerPage: number;
@@ -9,11 +11,11 @@ interface PaginationProps {
   totalPages: number;
   selected: readonly string[];
   option: number[];
-  // eslint-disable-next-line no-unused-vars
+
   handleChangePage: (event: any, value: number) => void;
-  // eslint-disable-next-line no-unused-vars
+
   handleChangeRowsPerPage: (event: any) => void;
-  // eslint-disable-next-line no-unused-vars
+
   handleChangeGoToPage: (event: any) => void;
 }
 
@@ -49,8 +51,9 @@ const UserTablePagination: React.FC<PaginationProps> = (props) => {
           </Box>
         </Box>
         <Pagination
+          showFirstButton
+          showLastButton
           page={props.page}
-          onChange={(event, value) => props.handleChangePage(event, value)}
           sx={{
             '& .MuiPaginationItem-root': {
               fontSize: '14px'
@@ -59,12 +62,10 @@ const UserTablePagination: React.FC<PaginationProps> = (props) => {
           size="medium"
           count={props.totalPages}
           shape="rounded"
-          showFirstButton
-          showLastButton
+          onChange={(event, value) => props.handleChangePage(event, value)}
         />
         <Select
           value={props.rowsPerPage}
-          onChange={(event) => props.handleChangeRowsPerPage(event)}
           MenuProps={{
             anchorOrigin: {
               vertical: 'top',
@@ -76,6 +77,7 @@ const UserTablePagination: React.FC<PaginationProps> = (props) => {
             }
           }}
           sx={{ width: '120px', height: '30px', fontSize: '14px' }}
+          onChange={(event) => props.handleChangeRowsPerPage(event)}
         >
           {props.option.map((item: number, index: number) => (
             <MenuItem key={index} value={item}>
@@ -90,7 +92,6 @@ const UserTablePagination: React.FC<PaginationProps> = (props) => {
           <TextField
             size="small"
             id="outlined-number"
-            onChange={(event) => props.handleChangeGoToPage(event)}
             inputProps={{
               style: {
                 height: '10px',
@@ -98,6 +99,7 @@ const UserTablePagination: React.FC<PaginationProps> = (props) => {
                 padding: '8.5px 6px'
               }
             }}
+            onChange={(event) => props.handleChangeGoToPage(event)}
           />
         </Box>
       </Box>

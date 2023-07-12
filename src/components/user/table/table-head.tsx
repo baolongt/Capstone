@@ -1,21 +1,26 @@
-import { TableCell, TableHead, TableRow } from "@mui/material";
-import React from "react";
-import { user } from "../../../models";
-import { Column } from "../../../types";
+import { TableCell, TableHead, TableRow } from '@mui/material';
+import React from 'react';
+
+import { user } from '../../../models';
+import { Column } from '../../../types';
 
 interface UserTableHeadProps {
   columns: Column<user.User>[];
 }
 
-const UserTableHead : React.FC<UserTableHeadProps> = ({columns}) => {
+const UserTableHead: React.FC<UserTableHeadProps> = ({ columns }) => {
   return (
     <TableHead>
       <TableRow>
         {columns.map((column: Column<user.User>, index: number) => (
           <TableCell
-            sx={{ minWidth: column.minWidth, pl: "16px !important", height: '50px' }}
             key={index}
-            align={"left"}
+            sx={{
+              minWidth: column.minWidth,
+              pl: '16px !important',
+              height: '50px'
+            }}
+            align={'left'}
             padding="checkbox"
           >
             {column.heading}

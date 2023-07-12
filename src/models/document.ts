@@ -63,7 +63,7 @@ export class Document {
     this.status = status;
   }
 
-  getprop(propName: keyof Document): any {
+  getprop(propName: keyof Document) {
     return this[propName];
   }
 

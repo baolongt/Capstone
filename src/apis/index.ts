@@ -1,13 +1,13 @@
 export {
-  useListUsers,
   useCreateUser,
-  useGetUserById,
-  useUpdateUser,
+  type useCreateUserParams,
   useDeleteUser,
-  useCreateUserParams,
-  useUpdateUserParams,
-  useDeleteUserParams
+  type useDeleteUserParams,
+  useGetUserById,
+  useListUsers,
+  useUpdateUser,
+  type useUpdateUserParams
 } from './admin';
-export * as outgoingDocument from './outgoingDocument';
 export * as department from './department';
 export * as document from './document';
+export * as outgoingDocument from './outgoingDocument';

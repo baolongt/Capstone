@@ -1,3 +1,5 @@
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import {
   Box,
   IconButton,
@@ -8,28 +10,27 @@ import {
   TableContainer,
   TableRow
 } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import UserTableHead from './table-head';
-import { user } from '../../../models';
-import { useDeleteUser } from '../../../apis';
+import TableFooter from '@mui/material/TableFooter';
+import _ from 'lodash';
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
+
+import { useDeleteUser } from '../../../apis';
+import { user } from '../../../models';
+import { Column, Nullable } from '../../../types';
 import AddUserDialog from '../../dialogs/add-user-dialog';
 import ConfirmDialog from '../../dialogs/confirm-dialog';
 import { ToastMessage } from '../../toast';
-import { toast } from 'react-toastify';
+import UserTableHead from './table-head';
 import TablePagination from './table-pagination';
-import { debounce } from 'lodash';
-import { Column, Nullable } from '../../../types';
-import TableFooter from '@mui/material/TableFooter';
 
 interface UserTableProps {
   data: user.User[];
   columns: Column<user.User>[];
   dataPagination: any;
-  // eslint-disable-next-line no-unused-vars
+
   onChangePage: (newPage: number) => void;
-  // eslint-disable-next-line no-unused-vars
+
   onChangeSize: (newSize: number) => void;
   isLoading?: boolean;
   height: string;
@@ -62,7 +63,7 @@ export const UserTable: React.FC<UserTableProps> = ({
     }
   });
 
-  const debounceGotoPage = debounce((value) => {
+  const debounceGotoPage = _.debounce((value) => {
     if (/^-?\d+$/.test(value) && value) {
       if (
         parseInt(value) <= dataPagination.totalPages &&
@@ -79,7 +80,11 @@ export const UserTable: React.FC<UserTableProps> = ({
     setIsDeleteDialogOpen(true);
   };
 
-  const handleDeleteUser = () => deleteUserMutate((currentUser as any)?.id);
+  const handleDeleteUser = () => {
+    if (currentUser?.id) {
+      deleteUserMutate(currentUser);
+    }
+  };
 
   const handleUpateUser = (user: user.User) => {
     setCurentUser(user);
@@ -106,7 +111,7 @@ export const UserTable: React.FC<UserTableProps> = ({
                 <TableRow key={index} hover>
                   {columns.map((column: Column<user.User>, index: number) => {
                     return column.isAction ? (
-                      <TableCell sx={{ minWidth: column.minWidth }} key={index}>
+                      <TableCell key={index} sx={{ minWidth: column.minWidth }}>
                         {user.getprop(column.value)}
                       </TableCell>
                     ) : (

@@ -1,6 +1,7 @@
 import { TableCell, TableHead, TableRow } from '@mui/material';
-import { outgoingDocument } from '../../../models';
 import React from 'react';
+
+import { outgoingDocument } from '../../../models';
 import { Column } from '../../../types';
 
 const TableHeader = () => {
@@ -8,14 +9,17 @@ const TableHeader = () => {
     <TableHead>
       <TableRow>
         {outgoingDocument.columns.map(
-          (column: Column<outgoingDocument.OutgoingDocument>, index: number) => (
+          (
+            column: Column<outgoingDocument.OutgoingDocument>,
+            index: number
+          ) => (
             <TableCell
+              key={index}
               sx={{
                 minWidth: column.minWidth,
                 pl: '16px !important',
                 height: '50px'
               }}
-              key={index}
               align={'left'}
               padding="checkbox"
             >

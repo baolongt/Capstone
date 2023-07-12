@@ -1,7 +1,7 @@
 import { ButtonBaseProps, SxProps } from '@mui/material';
-import React, { ReactNode } from 'react';
 import Button, { ButtonPropsColorOverrides } from '@mui/material/Button';
 import { OverridableStringUnion } from '@mui/types';
+import React, { ReactNode } from 'react';
 
 interface CustomButtonProps extends ButtonBaseProps {
   size?: 'small' | 'medium' | 'large';
@@ -44,7 +44,6 @@ export const CustomButton = (props: CustomButtonProps) => {
       color={color}
       size={size}
       startIcon={icon}
-      onClick={onClick}
       sx={{
         background: background,
         px: '12px',
@@ -54,6 +53,7 @@ export const CustomButton = (props: CustomButtonProps) => {
         fontWeight: 500,
         ...sx
       }}
+      onClick={onClick}
     >
       {label}
     </Button>

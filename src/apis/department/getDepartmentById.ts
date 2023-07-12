@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
-import { axiosInstance } from '../../utils';
+
 import { api } from '../../constants';
+import { axiosInstance } from '../../utils';
 
 export const getDepartmentById = async (id: number) => {
   const url = `/api/departments/${id}`;

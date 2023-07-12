@@ -1,3 +1,4 @@
+import HelpOutlinedIcon from '@mui/icons-material/HelpOutlined';
 import {
   Box,
   Dialog,
@@ -6,10 +7,9 @@ import {
   Stack,
   Typography
 } from '@mui/material';
-import { ReactElement } from 'react';
-import HelpOutlinedIcon from '@mui/icons-material/HelpOutlined';
-import React from 'react';
-import {CustomButton} from '../common';
+import React, { ReactElement } from 'react';
+
+import { CustomButton } from '../common';
 
 interface ConfirmDialogProps {
   isOpen: boolean;
@@ -18,17 +18,21 @@ interface ConfirmDialogProps {
   onClose: () => void;
 }
 
-const ConfirmDialog: React.FC<ConfirmDialogProps> = ({ isOpen, onClose, onConfirm, message }) => {
-
+const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
+  isOpen,
+  onClose,
+  onConfirm,
+  message
+}) => {
   return (
     <Dialog
       open={isOpen}
-      onClose={onClose}
       sx={{
         '& .MuiDialog-paper': {
           minWidth: { lg: '500px', md: '500px', xs: '75vw' }
         }
       }}
+      onClose={onClose}
     >
       <DialogContent>
         <Stack direction={'row'} alignItems={'center'} gap={3}>
@@ -45,7 +49,7 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({ isOpen, onClose, onConfir
       </DialogContent>
 
       <DialogActions sx={{ p: '0 24px 24px 0' }}>
-        <CustomButton label="Hủy bỏ" onClick={onClose} variant="outlined" />
+        <CustomButton label="Hủy bỏ" variant="outlined" onClick={onClose} />
         <CustomButton label="Đồng ý" onClick={onConfirm} />
       </DialogActions>
     </Dialog>

@@ -1,7 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+
 import { api } from '../../../constants';
 import { user } from '../../../models';
 import { axiosInstance } from '../../../utils';
+
 export const updateUser = async ({
   id,
   payload

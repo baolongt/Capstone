@@ -1,10 +1,10 @@
 export {
-  useListUsers,
   useCreateUser,
-  useGetUserById,
-  useUpdateUser,
+  type useCreateUserParams,
   useDeleteUser,
-  useCreateUserParams,
-  useUpdateUserParams,
-  useDeleteUserParams
+  type useDeleteUserParams,
+  useGetUserById,
+  useListUsers,
+  useUpdateUser,
+  type useUpdateUserParams
 } from './user';

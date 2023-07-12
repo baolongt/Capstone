@@ -35,11 +35,11 @@ const DynamicBreadcrums: FC = (): ReactElement => {
           const to = `/${pathnames.slice(0, index + 1).join('/')}`;
 
           return last ? (
-            <Typography color="text.primary" key={to}>
+            <Typography key={to} color="text.primary">
               {value}
             </Typography>
           ) : (
-            <LinkRouter underline="hover" color="inherit" to={to} key={to}>
+            <LinkRouter key={to} underline="hover" color="inherit" to={to}>
               {value}
             </LinkRouter>
           );

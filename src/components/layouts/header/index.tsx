@@ -1,3 +1,4 @@
+import { Logout } from '@mui/icons-material';
 import {
   Avatar,
   Box,
@@ -9,8 +10,9 @@ import {
   Toolbar
 } from '@mui/material';
 import React from 'react';
-import { Logout } from '@mui/icons-material';
+
 import { HEADER_HEIGHT } from '../../../constants/common';
+
 const Header = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -47,8 +49,8 @@ const Header = () => {
 
         <Stack direction={'row'} spacing={3}>
           <Avatar
-            onClick={handleClick}
             sx={{ width: '32px', height: '32px', cursor: 'pointer' }}
+            onClick={handleClick}
           />
         </Stack>
       </Stack>
@@ -56,8 +58,6 @@ const Header = () => {
         anchorEl={anchorEl}
         id="account-menu"
         open={open}
-        onClose={handleClose}
-        onClick={handleClose}
         PaperProps={{
           elevation: 0,
           sx: {
@@ -86,6 +86,8 @@ const Header = () => {
         }}
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+        onClose={handleClose}
+        onClick={handleClose}
       >
         <MenuItem onClick={handleClose}>
           <Avatar /> Profile

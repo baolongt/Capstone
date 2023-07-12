@@ -1,4 +1,5 @@
 import axios from 'axios';
+
 import { API_URL } from '../constants/common';
 
 export const axiosInstance = axios.create({
@@ -27,4 +28,3 @@ axiosInstance.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-
