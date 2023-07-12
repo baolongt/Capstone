@@ -86,7 +86,7 @@ export type DragAndDropBoxProps = {
   helperText: string;
   value: File[];
 
-  onChange: (...event) => void;
+  onChange: (event: any) => void;
 };
 
 type ThumbProps = {

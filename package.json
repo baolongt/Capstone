@@ -29,7 +29,7 @@
       "prettier --write"
     ],
     "*.ts?(x)": [
-      "eslint",
+      "eslint --fix",
       "prettier --write"
     ],
     "package.json": "npx sort-package-json"

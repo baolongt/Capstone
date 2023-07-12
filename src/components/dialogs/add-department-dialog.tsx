@@ -4,7 +4,6 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import { useQueryClient } from '@tanstack/react-query';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
@@ -55,14 +54,20 @@ const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({
 
   const onSubmit = () => {
     const body: {
-      name: string;
-      departmentLeaderID: number;
+      name: string | null;
+      departmentLeaderID: number | null;
     } = {
       name: form.getValues().name,
       departmentLeaderID: form.getValues().departmentLeaderID
     };
 
-    createDepartmentMutation(body);
+    if (body.name && body.departmentLeaderID) {
+      createDepartmentMutation({
+        name: body.name,
+        departmentLeaderID: body.departmentLeaderID
+      });
+    }
+
     handleClose();
   };
 
@@ -112,7 +117,7 @@ const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({
                 form={form}
                 name="departmentLeaderID"
                 placeholder="Chọn trưởng phòng"
-                data={[usersData]}
+                data={usersData}
               />
             </Box>
           </Stack>

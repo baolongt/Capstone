@@ -70,7 +70,7 @@ export const UserTable: React.FC<UserTableProps> = ({
         parseInt(value) > 0 &&
         parseInt(value) !== dataPagination.currentPage
       ) {
-        onChangePage(value);
+        onChangePage?.(value);
       }
     }
   }, 1000);
@@ -144,10 +144,10 @@ export const UserTable: React.FC<UserTableProps> = ({
               selected={[]}
               option={[10, 15, 20, 25]}
               handleChangePage={(_, value) => {
-                onChangePage(value);
+                onChangePage?.(value);
               }}
               handleChangeRowsPerPage={(e) => {
-                onChangeSize(e.target.value);
+                onChangeSize?.(e.target.value);
               }}
               handleChangeGoToPage={(e) => {
                 debounceGotoPage(e.target.value);
