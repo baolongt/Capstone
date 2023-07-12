@@ -1,23 +1,24 @@
-import React from 'react';
-import {
-  Root,
-  Header,
-  EdgeSidebar,
-  EdgeTrigger,
-  Content,
-  Footer,
-  SidebarContent,
-  getCozyScheme
-} from '@mui-treasury/layout';
+import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
+import Menu from '@mui/icons-material/Menu';
 import { ButtonBase, CssBaseline } from '@mui/material';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
-import Menu from '@mui/icons-material/Menu';
-import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
-import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-import SidebarItems from './sidebar';
+import {
+  Content,
+  EdgeSidebar,
+  EdgeTrigger,
+  Footer,
+  getCozyScheme,
+  Header,
+  Root,
+  SidebarContent
+} from '@mui-treasury/layout';
+import React from 'react';
+
 import DefaultFooter from './footer';
 import DefaultHeader from './header';
+import SidebarItems from './sidebar';
 // import DynamicBreadcrums from './DynamicBreadcrums';
 
 type DashboardLayoutProps = {
@@ -37,7 +38,6 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   const sideBarEdgeTrigger: any = {
     children: (collapsed: any, setCollapsed: any) => (
       <ButtonBase
-        onClick={() => setCollapsed(!collapsed)}
         sx={{
           minHeight: 40,
           width: '100%',
@@ -45,6 +45,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
           borderTop: '1px solid',
           borderColor: 'grey.200'
         }}
+        onClick={() => setCollapsed(!collapsed)}
       >
         {collapsed ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
       </ButtonBase>

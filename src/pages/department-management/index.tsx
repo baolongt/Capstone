@@ -1,20 +1,15 @@
-
-
 // TODO: refactor this page like user page and remove line 4 :D
-/* eslint-disable no-unused-vars */
 
-
-import React, { useState } from 'react';
-import { Box } from '@mui/material';
-import { useQuery } from '@tanstack/react-query';
 import AddIcon from '@mui/icons-material/Add';
-import AddDepartmentDialog from '../../components/dialogs/add-department-dialog';
-import { Column, SelectOption } from '../../types';
-import { UserTable } from '../../components/user';
-import {CustomButton} from '../../components/common';
-import { HEADER_HEIGHT } from '../../constants/common';
-import { department } from '../../models';
+import { Box } from '@mui/material';
+import React, { useState } from 'react';
+
 import { useListDepartments } from '../../apis/department';
+import { CustomButton } from '../../components/common';
+import AddDepartmentDialog from '../../components/dialogs/add-department-dialog';
+import { UserTable } from '../../components/user';
+import { HEADER_HEIGHT } from '../../constants/common';
+import { Column, SelectOption } from '../../types';
 
 const DepartmentManagement = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -58,13 +53,11 @@ const DepartmentManagement = () => {
         data={departmentData?.data}
         columns={columns}
         dataPagination={{}}
-        onChangePage={() => {}}
-        onChangeSize={() => {}}
       />
       <AddDepartmentDialog
         isOpen={isOpen}
-        onClose={handleClose}
         usersData={users}
+        onClose={handleClose}
       />
     </Box>
   );

@@ -1,7 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+
+import { api } from '../../constants';
 import { common, document } from '../../models';
 import { axiosInstance } from '../../utils';
-import { api } from '../../constants';
+
 export const updateDocument = async ({
   id,
   payload
@@ -13,8 +15,10 @@ export const updateDocument = async ({
   return await axiosInstance.put(url, payload);
 };
 
-
-export const useUpdateDocument = ({ onSuccess, onError }: common.useMutationParams) => {
+export const useUpdateDocument = ({
+  onSuccess,
+  onError
+}: common.useMutationParams) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (payload: { id: number; payload: document.UpdatePayload }) => {

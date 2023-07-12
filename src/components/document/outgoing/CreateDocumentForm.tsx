@@ -1,18 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import { Grid, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import { Grid, Typography } from '@mui/material';
-import { outgoingDocument } from '../../../models';
-import { UseFormReturn } from 'react-hook-form';
 import { makeStyles } from '@mui/styles';
+import React, { useEffect, useState } from 'react';
+import { Accept } from 'react-dropzone';
+import { UseFormReturn } from 'react-hook-form';
+
+import { outgoingDocument } from '../../../models';
+import { SelectOption } from '../../../types';
 import {
   InputField,
   MultilineTextField,
   SelectField,
   WrappedDragDropFileBox
 } from '../../common/form-control';
-import { SelectOption } from '../../../types';
-import { Accept } from 'react-dropzone';
 
 const fileAccpetType: Accept = {
   'image/jpeg': ['.jpg', '.jpeg'],
@@ -59,9 +60,9 @@ type createDocumentFormProps = {
 
 const CreateDocumentForm: React.FC<createDocumentFormProps> = ({ form }) => {
   const classes = useStyles();
-  const [documentTypeOptions, setDocumentTypeOptions] = useState<SelectOption[]>(
-    []
-  );
+  const [documentTypeOptions, setDocumentTypeOptions] = useState<
+    SelectOption[]
+  >([]);
 
   const { getValues, handleSubmit } = form;
 
@@ -84,7 +85,7 @@ const CreateDocumentForm: React.FC<createDocumentFormProps> = ({ form }) => {
         <Grid container className={classes.grid}>
           <Grid item xs={12} sm={8} md={6}>
             <Box className={classes.box}>
-              <Typography variant="h4" gutterBottom>
+              <Typography gutterBottom variant="h4">
                 Đăng ký văn bản đi
               </Typography>
               <Grid
@@ -116,9 +117,9 @@ const CreateDocumentForm: React.FC<createDocumentFormProps> = ({ form }) => {
                     </Box>
                     <SelectField
                       data={documentFieldOptions}
-                      onChange={onChangeDocumentField}
                       form={form}
                       name="documentFieldId"
+                      onChange={onChangeDocumentField}
                     />
                   </Typography>
                 </Grid>
@@ -166,7 +167,7 @@ const CreateDocumentForm: React.FC<createDocumentFormProps> = ({ form }) => {
                     name="files"
                   />
                 </Grid>
-                <Grid className={classes.buttonGroup} container spacing={2}>
+                <Grid container className={classes.buttonGroup} spacing={2}>
                   <Grid item xs={12}>
                     <Button variant="contained" color="primary" type="submit">
                       Ký số

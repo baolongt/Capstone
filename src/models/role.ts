@@ -1,6 +1,6 @@
-import { SelectOption } from "../types";
+import { SelectOption } from '../types';
 
-export const roleOptions : SelectOption[] = [
+export const roleOptions: SelectOption[] = [
   {
     title: 'Quản trị viên',
     value: 2
@@ -10,7 +10,7 @@ export const roleOptions : SelectOption[] = [
     value: 1
   }
 ];
-export const jobPositionOptions : SelectOption[] = [
+export const jobPositionOptions: SelectOption[] = [
   {
     title: 'Cán bộ',
     value: 1

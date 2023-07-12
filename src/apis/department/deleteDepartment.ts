@@ -1,7 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { axiosInstance } from '../../utils';
-import { common } from '../../models';
+
 import { api } from '../../constants';
+import { common } from '../../models';
+import { axiosInstance } from '../../utils';
 
 export const deleteDepartment = async ({ id }: { id: number }) => {
   const url = `/api/departments`;
@@ -10,7 +11,10 @@ export const deleteDepartment = async ({ id }: { id: number }) => {
   });
 };
 
-export const useDeleteDepartment = ({ onSuccess, onError }: common.useMutationParams) => {
+export const useDeleteDepartment = ({
+  onSuccess,
+  onError
+}: common.useMutationParams) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (payload: { id: number }) => deleteDepartment(payload),

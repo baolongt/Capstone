@@ -1,10 +1,12 @@
-import React from 'react';
 import './index.css';
-import ReactDOM from 'react-dom';
-import App from './App';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { HashRouter } from 'react-router-dom';
+
 import { ThemeProvider } from '@mui/material/styles';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { HashRouter } from 'react-router-dom';
+
+import App from './App';
 import theme from './components/theme/theme';
 
 const queryClient = new QueryClient({
@@ -16,10 +18,7 @@ const queryClient = new QueryClient({
   }
 });
 
-interface Props {}
-
-// eslint-disable-next-line no-unused-vars
-const Root: React.FC<Props> = (props) => {
+const Root: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
       <QueryClientProvider client={queryClient}>

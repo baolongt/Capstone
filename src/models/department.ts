@@ -12,15 +12,9 @@
 
 //=========================================================================
 
-export type UpdatePayload = Pick<
-  Department,
-  'name' | 'departmentLeaderID' 
->;
+export type UpdatePayload = Pick<Department, 'name' | 'departmentLeaderID'>;
 
-export type CreatePayload = Pick<
-  Department,
-  'name' | 'departmentLeaderID'
->;
+export type CreatePayload = Pick<Department, 'name' | 'departmentLeaderID'>;
 
 export class Department {
   id: number;
@@ -45,21 +39,21 @@ export class Department {
     this.departmentLeaderName = departmentLeaderName;
   }
 
-  getprop(propName: keyof Department): any {
+  getprop(propName: keyof Department) {
     return this[propName];
   }
 
   toUpdatePayload(): UpdatePayload {
     return {
       name: this.name,
-      departmentLeaderID: this.departmentLeaderID,
+      departmentLeaderID: this.departmentLeaderID
     };
   }
 
   toCreatePayload(): CreatePayload {
     return {
       name: this.name,
-      departmentLeaderID: this.departmentLeaderID,
+      departmentLeaderID: this.departmentLeaderID
     };
   }
 }

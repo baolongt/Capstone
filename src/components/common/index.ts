@@ -1,10 +1,10 @@
 export { CustomButton } from './button';
 export {
   InputField,
+  type InputFieldProps,
   MultilineTextField,
+  type MultilineTextFieldProps,
   SelectField,
-  WrappedDragDropFileBox,
-  InputFieldProps,
-  MultilineTextFieldProps,
-  SelectFieldProps
+  type SelectFieldProps,
+  WrappedDragDropFileBox
 } from './form-control';

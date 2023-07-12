@@ -33,6 +33,8 @@ export function MultilineTextField(props: MultilineTextFieldProps) {
         render={({ field, fieldState }) => (
           <TextField
             {...field}
+            fullWidth
+            multiline
             label={label ?? ''}
             placeholder={placeholder}
             disabled={disabled}
@@ -44,8 +46,6 @@ export function MultilineTextField(props: MultilineTextFieldProps) {
               }
             }}
             size="small"
-            fullWidth
-            multiline
             minRows={minRows ?? 10}
             sx={{ ...sx }}
             {...resProps}

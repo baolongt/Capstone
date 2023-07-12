@@ -1,15 +1,14 @@
-import { Box } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import { useState } from 'react';
-import AddUserDialog from '../../components/dialogs/add-user-dialog';
-import React from 'react';
-import {  useListUsers } from '../../apis';
-import { HEADER_HEIGHT } from '../../constants/common';
-import { TableState, Column } from '../../types';
-import {CustomButton} from '../../components/common';
-import {UserTable} from '../../components/user';
-import { user } from '../../models';
+import { Box } from '@mui/material';
+import React, { useState } from 'react';
 
+import { useListUsers } from '../../apis';
+import { CustomButton } from '../../components/common';
+import AddUserDialog from '../../components/dialogs/add-user-dialog';
+import { UserTable } from '../../components/user';
+import { HEADER_HEIGHT } from '../../constants/common';
+import { user } from '../../models';
+import { Column, TableState } from '../../types';
 
 const UserManagement = () => {
   const columns: Column<user.User>[] = [
@@ -50,8 +49,8 @@ const UserManagement = () => {
     page: 1,
     size: 10
   };
- 
-  const {data , isLoading} = useListUsers();
+
+  const { data, isLoading } = useListUsers();
 
   const [tableState, setTableState] = useState<TableState>(initTableState);
 
@@ -81,9 +80,9 @@ const UserManagement = () => {
           data={data?.data ?? []}
           columns={columns}
           isLoading={isLoading}
+          dataPagination={{ totalPages: 10, currentPage: 1 }}
           onChangePage={(newPage: number) => handleChangePage(newPage)}
           onChangeSize={(newSize: number) => handleChangeSize(newSize)}
-          dataPagination={{ totalPages: 10, currentPage: 1 }}
         />
       </Box>
 

@@ -1,4 +1,4 @@
-export type TableState  = {
-    page: number;
-    size: number;
-}
+export type TableState = {
+  page: number;
+  size: number;
+};

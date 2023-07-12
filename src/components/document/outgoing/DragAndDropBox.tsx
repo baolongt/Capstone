@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import Box from '@mui/material/Box';
-import { makeStyles } from '@mui/styles';
-import { Accept, useDropzone } from 'react-dropzone';
-import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { FaFilePdf, FaFileExcel, FaFileWord } from 'react-icons/fa';
+import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import { makeStyles } from '@mui/styles';
+import React, { useEffect, useState } from 'react';
+import { Accept, useDropzone } from 'react-dropzone';
+import { FaFileExcel, FaFilePdf, FaFileWord } from 'react-icons/fa';
 
 const fileAccpetType: Accept = {
   'image/jpeg': ['.jpg', '.jpeg'],
@@ -95,7 +95,7 @@ type DragAndDropBoxProps = {
 const DragAndDropBox: React.FC<DragAndDropBoxProps> = (props) => {
   const { onChangeFiles } = props;
   const [isHovered, setIsHovered] = useState(false);
-  const [previews, setPreviews] = useState([]);
+  const [previews, setPreviews] = useState<PreviewFile[]>([]);
   const classes = useStyles();
 
   const onDrop = (acceptedFiles: File[]) => {

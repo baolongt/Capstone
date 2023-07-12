@@ -62,7 +62,7 @@ export class User {
     this.jobPositionName = jobPositionName;
   }
 
-  getprop(propName: keyof User): any {
+  getprop(propName: keyof User) {
     return this[propName];
   }
 

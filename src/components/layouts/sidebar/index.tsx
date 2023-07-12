@@ -1,4 +1,4 @@
-import React from 'react';
+import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import {
   Collapse,
   List,
@@ -8,10 +8,11 @@ import {
   ListItemText,
   ListSubheader
 } from '@mui/material';
+import React from 'react';
+import { NavLink } from 'react-router-dom';
+
 import paths from '../../../constants/routes';
 import { Path } from '../../../types';
-import { NavLink } from 'react-router-dom';
-import { ExpandLess, ExpandMore } from '@mui/icons-material';
 
 const Item = (
   props: Path & {
@@ -43,8 +44,8 @@ const CollapseItems = (props: Path) => {
         <ListItemText primary={`${label}`} />
         {open ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
-      <Collapse in={open} timeout="auto" unmountOnExit>
-        {subPaths.map((path: Path, i) => {
+      <Collapse unmountOnExit in={open} timeout="auto">
+        {subPaths?.map((path: Path, i) => {
           return <Item key={i} {...path} isSubItem={true} />;
         })}
       </Collapse>

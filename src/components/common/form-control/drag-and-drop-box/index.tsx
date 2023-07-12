@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
-import Box from '@mui/material/Box';
-import { makeStyles } from '@mui/styles';
-import { Accept, useDropzone } from 'react-dropzone';
-import IconButton from '@mui/material/IconButton';
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import DeleteIcon from '@mui/icons-material/Delete';
-import { FaFilePdf, FaFileExcel, FaFileWord } from 'react-icons/fa';
+import { FormHelperText, Theme } from '@mui/material';
+import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import { makeStyles } from '@mui/styles';
+import React, { useState } from 'react';
+import { Accept, useDropzone } from 'react-dropzone';
 import { Controller, FieldValues } from 'react-hook-form';
-import { FormHelperText } from '@mui/material';
+import { FaFileExcel, FaFilePdf, FaFileWord } from 'react-icons/fa';
 
-const useStyles = makeStyles((theme: any) => ({
+const useStyles = makeStyles((theme: Theme) => ({
   dropzone: {
     display: 'flex',
     alignItems: 'center',
@@ -81,19 +82,19 @@ export type PreviewFile = File & {
 
 export type DragAndDropBoxProps = {
   fileAccpetType?: Accept;
-  error: Boolean;
+  error: boolean;
   helperText: string;
   value: File[];
-  // eslint-disable-next-line no-unused-vars
-  onChange: (...event: any[]) => void;
+
+  onChange: (...event) => void;
 };
 
 type ThumbProps = {
   file: File;
   classes: any;
-  // eslint-disable-next-line no-unused-vars
+
   preventClick: (e: any) => void;
-  // eslint-disable-next-line no-unused-vars
+
   deletePreview: (name: string) => void;
 };
 
@@ -237,7 +238,7 @@ export const WrappedDragDropFileBox: React.FC<WrappedDragDropFileBoxProps> = (
 
   const hanldeInputFiles = (
     files: PreviewFile[],
-    // eslint-disable-next-line no-unused-vars
+
     onChange: (value: any) => void
   ) => {
     onChange(files);
@@ -248,14 +249,14 @@ export const WrappedDragDropFileBox: React.FC<WrappedDragDropFileBoxProps> = (
       <Controller
         control={control}
         name={name}
-        render={({ field: { onChange, value }, fieldState }) => {
+        render={({ field: { onChange, value }, fieldState }: any) => {
           return (
             <DragAndDropBox
               value={value}
-              onChange={(e) => hanldeInputFiles(e, onChange)}
               fileAccpetType={fileAccpetType}
               error={Boolean(fieldState?.error)}
               helperText={fieldState?.error?.message}
+              onChange={(e) => hanldeInputFiles(e, onChange)}
             />
           );
         }}
