@@ -29,9 +29,9 @@ interface UserTableProps {
   columns: Column<user.User>[];
   dataPagination: any;
 
-  onChangePage: (newPage: number) => void;
+  onChangePage?: (newPage: number) => void;
 
-  onChangeSize: (newSize: number) => void;
+  onChangeSize?: (newSize: number) => void;
   isLoading?: boolean;
   height: string;
 }
