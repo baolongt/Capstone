@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import React from 'react';
 
-import { HEADER_HEIGHT } from '../../../constants/common';
+import { HEADER_HEIGHT } from '@/constants/common';
 
 const Header = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);

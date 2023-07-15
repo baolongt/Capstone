@@ -1,6 +1,5 @@
 import DeleteIcon from '@mui/icons-material/Delete';
-import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
+import { Box, IconButton } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import React, { useEffect, useState } from 'react';
 import { Accept, useDropzone } from 'react-dropzone';
@@ -17,6 +16,7 @@ const fileAccpetType: Accept = {
   'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': ['.xlsx']
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const useStyles = makeStyles((theme: any) => ({
   dropzone: {
     display: 'flex',
@@ -144,6 +144,7 @@ const DragAndDropBox: React.FC<DragAndDropBoxProps> = (props) => {
     onChangeFiles(previews);
   }, [previews]);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const preventClick = (e: any) => {
     e.stopPropagation();
   };

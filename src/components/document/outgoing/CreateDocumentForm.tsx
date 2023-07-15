@@ -1,19 +1,17 @@
-import { Grid, Typography } from '@mui/material';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
+import { Box, Button, Grid, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import React, { useEffect, useState } from 'react';
 import { Accept } from 'react-dropzone';
 import { UseFormReturn } from 'react-hook-form';
 
-import { outgoingDocument } from '../../../models';
-import { SelectOption } from '../../../types';
 import {
   InputField,
   MultilineTextField,
   SelectField,
   WrappedDragDropFileBox
-} from '../../common/form-control';
+} from '@/components/common';
+import { outgoingDocument } from '@/models';
+import { SelectOption } from '@/types';
 
 const fileAccpetType: Accept = {
   'image/jpeg': ['.jpg', '.jpeg'],

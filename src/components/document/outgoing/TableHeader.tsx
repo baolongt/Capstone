@@ -1,8 +1,8 @@
 import { TableCell, TableHead, TableRow } from '@mui/material';
 import React from 'react';
 
-import { outgoingDocument } from '../../../models';
-import { Column } from '../../../types';
+import { outgoingDocument } from '@/models';
+import { Column } from '@/types';
 
 const TableHeader = () => {
   return (

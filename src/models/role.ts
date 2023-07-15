@@ -1,4 +1,4 @@
-import { SelectOption } from '../types';
+import { SelectOption } from '@/types';
 
 export const roleOptions: SelectOption[] = [
   {

@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { api } from '../../constants';
-import { axiosInstance } from '../../utils';
+import { api } from '@/constants';
+import { axiosInstance } from '@/utils';
 
 export const getDocumentById = async (id: string) => {
   const url = `/api/documents/${id}`;

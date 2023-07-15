@@ -1,5 +1,6 @@
 export { CustomButton } from './button';
 export {
+  DragDropFile,
   InputField,
   type InputFieldProps,
   MultilineTextField,
@@ -8,3 +9,4 @@ export {
   type SelectFieldProps,
   WrappedDragDropFileBox
 } from './form-control';
+export { InputSearch, type InputSearchProps } from './search';

@@ -1,9 +1,6 @@
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-import Menu from '@mui/icons-material/Menu';
-import { ButtonBase, CssBaseline } from '@mui/material';
-import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
+import { Box, ButtonBase, CssBaseline, IconButton, Menu } from '@mui/material';
 import {
   Content,
   EdgeSidebar,
@@ -15,6 +12,8 @@ import {
   SidebarContent
 } from '@mui-treasury/layout';
 import React from 'react';
+
+import { FOOTER_HEADER_HEIGHT } from '@/constants/common';
 
 import DefaultFooter from './footer';
 import DefaultHeader from './header';
@@ -82,7 +81,11 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
             {...sideBarEdgeTrigger}
           ></EdgeTrigger>
         </EdgeSidebar>
-        <Content sx={{ minHeight: '1000px' }}>{children}</Content>
+        <Content
+          sx={{ minHeight: `calc(100vh - 10px - ${FOOTER_HEADER_HEIGHT})` }}
+        >
+          {children}
+        </Content>
         <Footer>
           <DefaultFooter />
         </Footer>

@@ -1,4 +1,4 @@
-import { Column, SelectOption } from '../types';
+import { Column, SelectOption } from '@/types';
 
 export const columns: Column<OutgoingDocument>[] = [
   {

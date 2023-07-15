@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import DeleteIcon from '@mui/icons-material/Delete';
-import { FormHelperText, Theme } from '@mui/material';
-import Box from '@mui/material/Box';
+import { Box, FormHelperText, Theme } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import { makeStyles } from '@mui/styles';
 import React, { useState } from 'react';

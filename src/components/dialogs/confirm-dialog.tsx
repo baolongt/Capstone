@@ -9,16 +9,16 @@ import {
 } from '@mui/material';
 import React, { ReactElement } from 'react';
 
-import { CustomButton } from '../common';
+import { CustomButton } from '@/components/common';
 
-interface ConfirmDialogProps {
+export interface ConfirmDialogProps {
   isOpen: boolean;
   message: ReactElement;
   onConfirm: () => void;
   onClose: () => void;
 }
 
-const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
+export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
   isOpen,
   onClose,
   onConfirm,
@@ -55,5 +55,3 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
     </Dialog>
   );
 };
-
-export default ConfirmDialog;

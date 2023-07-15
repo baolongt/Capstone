@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { api } from '../../constants';
-import { common, department } from '../../models';
-import { axiosInstance } from '../../utils';
+import { api } from '@/constants';
+import { common, department } from '@/models';
+import { axiosInstance } from '@/utils';
 
 export const createDepartment = async (payload: department.CreatePayload) => {
   const url = 'api/departments';

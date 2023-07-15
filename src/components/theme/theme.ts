@@ -16,6 +16,23 @@ const theme = createTheme({
   typography: {
     fontFamily: '"Montserrat", sans-serif',
     fontSize: 14
+  },
+  components: {
+    MuiTableCell: {
+      styleOverrides: {
+        root: {
+          borderBottom: '2px solid #ccc',
+          padding: '16px 4px'
+        }
+      }
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          textTransform: 'none'
+        }
+      }
+    }
   }
 });
 

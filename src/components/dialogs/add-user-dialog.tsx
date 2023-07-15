@@ -1,22 +1,26 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Box, Stack, Typography } from '@mui/material';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
+import {
+  Box,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Stack,
+  Typography
+} from '@mui/material';
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
+import { useCreateUser, useUpdateUser } from '@/apis';
+import { CustomButton, InputField, SelectField } from '@/components/common';
+import { ToastMessage } from '@/components/toast';
+import { role, user } from '@/models';
 import { Nullable } from '@/types';
 
-import { useCreateUser, useUpdateUser } from '../../apis';
-import { role, user } from '../../models';
-import { CustomButton, InputField, SelectField } from '../common';
-import { ToastMessage } from '../toast';
 import { addUserSchema } from './validations';
 
-type AddUserDialogProps = {
+export type AddUserDialogProps = {
   mode: 'update' | 'create';
   userProfile?: Nullable<user.UpdatePayload>;
   isOpen: boolean;
@@ -93,7 +97,7 @@ export const AddUserDialog: React.FC<AddUserDialogProps> = ({
       roleID: userProfile?.roleID ?? 1,
       jobPositionID: userProfile?.jobPositionID ?? 1
     });
-  }, [userProfile]);
+  }, [reset, userProfile]);
 
   return (
     <Dialog
@@ -215,5 +219,3 @@ export const AddUserDialog: React.FC<AddUserDialogProps> = ({
     </Dialog>
   );
 };
-
-export default AddUserDialog;

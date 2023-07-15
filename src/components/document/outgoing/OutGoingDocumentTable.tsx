@@ -1,19 +1,21 @@
-// import { styled } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Skeleton from '@mui/material/Skeleton';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableRow from '@mui/material/TableRow';
+import {
+  Box,
+  Button,
+  Skeleton,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableRow
+} from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 
-import { getAllOutgoingDocuments } from '../../../apis/outgoingDocument';
-import { HEADER_HEIGHT } from '../../../constants/common';
-import { outgoingDocument } from '../../../models';
-import { Column } from '../../../types';
+import { getAllOutgoingDocuments } from '@/apis/outgoingDocument';
+import { HEADER_HEIGHT } from '@/constants/common';
+import { outgoingDocument } from '@/models';
+import { Column } from '@/types';
+
 import TableHeader from './TableHeader';
 
 const OutGoingDocumentTable = () => {
