@@ -8,7 +8,7 @@ export default defineConfig({
   plugins: [
     legacy(),
     react({
-      include: '**/*.tsx'
+      include: '**/*.tsx, **/*.ts'
     })
   ],
   resolve: {
