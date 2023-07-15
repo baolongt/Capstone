@@ -25,7 +25,7 @@ const OutGoingDocumentTable = () => {
   });
 
   return (
-    <Box width={'100%'}>
+    <Box component="div" width={'100%'}>
       {isLoading ? (
         <Skeleton
           variant="rectangular"
@@ -47,23 +47,28 @@ const OutGoingDocumentTable = () => {
             <TableHeader />
             <TableBody>
               {data &&
-                data.map((document: Record<string, unknown>, index: number) => (
-                  <TableRow key={index}>
-                    {outgoingDocument.columns.map(
-                      (
-                        column: Column<outgoingDocument.OutgoingDocument>,
-                        index: number
-                      ) => (
-                        <TableCell key={index}>
-                          {document[`${column.value}`]}
-                        </TableCell>
-                      )
-                    )}
-                    <TableCell>
-                      <Button variant="text">Xem</Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                data.map(
+                  (
+                    document: Record<string, string | number | Date | boolean>,
+                    index: number
+                  ) => (
+                    <TableRow key={index}>
+                      {outgoingDocument.columns.map(
+                        (
+                          column: Column<outgoingDocument.OutgoingDocument>,
+                          index: number
+                        ) => (
+                          <TableCell key={index}>
+                            {document[`${column.value}`] as string}
+                          </TableCell>
+                        )
+                      )}
+                      <TableCell>
+                        <Button variant="text">Xem</Button>
+                      </TableCell>
+                    </TableRow>
+                  )
+                )}
             </TableBody>
           </Table>
         </TableContainer>

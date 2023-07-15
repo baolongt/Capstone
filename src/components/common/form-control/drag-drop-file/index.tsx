@@ -68,9 +68,10 @@ export const DragDropFile = (props: DragDropFiledProps) => {
   };
 
   return (
-    <Box>
+    <Box component="div">
       <Box
         ref={wrapperRef}
+        component="div"
         sx={{
           border: '2px dashed',
           borderRadius: '5px',
@@ -96,6 +97,7 @@ export const DragDropFile = (props: DragDropFiledProps) => {
           render={({ field }) => (
             <>
               <Box
+                component="div"
                 sx={{
                   width: '100%',
                   height: '100%',
@@ -107,6 +109,7 @@ export const DragDropFile = (props: DragDropFiledProps) => {
               >
                 {(file || oldUrl) && preview ? (
                   <Box
+                    component="div"
                     sx={{
                       display: 'flex',
                       justifyContent: 'space-around',
@@ -114,6 +117,7 @@ export const DragDropFile = (props: DragDropFiledProps) => {
                     }}
                   >
                     <Box
+                      component="div"
                       sx={{
                         width: '100px',
                         height: '100px',
@@ -163,7 +167,7 @@ export const DragDropFile = (props: DragDropFiledProps) => {
                         <IoMdClose />
                       </IconButton>
                     </Box>
-                    <Box sx={{ ml: '24px' }}>
+                    <Box component="div" sx={{ ml: '24px' }}>
                       {file?.name}
                       {/* <TextLimitShowTooltip
                         text={file?.name}

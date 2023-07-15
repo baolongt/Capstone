@@ -29,7 +29,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   const headerEdgeTrigger: any = {
     children: (open: any, setOpen: any) => (
       <IconButton onClick={() => setOpen(!open)}>
-        {open ? <KeyboardArrowLeft /> : <Menu />}
+        {open ? <KeyboardArrowLeft /> : <Menu open={false} />}
       </IconButton>
     )
   };
@@ -58,6 +58,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
         <CssBaseline />
         <Header>
           <Box
+            component="div"
             sx={{
               flex: 1,
               display: 'flex',

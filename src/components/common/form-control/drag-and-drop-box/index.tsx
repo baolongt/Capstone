@@ -104,7 +104,7 @@ type ThumbProps = {
 };
 
 const Thumb: React.FC<ThumbProps> = (props) => {
-  const { classes, file, deletePreview, preventClick } = props;
+  const { file, deletePreview, preventClick } = props;
   const getFilePreview = (file: PreviewFile) => {
     if (file.type.startsWith('image/')) {
       return (
@@ -121,12 +121,12 @@ const Thumb: React.FC<ThumbProps> = (props) => {
         case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
           return <FaFileWord className={classes.thumb} />;
         default:
-          return <Box>{file.name}</Box>;
+          return <Box component="div">{file.name}</Box>;
       }
     }
   };
   return (
-    <Box key={file.name} onClick={preventClick}>
+    <Box key={file.name} component="div" onClick={preventClick}>
       <Box component="div" className={classes.thumb}>
         <Box component="div">
           {getFilePreview(file)}
@@ -140,7 +140,7 @@ const Thumb: React.FC<ThumbProps> = (props) => {
           </Box>
         </Box>
       </Box>
-      <Box className={classes.thumbName}>{`${file.name} - ${(
+      <Box component="div" className={classes.thumbName}>{`${file.name} - ${(
         file.size /
         1024 /
         1024
@@ -196,6 +196,7 @@ const DragAndDropBox: React.FC<DragAndDropBoxProps> = ({
   return (
     <Box component="div">
       <Box
+        component="div"
         className={classes.root}
         {...getRootProps()}
         borderColor={
@@ -211,7 +212,7 @@ const DragAndDropBox: React.FC<DragAndDropBoxProps> = ({
         onMouseLeave={() => setIsHovered(false)}
       >
         {value.length === 0 ? (
-          <Box className={classes.thumbContainer}>
+          <Box component="div" className={classes.thumbContainer}>
             {isDragActive ? (
               <p>Kéo file vào đây</p>
             ) : (
@@ -219,7 +220,9 @@ const DragAndDropBox: React.FC<DragAndDropBoxProps> = ({
             )}
           </Box>
         ) : (
-          <Box className={classes.thumbContainer}>{thumbs}</Box>
+          <Box component="div" className={classes.thumbContainer}>
+            {thumbs}
+          </Box>
         )}
         {error && <FormHelperText error>{helperText}</FormHelperText>}
       </Box>

@@ -4,6 +4,7 @@ import React, { FC, ReactElement } from 'react';
 const Footer: FC = (): ReactElement => {
   return (
     <Box
+      component="div"
       sx={{
         width: '100%',
         height: 'auto',

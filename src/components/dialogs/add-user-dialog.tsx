@@ -119,7 +119,7 @@ export const AddUserDialog: React.FC<AddUserDialogProps> = ({
           id="add-user-form"
           onSubmit={handleSubmit(onSubmit)}
         >
-          <Box>
+          <Box component="div">
             <Typography>
               Tên người dùng
               <Box component="span" color="error.main">
@@ -134,7 +134,7 @@ export const AddUserDialog: React.FC<AddUserDialogProps> = ({
               label=""
             />
           </Box>
-          <Box mt={2}>
+          <Box component="div" mt={2}>
             <Typography>
               Mật khẩu
               <Box component="span" color="error.main">
@@ -149,7 +149,7 @@ export const AddUserDialog: React.FC<AddUserDialogProps> = ({
               label=""
             />
           </Box>
-          <Box mt={2}>
+          <Box component="div" mt={2}>
             <Typography>
               Email
               <Box component="span" color="error.main">
@@ -163,7 +163,7 @@ export const AddUserDialog: React.FC<AddUserDialogProps> = ({
               label=""
             />
           </Box>
-          <Box mt={2}>
+          <Box component="div" mt={2}>
             <Typography>
               CCCD/CMND
               <Box component="span" color="error.main">
@@ -179,7 +179,7 @@ export const AddUserDialog: React.FC<AddUserDialogProps> = ({
           </Box>
 
           <Stack direction={'row'} gap={3}>
-            <Box mt={2}>
+            <Box component="div" mt={2}>
               <Typography>
                 Vai trò
                 <Box component="span" color="error.main">
@@ -195,7 +195,7 @@ export const AddUserDialog: React.FC<AddUserDialogProps> = ({
               />
             </Box>
 
-            <Box mt={2}>
+            <Box component="div" mt={2}>
               <Typography>
                 Chức vụ
                 <Box component="span" color="error.main">

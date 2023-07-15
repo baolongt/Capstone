@@ -39,7 +39,7 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
           <HelpOutlinedIcon
             sx={{ height: '64px', width: '64px', color: '#FFBC33' }}
           />
-          <Box fontSize={'20px'}>
+          <Box component="div" fontSize={'20px'}>
             {message}
             <Typography fontSize={'14px'} mt={1} color="#333">
               Bạn không thể hoàn tác sau bước này

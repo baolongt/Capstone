@@ -39,8 +39,8 @@ export class Department {
     this.departmentLeaderName = departmentLeaderName;
   }
 
-  getprop(propName: keyof Department) {
-    return this[propName];
+  getprop(propName: keyof Department): string | null {
+    return this[propName] ? String(this[propName]) : null;
   }
 
   toUpdatePayload(): UpdatePayload {

@@ -48,8 +48,11 @@ const DepartmentManagement = () => {
     //setTableState({ ...tableState, page: 1, size: size });
   };
   return (
-    <Box>
-      <Box sx={{ bgcolor: theme.palette.grey[300], px: 6, py: 3 }}>
+    <Box component="div">
+      <Box
+        component="div"
+        sx={{ bgcolor: theme.palette.grey[300], px: 6, py: 3 }}
+      >
         <Typography
           component={'h4'}
           variant="h4"
@@ -60,7 +63,10 @@ const DepartmentManagement = () => {
         >
           Phòng ban
         </Typography>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Box
+          component="div"
+          sx={{ display: 'flex', justifyContent: 'space-between' }}
+        >
           <InputSearch
             placeholder="Tìm kiếm"
             onTextChange={() => console.log('Searching...')}
@@ -69,6 +75,7 @@ const DepartmentManagement = () => {
         </Box>
       </Box>
       <Box
+        component="div"
         sx={{
           flexGrow: 1,
           height: `calc(100vh - 210px - ${HEADER_HEIGHT})`,

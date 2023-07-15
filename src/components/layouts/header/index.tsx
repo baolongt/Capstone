@@ -24,7 +24,10 @@ const Header = () => {
   };
 
   return (
-    <Box sx={{ width: '100%', height: HEADER_HEIGHT, bgcolor: '#2196f3' }}>
+    <Box
+      component="div"
+      sx={{ width: '100%', height: HEADER_HEIGHT, bgcolor: '#2196f3' }}
+    >
       <Stack
         direction={'row'}
         sx={{

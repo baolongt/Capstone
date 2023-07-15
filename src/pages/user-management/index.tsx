@@ -76,8 +76,11 @@ const UserManagement = () => {
   });
 
   return (
-    <Box>
-      <Box sx={{ bgcolor: theme.palette.grey[300], px: 6, py: 3 }}>
+    <Box component="div">
+      <Box
+        component="div"
+        sx={{ bgcolor: theme.palette.grey[300], px: 6, py: 3 }}
+      >
         <Typography
           component={'h4'}
           variant="h4"
@@ -88,12 +91,15 @@ const UserManagement = () => {
         >
           Nhân viên
         </Typography>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Box
+          component="div"
+          sx={{ display: 'flex', justifyContent: 'space-between' }}
+        >
           <InputSearch
             placeholder="Search..."
             onTextChange={() => console.log('Searching...')}
           />
-          <Box sx={{ display: 'flex', gap: 2 }}>
+          <Box component="div" sx={{ display: 'flex', gap: 2 }}>
             <CustomButton
               label="Thêm người dùng"
               onClick={handleOpenCreateDialog}
@@ -108,6 +114,7 @@ const UserManagement = () => {
       </Box>
 
       <Box
+        component="div"
         sx={{
           flexGrow: 1,
           height: `calc(100vh - 210px - ${FOOTER_HEADER_HEIGHT})`,
@@ -117,7 +124,7 @@ const UserManagement = () => {
       >
         <UserTable
           height={`calc(100vh - 210px - ${FOOTER_HEADER_HEIGHT})`}
-          data={data?.data ?? []}
+          data={data ?? []}
           columns={columns}
           isLoading={isLoading}
           dataPagination={{ totalPages: 10, currentPage: 1 }}

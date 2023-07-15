@@ -62,10 +62,9 @@ export class User {
     this.jobPositionName = jobPositionName;
   }
 
-  getprop(propName: keyof User) {
-    return this[propName];
+  getprop(propName: keyof User): string | null {
+    return this[propName] ? String(this[propName]) : null;
   }
-
   toUpdatePayload(): UpdatePayload {
     return {
       id: this.id,

@@ -90,7 +90,7 @@ const CreateDocumentForm: React.FC<createDocumentFormProps> = ({ form }) => {
       <div className={classes.root}>
         <Grid container className={classes.grid}>
           <Grid item xs={12} sm={8} md={6}>
-            <Box className={classes.box}>
+            <Box component="div" className={classes.box}>
               <Typography gutterBottom variant="h4">
                 Đăng ký văn bản đi
               </Typography>

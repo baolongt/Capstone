@@ -9,7 +9,7 @@
   },
   "main": "src/index.js",
   "scripts": {
-    "prebuild": "rm -rf dist",
+    "prebuild": "rm -rf dist && npm run typecheck",
     "build": "vite build",
     "cleanup": "rm -rf node_modules && rm -rf package-lock.json",
     "dev": "vite --port 3000",
@@ -20,7 +20,9 @@
     "prettier": "npx prettier --write ./src",
     "preview": "vite preview",
     "serve": "npm run build && vite preview --port 3000",
-    "start": "npm run dev"
+    "prestart": "npm run typecheck",
+    "start": "npm run dev",
+    "typecheck": "tsc --noEmit"
   },
   "husky": {
     "hooks": {
@@ -59,6 +61,7 @@
   },
   "devDependencies": {
     "@types/lodash": "^4.14.195",
+    "@types/node": "^20.4.2",
     "@types/react": "^18.2.14",
     "@types/react-dom": "^18.2.6",
     "@types/react-router-dom": "^5.3.3",
@@ -84,7 +87,7 @@
     "lint-staged": "^13.2.2",
     "prettier": "^3.0.0",
     "sort-package-json": "^2.5.1",
-    "typescript": "^5.0.4",
+    "typescript": "^5.1.6",
     "vite": "^4.4.3"
   }
 }

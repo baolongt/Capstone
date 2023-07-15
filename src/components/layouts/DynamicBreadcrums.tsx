@@ -18,6 +18,7 @@ const DynamicBreadcrums: FC = (): ReactElement => {
 
   return (
     <Box
+      component="div"
       sx={{
         width: '100%',
         height: 'auto',

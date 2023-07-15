@@ -32,7 +32,7 @@ export const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({
   const form = useForm({
     defaultValues: {
       name: '',
-      departmentLeaderID: null
+      departmentLeaderID: 0
     },
     resolver: yupResolver(addDepartmentSchema)
   });
@@ -91,7 +91,7 @@ export const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({
           id="add-department-form"
           onSubmit={handleSubmit(onSubmit)}
         >
-          <Box>
+          <Box component="div">
             <Typography>
               Tên người dùng
               <Box component="span" color="error.main">
@@ -108,7 +108,7 @@ export const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({
           </Box>
 
           <Stack direction={'row'} gap={3}>
-            <Box mt={2}>
+            <Box component="div" mt={2}>
               <Typography>
                 Chọn trưởng phòng
                 <Box component="span" color="error.main">
@@ -120,7 +120,7 @@ export const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({
                 name="departmentLeaderID"
                 placeholder="Chọn trưởng phòng"
                 data={
-                  users?.data.map((user: User) => {
+                  users?.map((user: User) => {
                     return { title: user.name, value: user.id };
                   }) ?? []
                 }

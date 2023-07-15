@@ -101,7 +101,7 @@ export const UserTable: React.FC<UserTableProps> = ({
   };
 
   return (
-    <Box style={{ width: '100%' }}>
+    <Box component="div" style={{ width: '100%' }}>
       <TableContainer
         sx={{
           height: height
@@ -111,25 +111,27 @@ export const UserTable: React.FC<UserTableProps> = ({
           <UserTableHead columns={columns} />
           <TableBody>
             {data &&
-              data.map((user: user.User, index: number) => (
+              data.map((userData: user.User, index: number) => (
                 <TableRow key={index} hover>
                   {columns.map((column: Column<user.User>, index: number) => {
                     return !column.isAction ? (
                       <TableCell key={index} sx={{ minWidth: column.minWidth }}>
-                        <Typography> {user.getprop(column.value)}</Typography>
+                        <Typography component="div">
+                          {userData.getprop(column.value)}
+                        </Typography>
                       </TableCell>
                     ) : (
                       <TableCell key={index}>
                         <Stack direction={'row'} gap={1}>
                           <Button
                             color="primary"
-                            onClick={() => handleUpateUser(user)}
+                            onClick={() => handleUpateUser(userData)}
                           >
                             Update
                           </Button>
                           <Button
                             color="error"
-                            onClick={() => handleOpenDeleteDialog(user)}
+                            onClick={() => handleOpenDeleteDialog(userData)}
                           >
                             Delete
                           </Button>
