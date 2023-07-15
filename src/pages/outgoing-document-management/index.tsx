@@ -5,7 +5,7 @@ import Grid from '@mui/material/Grid';
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 
-import OutGoingDocumentTable from '../../components/document/outgoing/OutGoingDocumentTable';
+import OutGoingDocumentTable from '@/components/document/outgoing/OutGoingDocumentTable';
 
 const OutgoingDocumentManagement = () => {
   return (

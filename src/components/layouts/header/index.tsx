@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import React from 'react';
 
-import { HEADER_HEIGHT } from '../../../constants/common';
+import { HEADER_HEIGHT } from '@/constants/common';
 
 const Header = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -24,7 +24,10 @@ const Header = () => {
   };
 
   return (
-    <Box sx={{ width: '100%', height: HEADER_HEIGHT, bgcolor: '#2196f3' }}>
+    <Box
+      component="div"
+      sx={{ width: '100%', height: HEADER_HEIGHT, bgcolor: '#2196f3' }}
+    >
       <Stack
         direction={'row'}
         sx={{

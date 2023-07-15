@@ -17,6 +17,7 @@ export const validationSchema = yup
       .required('Ghi chú là bắt buộc')
       .trim()
       .min(1)
-      .nonNullable()
+      .nonNullable(),
+    files: yup.array()
   })
   .required();

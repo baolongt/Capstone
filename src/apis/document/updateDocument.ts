@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { api } from '../../constants';
-import { common, document } from '../../models';
-import { axiosInstance } from '../../utils';
+import { api } from '@/constants';
+import { common, document } from '@/models';
+import { axiosInstance } from '@/utils';
 
 export const updateDocument = async ({
   id,

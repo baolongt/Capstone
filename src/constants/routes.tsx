@@ -7,7 +7,7 @@ import Diversity3Icon from '@mui/icons-material/Diversity3';
 import FolderIcon from '@mui/icons-material/Folder';
 import React from 'react';
 
-import { Path } from '../types';
+import { Path } from '@/types';
 
 const incomingDocumentSubPaths: Path[] = [
   {

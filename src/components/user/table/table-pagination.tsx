@@ -22,6 +22,7 @@ interface PaginationProps {
 const UserTablePagination: React.FC<PaginationProps> = (props) => {
   return (
     <Box
+      component="div"
       sx={{
         display: 'flex',
         alignItems: 'center',
@@ -33,7 +34,10 @@ const UserTablePagination: React.FC<PaginationProps> = (props) => {
         px: '5px'
       }}
     >
-      <Box visibility={props.selected.length === 0 ? 'hidden' : 'visible'}>
+      <Box
+        component="div"
+        visibility={props.selected.length === 0 ? 'hidden' : 'visible'}
+      >
         <Box component="span" color="#5B6166">
           Đã chọn:
         </Box>
@@ -41,8 +45,11 @@ const UserTablePagination: React.FC<PaginationProps> = (props) => {
           {props.selected.length}/{props.totalElements}
         </Box>
       </Box>
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-        <Box>
+      <Box
+        component="div"
+        sx={{ display: 'flex', alignItems: 'center', gap: '20px' }}
+      >
+        <Box component="div">
           <Box component="span" color="#5B6166">
             {props.totalTaskLabel}
           </Box>
@@ -85,7 +92,7 @@ const UserTablePagination: React.FC<PaginationProps> = (props) => {
             </MenuItem>
           ))}
         </Select>
-        <Box display="flex" alignItems="center" gap="5px">
+        <Box component="div" display="flex" alignItems="center" gap="5px">
           <Box component="span" fontSize={14} color="#5B6166">
             Đi tới trang{' '}
           </Box>

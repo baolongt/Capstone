@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { api } from '../../constants';
-import { common } from '../../models';
-import { axiosInstance } from '../../utils';
+import { api } from '@/constants';
+import { common } from '@/models';
+import { axiosInstance } from '@/utils';
 
 export const deleteDepartment = async ({ id }: { id: number }) => {
   const url = `/api/departments`;

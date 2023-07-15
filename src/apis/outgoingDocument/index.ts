@@ -1,6 +1,6 @@
 import { fakerVI as faker } from '@faker-js/faker';
 
-import { outgoingDocument } from '../../models';
+import { outgoingDocument } from '@/models';
 
 const documents: Partial<outgoingDocument.OutgoingDocument>[] = [];
 for (let i = 0; i < 20; i++) {

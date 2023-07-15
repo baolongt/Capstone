@@ -11,8 +11,8 @@ import {
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-import paths from '../../../constants/routes';
-import { Path } from '../../../types';
+import paths from '@/constants/routes';
+import { Path } from '@/types';
 
 const Item = (
   props: Path & {

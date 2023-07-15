@@ -9,16 +9,16 @@ import {
 } from '@mui/material';
 import React, { ReactElement } from 'react';
 
-import { CustomButton } from '../common';
+import { CustomButton } from '@/components/common';
 
-interface ConfirmDialogProps {
+export interface ConfirmDialogProps {
   isOpen: boolean;
   message: ReactElement;
   onConfirm: () => void;
   onClose: () => void;
 }
 
-const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
+export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
   isOpen,
   onClose,
   onConfirm,
@@ -39,7 +39,7 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
           <HelpOutlinedIcon
             sx={{ height: '64px', width: '64px', color: '#FFBC33' }}
           />
-          <Box fontSize={'20px'}>
+          <Box component="div" fontSize={'20px'}>
             {message}
             <Typography fontSize={'14px'} mt={1} color="#333">
               Bạn không thể hoàn tác sau bước này
@@ -55,5 +55,3 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
     </Dialog>
   );
 };
-
-export default ConfirmDialog;

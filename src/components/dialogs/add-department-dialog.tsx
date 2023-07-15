@@ -1,42 +1,44 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Box, Stack, Typography } from '@mui/material';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
+import {
+  Box,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Stack,
+  Typography
+} from '@mui/material';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
-import { useCreateDepartment } from '../../apis/department';
-import { SelectOption } from '../../types';
-import { CustomButton } from '../common';
-import { InputField } from '../common/form-control/input-field';
-import { SelectField } from '../common/form-control/select-field';
-import { ToastMessage } from '../toast';
+import { useListUsers } from '@/apis';
+import { useCreateDepartment } from '@/apis/department';
+import { CustomButton, InputField, SelectField } from '@/components/common';
+import { ToastMessage } from '@/components/toast';
+import { User } from '@/models/user';
+
 import { addDepartmentSchema } from './validations';
 
-interface AddDepartmentDialogProps {
+export interface AddDepartmentDialogProps {
   isOpen: boolean;
   onClose: () => void;
-  usersData: SelectOption[];
 }
 
-const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({
+export const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({
   isOpen,
-  onClose,
-  usersData
+  onClose
 }) => {
   const form = useForm({
     defaultValues: {
       name: '',
-      departmentLeaderID: null
+      departmentLeaderID: 0
     },
     resolver: yupResolver(addDepartmentSchema)
   });
 
   const { handleSubmit } = form;
-
+  const { data: users } = useListUsers();
   const { mutate: createDepartmentMutation } = useCreateDepartment({
     onSuccess: () => {
       toast.success(<ToastMessage message={'Thêm phòng ban thành công'} />);
@@ -89,7 +91,7 @@ const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({
           id="add-department-form"
           onSubmit={handleSubmit(onSubmit)}
         >
-          <Box>
+          <Box component="div">
             <Typography>
               Tên người dùng
               <Box component="span" color="error.main">
@@ -106,7 +108,7 @@ const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({
           </Box>
 
           <Stack direction={'row'} gap={3}>
-            <Box mt={2}>
+            <Box component="div" mt={2}>
               <Typography>
                 Chọn trưởng phòng
                 <Box component="span" color="error.main">
@@ -117,7 +119,11 @@ const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({
                 form={form}
                 name="departmentLeaderID"
                 placeholder="Chọn trưởng phòng"
-                data={usersData}
+                data={
+                  users?.map((user: User) => {
+                    return { title: user.name, value: user.id };
+                  }) ?? []
+                }
               />
             </Box>
           </Stack>
@@ -125,10 +131,8 @@ const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({
       </DialogContent>
       <DialogActions sx={{ p: '0 24px 24px 0' }}>
         <CustomButton label="Hủy bỏ" variant="outlined" onClick={onClose} />
-        <CustomButton label="Thêm" type="submit" form="add-deartment-form" />
+        <CustomButton label="Thêm" type="submit" form="add-department-form" />
       </DialogActions>
     </Dialog>
   );
 };
-
-export default AddDepartmentDialog;

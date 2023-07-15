@@ -1,7 +1,6 @@
 import DeleteIcon from '@mui/icons-material/Delete';
-import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
-import { makeStyles } from '@mui/styles';
+import { Box, IconButton } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import React, { useEffect, useState } from 'react';
 import { Accept, useDropzone } from 'react-dropzone';
 import { FaFileExcel, FaFilePdf, FaFileWord } from 'react-icons/fa';
@@ -17,8 +16,17 @@ const fileAccpetType: Accept = {
   'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': ['.xlsx']
 };
 
-const useStyles = makeStyles((theme: any) => ({
-  dropzone: {
+const PREFIX = 'Dropzone';
+const classes = {
+  dropzone: `${PREFIX}-dropzone`,
+  thumb: `${PREFIX}-thumb`,
+  thumbOverlay: `${PREFIX}-thumbOverlay`,
+  thumbDeleteButton: `${PREFIX}-thumbDeleteButton`,
+  thumbName: `${PREFIX}-thumbName`,
+  thumbContainer: `${PREFIX}-thumbContainer`
+};
+const Root = styled('div')(({ theme }) => ({
+  [`& .${classes.dropzone}`]: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -32,7 +40,7 @@ const useStyles = makeStyles((theme: any) => ({
       backgroundColor: theme.palette.grey[200]
     }
   },
-  thumb: {
+  [`& .${classes.thumb}`]: {
     display: 'inline-flex',
     position: 'relative',
     borderRadius: 2,
@@ -43,7 +51,7 @@ const useStyles = makeStyles((theme: any) => ({
     height: 100,
     padding: 4,
     boxSizing: 'border-box',
-    '&:hover $thumbOverlay': {
+    '&:hover .thumbOverlay': {
       opacity: 1,
       transition: 'opacity .3s ease-in-out'
     },
@@ -52,7 +60,7 @@ const useStyles = makeStyles((theme: any) => ({
       maxHeight: '100%'
     }
   },
-  thumbOverlay: {
+  [`& .${classes.thumbOverlay}`]: {
     position: 'absolute',
     top: 0,
     left: 0,
@@ -64,19 +72,16 @@ const useStyles = makeStyles((theme: any) => ({
     opacity: 0,
     background: '#0000008c'
   },
-
-  thumbDeleteButton: {
+  [`& .${classes.thumbDeleteButton}`]: {
     color: '#ffffff'
   },
-
-  thumbName: {
+  [`& .${classes.thumbName}`]: {
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     width: 100,
     maxHeight: 30
   },
-
-  thumbContainer: {
+  [`& .${classes.thumbContainer}`]: {
     display: 'flex',
     flexWrap: 'nowrap',
     overflowX: 'auto',
@@ -96,7 +101,6 @@ const DragAndDropBox: React.FC<DragAndDropBoxProps> = (props) => {
   const { onChangeFiles } = props;
   const [isHovered, setIsHovered] = useState(false);
   const [previews, setPreviews] = useState<PreviewFile[]>([]);
-  const classes = useStyles();
 
   const onDrop = (acceptedFiles: File[]) => {
     const format = acceptedFiles.map((file: File) =>
@@ -128,7 +132,7 @@ const DragAndDropBox: React.FC<DragAndDropBoxProps> = (props) => {
         case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
           return <FaFileWord className={classes.thumb} />;
         default:
-          return <Box>{file.name}</Box>;
+          return <Box component="div">{file.name}</Box>;
       }
     }
   };
@@ -144,12 +148,13 @@ const DragAndDropBox: React.FC<DragAndDropBoxProps> = (props) => {
     onChangeFiles(previews);
   }, [previews]);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const preventClick = (e: any) => {
     e.stopPropagation();
   };
 
   const thumbs = previews.map((file) => (
-    <Box key={file.name} onClick={preventClick}>
+    <Box key={file.name} component="div" onClick={preventClick}>
       <Box component="div" className={classes.thumb}>
         <Box component="div">
           {getFilePreview(file)}
@@ -163,7 +168,7 @@ const DragAndDropBox: React.FC<DragAndDropBoxProps> = (props) => {
           </Box>
         </Box>
       </Box>
-      <Box className={classes.thumbName}>{`${file.name} - ${(
+      <Box component="div" className={classes.thumbName}>{`${file.name} - ${(
         file.size /
         1024 /
         1024
@@ -172,33 +177,38 @@ const DragAndDropBox: React.FC<DragAndDropBoxProps> = (props) => {
   ));
 
   return (
-    <Box component="div">
-      <Box
-        className={classes.dropzone}
-        {...getRootProps()}
-        borderColor={
-          isDragActive
-            ? 'primary.main'
-            : isHovered
-            ? 'primary.light'
-            : 'inherit'
-        }
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
-        {previews.length === 0 ? (
-          <Box className={classes.thumbContainer}>
-            {isDragActive ? (
-              <p>Kéo file vào đây</p>
-            ) : (
-              <p>Kéo thả file vào đây hoặc click để tải file lên</p>
-            )}
-          </Box>
-        ) : (
-          <Box className={classes.thumbContainer}>{thumbs}</Box>
-        )}
+    <Root>
+      <Box component="div">
+        <Box
+          component="div"
+          className={classes.dropzone}
+          {...getRootProps()}
+          borderColor={
+            isDragActive
+              ? 'primary.main'
+              : isHovered
+              ? 'primary.light'
+              : 'inherit'
+          }
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
+          {previews.length === 0 ? (
+            <Box component="div" className={classes.thumbContainer}>
+              {isDragActive ? (
+                <p>Kéo file vào đây</p>
+              ) : (
+                <p>Kéo thả file vào đây hoặc click để tải file lên</p>
+              )}
+            </Box>
+          ) : (
+            <Box component="div" className={classes.thumbContainer}>
+              {thumbs}
+            </Box>
+          )}
+        </Box>
       </Box>
-    </Box>
+    </Root>
   );
 };
 

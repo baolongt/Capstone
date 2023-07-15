@@ -7,14 +7,18 @@ import {
   SelectProps,
   SxProps
 } from '@mui/material';
-import { makeStyles } from '@mui/styles';
+import { styled } from '@mui/material/styles';
 import React from 'react';
 import { Controller, FieldValues } from 'react-hook-form';
 
 import { SelectOption } from '@/types';
 
-const useStyles = makeStyles(() => ({
-  menuPaper: {
+const PREFIX = 'SelectField';
+const classes = {
+  menuPaper: `${PREFIX}-menuPaper`
+};
+const Root = styled('div')(({ theme }) => ({
+  [`& .${classes.menuPaper}`]: {
     maxHeight: 160
   }
 }));
@@ -42,9 +46,8 @@ export function SelectField(props: SelectFieldProps) {
   } = props;
 
   const { control } = form;
-  const classes = useStyles();
   return (
-    <>
+    <Root>
       <Controller
         control={control}
         name={name}
@@ -102,6 +105,6 @@ export function SelectField(props: SelectFieldProps) {
           </FormControl>
         )}
       />
-    </>
+    </Root>
   );
 }

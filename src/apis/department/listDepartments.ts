@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { api } from '../../constants';
-import { axiosInstance } from '../../utils';
+import { api } from '@/constants';
+import { axiosInstance } from '@/utils';
 
 export const listDepartments = async () => {
   const url = '/api/departments';

@@ -1,26 +1,26 @@
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
 import {
   Box,
-  IconButton,
+  Button,
   Stack,
   Table,
   TableBody,
   TableCell,
   TableContainer,
-  TableRow
+  TableRow,
+  Typography
 } from '@mui/material';
-import TableFooter from '@mui/material/TableFooter';
+import { UseMutateFunction } from '@tanstack/react-query';
+import { AxiosResponse } from 'axios';
 import _ from 'lodash';
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 
-import { useDeleteUser } from '../../../apis';
-import { user } from '../../../models';
-import { Column, Nullable } from '../../../types';
-import AddUserDialog from '../../dialogs/add-user-dialog';
-import ConfirmDialog from '../../dialogs/confirm-dialog';
-import { ToastMessage } from '../../toast';
+import { useDeleteUser } from '@/apis';
+import { AddUserDialog, ConfirmDialog } from '@/components/dialogs';
+import { ToastMessage } from '@/components/toast';
+import { user } from '@/models';
+import { Column, Nullable } from '@/types';
+
 import UserTableHead from './table-head';
 import TablePagination from './table-pagination';
 
@@ -28,10 +28,17 @@ interface UserTableProps {
   data: user.User[];
   columns: Column<user.User>[];
   dataPagination: any;
+  onDelete?: UseMutateFunction<
+    AxiosResponse<any, any>,
+    unknown,
+    number,
+    unknown
+  >;
+  onUpdate?: (id: number) => void;
 
-  onChangePage?: (newPage: number) => void;
+  onChangePage: (newPage: number) => void;
 
-  onChangeSize?: (newSize: number) => void;
+  onChangeSize: (newSize: number) => void;
   isLoading?: boolean;
   height: string;
 }
@@ -42,7 +49,8 @@ export const UserTable: React.FC<UserTableProps> = ({
   onChangePage,
   onChangeSize,
   dataPagination,
-  height
+  height,
+  onDelete
 }) => {
   const [isUpdateDialogOpen, setIsUpdateDialogOpen] = useState<boolean>(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
@@ -81,9 +89,10 @@ export const UserTable: React.FC<UserTableProps> = ({
   };
 
   const handleDeleteUser = () => {
-    if (currentUser?.id) {
-      deleteUserMutate(currentUser);
+    if (currentUser) {
+      onDelete?.(currentUser.id);
     }
+    handleCloseDeleteDialog();
   };
 
   const handleUpateUser = (user: user.User) => {
@@ -92,39 +101,45 @@ export const UserTable: React.FC<UserTableProps> = ({
   };
 
   return (
-    <Box width={'100%'}>
+    <Box component="div" style={{ width: '100%' }}>
       <TableContainer
         sx={{
-          height: height,
-          border: '1px solid #ccc'
+          height: height
         }}
       >
-        <Table
-          stickyHeader
-          sx={{ minWidth: '900px', minHeight: '800px' }}
-          size="medium"
-        >
+        <Table stickyHeader sx={{ minWidth: '900px' }} size="medium">
           <UserTableHead columns={columns} />
           <TableBody>
             {data &&
-              data.map((user: user.User, index: number) => (
+              data.map((userData: user.User, index: number) => (
                 <TableRow key={index} hover>
                   {columns.map((column: Column<user.User>, index: number) => {
-                    return column.isAction ? (
+                    return !column.isAction ? (
                       <TableCell key={index} sx={{ minWidth: column.minWidth }}>
-                        {user.getprop(column.value)}
+                        <Typography component="div">
+                          {userData.getprop(column.value)}
+                        </Typography>
                       </TableCell>
                     ) : (
                       <TableCell key={index}>
                         <Stack direction={'row'} gap={1}>
-                          <IconButton onClick={() => handleUpateUser(user)}>
-                            <EditIcon />
-                          </IconButton>
-                          <IconButton
+                          <Button
+                            color="primary"
+                            onClick={() => handleUpateUser(userData)}
+                          >
+                            Update
+                          </Button>
+                          <Button
+                            color="error"
+                            onClick={() => handleOpenDeleteDialog(userData)}
+                          >
+                            Delete
+                          </Button>
+                          {/* <IconButton
                             onClick={() => handleOpenDeleteDialog(user)}
                           >
                             <DeleteIcon />
-                          </IconButton>
+                          </IconButton> */}
                         </Stack>
                       </TableCell>
                     );
@@ -133,29 +148,30 @@ export const UserTable: React.FC<UserTableProps> = ({
               ))}
           </TableBody>
         </Table>
-        <TableFooter style={{ position: 'sticky', bottom: 0 }}>
-          <TableRow>
-            <TablePagination
-              page={dataPagination.currentPage}
-              rowsPerPage={dataPagination.itemsPerPage}
-              elementsCount={dataPagination.totalElements}
-              totalPages={dataPagination.totalPages}
-              totalElements={dataPagination.totalElements}
-              selected={[]}
-              option={[10, 15, 20, 25]}
-              handleChangePage={(_, value) => {
-                onChangePage?.(value);
-              }}
-              handleChangeRowsPerPage={(e) => {
-                onChangeSize?.(e.target.value);
-              }}
-              handleChangeGoToPage={(e) => {
-                debounceGotoPage(e.target.value);
-              }}
-            />
-          </TableRow>
-        </TableFooter>
+        {/* <TableFooter style={{ position: 'sticky', bottom: 0 }}>
+          <TableRow> */}
+
+        {/* </TableRow>
+        </TableFooter> */}
       </TableContainer>
+      <TablePagination
+        page={dataPagination.currentPage}
+        rowsPerPage={dataPagination.itemsPerPage}
+        elementsCount={dataPagination.totalElements}
+        totalPages={dataPagination.totalPages}
+        totalElements={dataPagination.totalElements}
+        selected={[]}
+        option={[10, 15, 20, 25]}
+        handleChangePage={(_, value) => {
+          onChangePage?.(value);
+        }}
+        handleChangeRowsPerPage={(e) => {
+          onChangeSize?.(e.target.value);
+        }}
+        handleChangeGoToPage={(e) => {
+          debounceGotoPage(e.target.value);
+        }}
+      />
       <AddUserDialog
         userProfile={currentUser}
         mode="update"

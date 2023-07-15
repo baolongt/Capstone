@@ -26,10 +26,10 @@ export function ToastMessage({
   }, [rest?.toastProps?.type]);
 
   return (
-    <Box px={1} py={1.2}>
+    <Box component="div" px={1} py={1.2}>
       {Boolean(title) && <Typography fontWeight={700}>{title}</Typography>}
       {!title && <Typography fontWeight={700}>{toastTitle}</Typography>}
-      <Box>{message}</Box>
+      <Box component="div">{message}</Box>
     </Box>
   );
 }

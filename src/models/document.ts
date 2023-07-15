@@ -63,10 +63,9 @@ export class Document {
     this.status = status;
   }
 
-  getprop(propName: keyof Document) {
-    return this[propName];
+  getprop(propName: keyof Document): string | null {
+    return this[propName] ? String(this[propName]) : null;
   }
-
   toUpdatePayload(): UpdatePayload {
     return {
       id: this.id,
