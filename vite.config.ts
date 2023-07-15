@@ -5,7 +5,12 @@ import { defineConfig } from 'vite';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [legacy(), react()],
+  plugins: [
+    legacy(),
+    react({
+      include: '**/*.tsx, **/*.ts'
+    })
+  ],
   resolve: {
     alias: {
       // for TypeScript path alias import like : @/x/y/z
