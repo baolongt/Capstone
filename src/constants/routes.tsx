@@ -55,12 +55,7 @@ const paths: Path[] = [
   },
   {
     label: 'Edtior-demo',
-    path: '/editor',
-    icon: <SettingsApplicationsSharp />
-  },
-  {
-    label: 'Create doc demo',
-    path: '/poc',
+    path: '/graph',
     icon: <SettingsApplicationsSharp />
   }
 ];

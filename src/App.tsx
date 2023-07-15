@@ -4,6 +4,7 @@ import { Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
 import DashboardLayout from './components/layouts/Layout';
+import { Diagram } from './components/poc/Diagram';
 import Dashboard from './pages/dashboard';
 import DepartmentManagement from './pages/department-management';
 import OutgoingDocumentManagement from './pages/outgoing-document-management';
@@ -23,6 +24,7 @@ const App = () => {
           <Route index element={<OutgoingDocumentManagement />} />
           <Route path="create" element={<CreateOutgoingDocumentPage />} />
         </Route>
+        <Route path={'/graph'} element={<Diagram />} />
       </Routes>
       <ToastContainer
         closeOnClick
