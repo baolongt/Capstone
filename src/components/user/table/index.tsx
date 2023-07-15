@@ -1,6 +1,6 @@
 import {
   Box,
-  IconButton,
+  Button,
   Stack,
   Table,
   TableBody,
@@ -22,11 +22,15 @@ import TablePagination from './table-pagination';
 import { debounce } from 'lodash';
 import { Column, Nullable } from '../../../types';
 import TableFooter from '@mui/material/TableFooter';
+import { UseMutateFunction } from '@tanstack/react-query';
+import { AxiosResponse } from 'axios';
 
-interface UserTableProps {
+interface CustomTableProps {
   data: user.User[];
   columns: Column<user.User>[];
   dataPagination: any;
+  onDelete?: UseMutateFunction<AxiosResponse<any, any>, unknown, number, unknown>;
+  onUpdate?: (id: number) => void; 
   // eslint-disable-next-line no-unused-vars
   onChangePage: (newPage: number) => void;
   // eslint-disable-next-line no-unused-vars
@@ -35,13 +39,14 @@ interface UserTableProps {
   height: string;
 }
 
-export const UserTable: React.FC<UserTableProps> = ({
+export const CustomTable: React.FC<CustomTableProps> = ({
   data,
   columns,
   onChangePage,
   onChangeSize,
   dataPagination,
-  height
+  height,
+  onDelete
 }) => {
   const [isUpdateDialogOpen, setIsUpdateDialogOpen] = useState<boolean>(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
@@ -79,7 +84,10 @@ export const UserTable: React.FC<UserTableProps> = ({
     setIsDeleteDialogOpen(true);
   };
 
-  const handleDeleteUser = () => deleteUserMutate((currentUser as any)?.id);
+  const handleDeleteUser = () => {
+    onDelete?.(currentUser.id);
+    handleCloseDeleteDialog();
+  }
 
   const handleUpateUser = (user: user.User) => {
     setCurentUser(user);
@@ -90,13 +98,12 @@ export const UserTable: React.FC<UserTableProps> = ({
     <Box width={'100%'}>
       <TableContainer
         sx={{
-          height: height,
-          border: '1px solid #ccc'
+          height: height
         }}
       >
         <Table
           stickyHeader
-          sx={{ minWidth: '900px', minHeight: '800px' }}
+          sx={{ minWidth: '900px'}}
           size="medium"
         >
           <UserTableHead columns={columns} />
@@ -105,21 +112,24 @@ export const UserTable: React.FC<UserTableProps> = ({
               data.map((user: user.User, index: number) => (
                 <TableRow key={index} hover>
                   {columns.map((column: Column<user.User>, index: number) => {
-                    return column.isAction ? (
+                    return !column.isAction ? (
                       <TableCell sx={{ minWidth: column.minWidth }} key={index}>
-                        {user.getprop(column.value)}
+                        {user[column.value]}
                       </TableCell>
                     ) : (
                       <TableCell key={index}>
                         <Stack direction={'row'} gap={1}>
-                          <IconButton onClick={() => handleUpateUser(user)}>
-                            <EditIcon />
-                          </IconButton>
-                          <IconButton
+                          <Button onClick={() => handleUpateUser(user)} color="primary">
+                            Update
+                          </Button>
+                          <Button onClick={() => handleOpenDeleteDialog(user)} color="error">
+                            Delete
+                          </Button>
+                          {/* <IconButton
                             onClick={() => handleOpenDeleteDialog(user)}
                           >
                             <DeleteIcon />
-                          </IconButton>
+                          </IconButton> */}
                         </Stack>
                       </TableCell>
                     );
@@ -128,8 +138,13 @@ export const UserTable: React.FC<UserTableProps> = ({
               ))}
           </TableBody>
         </Table>
-        <TableFooter style={{ position: 'sticky', bottom: 0 }}>
-          <TableRow>
+        {/* <TableFooter style={{ position: 'sticky', bottom: 0 }}>
+          <TableRow> */}
+
+          {/* </TableRow>
+        </TableFooter> */}
+
+      </TableContainer>
             <TablePagination
               page={dataPagination.currentPage}
               rowsPerPage={dataPagination.itemsPerPage}
@@ -148,9 +163,6 @@ export const UserTable: React.FC<UserTableProps> = ({
                 debounceGotoPage(e.target.value);
               }}
             />
-          </TableRow>
-        </TableFooter>
-      </TableContainer>
       <AddUserDialog
         userProfile={currentUser}
         mode="update"

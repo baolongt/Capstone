@@ -1,4 +1,4 @@
-import { TableCell, TableHead, TableRow } from "@mui/material";
+import { TableCell, TableHead, TableRow, useTheme } from "@mui/material";
 import React from "react";
 import { user } from "../../../models";
 import { Column } from "../../../types";
@@ -8,12 +8,13 @@ interface UserTableHeadProps {
 }
 
 const UserTableHead : React.FC<UserTableHeadProps> = ({columns}) => {
+  const theme = useTheme();
   return (
     <TableHead>
       <TableRow>
         {columns.map((column: Column<user.User>, index: number) => (
           <TableCell
-            sx={{ minWidth: column.minWidth, pl: "16px !important", height: '50px' }}
+            sx={{ minWidth: column.minWidth, height: '50px', fontWeight: theme.typography.fontWeightBold }}
             key={index}
             align={"left"}
             padding="checkbox"

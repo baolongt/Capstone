@@ -1,5 +1,5 @@
 import React, { FC, ReactElement } from 'react';
-import { Box, Container, Grid, Typography } from '@mui/material';
+import { Box, Container, Typography } from '@mui/material';
 
 const Footer: FC = (): ReactElement => {
   return (
@@ -7,23 +7,17 @@ const Footer: FC = (): ReactElement => {
       sx={{
         width: '100%',
         height: 'auto',
-        paddingTop: '1rem',
-        paddingBottom: '1rem'
+        textAlign: 'center', 
+        py: 1
       }}
     >
       <Container maxWidth="lg">
-        <Grid container direction="column" alignItems="center">
-          <Grid item xs={12}>
-            <Typography color="black" variant="h5">
+            <Typography color="black" variant="h6">
               Capstone project
             </Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <Typography color="textSecondary" variant="subtitle1">
+            <Typography color="textSecondary" variant="body2">
               {`${new Date().getFullYear()} | FPT University`}
             </Typography>
-          </Grid>
-        </Grid>
       </Container>
     </Box>
   );

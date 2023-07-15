@@ -34,7 +34,8 @@ export const CustomButton = (props: CustomButtonProps) => {
     color = 'primary',
     sx,
     onClick,
-    type
+    type,
+    ...rest
   } = props;
 
   return (
@@ -54,6 +55,7 @@ export const CustomButton = (props: CustomButtonProps) => {
         fontWeight: 500,
         ...sx
       }}
+      {...rest}
     >
       {label}
     </Button>

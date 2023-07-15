@@ -8,23 +8,21 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { InputField } from '../common/form-control/input-field';
 import { SelectField } from '../common/form-control/select-field';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 import { ToastMessage } from '../toast';
 import React from 'react';
 import { SelectOption } from '../../types';
 import { addDepartmentSchema } from './validations';
 import { useCreateDepartment } from '../../apis/department';
+import { useListUsers } from '../../apis';
+import { User } from '../../models/user';
 
 interface AddDepartmentDialogProps {
   isOpen: boolean;
   onClose: () => void;
-  usersData: SelectOption[];
 }
 
-const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({isOpen, onClose, usersData}) => {
-  const queryClient = useQueryClient();
-
+const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({isOpen, onClose}) => {
   const form = useForm({
     defaultValues: {
       name: '',
@@ -34,7 +32,7 @@ const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({isOpen, onClos
   });
   
   const { handleSubmit } = form;
-
+  const {data: users} = useListUsers();
   const {mutate: createDepartmentMutation} = useCreateDepartment({
     onSuccess: () => {
       toast.success(<ToastMessage message={'Thêm phòng ban thành công'} />);
@@ -108,7 +106,11 @@ const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({isOpen, onClos
                 form={form}
                 name="departmentLeaderID"
                 placeholder="Chọn trưởng phòng"
-                data={[usersData]}
+                data={
+                  users?.data.map((user: User) => {
+                    return { title: user.name, value: user.id };
+                  }) ?? []
+                }
               />
             </Box>
           </Stack>
@@ -116,7 +118,7 @@ const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({isOpen, onClos
       </DialogContent>
       <DialogActions sx={{ p: '0 24px 24px 0' }}>
         <CustomButton label="Hủy bỏ" onClick={onClose} variant="outlined" />
-        <CustomButton label="Thêm" type="submit" form="add-deartment-form" />
+        <CustomButton label="Thêm" type="submit" form="add-department-form" />
       </DialogActions>
     </Dialog>
   );

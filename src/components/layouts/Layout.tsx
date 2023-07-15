@@ -18,6 +18,7 @@ import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import SidebarItems from './sidebar';
 import DefaultFooter from './footer';
 import DefaultHeader from './header';
+import { FOOTER_HEADER_HEIGHT } from '../../constants/common';
 // import DynamicBreadcrums from './DynamicBreadcrums';
 
 type DashboardLayoutProps = {
@@ -81,7 +82,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
             {...sideBarEdgeTrigger}
           ></EdgeTrigger>
         </EdgeSidebar>
-        <Content sx={{ minHeight: '1000px' }}>{children}</Content>
+        <Content sx={{ minHeight: `calc(100vh - 10px - ${FOOTER_HEADER_HEIGHT})` }}>{children}</Content>
         <Footer>
           <DefaultFooter />
         </Footer>

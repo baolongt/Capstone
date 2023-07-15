@@ -1,1 +1,1 @@
-export {UserTable} from "./table"
+export {CustomTable} from "./table"
