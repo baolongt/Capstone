@@ -2,14 +2,23 @@
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Box, FormHelperText, Theme } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
-import { makeStyles } from '@mui/styles';
+import { styled } from '@mui/material/styles';
 import React, { useState } from 'react';
 import { Accept, useDropzone } from 'react-dropzone';
 import { Controller, FieldValues } from 'react-hook-form';
 import { FaFileExcel, FaFilePdf, FaFileWord } from 'react-icons/fa';
 
-const useStyles = makeStyles((theme: Theme) => ({
-  dropzone: {
+const PREFIX = 'Dropzone';
+const classes = {
+  root: `${PREFIX}-root`,
+  thumb: `${PREFIX}-thumb`,
+  thumbOverlay: `${PREFIX}-thumbOverlay`,
+  thumbDeleteButton: `${PREFIX}-thumbDeleteButton`,
+  thumbName: `${PREFIX}-thumbName`,
+  thumbContainer: `${PREFIX}-thumbContainer`
+};
+const Root = styled('div')(({ theme }) => ({
+  [`& .${classes.root}`]: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -23,7 +32,7 @@ const useStyles = makeStyles((theme: Theme) => ({
       backgroundColor: theme.palette.grey[200]
     }
   },
-  thumb: {
+  [`& .${classes.thumb}`]: {
     display: 'inline-flex',
     position: 'relative',
     borderRadius: 2,
@@ -34,7 +43,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     height: 100,
     padding: 4,
     boxSizing: 'border-box',
-    '&:hover $thumbOverlay': {
+    '&:hover .thumbOverlay': {
       opacity: 1,
       transition: 'opacity .3s ease-in-out'
     },
@@ -43,7 +52,7 @@ const useStyles = makeStyles((theme: Theme) => ({
       maxHeight: '100%'
     }
   },
-  thumbOverlay: {
+  [`& .${classes.thumbOverlay}`]: {
     position: 'absolute',
     top: 0,
     left: 0,
@@ -55,19 +64,16 @@ const useStyles = makeStyles((theme: Theme) => ({
     opacity: 0,
     background: '#0000008c'
   },
-
-  thumbDeleteButton: {
+  [`& .${classes.thumbDeleteButton}`]: {
     color: '#ffffff'
   },
-
-  thumbName: {
+  [`& .${classes.thumbName}`]: {
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     width: 100,
     maxHeight: 30
   },
-
-  thumbContainer: {
+  [`& .${classes.thumbContainer}`]: {
     display: 'flex',
     flexWrap: 'nowrap',
     overflowX: 'auto',
@@ -151,7 +157,6 @@ const DragAndDropBox: React.FC<DragAndDropBoxProps> = ({
   value
 }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const classes = useStyles();
 
   const onDrop = (acceptedFiles: File[]) => {
     const format = acceptedFiles.map((file: File) =>
@@ -191,7 +196,7 @@ const DragAndDropBox: React.FC<DragAndDropBoxProps> = ({
   return (
     <Box component="div">
       <Box
-        className={classes.dropzone}
+        className={classes.root}
         {...getRootProps()}
         borderColor={
           error
@@ -244,7 +249,7 @@ export const WrappedDragDropFileBox: React.FC<WrappedDragDropFileBoxProps> = (
   };
 
   return (
-    <>
+    <Root>
       <Controller
         control={control}
         name={name}
@@ -260,6 +265,6 @@ export const WrappedDragDropFileBox: React.FC<WrappedDragDropFileBoxProps> = (
           );
         }}
       />
-    </>
+    </Root>
   );
 };

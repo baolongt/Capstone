@@ -1,5 +1,5 @@
 import { Box, Button, Grid, Typography } from '@mui/material';
-import { makeStyles } from '@mui/styles';
+import { styled } from '@mui/material/styles';
 import React, { useEffect, useState } from 'react';
 import { Accept } from 'react-dropzone';
 import { UseFormReturn } from 'react-hook-form';
@@ -27,27 +27,36 @@ const fileAccpetType: Accept = {
 const { documentFieldOptions, documentTypeOptionsMap, statusOptions } =
   outgoingDocument;
 
-const useStyles = makeStyles((theme: any) => ({
-  root: {
+const PREFIX = 'MyForm';
+const classes = {
+  root: `${PREFIX}-root`,
+  grid: `${PREFIX}-grid`,
+  box: `${PREFIX}-box`,
+  textfield: `${PREFIX}-textfield`,
+  buttonGroup: `${PREFIX}-buttonGroup`,
+  required: `${PREFIX}-required`
+};
+const Root = styled('div')(({ theme }) => ({
+  [`& .${classes.root}`]: {
     flexGrow: 1,
     marginTop: theme.spacing(4)
   },
-  grid: {
+  [`& .${classes.grid}`]: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center'
   },
-  box: {
+  [`& .${classes.box}`]: {
     maxWidth: '100%'
   },
-  textfield: {
+  [`& .${classes.textfield}`]: {
     minWidth: '200px'
   },
-  buttonGroup: {
+  [`& .${classes.buttonGroup}`]: {
     marginTop: theme.spacing(6),
     width: '100%'
   },
-  required: {
+  [`& .${classes.required}`]: {
     color: '#FF6347'
   }
 }));
@@ -57,7 +66,6 @@ type createDocumentFormProps = {
 };
 
 const CreateDocumentForm: React.FC<createDocumentFormProps> = ({ form }) => {
-  const classes = useStyles();
   const [documentTypeOptions, setDocumentTypeOptions] = useState<
     SelectOption[]
   >([]);
@@ -78,7 +86,7 @@ const CreateDocumentForm: React.FC<createDocumentFormProps> = ({ form }) => {
   }, []);
 
   return (
-    <>
+    <Root>
       <div className={classes.root}>
         <Grid container className={classes.grid}>
           <Grid item xs={12} sm={8} md={6}>
@@ -193,7 +201,7 @@ const CreateDocumentForm: React.FC<createDocumentFormProps> = ({ form }) => {
           </Grid>
         </Grid>
       </div>
-    </>
+    </Root>
   );
 };
 

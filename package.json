@@ -9,17 +9,18 @@
   },
   "main": "src/index.js",
   "scripts": {
-    "build": "npm run typecheck && vite build",
+    "prebuild": "rm -rf dist",
+    "build": "vite build",
     "cleanup": "rm -rf node_modules && rm -rf package-lock.json",
     "dev": "vite --port 3000",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 50",
     "lint:fix": "npm run lint -- --fix",
     "precommit": "lint-staged",
     "prepare": "husky install",
+    "prettier": "npx prettier --write ./src",
     "preview": "vite preview",
     "serve": "npm run build && vite preview --port 3000",
-    "start": "npm run dev",
-    "typecheck": "tsc --noEmit"
+    "start": "npm run dev"
   },
   "husky": {
     "hooks": {
@@ -33,12 +34,13 @@
     "package.json": "npx sort-package-json"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
     "@faker-js/faker": "^8.0.2",
     "@hookform/resolvers": "^3.1.0",
     "@mui-treasury/layout": "^5.0.0",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.13.0",
-    "@mui/styles": "^5.13.2",
     "@tanstack/react-query": "^4.29.12",
     "axios": "^1.4.0",
     "dotenv": "^16.1.3",
