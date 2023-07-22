@@ -6,72 +6,129 @@ import {
   ListItemIcon,
   ListItemProps,
   ListItemText,
-  ListSubheader
+  SxProps,
+  Theme,
+  useTheme
 } from '@mui/material';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import paths from '@/constants/routes';
 import { Path } from '@/types';
 
-const Item = (
-  props: Path & {
-    isSubItem?: boolean;
-  } & ListItemProps
-) => {
-  const { icon, label, path, isSubItem } = props;
+type SidebarItemsProps = {
+  isCollapsed: boolean;
+};
+
+type ItemProps = Path & {
+  isSubItem?: boolean;
+  theme: Theme;
+} & ListItemProps &
+  SidebarItemsProps &
+  SxProps;
+
+const Item = (props: ItemProps) => {
+  const { icon, label, path, isSubItem, isCollapsed, theme } = props;
   return (
     <NavLink to={path}>
-      <ListItemButton sx={isSubItem ? { pl: 4 } : {}}>
-        <ListItemIcon>{icon}</ListItemIcon>
-        <ListItemText primary={`${label}`} />
+      <ListItemButton
+        sx={{
+          color: theme.palette.primary.contrastText,
+          ...(isSubItem ? { pl: 4 } : {})
+        }}
+      >
+        <ListItemIcon
+          sx={{
+            color: theme.palette.primary.contrastText
+          }}
+        >
+          {icon}
+        </ListItemIcon>
+        {isCollapsed ? <></> : <ListItemText primary={`${label}`} />}
       </ListItemButton>
     </NavLink>
   );
 };
 
-const CollapseItems = (props: Path) => {
-  const { icon, label, subPaths } = props;
+type CollapseItemsProps = Path &
+  SidebarItemsProps & {
+    theme: Theme;
+  };
+
+const CollapseItems = (props: CollapseItemsProps) => {
+  const { icon, label, subPaths, isCollapsed, theme } = props;
 
   const [open, setOpen] = React.useState(false);
 
   const handleClick = () => setOpen(!open);
 
+  useEffect(() => {
+    if (isCollapsed) {
+      setOpen(false);
+    }
+  }, [isCollapsed]);
+
   return (
     <>
-      <ListItemButton onClick={handleClick}>
-        <ListItemIcon>{icon}</ListItemIcon>
-        <ListItemText primary={`${label}`} />
-        {open ? <ExpandLess /> : <ExpandMore />}
+      <ListItemButton
+        sx={{
+          color: theme.palette.primary.contrastText
+        }}
+        onClick={handleClick}
+      >
+        <ListItemIcon
+          sx={{
+            color: theme.palette.primary.contrastText
+          }}
+        >
+          {icon}
+        </ListItemIcon>
+        {isCollapsed ? (
+          <></>
+        ) : (
+          <>
+            <ListItemText primary={`${label}`} />
+            {open ? <ExpandLess /> : <ExpandMore />}
+          </>
+        )}
+        <></>
       </ListItemButton>
       <Collapse unmountOnExit in={open} timeout="auto">
         {subPaths?.map((path: Path, i) => {
-          return <Item key={i} {...path} isSubItem={true} />;
+          return (
+            <Item
+              key={i}
+              isCollapsed={isCollapsed}
+              {...path}
+              isSubItem={true}
+              theme={theme}
+            />
+          );
         })}
       </Collapse>
     </>
   );
 };
 
-const SidebarItems: React.FC = () => {
+const SidebarItems: React.FC<SidebarItemsProps> = ({ isCollapsed }) => {
+  const theme = useTheme();
   return (
     <>
       <List
-        sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
+        sx={{ width: '100%', maxWidth: 360 }}
         component="nav"
         aria-labelledby="nested-list-subheader"
-        subheader={
-          <ListSubheader
-            component="div"
-            id="nested-list-subheader"
-          ></ListSubheader>
-        }
       >
         {paths.map((path: Path, i) => {
           return path.subPaths != null ? (
-            <CollapseItems key={i} {...path} />
+            <CollapseItems
+              key={i}
+              isCollapsed={isCollapsed}
+              {...path}
+              theme={theme}
+            />
           ) : (
-            <Item key={i} {...path} />
+            <Item key={i} isCollapsed={isCollapsed} {...path} theme={theme} />
           );
         })}
       </List>

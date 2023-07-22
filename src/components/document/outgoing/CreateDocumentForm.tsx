@@ -91,7 +91,7 @@ const CreateDocumentForm: React.FC<createDocumentFormProps> = ({ form }) => {
         <Grid container className={classes.grid}>
           <Grid item xs={12} sm={8} md={6}>
             <Box component="div" className={classes.box}>
-              <Typography gutterBottom variant="h4">
+              <Typography gutterBottom variant="h4" fontWeight="bold">
                 Đăng ký văn bản đi
               </Typography>
               <Grid
@@ -102,7 +102,7 @@ const CreateDocumentForm: React.FC<createDocumentFormProps> = ({ form }) => {
                 onSubmit={handleSubmit(submitHandler)}
               >
                 <Grid item xs={12}>
-                  <Typography>
+                  <Typography style={{ marginBottom: '5px' }} fontWeight="bold">
                     Trích yếu
                     <Box component="span" color="error.main">
                       *
@@ -116,21 +116,21 @@ const CreateDocumentForm: React.FC<createDocumentFormProps> = ({ form }) => {
                   />
                 </Grid>
                 <Grid item xs={6}>
-                  <Typography>
+                  <Typography style={{ marginBottom: '5px' }} fontWeight="bold">
                     Lĩnh vực văn bản
                     <Box component="span" color="error.main">
                       *
                     </Box>
-                    <SelectField
-                      data={documentFieldOptions}
-                      form={form}
-                      name="documentFieldId"
-                      onChange={onChangeDocumentField}
-                    />
                   </Typography>
+                  <SelectField
+                    data={documentFieldOptions}
+                    form={form}
+                    name="documentFieldId"
+                    onChange={onChangeDocumentField}
+                  />
                 </Grid>
                 <Grid item xs={6}>
-                  <Typography>
+                  <Typography style={{ marginBottom: '5px' }} fontWeight="bold">
                     Loại văn bản
                     <Box component="span" color="error.main">
                       *
@@ -143,7 +143,7 @@ const CreateDocumentForm: React.FC<createDocumentFormProps> = ({ form }) => {
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <Typography>
+                  <Typography style={{ marginBottom: '5px' }} fontWeight="bold">
                     Trạng thái
                     <Box component="span" color="error.main">
                       *
@@ -157,7 +157,7 @@ const CreateDocumentForm: React.FC<createDocumentFormProps> = ({ form }) => {
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <Typography>
+                  <Typography style={{ marginBottom: '5px' }} fontWeight="bold">
                     Ghi chú
                     <Box component="span" color="error.main">
                       *
@@ -166,7 +166,9 @@ const CreateDocumentForm: React.FC<createDocumentFormProps> = ({ form }) => {
                   <MultilineTextField form={form} name="note" minRows={4} />
                 </Grid>
                 <Grid item xs={12}>
-                  <Typography>File đính kèm</Typography>
+                  <Typography style={{ marginBottom: '5px' }} fontWeight="bold">
+                    File đính kèm
+                  </Typography>
                   <WrappedDragDropFileBox
                     fileAccpetType={fileAccpetType}
                     form={form}

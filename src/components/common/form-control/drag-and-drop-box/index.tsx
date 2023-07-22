@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Box, FormHelperText, Theme } from '@mui/material';
+import { Box, FormHelperText } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import { styled } from '@mui/material/styles';
 import React, { useState } from 'react';
@@ -23,8 +23,7 @@ const Root = styled('div')(({ theme }) => ({
     alignItems: 'center',
     justifyContent: 'center',
     height: 200,
-    border: `1px solid ${theme.palette.grey[400]}`,
-    borderRadius: theme.shape.borderRadius,
+    border: `1px solid #030303`,
     backgroundColor: theme.palette.grey[100],
     '&:hover': {
       cursor: 'pointer',
@@ -74,10 +73,11 @@ const Root = styled('div')(({ theme }) => ({
     maxHeight: 30
   },
   [`& .${classes.thumbContainer}`]: {
+    width: '100%',
     display: 'flex',
     flexWrap: 'nowrap',
     overflowX: 'auto',
-    justifyContent: 'flex-start'
+    justifyContent: 'center'
   }
 }));
 

@@ -1,12 +1,12 @@
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-import { Box, ButtonBase, CssBaseline, IconButton, Menu } from '@mui/material';
+import Menu from '@mui/icons-material/Menu';
+import { Box, ButtonBase, CssBaseline, useTheme } from '@mui/material';
 import {
   Content,
   EdgeSidebar,
   EdgeTrigger,
   Footer,
-  getCozyScheme,
   Header,
   Root,
   SidebarContent
@@ -25,12 +25,14 @@ type DashboardLayoutProps = {
 };
 
 const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
-  // TODO: handle open/close sidebar to show only icon
+  const theme = useTheme();
+
+  const [isCollapsed, setIsCollapsed] = React.useState(false);
   const headerEdgeTrigger: any = {
-    children: (open: any, setOpen: any) => (
-      <IconButton onClick={() => setOpen(!open)}>
-        {open ? <KeyboardArrowLeft /> : <Menu open={false} />}
-      </IconButton>
+    children: (state: any, setState: any) => (
+      <ButtonBase onClick={() => setState(!state)}>
+        {state ? <KeyboardArrowLeft /> : <Menu />}
+      </ButtonBase>
     )
   };
 
@@ -39,12 +41,14 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
       <ButtonBase
         sx={{
           minHeight: 40,
-          width: '100%',
-          bgcolor: 'grey.100',
-          borderTop: '1px solid',
-          borderColor: 'grey.200'
+          width: '100%'
+          // borderTop: '1px solid',
+          // borderColor: 'grey.200'
         }}
-        onClick={() => setCollapsed(!collapsed)}
+        onClick={() => {
+          setCollapsed(!collapsed);
+          setIsCollapsed(!collapsed);
+        }}
       >
         {collapsed ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
       </ButtonBase>
@@ -54,28 +58,59 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   return (
     <>
       <CssBaseline />
-      <Root scheme={getCozyScheme()}>
+      <Root
+        scheme={{
+          header: {
+            config: {
+              xs: {
+                position: 'sticky',
+                height: 56
+              },
+              md: {
+                position: 'relative',
+                height: 64
+              }
+            }
+          },
+          leftEdgeSidebar: {
+            autoCollapse: 'sm',
+            config: {
+              md: {
+                variant: 'permanent',
+                width: 256,
+                collapsible: true,
+                collapsedWidth: 64
+              }
+            }
+          }
+        }}
+      >
         <CssBaseline />
         <Header>
           <Box
+            bgcolor={theme.palette.primary.light}
             component="div"
             sx={{
               flex: 1,
               display: 'flex',
               alignItems: 'center',
+              px: 2,
               gap: 1
             }}
           >
             <EdgeTrigger
-              target={{ anchor: 'left', field: 'open' }}
-              {...headerEdgeTrigger}
+              target={{ anchor: 'left', field: 'collapsed' }}
+              // {...headerEdgeTrigger}
             ></EdgeTrigger>
-            <DefaultHeader />
           </Box>
         </Header>
         <EdgeSidebar anchor="left">
-          <SidebarContent>
-            <SidebarItems />
+          <SidebarContent
+            sx={{
+              bgcolor: theme.palette.primary.main
+            }}
+          >
+            <SidebarItems isCollapsed={isCollapsed} />
           </SidebarContent>
           <EdgeTrigger
             target={{ anchor: 'left', field: 'collapsed' }}
@@ -87,7 +122,12 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
         >
           {children}
         </Content>
-        <Footer>
+        <Footer
+          sx={{
+            bgcolor: theme.palette.primary.light,
+            marginTop: '10px'
+          }}
+        >
           <DefaultFooter />
         </Footer>
       </Root>
