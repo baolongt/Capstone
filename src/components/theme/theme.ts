@@ -1,13 +1,16 @@
-import { red } from '@mui/material/colors';
+import { green, red } from '@mui/material/colors';
+import { outlinedInputClasses } from '@mui/material/OutlinedInput';
 import { createTheme } from '@mui/material/styles';
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#2196f3'
+      main: '#364954',
+      contrastText: '#fff',
+      light: '#F6FAFE'
     },
     secondary: {
-      main: '#2979ff'
+      main: '#53C7F9'
     },
     error: {
       main: red.A400
@@ -30,6 +33,22 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           textTransform: 'none'
+        }
+      }
+    },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        notchedOutline: {
+          borderColor: '#030303'
+        },
+        root: {
+          borderRadius: '0px',
+          [`&:hover .${outlinedInputClasses.notchedOutline}`]: {
+            borderColor: '#030303'
+          },
+          [`&.Mui-focused .${outlinedInputClasses.notchedOutline}`]: {
+            borderColor: '#030303'
+          }
         }
       }
     }
