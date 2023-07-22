@@ -26,7 +26,7 @@ type DashboardLayoutProps = {
 
 const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   const theme = useTheme();
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   const [isCollapsed, setIsCollapsed] = React.useState(false);
   const headerEdgeTrigger: any = {
     children: (state: any, setState: any) => (
@@ -125,7 +125,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
         <Footer
           sx={{
             bgcolor: theme.palette.primary.light,
-            marginTop: '10px',
+            marginTop: '10px'
           }}
         >
           <DefaultFooter />
