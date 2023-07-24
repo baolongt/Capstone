@@ -70,6 +70,12 @@ const CollapseItems = (props: CollapseItemsProps) => {
     }
   }, [isCollapsed]);
 
+  useEffect(() => {
+    if (isCollapsed) {
+      setOpen(false);
+    }
+  }, [isCollapsed]);
+
   return (
     <>
       <ListItemButton
