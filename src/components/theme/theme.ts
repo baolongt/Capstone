@@ -42,7 +42,6 @@ const theme = createTheme({
           borderColor: '#030303'
         },
         root: {
-          borderRadius: '0px',
           [`&:hover .${outlinedInputClasses.notchedOutline}`]: {
             borderColor: '#030303'
           },

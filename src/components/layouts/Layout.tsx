@@ -16,7 +16,6 @@ import React from 'react';
 import { FOOTER_HEADER_HEIGHT } from '@/constants/common';
 
 import DefaultFooter from './footer';
-import DefaultHeader from './header';
 import SidebarItems from './sidebar';
 // import DynamicBreadcrums from './DynamicBreadcrums';
 
@@ -114,7 +113,6 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
           </SidebarContent>
           <EdgeTrigger
             target={{ anchor: 'left', field: 'collapsed' }}
-            {...sideBarEdgeTrigger}
           ></EdgeTrigger>
         </EdgeSidebar>
         <Content

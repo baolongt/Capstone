@@ -60,7 +60,15 @@ const CollapseItems = (props: CollapseItemsProps) => {
 
   const [open, setOpen] = React.useState(false);
 
-  const handleClick = () => setOpen(!open);
+  const handleClick = () => {
+    setOpen(!open);
+  };
+
+  useEffect(() => {
+    if (isCollapsed) {
+      setOpen(false);
+    }
+  }, [isCollapsed]);
 
   useEffect(() => {
     if (isCollapsed) {
