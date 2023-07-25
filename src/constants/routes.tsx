@@ -57,6 +57,11 @@ const paths: Path[] = [
     label: 'Edtior-demo',
     path: '/graph',
     icon: <SettingsApplicationsSharp />
+  },
+  {
+    label: 'Base-table',
+    path: '/table',
+    icon: <SettingsApplicationsSharp />
   }
 ];
 export default paths;
