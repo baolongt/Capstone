@@ -7,3 +7,7 @@ export type Column<T> = {
   value: keyof T;
   isAction?: boolean;
 };
+
+export type ColumnHeadingProps = {
+  name: string;
+};
