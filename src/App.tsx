@@ -10,6 +10,7 @@ import DepartmentManagement from './pages/department-management';
 import OutgoingDocumentManagement from './pages/outgoing-document-management';
 import CreateOutgoingDocumentPage from './pages/outgoing-document-management/create';
 import Setting from './pages/setting';
+import TableDemo from './pages/table-base-demo';
 import UserManagement from './pages/user-management';
 
 const App = () => {
@@ -25,6 +26,7 @@ const App = () => {
           <Route path="create" element={<CreateOutgoingDocumentPage />} />
         </Route>
         <Route path={'/graph'} element={<Diagram />} />
+        <Route path={'/table'} element={<TableDemo />} />
       </Routes>
       <ToastContainer
         closeOnClick
