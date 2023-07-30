@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Button, Grid, Stack, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import React, { useEffect, useState } from 'react';
 import { Accept } from 'react-dropzone';
@@ -10,8 +10,9 @@ import {
   SelectField,
   WrappedDragDropFileBox
 } from '@/components/common';
+import { BaseCheckbox } from '@/components/common/form-control/check-box';
 import { outgoingDocument } from '@/models';
-import { SelectOption } from '@/types';
+import { SelectOption, validation } from '@/types';
 
 const fileAccpetType: Accept = {
   'image/jpeg': ['.jpg', '.jpeg'],
@@ -53,37 +54,49 @@ const Root = styled('div')(({ theme }) => ({
     minWidth: '200px'
   },
   [`& .${classes.buttonGroup}`]: {
-    marginTop: theme.spacing(6),
+    marginTop: theme.spacing(3),
     width: '100%'
   },
   [`& .${classes.required}`]: {
     color: '#FF6347'
   }
 }));
-
 type createDocumentFormProps = {
-  form: UseFormReturn<any>;
+  form: UseFormReturn<
+    validation.outgoingDocument.CreateType,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    any,
+    undefined
+  >;
+  handleUploadDialogOpen: () => void;
 };
 
-const CreateDocumentForm: React.FC<createDocumentFormProps> = ({ form }) => {
+const CreateDocumentForm: React.FC<createDocumentFormProps> = ({
+  handleUploadDialogOpen,
+  form
+}) => {
   const [documentTypeOptions, setDocumentTypeOptions] = useState<
     SelectOption[]
   >([]);
 
-  const { getValues, handleSubmit } = form;
+  const { handleSubmit, watch, setValue } = form;
+  const documentField = watch('documentField');
 
   const submitHandler = () => {
     //TODO: call api
-    console.log('values', getValues());
-  };
-
-  const onChangeDocumentField = () => {
-    setDocumentTypeOptions(documentTypeOptionsMap[getValues().documentFieldId]);
+    handleUploadDialogOpen();
   };
 
   useEffect(() => {
-    setDocumentTypeOptions(documentTypeOptionsMap[getValues().documentFieldId]);
-  }, []);
+    if (documentTypeOptionsMap[documentField].length === 0) {
+      // If documentTypeId is empty it should remove when send api
+      setValue('documentTypeId', -1);
+    } else {
+      setValue('documentTypeId', 1);
+    }
+
+    setDocumentTypeOptions(documentTypeOptionsMap[documentField]);
+  }, [documentField, setValue]);
 
   return (
     <Root>
@@ -125,36 +138,35 @@ const CreateDocumentForm: React.FC<createDocumentFormProps> = ({ form }) => {
                   <SelectField
                     data={documentFieldOptions}
                     form={form}
-                    name="documentFieldId"
-                    onChange={onChangeDocumentField}
+                    name="documentField"
                   />
                 </Grid>
                 <Grid item xs={6}>
                   <Typography style={{ marginBottom: '5px' }} fontWeight="bold">
                     Loại văn bản
-                    <Box component="span" color="error.main">
-                      *
-                    </Box>
                   </Typography>
                   <SelectField
                     data={documentTypeOptions}
+                    disabled={
+                      documentTypeOptions && documentTypeOptions.length === 0
+                        ? true
+                        : false
+                    }
                     form={form}
                     name="documentTypeId"
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <Typography style={{ marginBottom: '5px' }} fontWeight="bold">
-                    Trạng thái
-                    <Box component="span" color="error.main">
-                      *
+                  <Stack direction="row" spacing={2}>
+                    <Box component="div" sx={{ marginTop: '10px' }}>
+                      <Typography fontWeight="bold">Văn bản trả lời</Typography>
                     </Box>
-                  </Typography>
-                  <SelectField
-                    data={statusOptions}
-                    form={form}
-                    name="status"
-                    sx={{ maxWidth: '100%' }}
-                  />
+                    <BaseCheckbox
+                      formHook={form}
+                      name="isRepliedDocument"
+                      sx={{ '& .MuiSvgIcon-root': { fontSize: 28 } }}
+                    />
+                  </Stack>
                 </Grid>
                 <Grid item xs={12}>
                   <Typography style={{ marginBottom: '5px' }} fontWeight="bold">
@@ -174,20 +186,18 @@ const CreateDocumentForm: React.FC<createDocumentFormProps> = ({ form }) => {
                     form={form}
                     name="files"
                   />
+                  <Typography
+                    gutterBottom
+                    sx={{ paddingTop: '1px' }}
+                    variant="caption"
+                    display="block"
+                  >
+                    Tuỳ theo loại văn bản mà có thể có hoặc không có file đính
+                    kèm
+                  </Typography>
                 </Grid>
                 <Grid container className={classes.buttonGroup} spacing={2}>
                   <Grid item xs={12}>
-                    <Button variant="contained" color="primary" type="submit">
-                      Ký số
-                    </Button>
-                    <Button
-                      style={{ marginLeft: '10px' }}
-                      variant="contained"
-                      color="primary"
-                      type="submit"
-                    >
-                      Chuyển cán bộ khác
-                    </Button>
                     <Button
                       style={{ marginLeft: '10px' }}
                       variant="contained"
