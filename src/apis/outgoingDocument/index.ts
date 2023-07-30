@@ -39,3 +39,6 @@ export const getAllOutgoingDocuments = async () => {
   await new Promise((resolve) => setTimeout(resolve, 3000));
   return documents;
 };
+
+export * from './uploadFile';
+export * from './uploadForm';
