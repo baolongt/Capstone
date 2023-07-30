@@ -1,6 +1,8 @@
 import * as yup from 'yup';
 
-export const validationSchema = yup
+import { UploadFile } from '@/models';
+
+export const createSchema = yup
   .object()
   .shape({
     epitomize: yup
@@ -9,7 +11,7 @@ export const validationSchema = yup
       .trim()
       .min(1)
       .nonNullable(),
-    documentFieldId: yup.number().required('Lĩnh vực văn bản là bắt buộc'),
+    documentField: yup.number().required('Lĩnh vực văn bản là bắt buộc'),
     documentTypeId: yup.number().required('Loại văn bản là bắt buộc'),
     status: yup.number().required('Trạng thái là bắt buộc'),
     note: yup
@@ -18,6 +20,17 @@ export const validationSchema = yup
       .trim()
       .min(1)
       .nonNullable(),
-    files: yup.array()
+    files: yup.array(),
+    isRepliedDocument: yup.boolean()
   })
   .required();
+
+export type CreateType = {
+  files?: UploadFile[] | undefined;
+  isRepliedDocument?: boolean | undefined;
+  status: number;
+  epitomize: string;
+  documentField: number;
+  documentTypeId: number;
+  note: string;
+};
