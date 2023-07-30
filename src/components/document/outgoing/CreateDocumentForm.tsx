@@ -25,8 +25,7 @@ const fileAccpetType: Accept = {
   'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': ['.xlsx']
 };
 
-const { documentFieldOptions, documentTypeOptionsMap, statusOptions } =
-  outgoingDocument;
+const { documentFieldOptions, documentTypeOptionsMap } = outgoingDocument;
 
 const PREFIX = 'MyForm';
 const classes = {
