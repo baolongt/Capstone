@@ -81,9 +81,11 @@ const CreateOutgoingDocumentPage: React.FC = () => {
     }
   }, [currentUploadStep]);
 
+  // clean up state when upload form success
   useEffect(() => {
     if (isUploadFormSuccess) {
       reset();
+      setCurrentUploadStep(0);
     }
   }, [isUploadFormSuccess]);
 
