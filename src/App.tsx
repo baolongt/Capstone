@@ -7,6 +7,7 @@ import DashboardLayout from './components/layouts/Layout';
 import { Diagram } from './components/poc/Diagram';
 import Dashboard from './pages/dashboard';
 import DepartmentManagement from './pages/department-management';
+import FileManagement from './pages/file-management';
 import OutgoingDocumentManagement from './pages/outgoing-document-management';
 import CreateOutgoingDocumentPage from './pages/outgoing-document-management/create';
 import Setting from './pages/setting';
@@ -20,6 +21,7 @@ const App = () => {
         <Route path={'/'} element={<Dashboard />} />
         <Route path={'/users'} element={<UserManagement />} />
         <Route path={'/departments'} element={<DepartmentManagement />} />
+        <Route path={'/documents'} element={<FileManagement />} />
         <Route path={'/setting'} element={<Setting />} />
         <Route path={'/outgoing-documents'}>
           <Route index element={<OutgoingDocumentManagement />} />

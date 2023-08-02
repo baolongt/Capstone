@@ -1,3 +1,5 @@
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import {
   Box,
   Button,
@@ -18,7 +20,7 @@ import { toast } from 'react-toastify';
 import { useDeleteUser } from '@/apis';
 import { AddUserDialog, ConfirmDialog } from '@/components/dialogs';
 import { ToastMessage } from '@/components/toast';
-import { user } from '@/models';
+import { document, user } from '@/models';
 import { Column, Nullable } from '@/types';
 
 import UserTableHead from './table-head';
@@ -111,13 +113,15 @@ export const UserTable: React.FC<UserTableProps> = ({
           <UserTableHead columns={columns} />
           <TableBody>
             {data &&
-              data.map((userData: user.User, index: number) => (
+              data.map((item: any, index: number) => (
                 <TableRow key={index} hover>
-                  {columns.map((column: Column<user.User>, index: number) => {
+                  {columns.map((column: Column<any>, index: number) => {
                     return !column.isAction ? (
                       <TableCell key={index} sx={{ minWidth: column.minWidth }}>
                         <Typography component="div">
-                          {userData.getprop(column.value)}
+                          {/* {userData.getprop(column.value)} */}
+
+                          {item[column.value]}
                         </Typography>
                       </TableCell>
                     ) : (
@@ -125,21 +129,16 @@ export const UserTable: React.FC<UserTableProps> = ({
                         <Stack direction={'row'} gap={1}>
                           <Button
                             color="primary"
-                            onClick={() => handleUpateUser(userData)}
+                            onClick={() => handleOpenDeleteDialog(item)}
                           >
-                            Update
+                            <EditIcon />
                           </Button>
                           <Button
-                            color="error"
-                            onClick={() => handleOpenDeleteDialog(userData)}
-                          >
-                            Delete
-                          </Button>
-                          {/* <IconButton
-                            onClick={() => handleOpenDeleteDialog(user)}
+                            color="primary"
+                            onClick={() => handleUpateUser(item)}
                           >
                             <DeleteIcon />
-                          </IconButton> */}
+                          </Button>
                         </Stack>
                       </TableCell>
                     );
@@ -148,11 +147,6 @@ export const UserTable: React.FC<UserTableProps> = ({
               ))}
           </TableBody>
         </Table>
-        {/* <TableFooter style={{ position: 'sticky', bottom: 0 }}>
-          <TableRow> */}
-
-        {/* </TableRow>
-        </TableFooter> */}
       </TableContainer>
       <TablePagination
         page={dataPagination.currentPage}

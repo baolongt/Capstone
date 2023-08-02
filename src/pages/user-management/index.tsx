@@ -23,11 +23,13 @@ const UserManagement = () => {
     },
     {
       heading: 'Căn cước công dân',
-      value: 'citizenIdentification'
+      value: 'citizenIdentification',
+      minWidth: '150px'
     },
     {
       heading: 'Vai trò',
-      value: 'roleName'
+      value: 'roleName',
+      minWidth: '100px'
     },
     {
       heading: 'Chức vụ',
@@ -96,7 +98,7 @@ const UserManagement = () => {
           sx={{ display: 'flex', justifyContent: 'space-between' }}
         >
           <InputSearch
-            placeholder="Search..."
+            placeholder="Tìm kiếm..."
             onTextChange={() => console.log('Searching...')}
           />
           <Box component="div" sx={{ display: 'flex', gap: 2 }}>
@@ -105,8 +107,9 @@ const UserManagement = () => {
               onClick={handleOpenCreateDialog}
             />
             <CustomButton
+              variant="outlined"
               label="Nhập file CSV"
-              color="success"
+              color="primary"
               onClick={handleOpenImportFileDialog}
             />
           </Box>

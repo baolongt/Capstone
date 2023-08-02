@@ -44,6 +44,11 @@ const paths: Path[] = [
     subPaths: outGoingDocumentSubPaths
   },
   {
+    label: 'Quản lí hồ sơ',
+    path: '/documents',
+    icon: <FolderIcon />
+  },
+  {
     label: 'Quản lí người dùng',
     path: '/users',
     icon: <AdminPanelSettings />

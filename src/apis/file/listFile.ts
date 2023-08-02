@@ -4,7 +4,7 @@ import { api } from '@/constants';
 import { axiosInstance } from '@/utils';
 
 export const listDocuments = async () => {
-  const url = '/api/documents';
+  const url = '/api/files';
   return await axiosInstance.get(url);
 };
 

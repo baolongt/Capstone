@@ -1,10 +1,8 @@
 // TODO: refactor this page like user page and remove line 4 :D
-
-import AddIcon from '@mui/icons-material/Add';
 import { Box, Typography, useTheme } from '@mui/material';
 import React, { useState } from 'react';
 
-import { useListDepartments } from '@/apis/department';
+import { useListDocuments } from '@/apis';
 import { CustomButton, InputSearch } from '@/components/common';
 import { AddDepartmentDialog } from '@/components/dialogs';
 import { UserTable } from '@/components/user';
@@ -15,7 +13,7 @@ import {
 } from '@/constants/common';
 import { Column, SelectOption } from '@/types';
 
-const DepartmentManagement = () => {
+const FileManagement = () => {
   const theme = useTheme();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [departmentData, setUsers] = useState<SelectOption[]>([]);
@@ -23,25 +21,36 @@ const DepartmentManagement = () => {
   //TODO: change to department
   const columns: Column<any>[] = [
     {
-      heading: '#',
-      value: 'id'
+      heading: 'Tiêu đề',
+      value: 'title'
     },
     {
-      heading: 'Tên phòng ban',
-      value: 'name'
+      heading: 'Ngày tạo',
+      value: 'fileCreatedYear'
     },
     {
-      heading: 'Trưởng phòng',
-      value: 'departmentLeaderName'
+      heading: 'Số hiệu',
+      value: 'fileNotation'
     },
     {
-      heading: '',
-      value: 'id',
-      isAction: true
+      heading: 'Người tạo',
+      value: 'creatorId'
+    },
+    {
+      heading: 'Ngôn ngữ',
+      value: 'language'
+    },
+    {
+      heading: 'Tổng số tài liệu',
+      value: 'docTotal'
+    },
+    {
+      heading: 'Trạng thái',
+      value: 'status'
     }
   ];
 
-  const { data, isLoading } = useListDepartments();
+  const { data, isLoading } = useListDocuments();
 
   const handleClose = () => setIsOpen(false);
   const handleOpen = () => setIsOpen(true);
@@ -65,17 +74,17 @@ const DepartmentManagement = () => {
             mb: 2
           }}
         >
-          Phòng ban
+          Hồ sơ
         </Typography>
         <Box
           component="div"
           sx={{ display: 'flex', justifyContent: 'space-between' }}
         >
           <InputSearch
-            placeholder="Tìm kiếm"
+            placeholder="Tìm kiếm..."
             onTextChange={() => console.log('Searching...')}
           />
-          <CustomButton label="Thêm phòng ban" onClick={handleOpen} />
+          <CustomButton label="Thêm hồ sơ" onClick={handleOpen} />
         </Box>
       </Box>
       <Box
@@ -103,4 +112,4 @@ const DepartmentManagement = () => {
   );
 };
 
-export default DepartmentManagement;
+export default FileManagement;

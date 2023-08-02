@@ -5,7 +5,7 @@ import { common } from '@/models';
 import { axiosInstance } from '@/utils';
 
 export const deleteDocument = async (id: number) => {
-  const url = `/api/documents`;
+  const url = `/api/files`;
   return await axiosInstance.delete(url, {
     params: { id: id }
   });
