@@ -202,6 +202,7 @@ const CreateDocumentForm: React.FC<createDocumentFormProps> = ({
                   <Grid item xs={12}>
                     {isSubmitForm ? (
                       <LoadingButton
+                        disabled={true}
                         style={{ marginLeft: '10px' }}
                         variant="contained"
                         color="primary"
