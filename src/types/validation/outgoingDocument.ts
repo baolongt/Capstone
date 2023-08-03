@@ -20,7 +20,10 @@ export const createSchema = yup
       .trim()
       .min(1)
       .nonNullable(),
-    files: yup.array(),
+    files: yup
+      .array()
+      .required('Yêu cầu file đính kèm')
+      .min(1, 'Yêu cầu file đính kèm'),
     isRepliedDocument: yup.boolean()
   })
   .required();

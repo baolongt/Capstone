@@ -182,21 +182,15 @@ const CreateDocumentForm: React.FC<createDocumentFormProps> = ({
                 <Grid item xs={12}>
                   <Typography style={{ marginBottom: '5px' }} fontWeight="bold">
                     File đính kèm
+                    <Box component="span" color="error.main">
+                      *
+                    </Box>
                   </Typography>
                   <WrappedDragDropFileBox
                     fileAccpetType={fileAccpetType}
                     form={form}
                     name="files"
                   />
-                  <Typography
-                    gutterBottom
-                    sx={{ paddingTop: '1px' }}
-                    variant="caption"
-                    display="block"
-                  >
-                    Tuỳ theo loại văn bản mà có thể có hoặc không có file đính
-                    kèm
-                  </Typography>
                 </Grid>
                 <Grid container className={classes.buttonGroup} spacing={2}>
                   <Grid item xs={12}>

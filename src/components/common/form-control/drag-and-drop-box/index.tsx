@@ -110,8 +110,8 @@ const DragAndDropBox: React.FC<DragAndDropBoxProps> = ({
             </Typography>
           )}
         </Box>
-        {error && <FormHelperText error>{helperText}</FormHelperText>}
       </Box>
+      {error && <FormHelperText error>{helperText}</FormHelperText>}
       <FileUploadedAccordion
         sx={{ marginTop: '10px' }}
         files={value}
