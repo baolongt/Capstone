@@ -1,3 +1,4 @@
+import LoadingButton from '@mui/lab/LoadingButton';
 import { Box, Button, Grid, Stack, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import React, { useEffect, useState } from 'react';
@@ -10,7 +11,6 @@ import {
   SelectField,
   WrappedDragDropFileBox
 } from '@/components/common';
-import { LoadingButton } from '@/components/common/button';
 import { BaseCheckbox } from '@/components/common/form-control/check-box';
 import { outgoingDocument } from '@/models';
 import { SelectOption, validation } from '@/types';
@@ -194,25 +194,15 @@ const CreateDocumentForm: React.FC<createDocumentFormProps> = ({
                 </Grid>
                 <Grid container className={classes.buttonGroup} spacing={2}>
                   <Grid item xs={12}>
-                    {isSubmitForm ? (
-                      <LoadingButton
-                        disabled={true}
-                        style={{ marginLeft: '10px' }}
-                        variant="contained"
-                        color="primary"
-                      >
-                        Chuyển lãnh đạo phê duyệt
-                      </LoadingButton>
-                    ) : (
-                      <Button
-                        style={{ marginLeft: '10px' }}
-                        variant="contained"
-                        color="primary"
-                        type="submit"
-                      >
-                        Chuyển lãnh đạo phê duyệt
-                      </Button>
-                    )}
+                    <LoadingButton
+                      style={{ marginLeft: '10px' }}
+                      variant="contained"
+                      color="primary"
+                      type="submit"
+                      loading={isSubmitForm}
+                    >
+                      Chuyển lãnh đạo phê duyệt
+                    </LoadingButton>
                   </Grid>
                 </Grid>
               </Grid>
