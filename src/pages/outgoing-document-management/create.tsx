@@ -1,31 +1,26 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import React, { useEffect } from 'react';
 import { useForm, UseFormReturn } from 'react-hook-form';
+import { toast } from 'react-toastify';
 
-import { useUploadFile, useUploadForm } from '@/apis/outgoingDocument';
-import { CreateOutgoingDocumentDialog } from '@/components/dialogs';
+import { useUploadForm } from '@/apis/outgoingDocument';
 import CreateDocumentForm from '@/components/document/outgoing/CreateDocumentForm';
 import { UploadFile } from '@/models';
 import { validation } from '@/types';
 
 const CreateOutgoingDocumentPage: React.FC = () => {
-  const [uploadDialogOpen, setUploadDialogOpen] = React.useState(false);
-  const [currentUploadStep, setCurrentUploadStep] = React.useState(0);
-
   const {
-    mutate: uploadFiles,
-    data: filesData,
-    isSuccess: isUploadFileSuccess
-  } = useUploadFile({});
-  const { mutate: uploadForm, isSuccess: isUploadFormSuccess } = useUploadForm({
+    mutate: uploadForm,
+    isLoading,
+    isSuccess
+  } = useUploadForm({
     onSuccess: () => {
-      setUploadDialogOpen(false);
+      toast.success('Tạo mới văn bản đi thành công');
+    },
+    onError: () => {
+      toast.error('Tạo mới văn bản đi thất bại');
     }
   });
-
-  const handleUploadDialogOpen = () => {
-    setUploadDialogOpen(!uploadDialogOpen);
-  };
 
   const form = useForm({
     defaultValues: {
@@ -44,60 +39,22 @@ const CreateOutgoingDocumentPage: React.FC = () => {
     any
   >;
 
-  const { getValues, watch, reset } = form;
-  const files: UploadFile[] | undefined = watch('files');
+  const { getValues, reset } = form;
 
-  const handleUploadFiles = () => {
-    if (files && files.length > 0) {
-      uploadFiles(files);
-    }
+  const handleSubmitForm = () => {
+    uploadForm(getValues());
   };
 
-  // 1. upload file when open dialog
   useEffect(() => {
-    setTimeout(() => {
-      if (uploadDialogOpen) {
-        handleUploadFiles();
-      }
-    }, 1000);
-  }, [uploadDialogOpen]);
-
-  // 2. mapping response upload file to UploadFile and bind to form, go to next step
-  useEffect(() => {
-    if (filesData && files) {
-      for (let idx = 0; idx < filesData.length; idx++) {
-        files[idx].setNameAndUrl(filesData[idx].name, filesData[idx].url);
-      }
-      if (isUploadFileSuccess) {
-        setCurrentUploadStep(1);
-      }
-    }
-  }, [filesData]);
-
-  // 3. submit form with files
-  useEffect(() => {
-    if (currentUploadStep === 1) {
-      uploadForm(getValues());
-    }
-  }, [currentUploadStep]);
-
-  // clean up state when upload form success
-  useEffect(() => {
-    if (isUploadFormSuccess) {
-      reset();
-      setCurrentUploadStep(0);
-    }
-  }, [isUploadFormSuccess]);
+    reset();
+  }, [isSuccess, reset]);
 
   return (
     <>
       <CreateDocumentForm
-        handleUploadDialogOpen={handleUploadDialogOpen}
+        isSubmitForm={isLoading}
+        handleSubmitForm={handleSubmitForm}
         form={form}
-      />
-      <CreateOutgoingDocumentDialog
-        curentStep={currentUploadStep}
-        isOpen={uploadDialogOpen}
       />
     </>
   );

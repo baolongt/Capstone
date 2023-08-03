@@ -40,5 +40,4 @@ export const getAllOutgoingDocuments = async () => {
   return documents;
 };
 
-export * from './uploadFile';
 export * from './uploadForm';

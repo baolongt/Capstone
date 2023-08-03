@@ -10,6 +10,7 @@ import {
   SelectField,
   WrappedDragDropFileBox
 } from '@/components/common';
+import { LoadingButton } from '@/components/common/button';
 import { BaseCheckbox } from '@/components/common/form-control/check-box';
 import { outgoingDocument } from '@/models';
 import { SelectOption, validation } from '@/types';
@@ -67,12 +68,14 @@ type createDocumentFormProps = {
     any,
     undefined
   >;
-  handleUploadDialogOpen: () => void;
+  isSubmitForm: boolean;
+  handleSubmitForm: () => void;
 };
 
 const CreateDocumentForm: React.FC<createDocumentFormProps> = ({
-  handleUploadDialogOpen,
-  form
+  form,
+  handleSubmitForm,
+  isSubmitForm
 }) => {
   const [documentTypeOptions, setDocumentTypeOptions] = useState<
     SelectOption[]
@@ -83,7 +86,7 @@ const CreateDocumentForm: React.FC<createDocumentFormProps> = ({
 
   const submitHandler = () => {
     //TODO: call api
-    handleUploadDialogOpen();
+    handleSubmitForm();
   };
 
   useEffect(() => {
@@ -197,14 +200,24 @@ const CreateDocumentForm: React.FC<createDocumentFormProps> = ({
                 </Grid>
                 <Grid container className={classes.buttonGroup} spacing={2}>
                   <Grid item xs={12}>
-                    <Button
-                      style={{ marginLeft: '10px' }}
-                      variant="contained"
-                      color="primary"
-                      type="submit"
-                    >
-                      Chuyển lãnh đạo phê duyệt
-                    </Button>
+                    {isSubmitForm ? (
+                      <LoadingButton
+                        style={{ marginLeft: '10px' }}
+                        variant="contained"
+                        color="primary"
+                      >
+                        Chuyển lãnh đạo phê duyệt
+                      </LoadingButton>
+                    ) : (
+                      <Button
+                        style={{ marginLeft: '10px' }}
+                        variant="contained"
+                        color="primary"
+                        type="submit"
+                      >
+                        Chuyển lãnh đạo phê duyệt
+                      </Button>
+                    )}
                   </Grid>
                 </Grid>
               </Grid>

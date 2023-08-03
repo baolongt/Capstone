@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { api } from '@/constants';
-import { common } from '@/models';
+import { common, UploadFile } from '@/models';
 import { CreateType } from '@/types/validation/outgoingDocument';
 import { axiosInstance } from '@/utils';
 
@@ -37,6 +37,14 @@ type OutGoingDocumentUploadFormTypeResponse = {
   attachments: AttachmentTypeResponse[];
 };
 
+type NameAndUrlFile = {
+  name: string;
+  url: string;
+};
+type UploadFileResponse = {
+  data: NameAndUrlFile[];
+};
+
 const convertToOutGoingDocumentUploadFormType = (
   createObj: CreateType
 ): OutGoingDocumentUploadFormType => {
@@ -57,12 +65,45 @@ const convertToOutGoingDocumentUploadFormType = (
   return outGoingDocumentUploadFormType;
 };
 
+export const uploadFile = async (
+  payload: UploadFile[]
+): Promise<NameAndUrlFile[]> => {
+  const url = 'api/upload';
+
+  const formData = new FormData();
+
+  for (let i = 0; i < payload.length; i++) {
+    if (payload[i] && payload[i].fileObj) {
+      formData.append('files', payload[i]?.fileObj);
+    }
+  }
+
+  const result: UploadFileResponse = await axiosInstance.post(url, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  });
+
+  return result.data;
+};
+
 export const uploadForm = async (
   formData: CreateType
 ): Promise<OutGoingDocumentUploadFormTypeResponse> => {
   const url = 'api/OutgoingDocument';
 
+  const { files: formFiles } = formData;
+
+  if (!formFiles) throw new Error('File is required');
+
+  const uploadedFile = await uploadFile(formFiles);
+
+  for (let idx = 0; idx < uploadedFile.length; idx++) {
+    formFiles[idx].setNameAndUrl(uploadedFile[idx].name, uploadedFile[idx].url);
+  }
+
   const payload = convertToOutGoingDocumentUploadFormType(formData);
+
   console.log(payload);
 
   return await axiosInstance.post(url, payload);
