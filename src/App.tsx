@@ -33,13 +33,13 @@ const App = () => {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        position="bottom-left"
+        position="top-right"
         autoClose={3000}
-        hideProgressBar={true}
+        hideProgressBar={false}
         newestOnTop={true}
         rtl={false}
-        theme="colored"
         style={{
+          marginTop: '56px',
           marginBottom: '24px',
           marginLeft: '56px'
         }}
