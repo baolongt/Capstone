@@ -110,7 +110,8 @@ type BaseTableProps<T> = {
 } & TableProps;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const BaseTable: React.FC<BaseTableProps<any>> = ({ columns, data, sx }) => {
+const BaseTable: React.FC<BaseTableProps<any>> = (props) => {
+  const { columns, data, sx } = props;
   const theme = useTheme();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -139,7 +140,12 @@ const BaseTable: React.FC<BaseTableProps<any>> = ({ columns, data, sx }) => {
 
   return (
     <Box component="div" sx={{ border: '1px solid black' }}>
-      <Table stickyHeader sx={{ width: '100%', ...sx }} size="medium">
+      <Table
+        stickyHeader
+        {...props}
+        sx={{ width: '100%', ...sx }}
+        size="medium"
+      >
         <TableHead>
           {getHeaderGroups().map(
             (headerGroup) => (
