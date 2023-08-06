@@ -17,7 +17,7 @@ export const useCreateFile = ({
   return useMutation({
     mutationFn: (payload: file.CreatePayload) => createFile(payload),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [api.File] });
+      queryClient.invalidateQueries({ queryKey: [api.FILE] });
       onSuccess?.();
     },
     onError: () => {

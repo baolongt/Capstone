@@ -10,5 +10,5 @@ export const getDepartmentById = async (id: number) => {
 
 export const useGetDepartmentById = (id: number) => {
   // path users/id
-  return useQuery([api.DOCUMENT, id], () => getDepartmentById(id));
+  return useQuery([api.DEPARTMENT, id], () => getDepartmentById(id));
 };

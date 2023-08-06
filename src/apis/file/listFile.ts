@@ -15,7 +15,7 @@ export const listFiles = async () => {
 
 export const useListFiles = () => {
   return useQuery({
-    queryKey: [api.File],
+    queryKey: [api.FILE],
     queryFn: listFiles
   });
 };

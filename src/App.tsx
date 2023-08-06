@@ -8,6 +8,8 @@ import { Diagram } from './components/poc/Diagram';
 import Dashboard from './pages/dashboard';
 import DepartmentManagement from './pages/department-management';
 import FileManagement from './pages/file-management';
+// eslint-disable-next-line import/no-named-as-default
+import FilesPage from './pages/files';
 import OutgoingDocumentManagement from './pages/outgoing-document-management';
 import CreateOutgoingDocumentPage from './pages/outgoing-document-management/create';
 import Setting from './pages/setting';
@@ -27,6 +29,7 @@ const App = () => {
           <Route index element={<OutgoingDocumentManagement />} />
           <Route path="create" element={<CreateOutgoingDocumentPage />} />
         </Route>
+        <Route path={'/files'} element={<FilesPage />} />
         <Route path={'/graph'} element={<Diagram />} />
         <Route path={'/table'} element={<TableDemo />} />
       </Routes>
@@ -35,13 +38,13 @@ const App = () => {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        position="bottom-left"
+        position="top-right"
         autoClose={3000}
-        hideProgressBar={true}
+        hideProgressBar={false}
         newestOnTop={true}
         rtl={false}
-        theme="colored"
         style={{
+          marginTop: '56px',
           marginBottom: '24px',
           marginLeft: '56px'
         }}

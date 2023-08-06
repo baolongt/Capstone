@@ -7,7 +7,7 @@ import { axiosInstance } from '@/utils';
 export const deleteFile = async (id: number) => {
   const url = `/api/files`;
   return await axiosInstance.delete(url, {
-    params: { id: id }
+    params: { fileId: id }
   });
 };
 
@@ -19,7 +19,7 @@ export const useDeleteFile = ({
   return useMutation({
     mutationFn: (id: number) => deleteFile(id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [api.File] });
+      queryClient.invalidateQueries({ queryKey: [api.FILE] });
       onSuccess?.();
     },
     onError: () => {

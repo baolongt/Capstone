@@ -1,3 +1,3 @@
 export const USER = 'users';
-export const File = 'files';
+export const FILE = 'files';
 export const DEPARTMENT = 'departments';

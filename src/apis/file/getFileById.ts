@@ -9,6 +9,5 @@ export const getFileById = async (id: string) => {
 };
 
 export const useGetFileById = (id: string) => {
-  // path users/id
-  return useQuery([api.File, id], () => getFileById(id));
+  return useQuery([api.FILE, id], () => getFileById(id));
 };

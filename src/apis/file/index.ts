@@ -1,5 +1,5 @@
 export { useCreateFile } from './createFile';
 export { useDeleteFile } from './deleteFile';
 export { useGetFileById } from './getFileById';
-export { useListFiles } from './listFile';
-export { updateFile } from './updateFile';
+export { useListFiles } from './listFiles';
+export { useUpdateFile } from './updateFile';

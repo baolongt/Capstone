@@ -67,6 +67,11 @@ const paths: Path[] = [
     label: 'Base-table',
     path: '/table',
     icon: <SettingsApplicationsSharp />
+  },
+  {
+    label: 'Sổ văn bản',
+    path: '/files',
+    icon: <SettingsApplicationsSharp />
   }
 ];
 export default paths;

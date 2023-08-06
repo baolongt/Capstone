@@ -17,69 +17,40 @@ const FileManagement = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [departmentData, setUsers] = useState<SelectOption[]>([]);
 
-  //TODO: change to department
-  // const columns: Column<any>[] = [
-  //   {
-  //     heading: 'Tiêu đề',
-  //     value: 'title'
-  //   },
-  //   {
-  //     heading: 'Ngày tạo',
-  //     value: 'fileCreatedYear'
-  //   },
-  //   {
-  //     heading: 'Số hiệu',
-  //     value: 'fileNotation'
-  //   },
-  //   {
-  //     heading: 'Người tạo',
-  //     value: 'creatorId'
-  //   },
-  //   {
-  //     heading: 'Ngôn ngữ',
-  //     value: 'language'
-  //   },
-  //   {
-  //     heading: 'Tổng số tài liệu',
-  //     value: 'docTotal'
-  //   },
-  //   {
-  //     heading: 'Trạng thái',
-  //     value: 'status'
-  //   }
-  // ];
   const columns = [
     columnHelper.accessor('title', {
       header: 'Tiêu đề',
-      cell: (row: any) => row.renderValue()
+      cell: (row) => row.renderValue()
     }),
     columnHelper.accessor('fileCreatedYear', {
       header: 'Ngày tạo',
-      cell: (row: any) => row.renderValue()
+      cell: (row) => row.renderValue()
     }),
 
     columnHelper.accessor('fileNotation', {
       header: 'Số hiệu',
-      cell: (row: any) => row.renderValue()
+      cell: (row) => row.renderValue()
     }),
     columnHelper.accessor('creatorId', {
       header: () => 'Người tạo',
-      cell: (row: any) => row.renderValue()
+      cell: (row) => row.renderValue()
     }),
     columnHelper.accessor('language', {
       header: () => 'Ngôn ngữ',
-      cell: (row: any) => row.renderValue()
+      cell: (row) => row.renderValue()
     }),
     columnHelper.accessor('docTotal', {
       header: () => 'Tổng số tài liệu',
-      cell: (row: any) => row.renderValue()
+      cell: (row) => row.renderValue()
     }),
     columnHelper.accessor('status', {
       header: () => 'Trạng thái',
-      cell: (row: any) => row.renderValue()
+      cell: (row) => row.renderValue()
     })
   ];
-  const { data, isLoading } = useListFiles();
+  const { data, isLoading } = useListFiles({
+    queryParams: { page: 2, size: 10 }
+  });
 
   const handleClose = () => setIsOpen(false);
   const handleOpen = () => setIsOpen(true);
@@ -125,7 +96,7 @@ const FileManagement = () => {
           py: 3
         }}
       >
-        <BaseTable data={data!} columns={columns}></BaseTable>
+        {/* <BaseTable data={data} columns={columns}></BaseTable> */}
       </Box>
       <AddDepartmentDialog isOpen={isOpen} onClose={handleClose} />
     </Box>

@@ -25,7 +25,7 @@ export const useUpdateFile = ({
       return updateFile(payload);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [api.File] });
+      queryClient.invalidateQueries({ queryKey: [api.FILE] });
       onSuccess?.();
     },
     onError: () => {

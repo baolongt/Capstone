@@ -13,7 +13,6 @@ import { Column, SelectOption } from '@/types';
 const DepartmentManagement = () => {
   const theme = useTheme();
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [departmentData, setUsers] = useState<SelectOption[]>([]);
 
   //TODO: change to department
   const columns: Column<any>[] = [
