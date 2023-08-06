@@ -1,6 +1,5 @@
 // TODO: refactor this page like user page and remove line 4 :D
 
-import AddIcon from '@mui/icons-material/Add';
 import { Box, Typography, useTheme } from '@mui/material';
 import React, { useState } from 'react';
 
@@ -8,11 +7,7 @@ import { useListDepartments } from '@/apis/department';
 import { CustomButton, InputSearch } from '@/components/common';
 import { AddDepartmentDialog } from '@/components/dialogs';
 import { UserTable } from '@/components/user';
-import {
-  FOOTER_HEADER_HEIGHT,
-  FOOTER_HEIGHT,
-  HEADER_HEIGHT
-} from '@/constants/common';
+import { FOOTER_HEADER_HEIGHT } from '@/constants/common';
 import { Column, SelectOption } from '@/types';
 
 const DepartmentManagement = () => {

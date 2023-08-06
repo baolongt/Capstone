@@ -1,5 +1,5 @@
-export { useCreateDocument } from './createFile';
-export { useDeleteDocument } from './deleteFile';
-export { useGetDocumentById } from './getFileById';
-export { useListDocuments } from './listFile';
-export { useUpdateDocument } from './updateFile';
+export { useCreateFile } from './createFile';
+export { useDeleteFile } from './deleteFile';
+export { useGetFileById } from './getFileById';
+export { useListFiles } from './listFile';
+export { updateFile } from './updateFile';

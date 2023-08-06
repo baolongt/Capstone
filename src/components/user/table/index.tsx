@@ -20,7 +20,7 @@ import { toast } from 'react-toastify';
 import { useDeleteUser } from '@/apis';
 import { AddUserDialog, ConfirmDialog } from '@/components/dialogs';
 import { ToastMessage } from '@/components/toast';
-import { document, user } from '@/models';
+import { user } from '@/models';
 import { Column, Nullable } from '@/types';
 
 import UserTableHead from './table-head';
