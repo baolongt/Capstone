@@ -23,6 +23,8 @@ import {
 } from '@tanstack/react-table';
 import React from 'react';
 
+import { Metadata } from '@/types';
+
 interface TablePaginationActionsProps {
   count: number;
   page: number;
@@ -103,39 +105,50 @@ function TablePaginationActions(props: TablePaginationActionsProps) {
   );
 }
 
-type BaseTableProps<T> = {
+export type BaseTableProps<T> = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   columns: ColumnDef<T, any>[];
   data: T[];
+  metadata: Metadata;
+  handleChangePage: (page: number) => void;
 } & TableProps;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const BaseTable: React.FC<BaseTableProps<any>> = (props) => {
-  const { columns, data, sx } = props;
+  const { columns, data, sx, metadata, handleChangePage } = props;
+  const {
+    pageNumber: page,
+    totalItemCount,
+    hasNextPage,
+    hasPreviousPage,
+    pageSize
+  } = metadata;
   const theme = useTheme();
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
   const { getHeaderGroups, getRowModel } = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel()
   });
 
-  // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - 50) : 0;
-
-  const handleChangePage = (
+  const onPageChange = (
     event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number
   ) => {
-    setPage(newPage);
+    console.log('change page', newPage + 1);
+    console.log('current page ', page);
+    if (newPage + 1 > page && hasNextPage) {
+      handleChangePage(newPage + 1);
+    }
+    if (newPage < page && hasPreviousPage) {
+      handleChangePage(newPage + 1);
+    }
   };
 
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    handleChangePage(1);
   };
 
   return (
@@ -190,9 +203,9 @@ const BaseTable: React.FC<BaseTableProps<any>> = (props) => {
             <TablePagination
               rowsPerPageOptions={[10, { label: 'All', value: -1 }]}
               colSpan={3}
-              count={10}
-              rowsPerPage={rowsPerPage}
-              page={page}
+              count={totalItemCount}
+              rowsPerPage={pageSize}
+              page={page - 1}
               SelectProps={{
                 inputProps: {
                   'aria-label': 'rows per page'
@@ -200,7 +213,7 @@ const BaseTable: React.FC<BaseTableProps<any>> = (props) => {
                 native: true
               }}
               ActionsComponent={TablePaginationActions}
-              onPageChange={handleChangePage}
+              onPageChange={onPageChange}
               onRowsPerPageChange={handleChangeRowsPerPage}
             />
           </TableRow>
