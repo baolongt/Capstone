@@ -80,18 +80,7 @@ const DepartmentManagement = () => {
           px: 6,
           py: 3
         }}
-      >
-        <UserTable
-          height={`calc(100vh - 210px - ${FOOTER_HEADER_HEIGHT})`}
-          data={data?.data ?? []}
-          columns={columns}
-          isLoading={isLoading}
-          dataPagination={{ totalPages: 10, currentPage: 1 }}
-          onChangePage={(newPage: number) => handleChangePage(newPage)}
-          onChangeSize={(newSize: number) => handleChangeSize(newSize)}
-          onDelete={() => console.log()}
-        />
-      </Box>
+      ></Box>
       <AddDepartmentDialog isOpen={isOpen} onClose={handleClose} />
     </Box>
   );

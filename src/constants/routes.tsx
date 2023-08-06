@@ -44,8 +44,8 @@ const paths: Path[] = [
     subPaths: outGoingDocumentSubPaths
   },
   {
-    label: 'Quản lí hồ sơ',
-    path: '/documents',
+    label: 'Sổ văn bản',
+    path: '/files',
     icon: <FolderIcon />
   },
   {
@@ -66,11 +66,6 @@ const paths: Path[] = [
   {
     label: 'Base-table',
     path: '/table',
-    icon: <SettingsApplicationsSharp />
-  },
-  {
-    label: 'Sổ văn bản',
-    path: '/files',
     icon: <SettingsApplicationsSharp />
   }
 ];
