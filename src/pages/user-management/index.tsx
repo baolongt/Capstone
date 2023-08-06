@@ -1,8 +1,9 @@
 import { Button } from '@mui/base';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { Box, Typography, useTheme } from '@mui/material';
+import { Box, IconButton, Tooltip, Typography, useTheme } from '@mui/material';
 import { createColumnHelper } from '@tanstack/react-table';
+import { debounce } from 'lodash';
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 
@@ -16,11 +17,18 @@ import {
 } from '@/components/dialogs';
 import { ToastMessage } from '@/components/toast';
 import { FOOTER_HEADER_HEIGHT } from '@/constants/common';
+import { user } from '@/models';
 import { User } from '@/models/user';
+import { BaseTableQueryParams } from '@/types';
 
 const columnHelper = createColumnHelper<User>();
 
 const UserManagement = () => {
+  const [queryParams, setQueryParams] = React.useState<BaseTableQueryParams>({
+    page: 1,
+    size: 3,
+    search: ''
+  });
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
   const [currentUserId, setCurrentUserId] = useState<number | null>(null);
   const [mode, setMode] = useState<'update' | 'create'>('create');
@@ -50,20 +58,24 @@ const UserManagement = () => {
     columnHelper.accessor('id', {
       header: '',
       cell: (row) => (
-        <>
-          <Button
-            color="primary"
-            onClick={() => handleUpateUser(row.getValue())}
-          >
-            <EditIcon />
-          </Button>
-          <Button
-            color="error"
-            onClick={() => handleOpenDeleteDialog(row.getValue())}
-          >
-            <DeleteIcon />
-          </Button>
-        </>
+        <Box component="div" sx={{ display: 'flex', gap: 2 }}>
+          <Tooltip title="Cập nhật thông tin">
+            <IconButton
+              color="primary"
+              onClick={() => handleUpateUser(row.getValue())}
+            >
+              <EditIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Xoá nhân viên">
+            <IconButton
+              color="primary"
+              onClick={() => handleOpenDeleteDialog(row.getValue())}
+            >
+              <DeleteIcon />
+            </IconButton>
+          </Tooltip>
+        </Box>
       )
     })
   ];
@@ -72,8 +84,14 @@ const UserManagement = () => {
     useState<boolean>(false);
 
   const theme = useTheme();
-  const { data, isLoading } = useListUsers();
-  console.log(data);
+  const { data, isLoading } = useListUsers({ queryParams });
+  const handleChangePage = (page: number) => {
+    setQueryParams((prev) => ({ ...prev, page }));
+  };
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    return setQueryParams((prev) => ({ ...prev, search: e.target.value }));
+  };
+  const debouncedSearch = debounce(handleSearch, 500);
   //delete User
   const { mutate: deleteUserMutate } = useDeleteUser({
     onSuccess: () => {
@@ -142,7 +160,7 @@ const UserManagement = () => {
           >
             <InputSearch
               placeholder="Tìm kiếm..."
-              onTextChange={() => console.log('Searching...')}
+              onTextChange={debouncedSearch}
             />
             <Box component="div" sx={{ display: 'flex', gap: 2 }}>
               <CustomButton
@@ -169,7 +187,9 @@ const UserManagement = () => {
           }}
         >
           <BaseTable
-            data={data!}
+            handleChangePage={handleChangePage}
+            metadata={(data as any)?.metadata}
+            data={data.data}
             columns={columns}
             style={{
               height: `calc(100vh - 210px - ${FOOTER_HEADER_HEIGHT})`,
@@ -179,7 +199,9 @@ const UserManagement = () => {
         </Box>
 
         <AddUserDialog
-          userProfile={data?.find((user) => user.id === currentUserId)}
+          userProfile={data.data?.find(
+            (user: user.User) => user.id === currentUserId
+          )}
           mode={mode}
           isOpen={isCreateDialogOpen}
           onClose={handleCloseCreateDialog}

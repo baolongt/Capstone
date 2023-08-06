@@ -1,5 +1,6 @@
 import { Delete } from '@mui/icons-material';
 import { Box, Grid, Typography } from '@mui/material';
+import { debounce } from 'lodash';
 import * as React from 'react';
 
 import { useListFiles } from '@/apis';
@@ -17,6 +18,10 @@ export const FilesPage = () => {
   const { data: response, isLoading } = useListFiles({
     queryParams
   });
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    return setQueryParams((prev) => ({ ...prev, search: e.target.value }));
+  };
+  const debouncedSearch = debounce(handleSearch, 500);
 
   const handleChangePage = (page: number) => {
     setQueryParams((prev) => ({ ...prev, page }));
@@ -40,7 +45,7 @@ export const FilesPage = () => {
             >
               <InputSearch
                 placeholder="Search..."
-                onTextChange={() => console.log('Searching...')}
+                onTextChange={debouncedSearch}
               />
               <Box component="div" sx={{ display: 'flex', gap: 2 }}>
                 <CustomButton label="Thêm sổ mới" />

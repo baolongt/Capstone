@@ -4,7 +4,7 @@ import React from 'react';
 export interface InputSearchProps {
   placeholder?: string;
   size?: 'small' | 'medium';
-  onTextChange: () => void;
+  onTextChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   sx?: SxProps;
 }
 
