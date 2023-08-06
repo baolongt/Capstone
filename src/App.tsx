@@ -8,7 +8,6 @@ import { Diagram } from './components/poc/Diagram';
 import Dashboard from './pages/dashboard';
 import DepartmentManagement from './pages/department-management';
 import FileManagement from './pages/file-management';
-// eslint-disable-next-line import/no-named-as-default
 import FilesPage from './pages/files';
 import OutgoingDocumentManagement from './pages/outgoing-document-management';
 import CreateOutgoingDocumentPage from './pages/outgoing-document-management/create';
