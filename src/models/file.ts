@@ -1,14 +1,14 @@
 export type UpdatePayload = Pick<
-  Document,
+  File,
   'id' | 'title' | 'fileNotation' | 'language' | 'description' | 'status'
 >;
 
 export type CreatePayload = Pick<
-  Document,
+  File,
   'id' | 'title' | 'fileNotation' | 'language' | 'description'
 >;
 
-export class Document {
+export class File {
   id: number;
   organCode: string;
   title: string;
@@ -63,7 +63,7 @@ export class Document {
     this.status = status;
   }
 
-  getprop(propName: keyof Document): string | null {
+  getprop(propName: keyof File): string | null {
     return this[propName] ? String(this[propName]) : null;
   }
   toUpdatePayload(): UpdatePayload {

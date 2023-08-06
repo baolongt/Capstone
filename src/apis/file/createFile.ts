@@ -1,23 +1,23 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { api } from '@/constants';
-import { common, document } from '@/models';
+import { common, file } from '@/models';
 import { axiosInstance } from '@/utils';
 
-export const createDocument = async (payload: document.CreatePayload) => {
-  const url = '/api/documents';
+export const createFile = async (payload: file.CreatePayload) => {
+  const url = '/api/files';
   return await axiosInstance.post(url, payload);
 };
 
-export const useCreateDocument = ({
+export const useCreateFile = ({
   onSuccess,
   onError
 }: common.useMutationParams) => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (payload: document.CreatePayload) => createDocument(payload),
+    mutationFn: (payload: file.CreatePayload) => createFile(payload),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [api.DOCUMENT] });
+      queryClient.invalidateQueries({ queryKey: [api.FILE] });
       onSuccess?.();
     },
     onError: () => {
