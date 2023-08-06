@@ -7,6 +7,8 @@ import DashboardLayout from './components/layouts/Layout';
 import { Diagram } from './components/poc/Diagram';
 import Dashboard from './pages/dashboard';
 import DepartmentManagement from './pages/department-management';
+// eslint-disable-next-line import/no-named-as-default
+import FilesPage from './pages/files';
 import OutgoingDocumentManagement from './pages/outgoing-document-management';
 import CreateOutgoingDocumentPage from './pages/outgoing-document-management/create';
 import Setting from './pages/setting';
@@ -25,6 +27,7 @@ const App = () => {
           <Route index element={<OutgoingDocumentManagement />} />
           <Route path="create" element={<CreateOutgoingDocumentPage />} />
         </Route>
+        <Route path={'/files'} element={<FilesPage />} />
         <Route path={'/graph'} element={<Diagram />} />
         <Route path={'/table'} element={<TableDemo />} />
       </Routes>
