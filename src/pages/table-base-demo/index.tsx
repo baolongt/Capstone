@@ -44,6 +44,54 @@ const fakeCall = () => {
           visits: 20,
           status: 'Complicated',
           progress: 10
+        },
+        {
+          firstName: 'tanner',
+          lastName: 'linsley',
+          age: 24,
+          visits: 100,
+          status: 'In Relationship',
+          progress: 50
+        },
+        {
+          firstName: 'tandy',
+          lastName: 'miller',
+          age: 40,
+          visits: 40,
+          status: 'Single',
+          progress: 80
+        },
+        {
+          firstName: 'joe',
+          lastName: 'dirte',
+          age: 45,
+          visits: 20,
+          status: 'Complicated',
+          progress: 10
+        },
+        {
+          firstName: 'tanner',
+          lastName: 'linsley',
+          age: 24,
+          visits: 100,
+          status: 'In Relationship',
+          progress: 50
+        },
+        {
+          firstName: 'tandy',
+          lastName: 'miller',
+          age: 40,
+          visits: 40,
+          status: 'Single',
+          progress: 80
+        },
+        {
+          firstName: 'joe',
+          lastName: 'dirte',
+          age: 45,
+          visits: 20,
+          status: 'Complicated',
+          progress: 10
         }
       ]);
     }, 1000);
@@ -55,6 +103,23 @@ const columnHelper = createColumnHelper<Person>();
 
 const TableDemo = () => {
   const { data, isLoading } = useQuery(['demo'], fakeCall);
+
+  const mockMetdata = {
+    pageCount: 2,
+    totalItemCount: 17,
+    pageNumber: 1,
+    pageSize: 10,
+    hasPreviousPage: false,
+    hasNextPage: true,
+    isFirstPage: true,
+    isLastPage: false,
+    firstItemOnPage: 1,
+    lastItemOnPage: 10
+  };
+
+  const handleChangePage = () => {
+    toast.success('mock call next page');
+  };
 
   const onTriggered = (row: CellContext<Person, string>) => {
     console.log(row);
@@ -107,7 +172,13 @@ const TableDemo = () => {
   if (data) {
     return (
       <>
-        <BaseTable data={data} columns={columns} />;
+        <BaseTable
+          handleChangePage={handleChangePage}
+          metadata={mockMetdata}
+          data={data}
+          columns={columns}
+        />
+        ;
       </>
     );
   }
