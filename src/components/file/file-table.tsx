@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 
 import { useDeleteFile } from '@/apis';
 import { file } from '@/models';
+import { File } from '@/models/file';
 import { Metadata } from '@/types';
 
 import BaseTable from '../common/base-table';
