@@ -18,7 +18,8 @@
 
 ## Flow
 
-[Luồng văn bản đi](https://lucid.app/lucidchart/8aef71bf-1d07-4f07-b730-95234780e088/edit?viewport_loc=-443%2C919%2C1852%2C1034%2Cm-5o7ONTd-nK&invitationId=inv_9a58434e-789d-413f-9103-f6b122e2c2de)
+[Luồng văn bản đến](https://lucid.app/lucidchart/8aef71bf-1d07-4f07-b730-95234780e088/edit?viewport_loc=-443%2C384%2C1852%2C1034%2Cm-5o7ONTd-nK&invitationId=inv_9a58434e-789d-413f-9103-f6b122e2c2de)
 
+[Luồng văn bản đi](https://lucid.app/lucidchart/2eb9ed5c-e1c9-4c19-a2e3-640cb0cdc34a/edit?viewport_loc=-367%2C59%2C2777%2C1551%2Cm-5o7ONTd-nK&invitationId=inv_1c303fd4-fd60-4213-8170-bf780b0117a7)
 
 2023 Capstone
