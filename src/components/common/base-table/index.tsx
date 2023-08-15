@@ -187,14 +187,24 @@ const BaseTable: React.FC<BaseTableProps<any>> = (props) => {
         </TableHead>
         <TableBody>
           {getRowModel().rows.map((row) => (
-            <TableRow key={row.id}>
+            <TableRow key={row.id} style={{ height: '50px' }}>
               {row.getVisibleCells().map((cell) => (
-                <TableCell key={cell.id}>
+                <TableCell
+                  key={cell.id}
+                  style={{ height: '52px', padding: '0px 4px' }}
+                >
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </TableCell>
               ))}
             </TableRow>
           ))}
+          {!hasNextPage &&
+            data.length < pageSize &&
+            Array(pageSize - data.length)
+              .fill('')
+              .map((row, index) => (
+                <TableRow key={index} style={{ height: '52px' }}></TableRow>
+              ))}
         </TableBody>
         <TableFooter>
           <TableRow>
@@ -210,6 +220,7 @@ const BaseTable: React.FC<BaseTableProps<any>> = (props) => {
                 },
                 native: true
               }}
+              style={{ width: '100%' }}
               ActionsComponent={TablePaginationActions}
               onPageChange={onPageChange}
               onRowsPerPageChange={handleChangeRowsPerPage}

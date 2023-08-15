@@ -42,9 +42,7 @@ export const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({
     size: 10
   });
   const { handleSubmit } = form;
-  const { data: response } = useListUsers({
-    queryParams: { page: 1, size: 1000, search: '' }
-  });
+  const { data: users } = useListUsers({ queryParams });
   const { mutate: createDepartmentMutation } = useCreateDepartment({
     onSuccess: () => {
       toast.success(<ToastMessage message={'Thêm phòng ban thành công'} />);
@@ -126,11 +124,9 @@ export const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({
                 name="departmentLeaderID"
                 placeholder="Chọn trưởng phòng"
                 data={
-                  response
-                    ? response.data?.map((user: User) => {
-                        return { title: user.name, value: user.id };
-                      })
-                    : []
+                  users?.data?.map((user: User) => {
+                    return { title: user.name, value: user.id };
+                  }) ?? []
                 }
               />
             </Box>
