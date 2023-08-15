@@ -5,7 +5,6 @@ import React, { useState } from 'react';
 
 import { useListFiles } from '@/apis';
 import { CustomButton, InputSearch } from '@/components/common';
-import BaseTable from '@/components/common/base-table';
 import { AddDepartmentDialog } from '@/components/dialogs';
 import { FOOTER_HEADER_HEIGHT } from '@/constants/common';
 import { SelectOption } from '@/types';
@@ -54,12 +53,12 @@ const FileManagement = () => {
 
   const handleClose = () => setIsOpen(false);
   const handleOpen = () => setIsOpen(true);
-  const handleChangePage = (page: number) => {
-    //setTableState({ ...tableState, page: page });
-  };
-  const handleChangeSize = (size: number) => {
-    //setTableState({ ...tableState, page: 1, size: size });
-  };
+  // const handleChangePage = (page: number) => {
+  //   //setTableState({ ...tableState, page: page });
+  // };
+  // const handleChangeSize = (size: number) => {
+  //   //setTableState({ ...tableState, page: 1, size: size });
+  // };
   return (
     <Box component="div">
       <Box

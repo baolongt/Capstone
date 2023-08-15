@@ -1,4 +1,3 @@
-import { Button } from '@mui/base';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { Box, IconButton, Tooltip, Typography, useTheme } from '@mui/material';
@@ -16,7 +15,6 @@ import {
   ImportFileDialog
 } from '@/components/dialogs';
 import { ToastMessage } from '@/components/toast';
-import { FOOTER_HEADER_HEIGHT } from '@/constants/common';
 import { user } from '@/models';
 import { User } from '@/models/user';
 import { BaseTableQueryParams } from '@/types';
@@ -26,7 +24,7 @@ const columnHelper = createColumnHelper<User>();
 const UserManagement = () => {
   const [queryParams, setQueryParams] = React.useState<BaseTableQueryParams>({
     page: 1,
-    size: 3,
+    size: 10,
     search: ''
   });
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
@@ -181,7 +179,6 @@ const UserManagement = () => {
           component="div"
           sx={{
             flexGrow: 1,
-            height: `calc(100vh - 210px - ${FOOTER_HEADER_HEIGHT})`,
             px: 6,
             py: 3
           }}
@@ -192,7 +189,6 @@ const UserManagement = () => {
             data={data.data}
             columns={columns}
             style={{
-              height: `calc(100vh - 210px - ${FOOTER_HEADER_HEIGHT})`,
               overflow: 'scroll'
             }}
           ></BaseTable>

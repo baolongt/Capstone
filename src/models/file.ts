@@ -1,11 +1,11 @@
 export type UpdatePayload = Pick<
   File,
-  'id' | 'title' | 'fileNotation' | 'language' | 'description' | 'status'
+  'title' | 'fileNotation' | 'language' | 'description' | 'status'
 >;
 
 export type CreatePayload = Pick<
   File,
-  'id' | 'title' | 'fileNotation' | 'language' | 'description'
+  'title' | 'fileNotation' | 'language' | 'description'
 >;
 
 export class File {
@@ -68,7 +68,6 @@ export class File {
   }
   toUpdatePayload(): UpdatePayload {
     return {
-      id: this.id,
       title: this.title,
       fileNotation: this.fileNotation,
       language: this.language,
@@ -79,7 +78,6 @@ export class File {
 
   toCreatePayload(): CreatePayload {
     return {
-      id: this.id,
       title: this.title,
       fileNotation: this.fileNotation,
       language: this.language,

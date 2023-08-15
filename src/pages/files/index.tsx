@@ -5,6 +5,7 @@ import * as React from 'react';
 
 import { useListFiles } from '@/apis';
 import { CustomButton, InputSearch } from '@/components/common';
+import CreateUpdateFileDialog from '@/components/dialogs/create-update-file-dialog';
 import { FileTable } from '@/components/file';
 import { BaseTableQueryParams } from '@/types';
 
@@ -14,7 +15,7 @@ export const FilesPage = () => {
     size: 10,
     search: ''
   });
-
+  const [isOpen, setIsOpen] = React.useState<boolean>(false);
   const { data: response, isLoading } = useListFiles({
     queryParams
   });
@@ -48,7 +49,10 @@ export const FilesPage = () => {
                 onTextChange={debouncedSearch}
               />
               <Box component="div" sx={{ display: 'flex', gap: 2 }}>
-                <CustomButton label="Thêm sổ mới" />
+                <CustomButton
+                  label="Thêm sổ mới"
+                  onClick={() => setIsOpen(true)}
+                />
               </Box>
             </Box>
           </Grid>
@@ -57,6 +61,10 @@ export const FilesPage = () => {
           metadata={metadata}
           data={data}
           handleChangePage={handleChangePage}
+        />
+        <CreateUpdateFileDialog
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
         />
       </Box>
     );

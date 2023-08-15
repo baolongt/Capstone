@@ -1,4 +1,5 @@
 export { CustomButton } from './button';
+export { FieldTitle } from './field-title';
 export {
   DragDropFile,
   InputField,

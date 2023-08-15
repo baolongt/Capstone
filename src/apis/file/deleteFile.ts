@@ -7,7 +7,7 @@ import { axiosInstance } from '@/utils';
 export const deleteFile = async (id: number) => {
   const url = `/api/files`;
   return await axiosInstance.delete(url, {
-    params: { fileId: id }
+    params: { id: id }
   });
 };
 

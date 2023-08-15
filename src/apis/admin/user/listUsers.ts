@@ -27,8 +27,6 @@ const fetchUsers = async ({
     params
   });
 
-  console.log('debug response', response);
-
   return response;
 };
 

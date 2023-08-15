@@ -8,7 +8,7 @@ import { CustomButton, InputSearch } from '@/components/common';
 import { AddDepartmentDialog } from '@/components/dialogs';
 import { UserTable } from '@/components/user';
 import { FOOTER_HEADER_HEIGHT } from '@/constants/common';
-import { Column, SelectOption } from '@/types';
+import { Column } from '@/types';
 
 const DepartmentManagement = () => {
   const theme = useTheme();
