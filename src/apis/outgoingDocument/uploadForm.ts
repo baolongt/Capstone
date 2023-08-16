@@ -74,7 +74,9 @@ export const uploadFile = async (
 
   for (let i = 0; i < payload.length; i++) {
     if (payload[i] && payload[i].fileObj) {
-      formData.append('files', payload[i]?.fileObj);
+      if (payload[i].fileObj) {
+        formData.append('files', payload[i].fileObj as File);
+      }
     }
   }
 

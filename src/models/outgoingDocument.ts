@@ -2,46 +2,13 @@ import { Column, SelectOption } from '@/types';
 
 import { UploadFile } from './uploadFile';
 
-export const columns: Column<OutgoingDocument>[] = [
-  {
-    heading: 'Trích yếu',
-    value: 'epitomize',
-    minWidth: '300px'
-  },
-  {
-    heading: 'Ký hiệu văn bản',
-    value: 'documentNotation',
-    minWidth: '50px'
-  },
-  {
-    heading: 'Nơi nhận',
-    value: 'receiver',
-    minWidth: '50px'
-  },
-  {
-    heading: 'Ngày phát hành',
-    value: 'publishDate',
-    minWidth: '60px'
-  },
-  {
-    heading: 'Loại văn bản',
-    value: 'documentType',
-    minWidth: '100px'
-  },
-  {
-    heading: 'Trạng thái',
-    value: 'status',
-    minWidth: '100px'
-  }
-];
-
 export interface OutgoingDocument {
   id: number;
   epitomize: string;
   archivedBookName: string;
   outgoingDocumentNumber: number;
   documentNotation: string;
-  publishDate: string;
+  publishDate: Date;
   receiver: string;
   lastSignedBy: string;
   createdByDepartment: string;
@@ -53,6 +20,7 @@ export interface OutgoingDocument {
   isRepliedDocument: boolean;
   note: string;
   status: string;
+  attachments: UploadFile[];
 }
 
 export interface CreateOutgoingDocument {

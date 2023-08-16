@@ -11,6 +11,7 @@ import DepartmentManagement from './pages/department-management';
 import FilesPage from './pages/files';
 import OutgoingDocumentManagement from './pages/outgoing-document-management';
 import CreateOutgoingDocumentPage from './pages/outgoing-document-management/create';
+import OutgoingDocumentDetail from './pages/outgoing-document-management/detail';
 import Setting from './pages/setting';
 import TableDemo from './pages/table-base-demo';
 import UserManagement from './pages/user-management';
@@ -26,6 +27,7 @@ const App = () => {
         <Route path={'/outgoing-documents'}>
           <Route index element={<OutgoingDocumentManagement />} />
           <Route path="create" element={<CreateOutgoingDocumentPage />} />
+          <Route path=":id" element={<OutgoingDocumentDetail />} />
         </Route>
         <Route path={'/files'} element={<FilesPage />} />
         <Route path={'/graph'} element={<Diagram />} />
