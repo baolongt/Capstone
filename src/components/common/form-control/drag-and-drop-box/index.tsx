@@ -135,7 +135,7 @@ export const WrappedDragDropFileBox: React.FC<WrappedDragDropFileBoxProps> = (
   const { control } = form;
 
   const hanldeInputFiles = (
-    files: UploadFile[] | Attachment[],
+    files: UploadFile[],
 
     onChange: (value: any) => void
   ) => {
