@@ -7,7 +7,7 @@ export class UploadFile {
   public name?: string;
   public url?: string;
   public needSigned: boolean;
-  public fileObj: File;
+  public fileObj?: File;
 
   constructor({
     name,
@@ -17,15 +17,14 @@ export class UploadFile {
   }: {
     name?: string;
     url?: string;
-    fileObj: File;
+    fileObj?: File;
     needSigned?: boolean;
   }) {
     this.id = uuidv4();
 
     if (name) this.name = name;
     if (url) this.url = url;
-
-    this.fileObj = fileObj;
+    if (fileObj) this.fileObj = fileObj;
     this.needSigned = needSigned;
   }
 

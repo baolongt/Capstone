@@ -135,8 +135,6 @@ const BaseTable: React.FC<BaseTableProps<any>> = (props) => {
     event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number
   ) => {
-    console.log('change page', newPage + 1);
-    console.log('current page ', page);
     if (newPage + 1 > page && hasNextPage) {
       handleChangePage(newPage + 1);
     }
@@ -160,32 +158,31 @@ const BaseTable: React.FC<BaseTableProps<any>> = (props) => {
         size="medium"
       >
         <TableHead>
-          {getHeaderGroups().map(
-            (headerGroup) => (
-              console.log('headerGroup', headerGroup),
-              (
-                <TableRow key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => (
-                    <TableCell
-                      key={header.id}
-                      padding="checkbox"
-                      sx={{
-                        height: '50px',
-                        fontWeight: theme.typography.fontWeightBold
-                      }}
-                    >
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              )
-            )
-          )}
+          {getHeaderGroups().map((headerGroup) => (
+            <TableRow key={headerGroup.id}>
+              {headerGroup.headers.map((header) => {
+                console.log('header size', header.getSize());
+                return (
+                  <TableCell
+                    key={header.id}
+                    padding="checkbox"
+                    sx={{
+                      height: '50px',
+                      fontWeight: theme.typography.fontWeightBold,
+                      width: header.getSize()
+                    }}
+                  >
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                  </TableCell>
+                );
+              })}
+            </TableRow>
+          ))}
         </TableHead>
         <TableBody>
           {getRowModel().rows.map((row) => (

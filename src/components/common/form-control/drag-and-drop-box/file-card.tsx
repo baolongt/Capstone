@@ -24,7 +24,7 @@ export type FileCardProps = {
 const FileCard: React.FC<FileCardProps> = (props) => {
   const {
     // get real File
-    file: { fileObj, id, needSigned },
+    file: { fileObj, id, name, needSigned },
     removeFile,
     updateNeedSigned
   } = props;
@@ -73,7 +73,7 @@ const FileCard: React.FC<FileCardProps> = (props) => {
                 minWidth: '100%'
               }}
             >
-              {fileObj.name}
+              {fileObj.name ?? name}
             </Typography>
             <Typography gutterBottom variant="caption">
               {fileObj.size > 100000
