@@ -1,4 +1,4 @@
-import { green, red } from '@mui/material/colors';
+import { red } from '@mui/material/colors';
 import { outlinedInputClasses } from '@mui/material/OutlinedInput';
 import { createTheme } from '@mui/material/styles';
 

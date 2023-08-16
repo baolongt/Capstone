@@ -1,12 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import DeleteIcon from '@mui/icons-material/Delete';
-import { Box, FormHelperText } from '@mui/material';
-import IconButton from '@mui/material/IconButton';
+import { Box, FormHelperText, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import React, { useState } from 'react';
 import { Accept, useDropzone } from 'react-dropzone';
-import { Controller, FieldValues } from 'react-hook-form';
-import { FaFileExcel, FaFilePdf, FaFileWord } from 'react-icons/fa';
+import { Controller, UseFormReturn } from 'react-hook-form';
+
+import { UploadFile } from '@/models';
+import { validation } from '@/types';
+
+import FileUploadedAccordion from './file-uploaded-accordion';
 
 const PREFIX = 'Dropzone';
 const classes = {
@@ -27,126 +29,17 @@ const Root = styled('div')(({ theme }) => ({
     backgroundColor: theme.palette.grey[100],
     '&:hover': {
       cursor: 'pointer',
-      borderColor: theme.palette.grey[600],
       backgroundColor: theme.palette.grey[200]
     }
-  },
-  [`& .${classes.thumb}`]: {
-    display: 'inline-flex',
-    position: 'relative',
-    borderRadius: 2,
-    border: '1px solid #eaeaea',
-    marginBottom: 8,
-    marginRight: 8,
-    width: 100,
-    height: 100,
-    padding: 4,
-    boxSizing: 'border-box',
-    '&:hover .thumbOverlay': {
-      opacity: 1,
-      transition: 'opacity .3s ease-in-out'
-    },
-    '& img': {
-      maxWidth: '100%',
-      maxHeight: '100%'
-    }
-  },
-  [`& .${classes.thumbOverlay}`]: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    opacity: 0,
-    background: '#0000008c'
-  },
-  [`& .${classes.thumbDeleteButton}`]: {
-    color: '#ffffff'
-  },
-  [`& .${classes.thumbName}`]: {
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    width: 100,
-    maxHeight: 30
-  },
-  [`& .${classes.thumbContainer}`]: {
-    width: '100%',
-    display: 'flex',
-    flexWrap: 'nowrap',
-    overflowX: 'auto',
-    justifyContent: 'center'
   }
 }));
-
-export type PreviewFile = File & {
-  preview?: string;
-};
 
 export type DragAndDropBoxProps = {
   fileAccpetType?: Accept;
   error: boolean;
   helperText: string;
-  value: File[];
-
+  value: UploadFile[];
   onChange: (event: any) => void;
-};
-
-type ThumbProps = {
-  file: File;
-  classes: any;
-
-  preventClick: (e: any) => void;
-
-  deletePreview: (name: string) => void;
-};
-
-const Thumb: React.FC<ThumbProps> = (props) => {
-  const { file, deletePreview, preventClick } = props;
-  const getFilePreview = (file: PreviewFile) => {
-    if (file.type.startsWith('image/')) {
-      return (
-        <img src={file.preview} className={classes.thumb} alt={file.name} />
-      );
-    } else {
-      switch (file.type.toLowerCase()) {
-        case 'application/pdf':
-          return <FaFilePdf className={classes.thumb} />;
-        case 'application/vnd.ms-excel':
-        case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
-          return <FaFileExcel className={classes.thumb} />;
-        case 'application/msword':
-        case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
-          return <FaFileWord className={classes.thumb} />;
-        default:
-          return <Box component="div">{file.name}</Box>;
-      }
-    }
-  };
-  return (
-    <Box key={file.name} component="div" onClick={preventClick}>
-      <Box component="div" className={classes.thumb}>
-        <Box component="div">
-          {getFilePreview(file)}
-          <Box className={classes.thumbOverlay} component="div">
-            <IconButton
-              className={classes.thumbDeleteButton}
-              onClick={() => deletePreview(file.name)}
-            >
-              <DeleteIcon />
-            </IconButton>
-          </Box>
-        </Box>
-      </Box>
-      <Box component="div" className={classes.thumbName}>{`${file.name} - ${(
-        file.size /
-        1024 /
-        1024
-      ).toFixed(2)} MB`}</Box>
-    </Box>
-  );
 };
 
 const DragAndDropBox: React.FC<DragAndDropBoxProps> = ({
@@ -159,18 +52,29 @@ const DragAndDropBox: React.FC<DragAndDropBoxProps> = ({
   const [isHovered, setIsHovered] = useState(false);
 
   const onDrop = (acceptedFiles: File[]) => {
-    const format = acceptedFiles.map((file: File) =>
-      Object.assign(file, {
-        preview: URL.createObjectURL(file)
-      })
-    );
-    const files = [...format, ...value];
+    const newFiles = acceptedFiles.map((file: File) => {
+      const uploadFile: UploadFile = new UploadFile({
+        fileObj: file
+      });
+      return uploadFile;
+    });
+    const files = [...newFiles, ...value];
     onChange(files);
   };
 
-  const deletePreview = (name: string) => {
-    const filesLeft = value.filter((file) => file.name !== name);
+  const removeFile = (id: string) => {
+    const filesLeft = value.filter((file) => file.id !== id);
     onChange(filesLeft);
+  };
+
+  const updateNeedSigned = (id: string) => {
+    const files = value.map((file) => {
+      if (file.id === id) {
+        file.needSigned = !file.needSigned;
+      }
+      return file;
+    });
+    onChange(files);
   };
 
   const { getRootProps, isDragActive } = useDropzone({
@@ -178,20 +82,6 @@ const DragAndDropBox: React.FC<DragAndDropBoxProps> = ({
     onDrop,
     multiple: true
   });
-
-  const preventClick = (e: any) => {
-    e.stopPropagation();
-  };
-
-  const thumbs = value.map((file, idx) => (
-    <Thumb
-      key={idx}
-      file={file}
-      classes={classes}
-      preventClick={preventClick}
-      deletePreview={deletePreview}
-    />
-  ));
 
   return (
     <Box component="div">
@@ -211,28 +101,30 @@ const DragAndDropBox: React.FC<DragAndDropBoxProps> = ({
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        {value.length === 0 ? (
-          <Box component="div" className={classes.thumbContainer}>
-            {isDragActive ? (
-              <p>Kéo file vào đây</p>
-            ) : (
-              <p>Kéo thả file vào đây hoặc click để tải file lên</p>
-            )}
-          </Box>
-        ) : (
-          <Box component="div" className={classes.thumbContainer}>
-            {thumbs}
-          </Box>
-        )}
-        {error && <FormHelperText error>{helperText}</FormHelperText>}
+        <Box component="div" className={classes.thumbContainer}>
+          {isDragActive ? (
+            <Typography>Kéo file vào đây</Typography>
+          ) : (
+            <Typography>
+              Kéo thả file vào đây hoặc click để tải file lên
+            </Typography>
+          )}
+        </Box>
       </Box>
+      {error && <FormHelperText error>{helperText}</FormHelperText>}
+      <FileUploadedAccordion
+        sx={{ marginTop: '10px' }}
+        files={value}
+        removeFile={removeFile}
+        updateNeedSigned={updateNeedSigned}
+      />
     </Box>
   );
 };
 
 export type WrappedDragDropFileBoxProps = {
-  name: string;
-  form: FieldValues;
+  name: keyof validation.outgoingDocument.CreateType;
+  form: UseFormReturn<validation.outgoingDocument.CreateType, any, undefined>;
   defaultValue?: any;
   fileAccpetType?: Accept;
 };
@@ -244,7 +136,7 @@ export const WrappedDragDropFileBox: React.FC<WrappedDragDropFileBoxProps> = (
   const { control } = form;
 
   const hanldeInputFiles = (
-    files: PreviewFile[],
+    files: UploadFile[],
 
     onChange: (value: any) => void
   ) => {

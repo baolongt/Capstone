@@ -1,5 +1,7 @@
 import { Column, SelectOption } from '@/types';
 
+import { UploadFile } from './uploadFile';
+
 export const columns: Column<OutgoingDocument>[] = [
   {
     heading: 'Trích yếu',
@@ -55,11 +57,12 @@ export interface OutgoingDocument {
 
 export interface CreateOutgoingDocument {
   epitomize: string;
-  documentFieldId: number;
+  documentField: number;
   documentTypeId: number;
+  isRepliedDocument: boolean;
   status: number;
   note: string;
-  files: File[];
+  files: UploadFile[];
 }
 
 export const documentFieldOptions: Array<SelectOption> = [
@@ -69,7 +72,7 @@ export const documentFieldOptions: Array<SelectOption> = [
   },
   {
     value: 2,
-    title: 'Văn bản nội bộ'
+    title: 'Văn bản chuyên ngành'
   }
 ];
 
@@ -192,12 +195,7 @@ export const documentTypeOptionsMap: Record<number, Array<SelectOption>> = {
       title: 'Thư công'
     }
   ],
-  2: [
-    {
-      value: 123,
-      title: 'test'
-    }
-  ]
+  2: []
 };
 
 export const statusOptions: Array<SelectOption> = [
