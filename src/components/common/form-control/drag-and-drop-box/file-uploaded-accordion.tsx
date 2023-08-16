@@ -41,7 +41,7 @@ const FileUploadedAccordion: React.FC<FileUploadedAccordionProps> = (props) => {
         aria-controls="panel1a-content"
         id="panel1a-header"
       >
-        <Typography>Đã chọn {files.length} file</Typography>
+        <Typography>{files.length} file</Typography>
       </AccordionSummary>
       <AccordionDetails>
         <Box

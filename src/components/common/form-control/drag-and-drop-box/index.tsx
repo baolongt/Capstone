@@ -6,7 +6,6 @@ import { Accept, useDropzone } from 'react-dropzone';
 import { Controller, UseFormReturn } from 'react-hook-form';
 
 import { UploadFile } from '@/models';
-import { validation } from '@/types';
 
 import FileUploadedAccordion from './file-uploaded-accordion';
 
@@ -123,8 +122,8 @@ const DragAndDropBox: React.FC<DragAndDropBoxProps> = ({
 };
 
 export type WrappedDragDropFileBoxProps = {
-  name: keyof validation.outgoingDocument.CreateType;
-  form: UseFormReturn<validation.outgoingDocument.CreateType, any, undefined>;
+  name: any;
+  form: UseFormReturn<any, any, undefined>;
   defaultValue?: any;
   fileAccpetType?: Accept;
 };
@@ -136,7 +135,7 @@ export const WrappedDragDropFileBox: React.FC<WrappedDragDropFileBoxProps> = (
   const { control } = form;
 
   const hanldeInputFiles = (
-    files: UploadFile[],
+    files: UploadFile[] | Attachment[],
 
     onChange: (value: any) => void
   ) => {
