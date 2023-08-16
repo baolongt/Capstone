@@ -1,1 +1,1 @@
-export * as outgoingDocument from './OutGoingDocumentTable';
+export * from './outgoing-doc-table';
