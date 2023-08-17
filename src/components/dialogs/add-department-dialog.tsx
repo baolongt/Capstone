@@ -17,6 +17,7 @@ import { useCreateDepartment } from '@/apis/department';
 import { CustomButton, InputField, SelectField } from '@/components/common';
 import { ToastMessage } from '@/components/toast';
 import { User } from '@/models/user';
+import { BaseTableQueryParams } from '@/types';
 
 import { addDepartmentSchema } from './validations';
 
@@ -36,9 +37,14 @@ export const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({
     },
     resolver: yupResolver(addDepartmentSchema)
   });
-
+  const [queryParams, setQueryParams] = React.useState<BaseTableQueryParams>({
+    page: 1,
+    size: 10
+  });
   const { handleSubmit } = form;
-  const { data: users } = useListUsers();
+  const { data: response } = useListUsers({
+    queryParams: { page: 1, size: 1000, search: '' }
+  });
   const { mutate: createDepartmentMutation } = useCreateDepartment({
     onSuccess: () => {
       toast.success(<ToastMessage message={'Thêm phòng ban thành công'} />);
@@ -120,9 +126,11 @@ export const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({
                 name="departmentLeaderID"
                 placeholder="Chọn trưởng phòng"
                 data={
-                  users?.map((user: User) => {
-                    return { title: user.name, value: user.id };
-                  }) ?? []
+                  response
+                    ? response.data?.map((user: User) => {
+                        return { title: user.name, value: user.id };
+                      })
+                    : []
                 }
               />
             </Box>

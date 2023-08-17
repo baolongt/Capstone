@@ -1,4 +1,4 @@
-import { Box, Grid, Stack, Typography } from '@mui/material';
+import { Grid, Stack, Typography } from '@mui/material';
 import * as React from 'react';
 import { Accept } from 'react-dropzone';
 import { useForm, UseFormReturn } from 'react-hook-form';

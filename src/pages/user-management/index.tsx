@@ -1,71 +1,43 @@
 import { Box, Typography, useTheme } from '@mui/material';
+import { debounce } from 'lodash';
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { useDeleteUser, useListUsers } from '@/apis';
 import { CustomButton, InputSearch } from '@/components/common';
-import { AddUserDialog, ImportFileDialog } from '@/components/dialogs';
+import {
+  AddUserDialog,
+  ConfirmDialog,
+  ImportFileDialog
+} from '@/components/dialogs';
 import { ToastMessage } from '@/components/toast';
 import { UserTable } from '@/components/user';
-import { FOOTER_HEADER_HEIGHT } from '@/constants/common';
 import { user } from '@/models';
-import { Column, TableState } from '@/types';
+import { BaseTableQueryParams } from '@/types';
 
 const UserManagement = () => {
-  const columns: Column<user.User>[] = [
-    {
-      heading: 'Tên',
-      value: 'name'
-    },
-    {
-      heading: 'Email',
-      value: 'email'
-    },
-    {
-      heading: 'Căn cước công dân',
-      value: 'citizenIdentification'
-    },
-    {
-      heading: 'Vai trò',
-      value: 'roleName'
-    },
-    {
-      heading: 'Chức vụ',
-      value: 'jobPositionName'
-    },
-    {
-      heading: '',
-      value: 'name',
-      isAction: true
-    }
-  ];
-
+  const [queryParams, setQueryParams] = React.useState<BaseTableQueryParams>({
+    page: 1,
+    size: 10,
+    search: ''
+  });
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
+  const [currentUserId, setCurrentUserId] = useState<number | null>(null);
+  const [mode, setMode] = useState<'update' | 'create'>('create');
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState<boolean>(false);
   const [isImportFileDialogOpen, setIsImportFileDialogOpen] =
     useState<boolean>(false);
-  const initTableState: TableState = {
-    page: 1,
-    size: 10
-  };
 
   const theme = useTheme();
-  const { data, isLoading } = useListUsers();
-
-  const [tableState, setTableState] = useState<TableState>(initTableState);
-
-  const handleOpenCreateDialog = () => setIsCreateDialogOpen(true);
-  const handleCloseCreateDialog = () => setIsCreateDialogOpen(false);
-
-  const handleOpenImportFileDialog = () => setIsImportFileDialogOpen(true);
-  const handleCloseImportFileDialog = () => setIsImportFileDialogOpen(false);
-
+  const { data, isLoading } = useListUsers({ queryParams });
   const handleChangePage = (page: number) => {
-    setTableState({ ...tableState, page: page });
+    setQueryParams((prev) => ({ ...prev, page }));
   };
-  const handleChangeSize = (size: number) => {
-    setTableState({ ...tableState, page: 1, size: size });
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    return setQueryParams((prev) => ({ ...prev, search: e.target.value }));
   };
-
+  const debouncedSearch = debounce(handleSearch, 500);
+  //delete User
   const { mutate: deleteUserMutate } = useDeleteUser({
     onSuccess: () => {
       toast.success(<ToastMessage message={'Xóa người dùng thành công'} />);
@@ -74,79 +46,111 @@ const UserManagement = () => {
       toast.error(<ToastMessage message={'Xóa người dùng thất bại'} />);
     }
   });
+  const handleOpenDeleteDialog = (id: number) => {
+    setCurrentUserId(id);
+    setIsDeleteDialogOpen(true);
+  };
+  const handleCloseDeleteDialog = () => setIsDeleteDialogOpen(false);
+  const handleDeleteUser = () => {
+    if (currentUserId) {
+      deleteUserMutate?.(currentUserId);
+    }
+    handleCloseDeleteDialog();
+  };
 
-  return (
-    <Box component="div">
-      <Box
-        component="div"
-        sx={{ bgcolor: theme.palette.grey[300], px: 6, py: 3 }}
-      >
-        <Typography
-          component={'h4'}
-          variant="h4"
-          sx={{
-            color: theme.palette.primary.main,
-            mb: 2
-          }}
-        >
-          Nhân viên
-        </Typography>
-        <Box
-          component="div"
-          sx={{ display: 'flex', justifyContent: 'space-between' }}
-        >
-          <InputSearch
-            placeholder="Search..."
-            onTextChange={() => console.log('Searching...')}
-          />
-          <Box component="div" sx={{ display: 'flex', gap: 2 }}>
-            <CustomButton
-              label="Thêm người dùng"
-              onClick={handleOpenCreateDialog}
-            />
-            <CustomButton
-              label="Nhập file CSV"
-              color="success"
-              onClick={handleOpenImportFileDialog}
-            />
+  //update and create
+  const handleUpateUser = (id: number) => {
+    setCurrentUserId(id);
+    setMode('update');
+    handleOpenCreateDialog();
+  };
+  const handleCreateUser = () => {
+    setMode('create');
+    handleOpenCreateDialog();
+  };
+
+  const handleOpenCreateDialog = () => setIsCreateDialogOpen(true);
+  const handleCloseCreateDialog = () => {
+    setIsCreateDialogOpen(false);
+    setCurrentUserId(null);
+    setMode('create');
+  };
+
+  const handleOpenImportFileDialog = () => setIsImportFileDialogOpen(true);
+  const handleCloseImportFileDialog = () => setIsImportFileDialogOpen(false);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+  if (data) {
+    return (
+      <Box>
+        <Box sx={{ mx: 'auto', width: '1080px' }}>
+          <Box sx={{ py: 3 }}>
+            <Typography
+              variant="h4"
+              sx={{
+                color: theme.palette.primary.main,
+                mb: 2
+              }}
+            >
+              Nhân viên
+            </Typography>
+            <Box
+              component="div"
+              sx={{ display: 'flex', justifyContent: 'space-between' }}
+            >
+              <InputSearch
+                placeholder="Tìm kiếm..."
+                onTextChange={debouncedSearch}
+              />
+              <Box component="div" sx={{ display: 'flex', gap: 2 }}>
+                <CustomButton
+                  label="Thêm người dùng"
+                  onClick={handleCreateUser}
+                />
+                <CustomButton
+                  variant="outlined"
+                  label="Nhập file CSV"
+                  color="primary"
+                  onClick={handleOpenImportFileDialog}
+                />
+              </Box>
+            </Box>
           </Box>
+          <UserTable
+            data={data.data}
+            metadata={data.metadata}
+            handleChangePage={handleChangePage}
+            handleUpateUser={handleUpateUser}
+            handleOpenDeleteDialog={handleOpenDeleteDialog}
+          />
         </Box>
-      </Box>
 
-      <Box
-        component="div"
-        sx={{
-          flexGrow: 1,
-          height: `calc(100vh - 210px - ${FOOTER_HEADER_HEIGHT})`,
-          px: 6,
-          py: 3
-        }}
-      >
-        <UserTable
-          height={`calc(100vh - 210px - ${FOOTER_HEADER_HEIGHT})`}
-          data={data ?? []}
-          columns={columns}
-          isLoading={isLoading}
-          dataPagination={{ totalPages: 10, currentPage: 1 }}
-          onChangePage={(newPage: number) => handleChangePage(newPage)}
-          onChangeSize={(newSize: number) => handleChangeSize(newSize)}
-          onDelete={deleteUserMutate}
+        <AddUserDialog
+          userProfile={data.data?.find(
+            (user: user.User) => user.id === currentUserId
+          )}
+          mode={mode}
+          isOpen={isCreateDialogOpen}
+          onClose={handleCloseCreateDialog}
+        />
+        <ImportFileDialog
+          isOpen={isImportFileDialogOpen}
+          onClose={handleCloseImportFileDialog}
+          onSubmit={() => {
+            return;
+          }}
+        />
+        <ConfirmDialog
+          isOpen={isDeleteDialogOpen}
+          message={<>Bạn muốn xóa ?</>}
+          onClose={handleCloseDeleteDialog}
+          onConfirm={handleDeleteUser}
         />
       </Box>
-
-      <AddUserDialog
-        mode="create"
-        isOpen={isCreateDialogOpen}
-        onClose={handleCloseCreateDialog}
-      />
-      <ImportFileDialog
-        isOpen={isImportFileDialogOpen}
-        onClose={handleCloseImportFileDialog}
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
-        onSubmit={() => {}}
-      />
-    </Box>
-  );
+    );
+  }
 };
 
 export default UserManagement;

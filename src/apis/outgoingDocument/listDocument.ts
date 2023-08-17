@@ -55,11 +55,10 @@ const fetchDocuments = async ({
 }): Promise<ListDocumentsResponse> => {
   const { page, size, search } = queryParams;
 
-  const params = {
-    PageNumber: page,
-    PageSize: size,
-    ...(search && search != '' ? { SearchString: search } : {})
-  };
+  // const params = {
+  //   PageNumber: page,
+  //   PageSize: size,
+  //   ...(search && search != '' ? { SearchString: search } : {})
 
   //   const response: ListDocumentsResponse = await axiosInstance.get(
   //     `/api/documents`,

@@ -1,102 +1,82 @@
-// TODO: refactor this page like user page and remove line 4 :D
-
-import AddIcon from '@mui/icons-material/Add';
 import { Box, Typography, useTheme } from '@mui/material';
 import React, { useState } from 'react';
 
 import { useListDepartments } from '@/apis/department';
 import { CustomButton, InputSearch } from '@/components/common';
+import { DepartmentTable } from '@/components/department/department-table';
 import { AddDepartmentDialog } from '@/components/dialogs';
-import { UserTable } from '@/components/user';
-import { FOOTER_HEIGHT, HEADER_HEIGHT } from '@/constants/common';
-import { Column, SelectOption } from '@/types';
+import { BaseTableQueryParams } from '@/types';
 
 const DepartmentManagement = () => {
   const theme = useTheme();
+  const [queryParams, setQueryParams] = useState<BaseTableQueryParams>({
+    page: 1,
+    size: 10,
+    search: ''
+  });
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [departmentData, setUsers] = useState<SelectOption[]>([]);
 
-  //TODO: change to department
-  const columns: Column<any>[] = [
-    {
-      heading: '#',
-      value: 'id'
-    },
-    {
-      heading: 'Tên phòng ban',
-      value: 'name'
-    },
-    {
-      heading: 'Trưởng phòng',
-      value: 'departmentLeaderName'
-    },
-    {
-      heading: '',
-      value: 'id',
-      isAction: true
-    }
-  ];
-
-  const { data, isLoading } = useListDepartments();
+  const { data: response, isLoading } = useListDepartments({
+    queryParams
+  });
 
   const handleClose = () => setIsOpen(false);
   const handleOpen = () => setIsOpen(true);
   const handleChangePage = (page: number) => {
-    //setTableState({ ...tableState, page: page });
+    setQueryParams((prev) => ({ ...prev, page }));
   };
-  const handleChangeSize = (size: number) => {
-    //setTableState({ ...tableState, page: 1, size: size });
+
+  const handleUpdateDepartment = (departmentId: number) => {
+    console.log('update');
   };
-  return (
-    <Box component="div">
-      <Box
-        component="div"
-        sx={{ bgcolor: theme.palette.grey[300], px: 6, py: 3 }}
-      >
-        <Typography
-          component={'h4'}
-          variant="h4"
-          sx={{
-            color: theme.palette.primary.main,
-            my: 2
-          }}
-        >
-          Phòng ban
-        </Typography>
-        <Box
-          component="div"
-          sx={{ display: 'flex', justifyContent: 'space-between' }}
-        >
-          <InputSearch
-            placeholder="Tìm kiếm"
-            onTextChange={() => console.log('Searching...')}
+
+  const handleOpenDeleteDialog = (departmentId: number) => {
+    console.log('delete');
+  };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+  if (response) {
+    const { data, metadata } = response;
+
+    return (
+      <Box>
+        <Box sx={{ mx: 'auto', width: '1080px' }}>
+          <Box sx={{ py: 3 }}>
+            <Typography
+              variant="h4"
+              sx={{
+                color: theme.palette.primary.main,
+                mb: 2
+              }}
+            >
+              Phòng ban
+            </Typography>
+            <Box
+              component="div"
+              sx={{ display: 'flex', justifyContent: 'space-between' }}
+            >
+              <InputSearch
+                placeholder="Tìm kiếm"
+                onTextChange={() => console.log('Searching...')}
+              />
+              <CustomButton label="Thêm phòng ban" onClick={handleOpen} />
+            </Box>
+          </Box>
+
+          <DepartmentTable
+            data={data}
+            metadata={metadata}
+            handleChangePage={handleChangePage}
+            handleUpdateDepartment={handleUpdateDepartment}
+            handleOpenDeleteDialog={handleOpenDeleteDialog}
           />
-          <CustomButton label="Thêm phòng ban" onClick={handleOpen} />
         </Box>
+        <AddDepartmentDialog isOpen={isOpen} onClose={handleClose} />
       </Box>
-      <Box
-        component="div"
-        sx={{
-          flexGrow: 1,
-          height: `calc(100vh - 210px - ${HEADER_HEIGHT})`,
-          px: 6,
-          py: 3
-        }}
-      >
-        <UserTable
-          height={`calc(100vh - 210px - ${HEADER_HEIGHT}) - ${FOOTER_HEIGHT}`}
-          data={data?.data ?? []}
-          columns={columns}
-          isLoading={isLoading}
-          dataPagination={{ totalPages: 10, currentPage: 1 }}
-          onChangePage={(newPage: number) => handleChangePage(newPage)}
-          onChangeSize={(newSize: number) => handleChangeSize(newSize)}
-          onDelete={() => console.log()}
-        />
-      </Box>
-      <AddDepartmentDialog isOpen={isOpen} onClose={handleClose} />
-    </Box>
-  );
+    );
+  }
 };
 
 export default DepartmentManagement;

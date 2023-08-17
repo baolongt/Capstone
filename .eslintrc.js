@@ -56,13 +56,14 @@ module.exports = {
       version: 'detect' // auto-detect React version from package.json.
     },
     'import/parsers': {
-      '@typescript-eslint/parser': ['.ts', '.tsx'] // use typescript-eslint parser for .ts|tsx files.
+      // '@typescript-eslint/parser': ['.ts', '.tsx', '.js', '.jsx'] // use typescript-eslint parser for .ts|tsx files.
     },
     'import/resolver': {
       typescript: {
         project: './tsconfig.eslint.json',
         alwaysTryTypes: true // always try to resolve types under `<root>@types` directory even it doesn't contain any source code, like `@types/unist`.
       }
-    }
+    },
+    
   }
 };

@@ -110,6 +110,7 @@ export type BaseTableProps<T> = {
   columns: ColumnDef<T, any>[];
   data: T[];
   metadata: Metadata;
+  cellHeight?: number;
   handleChangePage: (page: number) => void;
 } & TableProps;
 
@@ -150,7 +151,7 @@ const BaseTable: React.FC<BaseTableProps<any>> = (props) => {
   };
 
   return (
-    <Box component="div" sx={{ border: '1px solid black' }}>
+    <Box component="div" sx={{ border: '1px solid #61677A' }}>
       <Table
         stickyHeader
         {...props}

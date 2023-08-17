@@ -9,9 +9,9 @@ export const updateFile = async ({
   payload
 }: {
   id: number;
-  payload: any;
+  payload: file.UpdatePayload;
 }) => {
-  const url = `/api/files/${id}`;
+  const url = `/api/files?id=${id}`;
   return await axiosInstance.put(url, payload);
 };
 
