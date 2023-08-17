@@ -18,7 +18,7 @@ import { BaseTableQueryParams } from '@/types';
 const UserManagement = () => {
   const [queryParams, setQueryParams] = React.useState<BaseTableQueryParams>({
     page: 1,
-    size: 5,
+    size: 10,
     search: ''
   });
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
@@ -84,51 +84,48 @@ const UserManagement = () => {
   }
   if (data) {
     return (
-      <Box component="div" sx={{ pl: 5, pr: 5 }}>
-        <Box
-          component="div"
-          sx={{ bgcolor: theme.palette.grey[300], px: 6, py: 3 }}
-        >
-          <Typography
-            component={'h4'}
-            variant="h4"
-            sx={{
-              color: theme.palette.primary.main,
-              mb: 2
-            }}
-          >
-            Nhân viên
-          </Typography>
-          <Box
-            component="div"
-            sx={{ display: 'flex', justifyContent: 'space-between' }}
-          >
-            <InputSearch
-              placeholder="Tìm kiếm..."
-              onTextChange={debouncedSearch}
-            />
-            <Box component="div" sx={{ display: 'flex', gap: 2 }}>
-              <CustomButton
-                label="Thêm người dùng"
-                onClick={handleCreateUser}
+      <Box>
+        <Box sx={{ mx: 'auto', width: '1080px' }}>
+          <Box sx={{ py: 3 }}>
+            <Typography
+              variant="h4"
+              sx={{
+                color: theme.palette.primary.main,
+                mb: 2
+              }}
+            >
+              Nhân viên
+            </Typography>
+            <Box
+              component="div"
+              sx={{ display: 'flex', justifyContent: 'space-between' }}
+            >
+              <InputSearch
+                placeholder="Tìm kiếm..."
+                onTextChange={debouncedSearch}
               />
-              <CustomButton
-                variant="outlined"
-                label="Nhập file CSV"
-                color="primary"
-                onClick={handleOpenImportFileDialog}
-              />
+              <Box component="div" sx={{ display: 'flex', gap: 2 }}>
+                <CustomButton
+                  label="Thêm người dùng"
+                  onClick={handleCreateUser}
+                />
+                <CustomButton
+                  variant="outlined"
+                  label="Nhập file CSV"
+                  color="primary"
+                  onClick={handleOpenImportFileDialog}
+                />
+              </Box>
             </Box>
           </Box>
+          <UserTable
+            data={data.data}
+            metadata={data.metadata}
+            handleChangePage={handleChangePage}
+            handleUpateUser={handleUpateUser}
+            handleOpenDeleteDialog={handleOpenDeleteDialog}
+          />
         </Box>
-
-        <UserTable
-          data={data.data}
-          metadata={data.metadata}
-          handleChangePage={handleChangePage}
-          handleUpateUser={handleUpateUser}
-          handleOpenDeleteDialog={handleOpenDeleteDialog}
-        />
 
         <AddUserDialog
           userProfile={data.data?.find(

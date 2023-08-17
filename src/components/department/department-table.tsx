@@ -4,56 +4,42 @@ import { Box, IconButton, Tooltip } from '@mui/material';
 import { createColumnHelper } from '@tanstack/react-table';
 import * as React from 'react';
 
-import { User } from '@/models/user';
+import { department } from '@/models';
 import { Metadata } from '@/types';
 
 import BaseTable from '../common/base-table';
 
-const columnHelper = createColumnHelper<User>();
+const columnHelper = createColumnHelper<department.Department>();
 
-type UserTableProps = {
-  data: User[];
+type DepartmentTableProps = {
+  data: department.Department[];
   metadata: Metadata;
   handleChangePage: (page: number) => void;
-  handleUpateUser: (userId: number) => void;
-  handleOpenDeleteDialog: (userId: number) => void;
+  handleUpdateDepartment: (departmentId: number) => void;
+  handleOpenDeleteDialog: (departmentId: number) => void;
 };
-
-export const UserTable: React.FC<UserTableProps> = ({
+export const DepartmentTable: React.FC<DepartmentTableProps> = ({
   data,
   metadata,
   handleChangePage,
-  handleUpateUser,
+  handleUpdateDepartment,
   handleOpenDeleteDialog
 }) => {
   const columns = [
+    columnHelper.accessor('id', {
+      header: '#',
+      size: 20
+    }),
     columnHelper.accessor('name', {
-      header: 'Tên',
+      header: 'Tên phòng ban',
       cell: (row) => row.renderValue(),
       size: 100
     }),
-    columnHelper.accessor('email', {
-      header: 'Email',
+    columnHelper.accessor('departmentLeaderName', {
+      header: 'Trưởng phòng',
       cell: (row) => row.renderValue(),
-      size: 100
+      size: 200
     }),
-
-    columnHelper.accessor('citizenIdentification', {
-      header: 'Căn cước công dân',
-      cell: (row) => row.renderValue(),
-      size: 100
-    }),
-    columnHelper.accessor('roleName', {
-      header: () => 'Vai trò',
-      cell: (row) => row.renderValue(),
-      size: 100
-    }),
-    columnHelper.accessor('jobPositionName', {
-      header: () => 'Chức vụ',
-      cell: (row) => row.renderValue(),
-      size: 100
-    }),
-
     columnHelper.accessor('id', {
       header: '',
       size: 100,
@@ -62,12 +48,12 @@ export const UserTable: React.FC<UserTableProps> = ({
           <Tooltip title="Cập nhật thông tin">
             <IconButton
               color="primary"
-              onClick={() => handleUpateUser(row.getValue())}
+              onClick={() => handleUpdateDepartment(row.getValue())}
             >
               <EditIcon />
             </IconButton>
           </Tooltip>
-          <Tooltip title="Xoá nhân viên">
+          <Tooltip title="Xoá phòng ban">
             <IconButton
               color="primary"
               onClick={() => handleOpenDeleteDialog(row.getValue())}
@@ -79,15 +65,20 @@ export const UserTable: React.FC<UserTableProps> = ({
       )
     })
   ];
-  return (
-    <BaseTable
-      data={data}
-      metadata={metadata}
-      handleChangePage={handleChangePage}
-      columns={columns}
-      sx={{
-        width: '100%'
-      }}
-    />
-  );
+
+  if (data) {
+    return (
+      <>
+        <BaseTable
+          data={data}
+          metadata={metadata}
+          handleChangePage={handleChangePage}
+          columns={columns}
+          sx={{
+            width: '100%'
+          }}
+        />
+      </>
+    );
+  }
 };

@@ -1,14 +1,20 @@
-import { Box, Grid, Typography } from '@mui/material';
-import { debounce } from 'lodash';
-import * as React from 'react';
+import { Box, Typography, useTheme } from '@mui/material';
+import { createColumnHelper } from '@tanstack/react-table';
+import React, { useState } from 'react';
 
 import { useListFiles } from '@/apis';
 import { CustomButton, InputSearch } from '@/components/common';
+import { AddDepartmentDialog } from '@/components/dialogs';
 import { FileTable } from '@/components/file';
-import { BaseTableQueryParams } from '@/types';
+import { BaseTableQueryParams, SelectOption } from '@/types';
 
-export const FileManagement = () => {
-  const [queryParams, setQueryParams] = React.useState<BaseTableQueryParams>({
+const columnHelper = createColumnHelper<any>();
+
+const FileManagement = () => {
+  const theme = useTheme();
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [departmentData, setUsers] = useState<SelectOption[]>([]);
+  const [queryParams, setQueryParams] = useState<BaseTableQueryParams>({
     page: 1,
     size: 10,
     search: ''
@@ -17,10 +23,9 @@ export const FileManagement = () => {
   const { data: response, isLoading } = useListFiles({
     queryParams
   });
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    return setQueryParams((prev) => ({ ...prev, search: e.target.value }));
-  };
-  const debouncedSearch = debounce(handleSearch, 500);
+
+  const handleClose = () => setIsOpen(false);
+  const handleOpen = () => setIsOpen(true);
 
   const handleChangePage = (page: number) => {
     setQueryParams((prev) => ({ ...prev, page }));
@@ -31,32 +36,38 @@ export const FileManagement = () => {
   }
   if (response) {
     const { data, metadata } = response;
+
     return (
-      <Box component="div" sx={{ pl: 5, pr: 5 }}>
-        <Grid container spacing={2} sx={{ marginBottom: 3, marginTop: 3 }}>
-          <Grid item xs={12}>
-            <Typography variant="h5">Danh sách sổ văn bản</Typography>
-          </Grid>
-          <Grid item xs={12}>
+      <Box>
+        <Box sx={{ mx: 'auto', width: '1080px' }}>
+          <Box sx={{ py: 3, bgcolor: '#fff' }}>
+            <Typography
+              variant="h4"
+              sx={{
+                color: theme.palette.primary.main
+              }}
+            >
+              Hồ sơ
+            </Typography>
             <Box
               component="div"
-              sx={{ display: 'flex', justifyContent: 'space-between' }}
+              sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}
             >
               <InputSearch
-                placeholder="Search..."
-                onTextChange={debouncedSearch}
+                placeholder="Tìm kiếm..."
+                onTextChange={() => console.log('Searching...')}
               />
-              <Box component="div" sx={{ display: 'flex', gap: 2 }}>
-                <CustomButton label="Thêm sổ mới" />
-              </Box>
+              <CustomButton label="Thêm hồ sơ" onClick={handleOpen} />
             </Box>
-          </Grid>
-        </Grid>
-        <FileTable
-          metadata={metadata}
-          data={data}
-          handleChangePage={handleChangePage}
-        />
+          </Box>
+          <FileTable
+            metadata={metadata}
+            data={data}
+            handleChangePage={handleChangePage}
+          />
+        </Box>
+
+        <AddDepartmentDialog isOpen={isOpen} onClose={handleClose} />
       </Box>
     );
   }

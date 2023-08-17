@@ -44,7 +44,7 @@ const paths: Path[] = [
     subPaths: outGoingDocumentSubPaths
   },
   {
-    label: 'Sổ văn bản',
+    label: 'Quản lí hồ sơ',
     path: '/files',
     icon: <FolderIcon />
   },

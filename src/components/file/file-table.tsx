@@ -7,7 +7,6 @@ import { toast } from 'react-toastify';
 
 import { useDeleteFile } from '@/apis';
 import { file } from '@/models';
-import { File } from '@/models/file';
 import { Metadata } from '@/types';
 
 import BaseTable from '../common/base-table';
@@ -58,28 +57,34 @@ export const FileTable: React.FC<FileTableProps> = ({
   const columns = [
     columnHelper.accessor('title', {
       header: 'Sổ văn bản',
-      cell: (row) => row.renderValue()
+      cell: (row) => row.renderValue(),
+      size: 200
     }),
     columnHelper.accessor('fileNotation', {
       header: 'Ký hiệu',
-      cell: (row) => row.renderValue()
+      cell: (row) => row.renderValue(),
+      size: 30
     }),
     columnHelper.accessor('organCode', {
       header: 'Đơn vị',
-      cell: (row) => row.renderValue()
+      cell: (row) => row.renderValue(),
+      size: 30
     }),
     columnHelper.accessor('docTotal', {
       header: 'Số văn bản',
-      cell: (row) => row.renderValue()
+      cell: (row) => row.renderValue(),
+      size: 50
     }),
     columnHelper.accessor('status', {
       header: 'Trạng thái',
-      cell: (row) => row.renderValue()
+      cell: (row) => row.renderValue(),
+      size: 50
     }),
     columnHelper.accessor('id', {
-      header: 'Action',
+      header: '',
+      size: 100,
       cell: (row) => (
-        <Stack gap={2}>
+        <Stack direction="row" gap={2}>
           <Tooltip title="Xoá">
             <IconButton
               color="primary"
@@ -110,8 +115,7 @@ export const FileTable: React.FC<FileTableProps> = ({
           handleChangePage={handleChangePage}
           columns={columns}
           sx={{
-            width: '100%',
-            minHeight: '90vh'
+            width: '100%'
           }}
         />
         <DeleteDialog
