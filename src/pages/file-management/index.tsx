@@ -4,16 +4,13 @@ import React, { useState } from 'react';
 
 import { useListFiles } from '@/apis';
 import { CustomButton, InputSearch } from '@/components/common';
-import { AddDepartmentDialog } from '@/components/dialogs';
+import CreateUpdateFileDialog from '@/components/dialogs/create-update-file-dialog';
 import { FileTable } from '@/components/file';
-import { BaseTableQueryParams, SelectOption } from '@/types';
-
-const columnHelper = createColumnHelper<any>();
+import { BaseTableQueryParams } from '@/types';
 
 const FileManagement = () => {
   const theme = useTheme();
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [departmentData, setUsers] = useState<SelectOption[]>([]);
   const [queryParams, setQueryParams] = useState<BaseTableQueryParams>({
     page: 1,
     size: 10,
@@ -23,9 +20,6 @@ const FileManagement = () => {
   const { data: response, isLoading } = useListFiles({
     queryParams
   });
-
-  const handleClose = () => setIsOpen(false);
-  const handleOpen = () => setIsOpen(true);
 
   const handleChangePage = (page: number) => {
     setQueryParams((prev) => ({ ...prev, page }));
@@ -57,7 +51,10 @@ const FileManagement = () => {
                 placeholder="Tìm kiếm..."
                 onTextChange={() => console.log('Searching...')}
               />
-              <CustomButton label="Thêm hồ sơ" onClick={handleOpen} />
+              <CustomButton
+                label="Thêm sổ mới"
+                onClick={() => setIsOpen(true)}
+              />
             </Box>
           </Box>
           <FileTable
@@ -67,7 +64,10 @@ const FileManagement = () => {
           />
         </Box>
 
-        <AddDepartmentDialog isOpen={isOpen} onClose={handleClose} />
+        <CreateUpdateFileDialog
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+        />
       </Box>
     );
   }

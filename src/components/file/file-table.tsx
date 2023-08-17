@@ -85,20 +85,20 @@ export const FileTable: React.FC<FileTableProps> = ({
       size: 100,
       cell: (row) => (
         <Stack direction="row" gap={2}>
-          <Tooltip title="Xoá">
-            <IconButton
-              color="primary"
-              onClick={() => targetFile(row.getValue())}
-            >
-              <Delete />
-            </IconButton>
-          </Tooltip>
           <Tooltip title="Cập nhật">
             <IconButton
               color="primary"
               onClick={() => targetFile(row.getValue(), false)}
             >
               <EditIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Xoá">
+            <IconButton
+              color="primary"
+              onClick={() => targetFile(row.getValue())}
+            >
+              <Delete />
             </IconButton>
           </Tooltip>
         </Stack>
