@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Box, Grid, Stack, Typography } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import * as React from 'react';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import { useParams } from 'react-router-dom';

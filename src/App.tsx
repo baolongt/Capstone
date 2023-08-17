@@ -8,7 +8,6 @@ import { Diagram } from './components/poc/Diagram';
 import Dashboard from './pages/dashboard';
 import DepartmentManagement from './pages/department-management';
 import FileManagement from './pages/file-management';
-import FilesPage from './pages/files';
 import OutgoingDocumentManagement from './pages/outgoing-document-management';
 import CreateOutgoingDocumentPage from './pages/outgoing-document-management/create';
 import OutgoingDocumentDetail from './pages/outgoing-document-management/detail';
@@ -23,14 +22,13 @@ const App = () => {
         <Route path={'/'} element={<Dashboard />} />
         <Route path={'/users'} element={<UserManagement />} />
         <Route path={'/departments'} element={<DepartmentManagement />} />
-        <Route path={'/documents'} element={<FileManagement />} />
         <Route path={'/setting'} element={<Setting />} />
         <Route path={'/outgoing-documents'}>
           <Route index element={<OutgoingDocumentManagement />} />
           <Route path="create" element={<CreateOutgoingDocumentPage />} />
           <Route path=":id" element={<OutgoingDocumentDetail />} />
         </Route>
-        <Route path={'/files'} element={<FilesPage />} />
+        <Route path={'/files'} element={<FileManagement />} />
         <Route path={'/graph'} element={<Diagram />} />
         <Route path={'/table'} element={<TableDemo />} />
       </Routes>

@@ -1,4 +1,3 @@
-import { Delete } from '@mui/icons-material';
 import { Box, Grid, Typography } from '@mui/material';
 import { debounce } from 'lodash';
 import * as React from 'react';

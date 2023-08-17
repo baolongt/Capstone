@@ -1,12 +1,10 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import AttachFileOutlinedIcon from '@mui/icons-material/AttachFileOutlined';
 import {
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
-  Stack,
-  Typography
+  Stack
 } from '@mui/material';
 import { Box } from '@mui/system';
 import { useEffect } from 'react';
@@ -23,7 +21,7 @@ import {
 } from '@/components/common';
 import { languageOptions, statusOptions } from '@/constants';
 import { file } from '@/models';
-import { File, UpdatePayload } from '@/models/file';
+import { UpdatePayload } from '@/models/file';
 
 import { createUpdateFileSchema } from './validations';
 

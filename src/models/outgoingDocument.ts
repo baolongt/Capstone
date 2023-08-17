@@ -1,4 +1,4 @@
-import { Column, SelectOption } from '@/types';
+import { SelectOption } from '@/types';
 
 import { UploadFile } from './uploadFile';
 

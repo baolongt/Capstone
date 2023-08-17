@@ -1,82 +1,29 @@
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import { Box, IconButton, Tooltip, Typography, useTheme } from '@mui/material';
-import { createColumnHelper } from '@tanstack/react-table';
+import { Box, Typography, useTheme } from '@mui/material';
 import { debounce } from 'lodash';
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { useDeleteUser, useListUsers } from '@/apis';
 import { CustomButton, InputSearch } from '@/components/common';
-import BaseTable from '@/components/common/base-table';
 import {
   AddUserDialog,
   ConfirmDialog,
   ImportFileDialog
 } from '@/components/dialogs';
 import { ToastMessage } from '@/components/toast';
+import { UserTable } from '@/components/user';
 import { user } from '@/models';
-import { User } from '@/models/user';
 import { BaseTableQueryParams } from '@/types';
-
-const columnHelper = createColumnHelper<User>();
 
 const UserManagement = () => {
   const [queryParams, setQueryParams] = React.useState<BaseTableQueryParams>({
     page: 1,
-    size: 10,
+    size: 5,
     search: ''
   });
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
   const [currentUserId, setCurrentUserId] = useState<number | null>(null);
   const [mode, setMode] = useState<'update' | 'create'>('create');
-  const columns = [
-    columnHelper.accessor('name', {
-      header: 'Tên',
-      cell: (row) => row.renderValue()
-    }),
-    columnHelper.accessor('email', {
-      header: 'Email',
-      cell: (row) => row.renderValue()
-    }),
-
-    columnHelper.accessor('citizenIdentification', {
-      header: 'Căn cước công dân',
-      cell: (row) => row.renderValue()
-    }),
-    columnHelper.accessor('roleName', {
-      header: () => 'Vai trò',
-      cell: (row) => row.renderValue()
-    }),
-    columnHelper.accessor('jobPositionName', {
-      header: () => 'Chức vụ',
-      cell: (row) => row.renderValue()
-    }),
-
-    columnHelper.accessor('id', {
-      header: '',
-      cell: (row) => (
-        <Box component="div" sx={{ display: 'flex', gap: 2 }}>
-          <Tooltip title="Cập nhật thông tin">
-            <IconButton
-              color="primary"
-              onClick={() => handleUpateUser(row.getValue())}
-            >
-              <EditIcon />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Xoá nhân viên">
-            <IconButton
-              color="primary"
-              onClick={() => handleOpenDeleteDialog(row.getValue())}
-            >
-              <DeleteIcon />
-            </IconButton>
-          </Tooltip>
-        </Box>
-      )
-    })
-  ];
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState<boolean>(false);
   const [isImportFileDialogOpen, setIsImportFileDialogOpen] =
     useState<boolean>(false);
@@ -137,7 +84,7 @@ const UserManagement = () => {
   }
   if (data) {
     return (
-      <Box component="div">
+      <Box component="div" sx={{ pl: 5, pr: 5 }}>
         <Box
           component="div"
           sx={{ bgcolor: theme.palette.grey[300], px: 6, py: 3 }}
@@ -175,24 +122,13 @@ const UserManagement = () => {
           </Box>
         </Box>
 
-        <Box
-          component="div"
-          sx={{
-            flexGrow: 1,
-            px: 6,
-            py: 3
-          }}
-        >
-          <BaseTable
-            handleChangePage={handleChangePage}
-            metadata={(data as any)?.metadata}
-            data={data.data}
-            columns={columns}
-            style={{
-              overflow: 'scroll'
-            }}
-          ></BaseTable>
-        </Box>
+        <UserTable
+          data={data.data}
+          metadata={data.metadata}
+          handleChangePage={handleChangePage}
+          handleUpateUser={handleUpateUser}
+          handleOpenDeleteDialog={handleOpenDeleteDialog}
+        />
 
         <AddUserDialog
           userProfile={data.data?.find(
