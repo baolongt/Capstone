@@ -1,7 +1,4 @@
-import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
-import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-import Menu from '@mui/icons-material/Menu';
-import { Box, ButtonBase, CssBaseline, useTheme } from '@mui/material';
+import { Box, CssBaseline, useTheme } from '@mui/material';
 import {
   Content,
   EdgeSidebar,
@@ -12,6 +9,7 @@ import {
   SidebarContent
 } from '@mui-treasury/layout';
 import React from 'react';
+import { Outlet } from 'react-router-dom';
 
 import { FOOTER_HEADER_HEIGHT } from '@/constants/common';
 
@@ -25,34 +23,6 @@ type DashboardLayoutProps = {
 
 const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   const theme = useTheme();
-
-  const [isCollapsed, setIsCollapsed] = React.useState(false);
-  const headerEdgeTrigger: any = {
-    children: (state: any, setState: any) => (
-      <ButtonBase onClick={() => setState(!state)}>
-        {state ? <KeyboardArrowLeft /> : <Menu />}
-      </ButtonBase>
-    )
-  };
-
-  const sideBarEdgeTrigger: any = {
-    children: (collapsed: any, setCollapsed: any) => (
-      <ButtonBase
-        sx={{
-          minHeight: 40,
-          width: '100%'
-          // borderTop: '1px solid',
-          // borderColor: 'grey.200'
-        }}
-        onClick={() => {
-          setCollapsed(!collapsed);
-          setIsCollapsed(!collapsed);
-        }}
-      >
-        {collapsed ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
-      </ButtonBase>
-    )
-  };
 
   return (
     <>
@@ -109,7 +79,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
               bgcolor: theme.palette.primary.main
             }}
           >
-            <SidebarItems isCollapsed={isCollapsed} />
+            <SidebarItems isCollapsed={false} />
           </SidebarContent>
           <EdgeTrigger
             target={{ anchor: 'left', field: 'collapsed' }}
@@ -118,7 +88,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
         <Content
           sx={{ minHeight: `calc(100vh - 10px - ${FOOTER_HEADER_HEIGHT})` }}
         >
-          {children}
+          <Outlet />
         </Content>
         <Footer
           sx={{
