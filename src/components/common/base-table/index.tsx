@@ -162,7 +162,6 @@ const BaseTable: React.FC<BaseTableProps<any>> = (props) => {
           {getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
-                console.log('header size', header.getSize());
                 return (
                   <TableCell
                     key={header.id}
@@ -187,20 +186,29 @@ const BaseTable: React.FC<BaseTableProps<any>> = (props) => {
         </TableHead>
         <TableBody>
           {getRowModel().rows.map((row) => (
-            <TableRow key={row.id}>
+            <TableRow key={row.id} style={{ height: '50px' }}>
               {row.getVisibleCells().map((cell) => (
-                <TableCell key={cell.id}>
+                <TableCell
+                  key={cell.id}
+                  style={{ height: '52px', padding: '0px 4px' }}
+                >
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </TableCell>
               ))}
             </TableRow>
           ))}
+          {!hasNextPage &&
+            data.length < pageSize &&
+            Array(pageSize - data.length)
+              .fill('')
+              .map((row, index) => (
+                <TableRow key={index} style={{ height: '52px' }}></TableRow>
+              ))}
         </TableBody>
         <TableFooter>
           <TableRow>
             <TablePagination
               rowsPerPageOptions={[10, { label: 'All', value: -1 }]}
-              colSpan={3}
               count={totalItemCount}
               rowsPerPage={pageSize}
               page={page - 1}
@@ -210,6 +218,7 @@ const BaseTable: React.FC<BaseTableProps<any>> = (props) => {
                 },
                 native: true
               }}
+              style={{ width: '100%' }}
               ActionsComponent={TablePaginationActions}
               onPageChange={onPageChange}
               onRowsPerPageChange={handleChangeRowsPerPage}

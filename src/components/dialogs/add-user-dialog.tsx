@@ -14,7 +14,6 @@ import { toast } from 'react-toastify';
 
 import { useCreateUser, useUpdateUser } from '@/apis';
 import { CustomButton, InputField, SelectField } from '@/components/common';
-import { ToastMessage } from '@/components/toast';
 import { role, user } from '@/models';
 import { Nullable } from '@/types';
 
@@ -50,22 +49,20 @@ export const AddUserDialog: React.FC<AddUserDialogProps> = ({
   // Create Part
   const { mutate: createUserMutate } = useCreateUser({
     onSuccess: () => {
-      toast.success(<ToastMessage message={'Thêm người dùng thành công'} />);
+      toast.success('Thêm người dùng thành công');
     },
     onError: () => {
-      toast.error(<ToastMessage message={'Thêm người dùng thất bại'} />);
+      toast.error('Thêm người dùng thất bại');
     }
   });
 
   // Update part
   const { mutate: updateUserMutate } = useUpdateUser({
     onSuccess: () => {
-      toast.success(
-        <ToastMessage message={'Cập nhật người dùng thành công'} />
-      );
+      toast.success('Cập nhật người dùng thành công');
     },
     onError: () => {
-      toast.error(<ToastMessage message={'Cập nhật người dùng thất bại'} />);
+      toast.error('Cập nhật người dùng thất bại');
     }
   });
 

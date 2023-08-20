@@ -8,27 +8,32 @@ import {
   Stack,
   Typography
 } from '@mui/material';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
 import { useListUsers } from '@/apis';
-import { useCreateDepartment } from '@/apis/department';
+import { useCreateDepartment, useUpdateDepartment } from '@/apis/department';
 import { CustomButton, InputField, SelectField } from '@/components/common';
-import { ToastMessage } from '@/components/toast';
+import { department } from '@/models';
+import { UpdatePayload } from '@/models/department';
 import { User } from '@/models/user';
 import { BaseTableQueryParams } from '@/types';
 
 import { addDepartmentSchema } from './validations';
 
 export interface AddDepartmentDialogProps {
+  mode?: 'create' | 'update';
+  data?: department.Department;
   isOpen: boolean;
   onClose: () => void;
 }
 
 export const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({
   isOpen,
-  onClose
+  onClose,
+  mode = 'create',
+  data
 }) => {
   const form = useForm({
     defaultValues: {
@@ -41,17 +46,24 @@ export const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({
     page: 1,
     size: 10
   });
-  const { handleSubmit } = form;
-  const { data: response } = useListUsers({
-    queryParams: { page: 1, size: 1000, search: '' }
-  });
-  const { mutate: createDepartmentMutation } = useCreateDepartment({
+  const { handleSubmit, reset } = form;
+  const { data: users } = useListUsers({ queryParams });
+  const { mutate: createDepartmentMutate } = useCreateDepartment({
     onSuccess: () => {
-      toast.success(<ToastMessage message={'Thêm phòng ban thành công'} />);
+      toast.success('Thêm phòng ban thành công');
       handleClose();
     },
     onError: () => {
-      toast.error(<ToastMessage message={'Thêm người dùng thất bại'} />);
+      toast.error('Thêm người dùng thất bại');
+    }
+  });
+  const { mutate: updateDepartmentMutate } = useUpdateDepartment({
+    onSuccess: () => {
+      toast.success('Cập nhât phòng ban thành công');
+      handleClose();
+    },
+    onError: () => {
+      toast.error('Cập nhật phòng ban thất bại');
     }
   });
 
@@ -61,23 +73,21 @@ export const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({
   };
 
   const onSubmit = () => {
-    const body: {
-      name: string | null;
-      departmentLeaderID: number | null;
-    } = {
-      name: form.getValues().name,
-      departmentLeaderID: form.getValues().departmentLeaderID
-    };
-
-    if (body.name && body.departmentLeaderID) {
-      createDepartmentMutation({
-        name: body.name,
-        departmentLeaderID: body.departmentLeaderID
+    const body = form.getValues();
+    if (data?.id) {
+      return updateDepartmentMutate({
+        id: data?.id,
+        payload: body as UpdatePayload
       });
     }
-
-    handleClose();
+    return createDepartmentMutate(body as department.CreatePayload);
   };
+  useEffect(() => {
+    reset({
+      name: data?.name ?? '',
+      departmentLeaderID: data?.departmentLeaderID ?? undefined
+    });
+  }, [data]);
 
   return (
     <Dialog
@@ -89,7 +99,9 @@ export const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({
       }}
       onClose={onClose}
     >
-      <DialogTitle fontWeight={600}>Thêm phòng ban</DialogTitle>
+      <DialogTitle fontWeight={600}>
+        {mode === 'create' ? 'Thêm mới' : 'Cập nhật'} phòng ban
+      </DialogTitle>
 
       <DialogContent>
         <Stack
@@ -126,11 +138,9 @@ export const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({
                 name="departmentLeaderID"
                 placeholder="Chọn trưởng phòng"
                 data={
-                  response
-                    ? response.data?.map((user: User) => {
-                        return { title: user.name, value: user.id };
-                      })
-                    : []
+                  users?.data?.map((user: User) => {
+                    return { title: user.name, value: user.id };
+                  }) ?? []
                 }
               />
             </Box>
@@ -139,7 +149,11 @@ export const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({
       </DialogContent>
       <DialogActions sx={{ p: '0 24px 24px 0' }}>
         <CustomButton label="Hủy bỏ" variant="outlined" onClick={onClose} />
-        <CustomButton label="Thêm" type="submit" form="add-department-form" />
+        <CustomButton
+          label={mode === 'create' ? 'Thêm mới' : 'Cập nhật'}
+          type="submit"
+          form="add-department-form"
+        />
       </DialogActions>
     </Dialog>
   );

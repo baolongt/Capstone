@@ -3,11 +3,15 @@ import EditIcon from '@mui/icons-material/Edit';
 import { Box, IconButton, Tooltip } from '@mui/material';
 import { createColumnHelper } from '@tanstack/react-table';
 import * as React from 'react';
+import { toast } from 'react-toastify';
 
+import { useDeleteDepartment } from '@/apis';
 import { department } from '@/models';
 import { Metadata } from '@/types';
 
 import BaseTable from '../common/base-table';
+import { AddDepartmentDialog } from '../dialogs';
+import DeleteDialog from '../dialogs/delete-dialog';
 
 const columnHelper = createColumnHelper<department.Department>();
 
@@ -16,15 +20,17 @@ type DepartmentTableProps = {
   metadata: Metadata;
   handleChangePage: (page: number) => void;
   handleUpdateDepartment: (departmentId: number) => void;
-  handleOpenDeleteDialog: (departmentId: number) => void;
 };
 export const DepartmentTable: React.FC<DepartmentTableProps> = ({
   data,
   metadata,
   handleChangePage,
-  handleUpdateDepartment,
-  handleOpenDeleteDialog
+  handleUpdateDepartment
 }) => {
+  const [isOpen, setIsOpen] = React.useState<boolean>(false);
+  const [isOpenUpdate, setIsOpenUpdate] = React.useState<boolean>(false);
+  const [currentDepartment, setCurrentDepartment] =
+    React.useState<department.Department | null>(null);
   const columns = [
     columnHelper.accessor('id', {
       header: '#',
@@ -48,7 +54,7 @@ export const DepartmentTable: React.FC<DepartmentTableProps> = ({
           <Tooltip title="Cập nhật thông tin">
             <IconButton
               color="primary"
-              onClick={() => handleUpdateDepartment(row.getValue())}
+              onClick={() => handleSelectDepartment(row.getValue(), false)}
             >
               <EditIcon />
             </IconButton>
@@ -56,7 +62,7 @@ export const DepartmentTable: React.FC<DepartmentTableProps> = ({
           <Tooltip title="Xoá phòng ban">
             <IconButton
               color="primary"
-              onClick={() => handleOpenDeleteDialog(row.getValue())}
+              onClick={() => handleSelectDepartment(row.getValue())}
             >
               <DeleteIcon />
             </IconButton>
@@ -65,7 +71,30 @@ export const DepartmentTable: React.FC<DepartmentTableProps> = ({
       )
     })
   ];
-
+  const { mutate } = useDeleteDepartment({
+    onSuccess: () => {
+      toast.success('Xóa phòng ban thành công');
+      setIsOpen(false);
+      setCurrentDepartment(null);
+    },
+    onError: () => {
+      toast.error('Xóa phòng ban thất bại');
+    }
+  });
+  const onDelete = () => {
+    if (currentDepartment) {
+      mutate({ id: currentDepartment.id });
+    }
+  };
+  const handleSelectDepartment = (id: number, isDelete = true) => {
+    const currentDepartment = data.find((department) => department.id === id);
+    setCurrentDepartment(currentDepartment!);
+    if (isDelete) {
+      setIsOpen(true);
+    } else {
+      setIsOpenUpdate(true);
+    }
+  };
   if (data) {
     return (
       <>
@@ -77,6 +106,18 @@ export const DepartmentTable: React.FC<DepartmentTableProps> = ({
           sx={{
             width: '100%'
           }}
+        />
+        <DeleteDialog
+          isOpen={isOpen}
+          message="Thao tác này sẽ xóa phòng ban"
+          onClose={() => setIsOpen(false)}
+          onConfirm={onDelete}
+        />
+        <AddDepartmentDialog
+          data={currentDepartment!}
+          mode="update"
+          isOpen={isOpenUpdate}
+          onClose={() => setIsOpenUpdate(false)}
         />
       </>
     );

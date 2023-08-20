@@ -1,11 +1,12 @@
 import { Box, Typography, useTheme } from '@mui/material';
-import { createColumnHelper } from '@tanstack/react-table';
+import { debounce } from 'lodash';
 import React, { useState } from 'react';
 
 import { useListFiles } from '@/apis';
 import { CustomButton, InputSearch } from '@/components/common';
 import CreateUpdateFileDialog from '@/components/dialogs/create-update-file-dialog';
 import { FileTable } from '@/components/file';
+import { DEBOUND_SEARCH_TIME } from '@/constants';
 import { BaseTableQueryParams } from '@/types';
 
 const FileManagement = () => {
@@ -24,6 +25,10 @@ const FileManagement = () => {
   const handleChangePage = (page: number) => {
     setQueryParams((prev) => ({ ...prev, page }));
   };
+  const handleChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    return setQueryParams({ ...queryParams, search: e.target.value });
+  };
+  const debouncedSearch = debounce(handleChangeSearch, DEBOUND_SEARCH_TIME);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -49,7 +54,7 @@ const FileManagement = () => {
             >
               <InputSearch
                 placeholder="Tìm kiếm..."
-                onTextChange={() => console.log('Searching...')}
+                onTextChange={debouncedSearch}
               />
               <CustomButton
                 label="Thêm sổ mới"
