@@ -5,7 +5,6 @@ import {
   DialogContent,
   DialogTitle
 } from '@mui/material';
-import React from 'react';
 import { useForm } from 'react-hook-form';
 
 import { CustomButton, DragDropFile } from '@/components/common';
