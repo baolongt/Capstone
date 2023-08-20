@@ -22,7 +22,6 @@ const App = () => {
         <Route path={'/'} element={<Dashboard />} />
         <Route path={'/users'} element={<UserManagement />} />
         <Route path={'/departments'} element={<DepartmentManagement />} />
-        <Route path={'/documents'} element={<FileManagement />} />
         <Route path={'/setting'} element={<Setting />} />
         <Route path={'/outgoing-documents'}>
           <Route index element={<OutgoingDocumentManagement />} />
