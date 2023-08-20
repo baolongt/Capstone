@@ -1,54 +1,46 @@
 import 'react-toastify/dist/ReactToastify.css';
 
 import { Route, Routes } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
 
+import RequireAuth from './components/auth/RequiredAuth';
 import DashboardLayout from './components/layouts/Layout';
-import { Diagram } from './components/poc/Diagram';
+import { Role } from './models/user';
+import Login from './pages/auth/Login';
+import Unauthorized from './pages/auth/Unauthorized';
 import Dashboard from './pages/dashboard';
 import DepartmentManagement from './pages/department-management';
 import FileManagement from './pages/file-management';
 import OutgoingDocumentManagement from './pages/outgoing-document-management';
 import CreateOutgoingDocumentPage from './pages/outgoing-document-management/create';
 import OutgoingDocumentDetail from './pages/outgoing-document-management/detail';
-import Setting from './pages/setting';
-import TableDemo from './pages/table-base-demo';
 import UserManagement from './pages/user-management';
 
 const App = () => {
   return (
-    <DashboardLayout>
-      <Routes>
+    <Routes>
+      <Route path={'/login'} element={<Login />} />
+      <Route path={'/'} element={<DashboardLayout />}>
         <Route path={'/'} element={<Dashboard />} />
-        <Route path={'/users'} element={<UserManagement />} />
-        <Route path={'/departments'} element={<DepartmentManagement />} />
-        <Route path={'/setting'} element={<Setting />} />
-        <Route path={'/outgoing-documents'}>
-          <Route index element={<OutgoingDocumentManagement />} />
-          <Route path="create" element={<CreateOutgoingDocumentPage />} />
-          <Route path=":id" element={<OutgoingDocumentDetail />} />
+        {/* ADMIN pages */}
+        <Route element={<RequireAuth role={Role.ADMIN} />}>
+          <Route path={'/users'} element={<UserManagement />} />
+          <Route path={'/departments'} element={<DepartmentManagement />} />
         </Route>
-        <Route path={'/files'} element={<FileManagement />} />
-        <Route path={'/graph'} element={<Diagram />} />
-        <Route path={'/table'} element={<TableDemo />} />
-      </Routes>
-      <ToastContainer
-        closeOnClick
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={true}
-        rtl={false}
-        style={{
-          marginTop: '56px',
-          marginBottom: '24px',
-          marginLeft: '56px'
-        }}
-      />
-    </DashboardLayout>
+
+        {/* OFFICER pages */}
+
+        <Route element={<RequireAuth role={Role.OFFICER} />}>
+          <Route path={'/files'} element={<FileManagement />} />
+          <Route path={'/outgoing-documents'}>
+            <Route index element={<OutgoingDocumentManagement />} />
+            <Route path="create" element={<CreateOutgoingDocumentPage />} />
+            <Route path=":id" element={<OutgoingDocumentDetail />} />
+          </Route>
+        </Route>
+      </Route>
+
+      <Route path={'/unauthorized'} element={<Unauthorized />} />
+    </Routes>
   );
 };
 
