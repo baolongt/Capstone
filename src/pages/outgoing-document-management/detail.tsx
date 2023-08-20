@@ -6,8 +6,7 @@ import { useParams } from 'react-router-dom';
 
 import { useGetOneDocument } from '@/apis/outgoingDocument/getOneDocument';
 import DetailForm from '@/components/document/outgoing/outgoing-doc-detail-form';
-import { outgoingDocument } from '@/models';
-import { validation } from '@/types';
+import { outgoingDocument, validation } from '@/models';
 
 const OutgoingDocumentDetail = () => {
   const { id } = useParams<{ id: string }>();

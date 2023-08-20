@@ -6,8 +6,7 @@ import { toast } from 'react-toastify';
 
 import { useUploadForm } from '@/apis/outgoingDocument';
 import CreateDocumentForm from '@/components/document/outgoing/outgoing-doc-create-form';
-import { UploadFile } from '@/models';
-import { validation } from '@/types';
+import { UploadFile, validation } from '@/models';
 
 const CreateOutgoingDocumentPage: React.FC = () => {
   const {
