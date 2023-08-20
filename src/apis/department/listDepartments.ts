@@ -41,7 +41,7 @@ export const useListDepartments = ({
   queryParams
 }: UseListDepartmentsParams) => {
   return useQuery({
-    queryKey: [api.DEPARTMENT],
+    queryKey: [api.DEPARTMENT, queryParams],
     queryFn: () => listDepartments({ queryParams }),
     keepPreviousData: true
   });

@@ -5,7 +5,6 @@ import * as React from 'react';
 import { toast } from 'react-toastify';
 
 import BaseTable from '@/components/common/base-table';
-import { ToastMessage } from '@/components/toast';
 
 type Person = {
   firstName: string;
@@ -123,9 +122,7 @@ const TableDemo = () => {
 
   const onTriggered = (row: CellContext<Person, string>) => {
     console.log(row);
-    toast.success(
-      <ToastMessage message={`My first name is ${row.getValue()}`} />
-    );
+    toast.success(`My first name is ${row.getValue()}`);
   };
 
   const columns = [

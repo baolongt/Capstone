@@ -1,12 +1,12 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
+  Box,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
   Stack
 } from '@mui/material';
-import { Box } from '@mui/system';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';

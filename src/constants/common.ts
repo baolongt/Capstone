@@ -3,3 +3,4 @@ export const SIDEBAR_WIDTH = '200px';
 export const API_URL = 'https://dmscapstonebe.azurewebsites.net/';
 export const FOOTER_HEIGHT = '68px';
 export const FOOTER_HEADER_HEIGHT = '130px';
+export const DEBOUND_SEARCH_TIME = 500;
