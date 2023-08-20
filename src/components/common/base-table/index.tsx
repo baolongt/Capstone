@@ -162,7 +162,6 @@ const BaseTable: React.FC<BaseTableProps<any>> = (props) => {
           {getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
-                console.log('header size', header.getSize());
                 return (
                   <TableCell
                     key={header.id}
@@ -210,7 +209,6 @@ const BaseTable: React.FC<BaseTableProps<any>> = (props) => {
           <TableRow>
             <TablePagination
               rowsPerPageOptions={[10, { label: 'All', value: -1 }]}
-              colSpan={3}
               count={totalItemCount}
               rowsPerPage={pageSize}
               page={page - 1}

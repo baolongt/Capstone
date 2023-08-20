@@ -1,10 +1,12 @@
 import { Box, Typography, useTheme } from '@mui/material';
+import { debounce } from 'lodash';
 import React, { useState } from 'react';
 
 import { useListDepartments } from '@/apis/department';
 import { CustomButton, InputSearch } from '@/components/common';
 import { DepartmentTable } from '@/components/department/department-table';
 import { AddDepartmentDialog } from '@/components/dialogs';
+import { DEBOUND_SEARCH_TIME } from '@/constants';
 import { BaseTableQueryParams } from '@/types';
 
 const DepartmentManagement = () => {
@@ -25,6 +27,10 @@ const DepartmentManagement = () => {
   const handleChangePage = (page: number) => {
     setQueryParams((prev) => ({ ...prev, page }));
   };
+  const handleChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    return setQueryParams({ ...queryParams, search: e.target.value });
+  };
+  const debouncedSearch = debounce(handleChangeSearch, DEBOUND_SEARCH_TIME);
 
   const handleUpdateDepartment = (departmentId: number) => {
     console.log('update');
@@ -59,7 +65,7 @@ const DepartmentManagement = () => {
             >
               <InputSearch
                 placeholder="Tìm kiếm"
-                onTextChange={() => console.log('Searching...')}
+                onTextChange={debouncedSearch}
               />
               <CustomButton label="Thêm phòng ban" onClick={handleOpen} />
             </Box>
@@ -70,7 +76,7 @@ const DepartmentManagement = () => {
             metadata={metadata}
             handleChangePage={handleChangePage}
             handleUpdateDepartment={handleUpdateDepartment}
-            handleOpenDeleteDialog={handleOpenDeleteDialog}
+            //handleOpenDeleteDialog={handleOpenDeleteDialog}
           />
         </Box>
         <AddDepartmentDialog isOpen={isOpen} onClose={handleClose} />

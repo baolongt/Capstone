@@ -24,7 +24,6 @@ export const FileTable: React.FC<FileTableProps> = ({
   metadata,
   handleChangePage
 }) => {
-  console.log(data);
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
   const [isOpenDelete, setIsOpenDelete] = React.useState<boolean>(false);
   const [currentFile, SetCurrentFile] = React.useState<file.File | null>(null);

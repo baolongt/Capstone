@@ -10,8 +10,8 @@ import {
   ConfirmDialog,
   ImportFileDialog
 } from '@/components/dialogs';
-import { ToastMessage } from '@/components/toast';
 import { UserTable } from '@/components/user';
+import { DEBOUND_SEARCH_TIME } from '@/constants';
 import { user } from '@/models';
 import { BaseTableQueryParams } from '@/types';
 
@@ -36,14 +36,14 @@ const UserManagement = () => {
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     return setQueryParams((prev) => ({ ...prev, search: e.target.value }));
   };
-  const debouncedSearch = debounce(handleSearch, 500);
+  const debouncedSearch = debounce(handleSearch, DEBOUND_SEARCH_TIME);
   //delete User
   const { mutate: deleteUserMutate } = useDeleteUser({
     onSuccess: () => {
-      toast.success(<ToastMessage message={'Xóa người dùng thành công'} />);
+      toast.success('Xóa người dùng thành công');
     },
     onError: () => {
-      toast.error(<ToastMessage message={'Xóa người dùng thất bại'} />);
+      toast.error('Xóa người dùng thất bại');
     }
   });
   const handleOpenDeleteDialog = (id: number) => {
