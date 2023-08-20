@@ -13,7 +13,9 @@ import {
 import React, { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 
-import paths from '@/constants/routes';
+import { adminPaths, officerPaths } from '@/constants/routes';
+import useAuth from '@/hooks/useAuth';
+import { Role } from '@/models/user';
 import { Path } from '@/types';
 
 type SidebarItemsProps = {
@@ -120,28 +122,40 @@ const CollapseItems = (props: CollapseItemsProps) => {
 
 const SidebarItems: React.FC<SidebarItemsProps> = ({ isCollapsed }) => {
   const theme = useTheme();
-  return (
-    <>
-      <List
-        sx={{ width: '100%', maxWidth: 360 }}
-        component="nav"
-        aria-labelledby="nested-list-subheader"
-      >
-        {paths.map((path: Path, i) => {
-          return path.subPaths != null ? (
-            <CollapseItems
-              key={i}
-              isCollapsed={isCollapsed}
-              {...path}
-              theme={theme}
-            />
-          ) : (
-            <Item key={i} isCollapsed={isCollapsed} {...path} theme={theme} />
-          );
-        })}
-      </List>
-    </>
-  );
+  const {
+    authState: { user }
+  } = useAuth();
+
+  const paths = user?.roleID === Role.ADMIN ? adminPaths : officerPaths;
+
+  if (user) {
+    return (
+      <>
+        <List
+          sx={{ width: '100%', maxWidth: 360 }}
+          component="nav"
+          aria-labelledby="nested-list-subheader"
+        >
+          {paths.map((path: Path, i) => {
+            if (path.subPaths) {
+              return (
+                <CollapseItems
+                  key={i}
+                  isCollapsed={isCollapsed}
+                  {...path}
+                  theme={theme}
+                />
+              );
+            }
+
+            return (
+              <Item key={i} isCollapsed={isCollapsed} {...path} theme={theme} />
+            );
+          })}
+        </List>
+      </>
+    );
+  }
 };
 
 export default SidebarItems;

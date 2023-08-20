@@ -11,8 +11,8 @@ import {
   WrappedDragDropFileBox
 } from '@/components/common';
 import { BaseCheckbox } from '@/components/common/form-control/check-box';
-import { outgoingDocument } from '@/models';
-import { SelectOption, validation } from '@/types';
+import { outgoingDocument, validation } from '@/models';
+import { SelectOption } from '@/types';
 
 const fileAccpetType: Accept = {
   'image/jpeg': ['.jpg', '.jpeg'],

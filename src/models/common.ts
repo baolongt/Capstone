@@ -1,4 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export type useMutationParams = {
-  onSuccess?: () => void;
+  onSuccess?: (data?: any) => void;
   onError?: () => void;
 };

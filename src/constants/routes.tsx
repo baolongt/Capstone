@@ -25,10 +25,38 @@ const outGoingDocumentSubPaths: Path[] = [
   }
 ];
 
-const paths: Path[] = [
+export const adminPaths: Path[] = [
   {
     label: 'Trang chủ',
     path: '/',
+    icon: <DashboardIcon />
+  },
+  {
+    label: 'Login',
+    path: '/login',
+    icon: <DashboardIcon />
+  },
+  {
+    label: 'Quản lí người dùng',
+    path: '/users',
+    icon: <AdminPanelSettings />
+  },
+  {
+    label: 'Quản lí phòng ban',
+    path: '/departments',
+    icon: <Diversity3Icon />
+  }
+];
+
+export const officerPaths: Path[] = [
+  {
+    label: 'Trang chủ',
+    path: '/',
+    icon: <DashboardIcon />
+  },
+  {
+    label: 'Login',
+    path: '/login',
     icon: <DashboardIcon />
   },
   {
@@ -47,26 +75,5 @@ const paths: Path[] = [
     label: 'Quản lí hồ sơ',
     path: '/files',
     icon: <FolderIcon />
-  },
-  {
-    label: 'Quản lí người dùng',
-    path: '/users',
-    icon: <AdminPanelSettings />
-  },
-  {
-    label: 'Quản lí phòng ban',
-    path: '/departments',
-    icon: <Diversity3Icon />
-  },
-  {
-    label: 'Edtior-demo',
-    path: '/graph',
-    icon: <SettingsApplicationsSharp />
-  },
-  {
-    label: 'Base-table',
-    path: '/table',
-    icon: <SettingsApplicationsSharp />
   }
 ];
-export default paths;

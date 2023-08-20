@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { api } from '@/constants';
 import { common, UploadFile } from '@/models';
-import { CreateType } from '@/types/validation/outgoingDocument';
+import { CreateType } from '@/models/validation/outgoingDocument';
 import { axiosInstance } from '@/utils';
 
 type AttachmentType = {

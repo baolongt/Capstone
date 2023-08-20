@@ -17,7 +17,7 @@ const PREFIX = 'SelectField';
 const classes = {
   menuPaper: `${PREFIX}-menuPaper`
 };
-const Root = styled('div')(({ theme }) => ({
+const Root = styled('div')(() => ({
   [`& .${classes.menuPaper}`]: {
     maxHeight: 160
   }

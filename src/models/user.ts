@@ -19,14 +19,28 @@ export type CreatePayload = Pick<
   | 'jobPositionID'
 >;
 
+export enum Role {
+  ADMIN = 1,
+  OFFICER
+}
+
+export enum JobPosition {
+  CAN_BO = 1,
+  TRUONG_PHONG,
+  VAN_THU,
+  CHANH_VAN_PHONG,
+  PHO_LANH_DAO,
+  LANH_DAO
+}
+
 export class User {
   id: number;
   name: string;
   password?: string;
   email: string;
   citizenIdentification: string;
-  roleID: 1 | 2;
-  jobPositionID: 1 | 2 | 3 | 4 | 5 | 6 | 7;
+  roleID: Role;
+  jobPositionID: JobPosition;
   roleName: string;
   jobPositionName: string;
 
@@ -46,8 +60,8 @@ export class User {
     password?: string;
     email: string;
     citizenIdentification: string;
-    roleID: 1 | 2;
-    jobPositionID: 1 | 2 | 3 | 4 | 5 | 6 | 7;
+    roleID: number;
+    jobPositionID: number;
     roleName: string;
     jobPositionName: string;
   }) {

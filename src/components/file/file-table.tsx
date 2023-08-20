@@ -16,7 +16,7 @@ import DeleteDialog from '../dialogs/delete-dialog';
 export type FileTableProps = {
   data: file.File[];
   metadata: Metadata;
-  handleChangePage: (page: number) => void;
+  handleChangePage: (_page: number) => void;
 };
 
 export const FileTable: React.FC<FileTableProps> = ({
