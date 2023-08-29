@@ -7,11 +7,11 @@ import {
   DialogTitle,
   Stack
 } from '@mui/material';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
-import { useCreateFile, useUpdateFile } from '@/apis';
+import { useCreateFile, useListUsers, useUpdateFile } from '@/apis';
 import {
   CustomButton,
   FieldTitle,
@@ -22,7 +22,10 @@ import {
 import { languageOptions, statusOptions } from '@/constants';
 import { file } from '@/models';
 import { UpdatePayload } from '@/models/file';
+import { User } from '@/models/user';
+import { BaseTableQueryParams } from '@/types';
 
+import AutocompleteInput from '../common/form-control/autocomplete';
 import { createUpdateFileSchema } from './validations';
 
 export interface CreateUpdateFileDialogProps {
@@ -39,11 +42,18 @@ export const CreateUpdateFileDialog = (props: CreateUpdateFileDialogProps) => {
       title: '',
       fileNotation: '',
       language: '',
+      user: '',
       description: '',
       status: ''
     },
     resolver: yupResolver(createUpdateFileSchema)
   });
+  const [queryParams, setQueryParams] = React.useState<BaseTableQueryParams>({
+    page: 1,
+    size: 10
+  });
+  const { data: users } = useListUsers({ queryParams });
+
   const { handleSubmit, reset } = form;
   const { mutate: createFileMutate } = useCreateFile({
     onSuccess: () => {
@@ -65,6 +75,7 @@ export const CreateUpdateFileDialog = (props: CreateUpdateFileDialogProps) => {
   });
   const submitForm = () => {
     const body = form.getValues();
+    console.log(body);
     if (data?.id) {
       console.log('cập nhật', data.id, body);
       return updateFileMutate({ id: data?.id, payload: body as UpdatePayload });
@@ -81,6 +92,7 @@ export const CreateUpdateFileDialog = (props: CreateUpdateFileDialogProps) => {
       fileNotation: data?.fileNotation ?? '',
       status: data?.status ?? '',
       language: data?.language ?? 'vi',
+      user: '',
       description: data?.description ?? ''
     });
   }, [data]);
@@ -130,6 +142,19 @@ export const CreateUpdateFileDialog = (props: CreateUpdateFileDialogProps) => {
               name="language"
               placeholder="Chọn ngôn ngữ"
               data={languageOptions}
+            />
+          </Box>
+          <Box component="div" mt={2} width={'50%'}>
+            <FieldTitle title="Test" />
+            <AutocompleteInput
+              form={form}
+              name="user"
+              placeholder="Tim nguoi dung"
+              data={
+                users?.data?.map((user: User) => {
+                  return { title: user.name, value: user.id };
+                }) ?? []
+              }
             />
           </Box>
           <Box component="div">
