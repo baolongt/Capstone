@@ -1,15 +1,22 @@
 import AddIcon from '@mui/icons-material/Add';
-import SearchIcon from '@mui/icons-material/Search';
-import { Box, Button, InputAdornment, TextField } from '@mui/material';
-import Grid from '@mui/material/Grid';
-import React from 'react';
+import { Box, Button, Typography, useTheme } from '@mui/material';
+import { debounce } from 'lodash';
+import React, { useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 
 import { useListDocuments } from '@/apis';
+import {
+  DateRange,
+  DateRangePickerInput,
+  FieldTitle,
+  InputSearch
+} from '@/components/common';
 import { OutgoingDocumentTable } from '@/components/document';
+import { DEBOUND_SEARCH_TIME } from '@/constants';
 import { BaseTableQueryParams } from '@/types';
 
 const OutgoingDocumentManagement = () => {
+  const theme = useTheme();
   const [queryParams, setQueryParams] = React.useState<BaseTableQueryParams>({
     page: 1,
     size: 10,
@@ -19,6 +26,19 @@ const OutgoingDocumentManagement = () => {
   const handleChangePage = (page: number) => {
     setQueryParams((prev) => ({ ...prev, page }));
   };
+  const handleChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    return setQueryParams({ ...queryParams, search: e.target.value });
+  };
+
+  const handleDateRangeOnChange = (value: DateRange) => {
+    setQueryParams({ ...queryParams, dateRange: value });
+  };
+
+  useEffect(() => {
+    console.debug('debug value change', queryParams);
+  }, [queryParams]);
+
+  const debouncedSearch = debounce(handleChangeSearch, DEBOUND_SEARCH_TIME);
 
   const { data: response, isLoading } = useListDocuments({
     queryParams
@@ -30,39 +50,57 @@ const OutgoingDocumentManagement = () => {
     const { data, metadata } = response;
 
     return (
-      <Box sx={{ paddingLeft: 5, paddingRight: 5 }}>
-        <Grid container spacing={2} paddingTop={3}>
-          <Grid item xs={5} marginLeft={3}>
-            <TextField
-              fullWidth
-              label="Search"
-              variant="outlined"
-              size="small"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon />
-                  </InputAdornment>
-                )
-              }}
+      <Box>
+        <Box
+          sx={{
+            bgcolor: theme.palette.secondary.main
+          }}
+        >
+          <Box sx={{ mx: 'auto', width: '1080px' }}>
+            <Box sx={{ py: 3 }}>
+              <Typography variant="h4">Văn bản đi</Typography>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  mt: 2
+                }}
+              >
+                <Box>
+                  <FieldTitle title="Ngày" />
+                  <DateRangePickerInput
+                    sx={{ bgcolor: '#fff' }}
+                    onChange={handleDateRangeOnChange}
+                  />
+                </Box>
+                <Box mt={4}>
+                  <RouterLink to="create">
+                    <Button
+                      fullWidth
+                      variant="contained"
+                      startIcon={<AddIcon />}
+                    >
+                      Đăng ký văn bản đi
+                    </Button>
+                  </RouterLink>
+                </Box>
+              </Box>
+            </Box>
+          </Box>
+        </Box>
+        <Box sx={{ mx: 'auto', width: '1080px' }}>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', py: 3 }}>
+            <InputSearch
+              placeholder="Tìm kiếm..."
+              onTextChange={debouncedSearch}
             />
-          </Grid>
-          <Grid item xs={4}></Grid>
-          <Grid item xs={2}>
-            <RouterLink to="create">
-              <Button fullWidth variant="contained" startIcon={<AddIcon />}>
-                Đăng ký văn bản đi
-              </Button>
-            </RouterLink>
-          </Grid>
-          <Grid item xs={12}>
-            <OutgoingDocumentTable
-              metadata={metadata}
-              data={data}
-              handleChangePage={handleChangePage}
-            />
-          </Grid>
-        </Grid>
+          </Box>
+          <OutgoingDocumentTable
+            metadata={metadata}
+            data={data}
+            handleChangePage={handleChangePage}
+          />
+        </Box>
       </Box>
     );
   }
