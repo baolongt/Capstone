@@ -17,9 +17,19 @@ export type TableSortingParam = {
   order?: 'asc' | 'desc';
 };
 
+export type TableFilter = {
+  dateRange?: DateRageFilter;
+};
+
+export type DateRageFilter = {
+  from?: string;
+  to?: string;
+};
+
 export type BaseTableQueryParams = TableSearchParam &
   TablePagingParam &
-  TableSortingParam;
+  TableSortingParam &
+  TableFilter;
 
 export type Metadata = {
   pageCount: number;

@@ -1,4 +1,5 @@
 export { CustomButton } from './button';
+export * from './date-range-picker';
 export { FieldTitle } from './field-title';
 export {
   DragDropFile,
