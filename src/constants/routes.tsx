@@ -55,6 +55,11 @@ export const officerPaths: Path[] = [
     icon: <DashboardIcon />
   },
   {
+    label: 'Test',
+    path: '/test',
+    icon: <DashboardIcon />
+  },
+  {
     label: 'Login',
     path: '/login',
     icon: <DashboardIcon />
