@@ -1,54 +1,70 @@
-import { yupResolver } from '@hookform/resolvers/yup';
-import { Box, Grid, Typography } from '@mui/material';
-import * as React from 'react';
-import { useForm, UseFormReturn } from 'react-hook-form';
+import {
+  Box,
+  Button,
+  Button,
+  Stack,
+  Typography,
+  useTheme
+} from '@mui/material';
 import { useParams } from 'react-router-dom';
 
 import { useGetOneDocument } from '@/apis/outgoingDocument/getOneDocument';
-import DetailForm from '@/components/document/outgoing/outgoing-doc-detail-form';
-import { outgoingDocument, validation } from '@/models';
+import { CustomButton } from '@/components/common';
+import {
+  DetailAttachmentAccordion,
+  DetailDescription,
+  DetailTimeline
+} from '@/components/document';
+import { Attachment } from '@/models';
 
 const OutgoingDocumentDetail = () => {
+  const theme = useTheme();
   const { id } = useParams<{ id: string }>();
-
   const { data, isLoading } = useGetOneDocument(id ? parseInt(id) : -1);
 
-  const form = useForm({
-    defaultValues: {
-      attachments: []
-    },
-    resolver: yupResolver(validation.outgoingDocument.detailSchema)
-  }) as UseFormReturn<
-    outgoingDocument.OutgoingDocument,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    any
-  >;
-
-  const handleSave = () => {
-    console.log('save');
+  const removeAttachment = (id: string) => {
+    console.log('remove attachment', id);
   };
 
-  React.useEffect(() => {
-    if (data) {
-      console.log(data);
-      form.reset(data, { keepDirty: false });
-    }
-  }, [data, form]);
+  const signAttachment = (id: string) => {
+    console.log('sign', id);
+  };
 
   if (isLoading) {
     return <div>Loading...</div>;
   }
+  if (!data) {
+    return <div>Not found</div>;
+  }
 
   return (
-    <Box sx={{ px: 5 }}>
-      <Grid container spacing={2} sx={{ mb: 3, mt: 3 }}>
-        <Grid item xs={12}>
-          <Typography variant="h5">Thông tin văn bản đi</Typography>
-        </Grid>
-        <Grid item xs={12} sx={{ mt: 2, mx: 10 }}>
-          <DetailForm handleSave={handleSave} form={form} data={data} />
-        </Grid>
-      </Grid>
+    <Box>
+      <Box
+        sx={{
+          bgcolor: theme.palette.secondary.main,
+          minHeight: '16vh'
+        }}
+      >
+        <Box sx={{ mx: 'auto', width: '1080px' }}>
+          <Box sx={{ py: 3 }}>
+            <Typography variant="h4">Thông tin văn bản</Typography>
+          </Box>
+          <Stack spacing={{ xs: 1, sm: 2 }} direction="row">
+            <CustomButton label="Chuyến tiếp" />
+            <CustomButton label="Trả lại" variant="outlined" />
+          </Stack>
+        </Box>
+      </Box>
+      <Box sx={{ mx: 'auto', width: '1080px', mt: 3 }}>
+        <DetailDescription sx={{ width: '100%' }} data={data} />
+        <DetailAttachmentAccordion
+          attachments={data.attachments as Attachment[]}
+          removeAttachment={removeAttachment}
+          signAttachment={signAttachment}
+          sx={{ mt: 2 }}
+        />
+        <DetailTimeline sx={{ mt: 2 }} processHistory={data.processHistory} />
+      </Box>
     </Box>
   );
 };
