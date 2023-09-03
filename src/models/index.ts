@@ -1,3 +1,4 @@
+export * from './attachment';
 export * as auth from './auth';
 export * as common from './common';
 export * as department from './department';

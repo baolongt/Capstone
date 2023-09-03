@@ -1,5 +1,6 @@
 import { SelectOption } from '@/types';
 
+import { Attachment } from './attachment';
 import { UploadFile } from './uploadFile';
 
 export interface OutgoingDocument {
@@ -20,7 +21,17 @@ export interface OutgoingDocument {
   isRepliedDocument: boolean;
   note: string;
   status: string;
-  attachments: UploadFile[];
+  attachments: UploadFile[] | Attachment[];
+  processHistory?: ProcessHisstory[];
+}
+
+export interface ProcessHisstory {
+  id: number;
+  handlerId: string;
+  createAt: string;
+  outgoingDocumentId: string;
+  status: string;
+  note: string;
 }
 
 export interface CreateOutgoingDocument {
