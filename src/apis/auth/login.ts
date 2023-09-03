@@ -1,12 +1,18 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { auth, common } from '@/models';
+import { axiosInstance } from '@/utils';
 
 // TODO: change to real api
 export const login = async (payload: auth.LoginPayload) => {
-  //   const url = 'api/auth/login';
+  const url = '/api/Authentication/login';
+
+  const response = await axiosInstance.post(url, payload);
+
+  localStorage.setItem('authToken', response);
+
   // Testing purpose
-  if (payload.email === '1') {
+  if (payload.email === 'email1@gmail.com') {
     return Promise.resolve({
       id: 1,
       name: 'John Doe',
@@ -19,7 +25,6 @@ export const login = async (payload: auth.LoginPayload) => {
     });
   }
 
-  // if (payload.email !== 'officer@test.com')
   return Promise.resolve({
     id: 1,
     name: 'John Doe',

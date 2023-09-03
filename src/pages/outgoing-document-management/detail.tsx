@@ -1,11 +1,4 @@
-import {
-  Box,
-  Button,
-  Button,
-  Stack,
-  Typography,
-  useTheme
-} from '@mui/material';
+import { Box, Stack, Typography, useTheme } from '@mui/material';
 import { useParams } from 'react-router-dom';
 
 import { useGetOneDocument } from '@/apis/outgoingDocument/getOneDocument';
