@@ -1,10 +1,10 @@
 import { createContext, ReactNode, useEffect, useState } from 'react';
 
-import { user } from '@/models';
+import { auth } from '@/models';
 
 export interface AuthState {
   isAuthenticated: boolean;
-  user?: user.User | null;
+  user?: auth.Auth | null;
 }
 
 type AuthContextType = {

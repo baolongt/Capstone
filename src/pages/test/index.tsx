@@ -1,4 +1,3 @@
-import { yupResolver } from '@hookform/resolvers/yup';
 import { Box } from '@mui/material';
 import { debounce } from 'lodash';
 import React, { Component } from 'react';
@@ -12,7 +11,7 @@ import { BaseTableQueryParams } from '@/types';
 const TestPage = () => {
   const [queryParams, setQueryParams] = React.useState<BaseTableQueryParams>({
     page: 1,
-    size: 10,
+    size: 10_000,
     search: ''
   });
   const { data, isLoading } = useListUsers({ queryParams });

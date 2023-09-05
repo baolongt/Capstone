@@ -13,7 +13,7 @@ import { validation } from '@/models';
 const Login = () => {
   const { setAuthState } = useAuth();
   const navigate = useNavigate();
-  const { mutate, isLoading, isSuccess, isError } = useLogin({
+  const { mutate } = useLogin({
     onSuccess: (data) => {
       setAuthState({
         isAuthenticated: true,
