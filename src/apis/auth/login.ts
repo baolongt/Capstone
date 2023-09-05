@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 
 import { API_URL } from '@/constants';
 import { auth, common } from '@/models';
@@ -7,11 +7,13 @@ import { auth, common } from '@/models';
 // TODO: change to real api
 export const login = async (payload: auth.LoginPayload) => {
   const url = 'api/Authentication/login';
-  const response = axios.post(API_URL + url, payload).then((res) => {
-    console.log('header', res.headers);
-    console.table(Object.keys(res.headers));
-    return res.data;
-  });
+  const response: auth.Auth = await axios
+    .post(API_URL + url, payload, {
+      withCredentials: true
+    })
+    .then((res: AxiosResponse<auth.Auth>) => {
+      return res.data;
+    });
 
   if (response) {
     return response;
