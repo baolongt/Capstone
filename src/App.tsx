@@ -10,6 +10,7 @@ import Unauthorized from './pages/auth/Unauthorized';
 import Dashboard from './pages/dashboard';
 import DepartmentManagement from './pages/department-management';
 import FileManagement from './pages/file-management';
+import IncomingDocumentManagement from './pages/incoming-document-management';
 import OutgoingDocumentManagement from './pages/outgoing-document-management';
 import CreateOutgoingDocumentPage from './pages/outgoing-document-management/create';
 import OutgoingDocumentDetail from './pages/outgoing-document-management/detail';
@@ -37,6 +38,9 @@ const App = () => {
             <Route index element={<OutgoingDocumentManagement />} />
             <Route path="create" element={<CreateOutgoingDocumentPage />} />
             <Route path=":id" element={<OutgoingDocumentDetail />} />
+          </Route>
+          <Route path={'/incoming-documents'}>
+            <Route index element={<IncomingDocumentManagement />} />
           </Route>
         </Route>
       </Route>
