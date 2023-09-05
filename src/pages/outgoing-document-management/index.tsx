@@ -73,7 +73,7 @@ const OutgoingDocumentManagement = () => {
                     onChange={handleDateRangeOnChange}
                   />
                 </Box>
-                <Box mt={4}>
+                <Box>
                   <RouterLink to="create">
                     <Button
                       fullWidth
