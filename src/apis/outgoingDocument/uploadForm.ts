@@ -12,10 +12,10 @@ type AttachmentType = {
 };
 
 type OutGoingDocumentUploadFormType = {
+  processDeadline: string;
   epitomize: string;
   documentField: string;
   documentTypeId: number;
-  isRepliedDocument: boolean;
   note: string;
   attachments: AttachmentType[];
 };
@@ -52,13 +52,15 @@ const convertToOutGoingDocumentUploadFormType = (
     epitomize: createObj.epitomize,
     documentField: String(createObj.documentField),
     documentTypeId: createObj.documentTypeId,
-    isRepliedDocument: createObj.isRepliedDocument ?? false,
     note: createObj.note,
+    processDeadline: createObj.processDeadline,
     attachments:
       createObj.files?.map((file) => ({
         name: file.name ?? '',
         url: file.url ?? '',
-        needSigned: file.needSigned
+        needSigned: file.needSigned,
+        size: file.fileObj?.size,
+        mimeType: file.fileObj?.type
       })) ?? []
   };
 

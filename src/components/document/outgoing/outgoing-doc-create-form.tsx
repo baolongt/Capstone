@@ -1,16 +1,17 @@
 import LoadingButton from '@mui/lab/LoadingButton';
 import { Box, Grid, Stack, Typography } from '@mui/material';
+import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
 import { Accept } from 'react-dropzone';
 import { UseFormReturn } from 'react-hook-form';
 
 import {
+  DatePickerField,
   InputField,
   MultilineTextField,
   SelectField,
   WrappedDragDropFileBox
 } from '@/components/common';
-import { BaseCheckbox } from '@/components/common/form-control/check-box';
 import { outgoingDocument, validation } from '@/models';
 import { SelectOption } from '@/types';
 
@@ -51,7 +52,6 @@ const CreateDocumentForm: React.FC<createDocumentFormProps> = ({
   const documentField = watch('documentField');
 
   const submitHandler = () => {
-    //TODO: call api
     handleSubmitForm();
   };
 
@@ -68,96 +68,95 @@ const CreateDocumentForm: React.FC<createDocumentFormProps> = ({
 
   return (
     <Stack spacing={1}>
-      <Grid item xs={12}>
-        <Grid
-          container
-          spacing={2}
-          component="form"
-          id="create-document-form"
-          onSubmit={handleSubmit(submitHandler)}
-        >
-          <Grid item xs={12}>
-            <Typography style={{ marginBottom: '5px' }} fontWeight="bold">
-              Trích yếu
-              <Box component="span" color="error.main">
-                *
-              </Box>
-            </Typography>
-            <InputField label="" form={form} name="epitomize" />
-          </Grid>
-          <Grid item xs={6}>
-            <Typography style={{ marginBottom: '5px' }} fontWeight="bold">
-              Lĩnh vực văn bản
-              <Box component="span" color="error.main">
-                *
-              </Box>
-            </Typography>
-            <SelectField
-              data={documentFieldOptions}
-              form={form}
-              name="documentField"
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <Typography style={{ marginBottom: '5px' }} fontWeight="bold">
-              Loại văn bản
-            </Typography>
-            <SelectField
-              data={documentTypeOptions}
-              disabled={
-                documentTypeOptions && documentTypeOptions.length === 0
-                  ? true
-                  : false
-              }
-              form={form}
-              name="documentTypeId"
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Stack direction="row" spacing={2}>
-              <Box component="div" sx={{ marginTop: '10px' }}>
-                <Typography fontWeight="bold">Văn bản trả lời</Typography>
-              </Box>
-              <BaseCheckbox
-                formHook={form}
-                name="isRepliedDocument"
-                sx={{ '& .MuiSvgIcon-root': { fontSize: 28 } }}
-              />
-            </Stack>
-          </Grid>
-          <Grid item xs={12}>
-            <Typography style={{ marginBottom: '5px' }} fontWeight="bold">
-              Ghi chú
-              <Box component="span" color="error.main">
-                *
-              </Box>
-            </Typography>
-            <MultilineTextField form={form} name="note" minRows={4} />
-          </Grid>
-          <Grid item xs={12}>
-            <Typography style={{ marginBottom: '5px' }} fontWeight="bold">
-              File đính kèm
-              <Box component="span" color="error.main">
-                *
-              </Box>
-            </Typography>
-            <WrappedDragDropFileBox
-              fileAccpetType={fileAccpetType}
-              form={form}
-              name="files"
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <LoadingButton
-              style={{ marginLeft: '10px' }}
-              variant="contained"
-              color="primary"
-              type="submit"
-              loading={isSubmitForm}
-            >
-              Chuyển lãnh đạo phê duyệt
-            </LoadingButton>
-          </Grid>
+      <Grid
+        container
+        spacing={2}
+        component="form"
+        id="create-document-form"
+        onSubmit={handleSubmit(submitHandler)}
+      >
+        <Grid item xs={12}>
+          <Typography style={{ marginBottom: '5px' }} fontWeight="bold">
+            Trích yếu
+            <Box component="span" color="error.main">
+              *
+            </Box>
+          </Typography>
+          <InputField label="" form={form} name="epitomize" />
+        </Grid>
+        <Grid item xs={6}>
+          <Typography style={{ marginBottom: '5px' }} fontWeight="bold">
+            Lĩnh vực văn bản
+            <Box component="span" color="error.main">
+              *
+            </Box>
+          </Typography>
+          <SelectField
+            data={documentFieldOptions}
+            form={form}
+            name="documentField"
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <Typography style={{ marginBottom: '5px' }} fontWeight="bold">
+            Loại văn bản
+          </Typography>
+          <SelectField
+            data={documentTypeOptions}
+            disabled={
+              documentTypeOptions && documentTypeOptions.length === 0
+                ? true
+                : false
+            }
+            form={form}
+            name="documentTypeId"
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <Typography style={{ marginBottom: '5px' }} fontWeight="bold">
+            Hạn xử lý
+            <Box component="span" color="error.main">
+              *
+            </Box>
+          </Typography>
+          <DatePickerField
+            form={form}
+            name="processDeadline"
+            minDate={dayjs()}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <Typography style={{ marginBottom: '5px' }} fontWeight="bold">
+            Ghi chú
+            <Box component="span" color="error.main">
+              *
+            </Box>
+          </Typography>
+          <MultilineTextField form={form} name="note" minRows={4} />
+        </Grid>
+        <Grid item xs={12}>
+          <Typography style={{ marginBottom: '5px' }} fontWeight="bold">
+            File đính kèm
+            <Box component="span" color="error.main">
+              *
+            </Box>
+          </Typography>
+          <WrappedDragDropFileBox
+            fileAccpetType={fileAccpetType}
+            form={form}
+            name="files"
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <LoadingButton
+            style={{ marginLeft: '10px' }}
+            variant="contained"
+            color="primary"
+            type="submit"
+            loading={isSubmitForm}
+          >
+            Chuyển lãnh đạo phê duyệt
+          </LoadingButton>
         </Grid>
       </Grid>
     </Stack>

@@ -67,7 +67,7 @@ export const DetailTimeline: React.FC<DetailTimelineProps> = (props) => {
           <BaseTimelineItem
             key={idx}
             time={moment(history.createAt).format('HH:mm - DD/MM/YYYY')}
-            title={`Chuyển cho ${history.handlerId}`}
+            title={`Chuyển cho ${history.handlerName}`}
             subTitle={history.note}
             isLast={idx === processHistory.length - 1}
           />

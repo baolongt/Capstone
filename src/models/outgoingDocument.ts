@@ -9,7 +9,7 @@ export interface OutgoingDocument {
   archivedBookName: string;
   outgoingDocumentNumber: number;
   documentNotation: string;
-  publishDate: Date;
+  publishDate: string;
   receiver: string;
   lastSignedBy: string;
   createdByDepartment: string;
@@ -17,12 +17,14 @@ export interface OutgoingDocument {
   documentField: string;
   documentType: string;
   directingDescription: string;
-  processDeadline: Date;
+  processDeadline: string;
   isRepliedDocument: boolean;
   note: string;
   status: string;
   attachments: UploadFile[] | Attachment[];
   processHistory?: ProcessHisstory[];
+  createdByName?: string;
+  documentTypeName?: string;
 }
 
 export interface ProcessHisstory {
@@ -32,6 +34,7 @@ export interface ProcessHisstory {
   outgoingDocumentId: string;
   status: string;
   note: string;
+  handlerName?: string;
 }
 
 export interface CreateOutgoingDocument {
@@ -42,6 +45,31 @@ export interface CreateOutgoingDocument {
   status: number;
   note: string;
   files: UploadFile[];
+}
+
+export enum DocumentStatus {
+  CHUYEN_TOI_TRUONG_PHONG = 1,
+  CHUYEN_TOI_CHANH_VAN_PHONG,
+  CHUYEN_TOI_LANH_DAO,
+  CHUYEN_TOI_VAN_THU,
+  CHO_CHINH_SUA,
+  BAN_HANH_VAN_BAN
+}
+
+export const DocumentStatusDict = {
+  1: 'Đang xử lý',
+  2: 'Đang xử lý',
+  3: 'Đang xử lý',
+  4: 'Đang xử lý',
+  5: 'Chờ chỉnh sửa',
+  6: 'Vản bản đã ban hành'
+};
+
+export interface ForwardOutgoingDocument {
+  documentId: number;
+  newStatus: number;
+  newHandlerId: number;
+  note: string;
 }
 
 export const documentFieldOptions: Array<SelectOption> = [

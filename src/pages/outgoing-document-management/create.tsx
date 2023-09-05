@@ -27,9 +27,9 @@ const CreateOutgoingDocumentPage: React.FC = () => {
       epitomize: '',
       documentField: 1,
       documentTypeId: 1,
-      isRepliedDocument: false,
       status: 1,
       note: '',
+      processDeadline: new Date().toISOString(),
       files: [] as UploadFile[]
     },
     resolver: yupResolver(validation.outgoingDocument.createSchema)
@@ -42,6 +42,7 @@ const CreateOutgoingDocumentPage: React.FC = () => {
   const { getValues, reset } = form;
 
   const handleSubmitForm = () => {
+    // console.log(getValues());
     uploadForm(getValues());
   };
 

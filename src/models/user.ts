@@ -20,8 +20,8 @@ export type CreatePayload = Pick<
 >;
 
 export enum Role {
-  ADMIN = 1,
-  OFFICER
+  OFFICER = 1,
+  ADMIN = 2
 }
 
 export enum JobPosition {
