@@ -1,11 +1,8 @@
 import { FormHelperText, SxProps } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
-import { styled } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
-import { debounce } from 'lodash';
 import { Controller, FieldValues } from 'react-hook-form';
 
-import { DEBOUND_SEARCH_TIME } from '@/constants';
 import { SelectOption } from '@/types';
 
 interface Props {
@@ -18,35 +15,15 @@ interface Props {
   onSearchChange: (textSearch: string) => void;
 }
 
-const PREFIX = 'Autocomplete';
-const classes = {
-  menuPaper: `${PREFIX}-menuPaper`
-};
-const Root = styled('div')(() => ({
-  [`& .${classes.menuPaper}`]: {
-    maxHeight: 160
-  }
-}));
-
 export default function AutocompleteInput(props: Props) {
-  const {
-    label,
-    placeholder,
-    data,
-    name,
-    form,
-    onSearchChange,
-    sx = {},
-    ...resProps
-  } = props;
+  const { data, name, form, onSearchChange, sx = {}, ...resProps } = props;
   const { control } = form;
-  const search = debounce(onSearchChange, DEBOUND_SEARCH_TIME);
 
   return (
     <Controller
       control={control}
       name={name}
-      render={({ field: { onChange }, fieldState }) => (
+      render={({ field: { value, onChange }, fieldState }) => (
         <>
           <Autocomplete
             autoHighlight
@@ -67,8 +44,13 @@ export default function AutocompleteInput(props: Props) {
               />
             )}
             onChange={(event, item) => {
-              console.log('change...');
               onChange(item?.value);
+            }}
+            onClose={() => {
+              if (!value || value == -1) {
+                onSearchChange('');
+                console.debug('close without value choose');
+              }
             }}
             {...resProps}
           />
