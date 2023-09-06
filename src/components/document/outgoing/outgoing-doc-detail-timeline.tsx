@@ -8,7 +8,7 @@ import TimelineOppositeContent, {
 } from '@mui/lab/TimelineOppositeContent';
 import TimelineSeparator from '@mui/lab/TimelineSeparator';
 import { Box, SxProps, Typography } from '@mui/material';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import React from 'react';
 
 import { ProcessHisstory } from '@/models/outgoingDocument';
@@ -63,15 +63,34 @@ export const DetailTimeline: React.FC<DetailTimelineProps> = (props) => {
         <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
           Quá trình xử lý {'  '}
         </Typography>
-        {processHistory.map((history, idx) => (
-          <BaseTimelineItem
-            key={idx}
-            time={moment(history.createAt).format('HH:mm - DD/MM/YYYY')}
-            title={`Chuyển cho ${history.handlerName}`}
-            subTitle={history.note}
-            isLast={idx === processHistory.length - 1}
-          />
-        ))}
+        {processHistory.map((history, idx) => {
+          let title = '';
+
+          switch (history.status) {
+            case 0:
+              title = `${history.handlerName} tạo văn bản`;
+              break;
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+              title = `Chuyển cho ${history.handlerName}`;
+              break;
+            case 5:
+              title = `Trả lại cho ${history.handlerName}`;
+              break;
+          }
+
+          return (
+            <BaseTimelineItem
+              key={idx}
+              time={dayjs(history.createdAt).format('HH:mm DD/MM/YYYY')}
+              title={title}
+              subTitle={history.note}
+              isLast={idx === processHistory.length - 1}
+            />
+          );
+        })}
       </Timeline>
     </Box>
   );

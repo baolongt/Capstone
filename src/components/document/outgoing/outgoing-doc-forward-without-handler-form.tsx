@@ -32,7 +32,7 @@ export const WithoutHandlerForwardForm: React.FC<
       >
         <Grid item xs={12}>
           <FieldTitle title="Ghi chú" />
-          <MultilineTextField form={form} name="note" minRows={4} />
+          <MultilineTextField form={form} name="newNote" minRows={4} />
         </Grid>
       </Grid>
       <Grid item xs={12}>

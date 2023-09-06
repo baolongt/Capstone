@@ -7,8 +7,28 @@ import { axiosInstance } from '@/utils';
 export const forwarđocument = async (
   payload: outgoingDocument.ForwardOutgoingDocument
 ) => {
-  const url = '/OutgoingDocument/change-status';
-  return await axiosInstance.post(url, payload);
+  const url = '/api/OutgoingDocument/change-status';
+
+  if (payload.newStatus === 0) {
+    console.error('ERROR', 'status === 0');
+    throw new Error('Vản bản không hợp lệ');
+  }
+
+  if (payload.newStatus === 3 && payload.newHandlerId === -1) {
+    console.error('ERROR', 'note === null');
+    throw new Error('Không chọn người xử lý');
+  }
+
+  const requestPayload = {
+    documentId: payload.documentId,
+    newStatus: payload.newStatus,
+    newNote: payload.newNote,
+    ...(payload.newHandlerId === -1
+      ? {}
+      : { newHandlerId: payload.newHandlerId })
+  };
+
+  return await axiosInstance.post(url, requestPayload);
 };
 
 export const useForwardDocument = ({
@@ -24,8 +44,8 @@ export const useForwardDocument = ({
       queryClient.invalidateQueries({ queryKey: [api.OUTGOING_DOCUMENT] });
       onSuccess?.();
     },
-    onError: () => {
-      onError?.();
+    onError: (error) => {
+      onError?.(error);
     }
   });
 };

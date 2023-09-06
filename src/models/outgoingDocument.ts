@@ -22,17 +22,19 @@ export interface OutgoingDocument {
   note: string;
   status: string;
   attachments: UploadFile[] | Attachment[];
-  processHistory?: ProcessHisstory[];
-  createdByName?: string;
-  documentTypeName?: string;
+  processHistory: ProcessHisstory[];
+  createdByName: string;
+  documentTypeName: string;
+  createdDate: string;
+  updatedDate: string;
 }
 
 export interface ProcessHisstory {
   id: number;
   handlerId: string;
-  createAt: string;
+  createdAt: string;
   outgoingDocumentId: string;
-  status: string;
+  status: number;
   note: string;
   handlerName?: string;
 }
@@ -52,24 +54,25 @@ export enum DocumentStatus {
   CHUYEN_TOI_CHANH_VAN_PHONG,
   CHUYEN_TOI_LANH_DAO,
   CHUYEN_TOI_VAN_THU,
-  CHO_CHINH_SUA,
+  TRA_LAI,
   BAN_HANH_VAN_BAN
 }
 
-export const DocumentStatusDict = {
-  1: 'Đang xử lý',
-  2: 'Đang xử lý',
-  3: 'Đang xử lý',
-  4: 'Đang xử lý',
-  5: 'Chờ chỉnh sửa',
-  6: 'Vản bản đã ban hành'
-};
+export const DocumentStatusDict = new Map<number, string>([
+  [0, 'Chưa chuyển'],
+  [1, 'Đang xử lý'],
+  [2, 'Đang xử lý'],
+  [3, 'Đang xử lý'],
+  [4, 'Chờ ban hành'],
+  [5, 'Chờ chỉnh sửa'],
+  [6, 'Vản bản đã ban hành']
+]);
 
 export interface ForwardOutgoingDocument {
   documentId: number;
   newStatus: number;
   newHandlerId: number;
-  note: string;
+  newNote: string;
 }
 
 export const documentFieldOptions: Array<SelectOption> = [

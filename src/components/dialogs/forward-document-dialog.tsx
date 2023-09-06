@@ -1,7 +1,10 @@
 import { Dialog, DialogContent, DialogTitle } from '@mui/material';
 import * as React from 'react';
 import { useForm, UseFormReturn } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
+import { useForwardDocument } from '@/apis/outgoingDocument/forwardDocument';
 import { validation } from '@/models';
 
 import { ForwardForm, WithoutHandlerForwardForm } from '../document';
@@ -11,30 +14,46 @@ export type ForwardDocumentDialogProps = {
   isOpen: boolean;
   onClose: () => void;
   id: number;
+  newestStatus?: number;
 };
 
 export const ForwardDocumentDialog: React.FC<ForwardDocumentDialogProps> = (
   props
 ) => {
-  const { isOpen, onClose, mode, id } = props;
+  const { isOpen, onClose, mode, id, newestStatus = -1 } = props;
+  const navigate = useNavigate();
+  const { mutate: forwardDocument, isLoading } = useForwardDocument({
+    onSuccess: () => {
+      toast.success('Chuyển văn bản đi thành công');
+    },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onError: (error: any) => {
+      toast.error(error ? error.message : 'Chuyển văn bản đi thất bại');
+    }
+  });
   const form = useForm({
     defaultValues: {
       documentId: id,
-      newStatus: 1,
+      newStatus: newestStatus + 1,
       newHandlerId: -1,
-      note: ''
+      newNote: ''
     }
   }) as UseFormReturn<validation.outgoingDocument.ForwardType, any>;
 
-  const { handleSubmit, getValues, reset } = form;
+  const { getValues, reset, setValue } = form;
+  if (mode === 'send-back') {
+    setValue('newStatus', 5);
+  }
 
   const onSubmit = () => {
-    console.log('submit...', getValues());
+    forwardDocument(getValues());
+    handleClose();
+    navigate('/outgoing-documents');
   };
 
   const handleClose = () => {
-    onClose();
     reset();
+    onClose();
   };
 
   return (
@@ -52,15 +71,15 @@ export const ForwardDocumentDialog: React.FC<ForwardDocumentDialogProps> = (
       </DialogTitle>
 
       <DialogContent>
-        {mode === 'foward' ? (
+        {newestStatus === 2 ? (
           <ForwardForm
-            isSubmitForm={false}
+            isSubmitForm={isLoading}
             form={form}
             handleSubmitForm={onSubmit}
           />
         ) : (
           <WithoutHandlerForwardForm
-            isSubmitForm={false}
+            isSubmitForm={isLoading}
             form={form}
             handleSubmitForm={onSubmit}
           />

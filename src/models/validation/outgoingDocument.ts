@@ -66,7 +66,7 @@ export const forwardSchema = yup.object().shape({
   documentId: yup.number().required(),
   newStatus: yup.number().required(),
   newHandlerId: yup.number().required(),
-  note: yup.string().required()
+  newNote: yup.string().required()
 });
 export type ForwardType = yup.InferType<typeof forwardSchema>;
 
