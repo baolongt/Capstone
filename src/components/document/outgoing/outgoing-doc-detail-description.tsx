@@ -1,4 +1,5 @@
 import { Box, Grid, SxProps, Typography } from '@mui/material';
+import dayjs from 'dayjs';
 import React, { FC } from 'react';
 
 import { outgoingDocument } from '@/models';
@@ -14,8 +15,9 @@ export const DetailDescription: FC<DetailDescriptionProps> = (props) => {
     epitomize,
     documentNotation,
     documentField,
-    documentType,
-    createdBy,
+    documentTypeName,
+    createdByName,
+    isRepliedDocument,
     publishDate,
     note
   } = document;
@@ -46,20 +48,20 @@ export const DetailDescription: FC<DetailDescriptionProps> = (props) => {
         <Grid item xs={6} sx={detailStyle}>
           <Typography variant="subtitle1" sx={{ fontWeight: labelFontWeight }}>
             Loại văn bản: {'  '}
-            <Typography component="span">{documentType}</Typography>
+            <Typography component="span">{documentTypeName}</Typography>
           </Typography>
         </Grid>
         <Grid item xs={6} sx={detailStyle}>
           <Typography variant="subtitle1" sx={{ fontWeight: labelFontWeight }}>
             Người soạn thảo: {'  '}
-            <Typography component="span">{createdBy}</Typography>
+            <Typography component="span">{createdByName}</Typography>
           </Typography>
         </Grid>
         <Grid item xs={6} sx={detailStyle}>
           <Typography variant="subtitle1" sx={{ fontWeight: labelFontWeight }}>
             Ngày tạo: {'  '}
             <Typography component="span">
-              {publishDate.toISOString()}
+              {dayjs(publishDate).format('DD/MM/YYYY')}
             </Typography>
           </Typography>
         </Grid>

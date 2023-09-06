@@ -36,11 +36,7 @@ interface DetailFormProps {
 }
 
 const DetailForm: React.FC<DetailFormProps> = ({ form, data, handleSave }) => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors }
-  } = useForm();
+  const { handleSubmit } = useForm();
 
   const {
     formState: { isDirty }

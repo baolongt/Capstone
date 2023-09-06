@@ -1,7 +1,4 @@
-import {
-  AdminPanelSettings,
-  SettingsApplicationsSharp
-} from '@mui/icons-material';
+import { AdminPanelSettings } from '@mui/icons-material';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import Diversity3Icon from '@mui/icons-material/Diversity3';
 import FolderIcon from '@mui/icons-material/Folder';

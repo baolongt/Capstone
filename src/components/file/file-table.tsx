@@ -44,6 +44,7 @@ export const FileTable: React.FC<FileTableProps> = ({
   };
   const targetFile = (id: number, isDelete = true) => {
     const file = data.find((file) => file.id === id);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     SetCurrentFile(file!);
     if (isDelete) {
       setIsOpen(true);
@@ -124,6 +125,7 @@ export const FileTable: React.FC<FileTableProps> = ({
           onConfirm={onDelete}
         />
         <CreateUpdateFileDialog
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           data={currentFile!}
           mode="update"
           isOpen={isOpenDelete}

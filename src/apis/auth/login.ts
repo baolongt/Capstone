@@ -1,40 +1,23 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import axios, { AxiosResponse } from 'axios';
 
+import { API_URL } from '@/constants';
 import { auth, common } from '@/models';
-import { axiosInstance } from '@/utils';
 
 // TODO: change to real api
 export const login = async (payload: auth.LoginPayload) => {
-  const url = '/api/Authentication/login';
-
-  const response = await axiosInstance.post(url, payload);
-
-  localStorage.setItem('authToken', response);
-
-  // Testing purpose
-  if (payload.email === 'email1@gmail.com') {
-    return Promise.resolve({
-      id: 1,
-      name: 'John Doe',
-      email: 'admin@test.com',
-      citizenIdentification: '1234567890',
-      roleID: 1,
-      jobPositionID: 1,
-      roleName: 'Administrator',
-      jobPositionName: 'Manager'
+  const url = 'api/Authentication/login';
+  const response: auth.Auth = await axios
+    .post(API_URL + url, payload, {
+      withCredentials: true
+    })
+    .then((res: AxiosResponse<auth.Auth>) => {
+      return res.data;
     });
-  }
 
-  return Promise.resolve({
-    id: 1,
-    name: 'John Doe',
-    email: 'officer@test.com',
-    citizenIdentification: '1234567890',
-    roleID: 2,
-    jobPositionID: 1,
-    roleName: 'Administrator',
-    jobPositionName: 'Manager'
-  });
+  if (response) {
+    return response;
+  }
 };
 
 export const useLogin = ({ onSuccess, onError }: common.useMutationParams) => {

@@ -9,7 +9,7 @@ export interface OutgoingDocument {
   archivedBookName: string;
   outgoingDocumentNumber: number;
   documentNotation: string;
-  publishDate: Date;
+  publishDate: string;
   receiver: string;
   lastSignedBy: string;
   createdByDepartment: string;
@@ -17,21 +17,26 @@ export interface OutgoingDocument {
   documentField: string;
   documentType: string;
   directingDescription: string;
-  processDeadline: Date;
+  processDeadline: string;
   isRepliedDocument: boolean;
   note: string;
   status: string;
   attachments: UploadFile[] | Attachment[];
-  processHistory?: ProcessHisstory[];
+  processHistory: ProcessHisstory[];
+  createdByName: string;
+  documentTypeName: string;
+  createdDate: string;
+  updatedDate: string;
 }
 
 export interface ProcessHisstory {
   id: number;
   handlerId: string;
-  createAt: string;
+  createdAt: string;
   outgoingDocumentId: string;
-  status: string;
+  status: number;
   note: string;
+  handlerName?: string;
 }
 
 export interface CreateOutgoingDocument {
@@ -42,6 +47,32 @@ export interface CreateOutgoingDocument {
   status: number;
   note: string;
   files: UploadFile[];
+}
+
+export enum DocumentStatus {
+  CHUYEN_TOI_TRUONG_PHONG = 1,
+  CHUYEN_TOI_CHANH_VAN_PHONG,
+  CHUYEN_TOI_LANH_DAO,
+  CHUYEN_TOI_VAN_THU,
+  TRA_LAI,
+  BAN_HANH_VAN_BAN
+}
+
+export const DocumentStatusDict = new Map<number, string>([
+  [0, 'Chưa chuyển'],
+  [1, 'Đang xử lý'],
+  [2, 'Đang xử lý'],
+  [3, 'Đang xử lý'],
+  [4, 'Chờ ban hành'],
+  [5, 'Chờ chỉnh sửa'],
+  [6, 'Vản bản đã ban hành']
+]);
+
+export interface ForwardOutgoingDocument {
+  documentId: number;
+  newStatus: number;
+  newHandlerId: number;
+  newNote: string;
 }
 
 export const documentFieldOptions: Array<SelectOption> = [
