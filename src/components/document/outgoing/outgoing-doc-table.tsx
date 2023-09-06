@@ -7,6 +7,7 @@ import { Link as RouterLink } from 'react-router-dom';
 
 import BaseTable from '@/components/common/base-table';
 import { outgoingDocument } from '@/models';
+import { DocumentStatusDict } from '@/models/outgoingDocument';
 import { Metadata } from '@/types';
 
 const columnHelper = createColumnHelper<outgoingDocument.OutgoingDocument>();
@@ -33,14 +34,14 @@ export const OutgoingDocumentTable: React.FC<OutgoingDocumentTableProps> = ({
       cell: (row) => row.renderValue(),
       size: 50
     }),
-    columnHelper.accessor('publishDate', {
+    columnHelper.accessor('createdDate', {
       header: 'Ngày soạn thảo',
       cell: (row) => moment(row.getValue()).format('DD/MM/YYYY'),
       size: 100
     }),
-    columnHelper.accessor('status', {
+    columnHelper.accessor('processHistory', {
       header: 'Trạng thái',
-      cell: (row) => row.renderValue(),
+      cell: (row) => DocumentStatusDict.get(row.getValue()[0].status) || '',
       size: 100
     }),
     columnHelper.accessor('note', {
