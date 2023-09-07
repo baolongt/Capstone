@@ -106,24 +106,29 @@ function TablePaginationActions(props: TablePaginationActionsProps) {
 }
 
 export type BaseTableProps<T> = {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // table props
   columns: ColumnDef<T, any>[];
   data: T[];
-  metadata: Metadata;
   cellHeight?: number;
-  handleChangePage: (page: number) => void;
+  handleCellClick?: (origin: T) => void;
+
+  // paging props
+  showPagination?: boolean;
+  metadata?: Metadata;
+  handleChangePage?: (page: number) => void;
 } & TableProps;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const BaseTable: React.FC<BaseTableProps<any>> = (props) => {
-  const { columns, data, sx, metadata, handleChangePage } = props;
   const {
-    pageNumber: page,
-    totalItemCount,
-    hasNextPage,
-    hasPreviousPage,
-    pageSize
-  } = metadata;
+    columns,
+    data,
+    sx,
+    showPagination = true,
+    metadata,
+    handleChangePage,
+    handleCellClick
+  } = props;
   const theme = useTheme();
 
   const { getHeaderGroups, getRowModel } = useReactTable({
@@ -136,22 +141,24 @@ const BaseTable: React.FC<BaseTableProps<any>> = (props) => {
     event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number
   ) => {
-    if (newPage + 1 > page && hasNextPage) {
-      handleChangePage(newPage + 1);
+    if (!metadata) return;
+
+    if (newPage + 1 > metadata.pageNumber && metadata.hasNextPage) {
+      handleChangePage?.(newPage + 1);
     }
-    if (newPage < page && hasPreviousPage) {
-      handleChangePage(newPage + 1);
+    if (newPage < metadata.pageNumber && metadata.hasPreviousPage) {
+      handleChangePage?.(newPage + 1);
     }
   };
 
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    handleChangePage(1);
+    handleChangePage?.(1);
   };
 
   return (
-    <Box component="div" sx={{ border: '1px solid #61677A' }}>
+    <Box sx={{ bgcolor: '#fff', p: 1, borderRadius: '8px' }}>
       <Table
         stickyHeader
         {...props}
@@ -167,6 +174,7 @@ const BaseTable: React.FC<BaseTableProps<any>> = (props) => {
                     key={header.id}
                     padding="checkbox"
                     sx={{
+                      color: theme.palette.primary.main,
                       height: '50px',
                       fontWeight: theme.typography.fontWeightBold,
                       width: header.getSize()
@@ -191,40 +199,48 @@ const BaseTable: React.FC<BaseTableProps<any>> = (props) => {
                 <TableCell
                   key={cell.id}
                   style={{ height: '52px', padding: '0px 4px' }}
+                  onClick={() => {
+                    console.log('cell', cell);
+                    handleCellClick?.(cell.row.original);
+                  }}
                 >
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </TableCell>
               ))}
             </TableRow>
           ))}
-          {!hasNextPage &&
-            data.length < pageSize &&
-            Array(pageSize - data.length)
+          {showPagination &&
+            metadata &&
+            !metadata.hasNextPage &&
+            data.length < metadata.pageSize &&
+            Array(metadata.pageSize - data.length)
               .fill('')
               .map((row, index) => (
                 <TableRow key={index} style={{ height: '52px' }}></TableRow>
               ))}
         </TableBody>
-        <TableFooter>
-          <TableRow>
-            <TablePagination
-              rowsPerPageOptions={[10, { label: 'All', value: -1 }]}
-              count={totalItemCount}
-              rowsPerPage={pageSize}
-              page={page - 1}
-              SelectProps={{
-                inputProps: {
-                  'aria-label': 'rows per page'
-                },
-                native: true
-              }}
-              style={{ width: '100%' }}
-              ActionsComponent={TablePaginationActions}
-              onPageChange={onPageChange}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-          </TableRow>
-        </TableFooter>
+        {showPagination && metadata && (
+          <TableFooter>
+            <TableRow>
+              <TablePagination
+                rowsPerPageOptions={[10, { label: 'All', value: -1 }]}
+                count={metadata.totalItemCount}
+                rowsPerPage={metadata.pageSize}
+                page={metadata.pageNumber - 1}
+                SelectProps={{
+                  inputProps: {
+                    'aria-label': 'rows per page'
+                  },
+                  native: true
+                }}
+                style={{ width: '100%' }}
+                ActionsComponent={TablePaginationActions}
+                onPageChange={onPageChange}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+            </TableRow>
+          </TableFooter>
+        )}
       </Table>
     </Box>
   );
