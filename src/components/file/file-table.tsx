@@ -52,6 +52,11 @@ export const FileTable: React.FC<FileTableProps> = ({
       setIsOpenDelete(true);
     }
   };
+
+  const handleCellClick = (origin: file.File) => {
+    console.log('cell id', origin.id);
+  };
+
   const columnHelper = createColumnHelper<file.File>();
 
   const columns = [
@@ -117,6 +122,7 @@ export const FileTable: React.FC<FileTableProps> = ({
           sx={{
             width: '100%'
           }}
+          handleCellClick={handleCellClick}
         />
         <DeleteDialog
           isOpen={isOpen}
