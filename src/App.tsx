@@ -10,6 +10,7 @@ import Unauthorized from './pages/auth/Unauthorized';
 import Dashboard from './pages/dashboard';
 import DepartmentManagement from './pages/department-management';
 import FileManagement from './pages/file-management';
+import FileDetail from './pages/file-management/detail';
 import IncomingDocumentManagement from './pages/incoming-document-management';
 import OutgoingDocumentManagement from './pages/outgoing-document-management';
 import CreateOutgoingDocumentPage from './pages/outgoing-document-management/create';
@@ -32,7 +33,10 @@ const App = () => {
         {/* OFFICER pages */}
 
         <Route element={<RequireAuth role={Role.OFFICER} />}>
-          <Route path={'/files'} element={<FileManagement />} />
+          <Route path={'/files'}>
+            <Route index element={<FileManagement />} />
+            <Route path=":id" element={<FileDetail />} />
+          </Route>
           <Route path={'/test'} element={<TestPage />} />
           <Route path={'/outgoing-documents'}>
             <Route index element={<OutgoingDocumentManagement />} />
