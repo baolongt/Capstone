@@ -65,12 +65,6 @@ export const DetailDescription: FC<DetailDescriptionProps> = (props) => {
             </Typography>
           </Typography>
         </Grid>
-        <Grid item xs={12} sx={detailStyle}>
-          <Typography variant="subtitle1" sx={{ fontWeight: labelFontWeight }}>
-            Ghi chú:
-          </Typography>
-          <Typography component="span">{note}</Typography>
-        </Grid>
       </Grid>
     </Box>
   );

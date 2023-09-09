@@ -1,5 +1,5 @@
 import LoadingButton from '@mui/lab/LoadingButton';
-import { Box, Grid, Stack, Typography } from '@mui/material';
+import { Box, Grid, Stack, SxProps, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
 import { Accept } from 'react-dropzone';
@@ -37,12 +37,14 @@ type createDocumentFormProps = {
   >;
   isSubmitForm: boolean;
   handleSubmitForm: () => void;
+  sx?: SxProps;
 };
 
 const CreateDocumentForm: React.FC<createDocumentFormProps> = ({
   form,
   handleSubmitForm,
-  isSubmitForm
+  isSubmitForm,
+  sx
 }) => {
   const [documentTypeOptions, setDocumentTypeOptions] = useState<
     SelectOption[]
@@ -67,7 +69,7 @@ const CreateDocumentForm: React.FC<createDocumentFormProps> = ({
   }, [documentField, setValue]);
 
   return (
-    <Stack spacing={1}>
+    <Stack spacing={1} sx={sx}>
       <Grid
         container
         spacing={2}
@@ -149,13 +151,12 @@ const CreateDocumentForm: React.FC<createDocumentFormProps> = ({
         </Grid>
         <Grid item xs={12}>
           <LoadingButton
-            style={{ marginLeft: '10px' }}
             variant="contained"
             color="primary"
             type="submit"
             loading={isSubmitForm}
           >
-            Chuyển lãnh đạo phê duyệt
+            Tạo văn bản
           </LoadingButton>
         </Grid>
       </Grid>

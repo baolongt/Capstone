@@ -1,11 +1,12 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Paper, Typography } from '@mui/material';
 import React, { useEffect } from 'react';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
 import { useUploadForm } from '@/apis/outgoingDocument';
 import CreateDocumentForm from '@/components/document/outgoing/outgoing-doc-create-form';
+import { DEFAULT_PAGE_WIDTH } from '@/constants';
 import { UploadFile, validation } from '@/models';
 
 const CreateOutgoingDocumentPage: React.FC = () => {
@@ -51,19 +52,25 @@ const CreateOutgoingDocumentPage: React.FC = () => {
   }, [isSuccess, reset]);
 
   return (
-    <Box sx={{ px: 5 }}>
-      <Grid container spacing={2} sx={{ mb: 3, mt: 3 }}>
-        <Grid item xs={12} sx={{ mx: 10 }}>
-          <Typography variant="h5">Đăng ký văn bản đi</Typography>
-        </Grid>
-        <Grid item xs={12} sx={{ mt: 2, mx: 10 }}>
-          <CreateDocumentForm
-            isSubmitForm={isLoading}
-            handleSubmitForm={handleSubmitForm}
-            form={form}
-          />
-        </Grid>
-      </Grid>
+    <Box>
+      <Box bgcolor="#fff" sx={{ mb: 3 }}>
+        <Box sx={{ mx: 'auto', width: DEFAULT_PAGE_WIDTH }}>
+          <Box sx={{ py: 2, mt: 2 }}>
+            <Typography variant="h4">ĐĂNG KÝ VĂN BẢN ĐI</Typography>
+          </Box>
+        </Box>
+      </Box>
+      <Box
+        sx={{ mx: 'auto', width: DEFAULT_PAGE_WIDTH, pr: 4, pb: 2 }}
+        component={Paper}
+      >
+        <CreateDocumentForm
+          isSubmitForm={isLoading}
+          handleSubmitForm={handleSubmitForm}
+          form={form}
+          sx={{ width: '100%' }}
+        />
+      </Box>
     </Box>
   );
 };

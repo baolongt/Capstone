@@ -17,21 +17,21 @@ import { AttachmentCard } from './outgoing-doc-detail-attachment-accordion-attta
 export type DetailAttachmentAccordionProps = {
   attachments: Attachment[];
   sx?: SxProps;
-  removeAttachment: (id: string) => void;
+  watchAttachment: (id: string) => void;
   signAttachment: (id: string) => void;
 };
 
 export const DetailAttachmentAccordion: React.FC<
   DetailAttachmentAccordionProps
 > = (props) => {
-  const { attachments, removeAttachment, signAttachment, sx } = props;
+  const { attachments, watchAttachment, signAttachment, sx } = props;
 
   const attachmentCards = attachments.map((att, idx) => (
     <Box key={idx} component="div" sx={{ paddingLeft: 1, paddingRight: 1 }}>
       <AttachmentCard
         key={idx}
         attachment={att}
-        removeAttachment={removeAttachment}
+        watchAttachment={watchAttachment}
         signAttachment={signAttachment}
       />
     </Box>

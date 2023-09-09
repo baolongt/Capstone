@@ -4,9 +4,11 @@ import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import {
   Box,
+  Paper,
   Table,
   TableBody,
   TableCell,
+  TableContainer,
   TableFooter,
   TableHead,
   TablePagination,
@@ -158,7 +160,10 @@ const BaseTable: React.FC<BaseTableProps<any>> = (props) => {
   };
 
   return (
-    <Box sx={{ bgcolor: '#fff', p: 1, borderRadius: '8px' }}>
+    <TableContainer
+      sx={{ bgcolor: '#fff', p: 1, borderRadius: '8px' }}
+      component={Paper}
+    >
       <Table
         stickyHeader
         {...props}
@@ -183,7 +188,11 @@ const BaseTable: React.FC<BaseTableProps<any>> = (props) => {
                     {header.isPlaceholder
                       ? null
                       : flexRender(
-                          header.column.columnDef.header,
+                          header.column.columnDef.header
+                            ? header.column.columnDef.header
+                                .toString()
+                                .toUpperCase()
+                            : '',
                           header.getContext()
                         )}
                   </TableCell>
@@ -242,7 +251,7 @@ const BaseTable: React.FC<BaseTableProps<any>> = (props) => {
           </TableFooter>
         )}
       </Table>
-    </Box>
+    </TableContainer>
   );
 };
 

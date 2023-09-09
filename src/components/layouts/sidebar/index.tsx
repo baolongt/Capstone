@@ -11,7 +11,7 @@ import {
   useTheme
 } from '@mui/material';
 import React, { useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 
 import { adminPaths, officerPaths } from '@/constants/routes';
 import useAuth from '@/hooks/useAuth';
@@ -30,23 +30,24 @@ type ItemProps = Path & {
   SxProps;
 
 const Item = (props: ItemProps) => {
+  const location = useLocation();
+  console.log('location', location.pathname);
   const { icon, label, path, isSubItem, isCollapsed, theme } = props;
   return (
     <NavLink to={path}>
       <ListItemButton
+        selected={location.pathname === path}
         sx={{
-          color: theme.palette.primary.contrastText,
+          color: theme.palette.primary.main,
           ...(isSubItem ? { pl: 4 } : {})
         }}
       >
-        <ListItemIcon
-          sx={{
-            color: theme.palette.primary.contrastText
-          }}
-        >
-          {icon}
-        </ListItemIcon>
-        {isCollapsed ? <></> : <ListItemText primary={`${label}`} />}
+        <ListItemIcon sx={{}}>{icon}</ListItemIcon>
+        {isCollapsed ? (
+          <></>
+        ) : (
+          <ListItemText sx={{ color: '#000' }} primary={`${label}`} />
+        )}
       </ListItemButton>
     </NavLink>
   );
@@ -82,23 +83,21 @@ const CollapseItems = (props: CollapseItemsProps) => {
     <>
       <ListItemButton
         sx={{
-          color: theme.palette.primary.contrastText
+          color: theme.palette.primary.main
         }}
         onClick={handleClick}
       >
-        <ListItemIcon
-          sx={{
-            color: theme.palette.primary.contrastText
-          }}
-        >
-          {icon}
-        </ListItemIcon>
+        <ListItemIcon sx={{}}>{icon}</ListItemIcon>
         {isCollapsed ? (
           <></>
         ) : (
           <>
-            <ListItemText primary={`${label}`} />
-            {open ? <ExpandLess /> : <ExpandMore />}
+            <ListItemText sx={{ color: '#000' }} primary={`${label}`} />
+            {open ? (
+              <ExpandLess sx={{ color: '#000' }} />
+            ) : (
+              <ExpandMore sx={{ color: '#000' }} />
+            )}
           </>
         )}
         <></>

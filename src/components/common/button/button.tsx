@@ -46,12 +46,7 @@ export const CustomButton = (props: CustomButtonProps) => {
       size={size}
       startIcon={icon}
       sx={{
-        background: background,
-        px: '12px',
-        py: '6px',
         textTransform: 'none',
-        fontSize: '14px',
-        fontWeight: 500,
         ...sx
       }}
       onClick={onClick}
