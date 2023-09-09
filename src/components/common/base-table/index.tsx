@@ -164,6 +164,7 @@ const BaseTable: React.FC<BaseTableProps<any>> = (props) => {
       sx={{ bgcolor: '#fff', p: 1, borderRadius: '8px' }}
       component={Paper}
     >
+
       <Table
         stickyHeader
         {...props}
