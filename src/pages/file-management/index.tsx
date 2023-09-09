@@ -1,3 +1,4 @@
+import AddIcon from '@mui/icons-material/Add';
 import { Box, Typography, useTheme } from '@mui/material';
 import { debounce } from 'lodash';
 import React, { useState } from 'react';
@@ -6,11 +7,10 @@ import { useListFiles } from '@/apis';
 import { CustomButton, InputSearch } from '@/components/common';
 import CreateUpdateFileDialog from '@/components/dialogs/create-update-file-dialog';
 import { FileTable } from '@/components/file';
-import { DEBOUND_SEARCH_TIME } from '@/constants';
+import { DEBOUND_SEARCH_TIME, DEFAULT_PAGE_WIDTH } from '@/constants';
 import { BaseTableQueryParams } from '@/types';
 
 const FileManagement = () => {
-  const theme = useTheme();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [queryParams, setQueryParams] = useState<BaseTableQueryParams>({
     page: 1,
@@ -38,16 +38,17 @@ const FileManagement = () => {
 
     return (
       <Box>
-        <Box sx={{ mx: 'auto', width: '1080px' }}>
-          <Box sx={{ py: 3, bgcolor: '#fff' }}>
-            <Typography
-              variant="h4"
+        <Box bgcolor="#fff" sx={{ mb: 3 }}>
+          <Box sx={{ py: 2, mx: 'auto', width: DEFAULT_PAGE_WIDTH }}>
+            <Box
               sx={{
-                color: theme.palette.primary.main
+                display: 'flex',
+                justifyContent: 'space-between',
+                mt: 2
               }}
             >
-              Hồ sơ
-            </Typography>
+              <Typography variant="h4">HỒ SƠ</Typography>
+            </Box>
             <Box
               component="div"
               sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}
@@ -58,10 +59,18 @@ const FileManagement = () => {
               />
               <CustomButton
                 label="Thêm sổ mới"
+                startIcon={<AddIcon />}
                 onClick={() => setIsOpen(true)}
               />
             </Box>
           </Box>
+        </Box>
+        <Box
+          sx={{
+            mx: 'auto',
+            width: DEFAULT_PAGE_WIDTH
+          }}
+        >
           <FileTable
             metadata={metadata}
             data={data}

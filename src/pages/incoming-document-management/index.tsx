@@ -8,11 +8,10 @@ import { useListDocuments } from '@/apis';
 import {
   DateRange,
   DateRangePickerInput,
-  FieldTitle,
   InputSearch
 } from '@/components/common';
 import { OutgoingDocumentTable } from '@/components/document';
-import { DEBOUND_SEARCH_TIME } from '@/constants';
+import { DEBOUND_SEARCH_TIME, DEFAULT_PAGE_WIDTH } from '@/constants';
 import { BaseTableQueryParams } from '@/types';
 
 const IncomingDocumentManagement = () => {
@@ -51,54 +50,60 @@ const IncomingDocumentManagement = () => {
 
     return (
       <Box>
-        <Box
-          sx={{
-            bgcolor: theme.palette.secondary.main
-          }}
-        >
-          <Box sx={{ mx: 'auto', width: '1080px' }}>
-            <Box sx={{ py: 3 }}>
-              <Typography variant="h4">Văn bản đến</Typography>
-              <Box
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  mt: 2
-                }}
-              >
-                <Box>
-                  <FieldTitle title="Ngày" />
-                  <DateRangePickerInput
-                    sx={{ bgcolor: '#fff' }}
-                    onChange={handleDateRangeOnChange}
-                  />
-                </Box>
-                <Box mt={4}>
-                  <RouterLink to="create">
-                    <Button
-                      fullWidth
-                      variant="contained"
-                      startIcon={<AddIcon />}
-                    >
-                      Đăng ký văn bản đến
-                    </Button>
-                  </RouterLink>
-                </Box>
+        <Box bgcolor="#fff" sx={{ mb: 3 }}>
+          <Box sx={{ py: 2, mx: 'auto', width: DEFAULT_PAGE_WIDTH }}>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                mt: 2
+              }}
+            >
+              <Typography variant="h4">VĂN BẢN ĐẾN</Typography>
+
+              <Box>
+                <RouterLink to="create">
+                  <Button fullWidth variant="contained" startIcon={<AddIcon />}>
+                    Thêm vản bản đến
+                  </Button>
+                </RouterLink>
+              </Box>
+            </Box>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                mt: 2
+              }}
+            >
+              <Box>
+                <InputSearch
+                  sx={{ width: '300px', bgcolor: '#fff' }}
+                  placeholder="Tìm kiếm..."
+                  onTextChange={debouncedSearch}
+                />
+              </Box>
+
+              <Box>
+                <DateRangePickerInput
+                  sx={{ width: '300px' }}
+                  onChange={handleDateRangeOnChange}
+                />
               </Box>
             </Box>
           </Box>
         </Box>
-        <Box sx={{ mx: 'auto', width: '1080px' }}>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', py: 3 }}>
-            <InputSearch
-              placeholder="Tìm kiếm..."
-              onTextChange={debouncedSearch}
-            />
-          </Box>
+        <Box
+          sx={{
+            mx: 'auto',
+            width: DEFAULT_PAGE_WIDTH
+          }}
+        >
           <OutgoingDocumentTable
             metadata={metadata}
             data={data}
             handleChangePage={handleChangePage}
+            sx={{ minHeight: '30vh' }}
           />
         </Box>
       </Box>

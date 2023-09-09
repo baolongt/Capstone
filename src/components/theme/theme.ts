@@ -5,7 +5,7 @@ import { createTheme } from '@mui/material/styles';
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#272829',
+      main: '#2196f3',
       contrastText: '#fff',
       light: '#F6FAFE'
     },
@@ -42,30 +42,7 @@ const theme = createTheme({
           borderColor: '#030303'
         },
         root: {
-          [`&:hover .${outlinedInputClasses.notchedOutline}`]: {
-            borderColor: '#030303'
-          },
-          [`&.Mui-focused .${outlinedInputClasses.notchedOutline}`]: {
-            borderColor: '#030303'
-          },
-          '&.Mui-disabled': {
-            '& .MuiOutlinedInput-notchedOutline': {
-              borderColor: '#ccc'
-            },
-            '& .MuiOutlinedInput-input': {
-              color: '#999',
-              backgroundColor: '#f5f5f5'
-            },
-            '& .MuiInputBase-inputMultiline.Mui-disabled': {
-              color: '#999',
-              backgroundColor: '#f5f5f5',
-              padding: '0px',
-              borderRadius: '4px'
-            },
-            '&:hover .MuiOutlinedInput-notchedOutline': {
-              borderColor: '#ccc'
-            }
-          }
+          backgroundColor: '#fff'
         }
       }
     }

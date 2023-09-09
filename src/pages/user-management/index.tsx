@@ -11,7 +11,7 @@ import {
   ImportFileDialog
 } from '@/components/dialogs';
 import { UserTable } from '@/components/user';
-import { DEBOUND_SEARCH_TIME } from '@/constants';
+import { DEBOUND_SEARCH_TIME, DEFAULT_PAGE_WIDTH } from '@/constants';
 import { user } from '@/models';
 import { BaseTableQueryParams } from '@/types';
 
@@ -85,39 +85,47 @@ const UserManagement = () => {
   if (data) {
     return (
       <Box>
-        <Box sx={{ mx: 'auto', width: '1080px' }}>
-          <Box sx={{ py: 3 }}>
-            <Typography
-              variant="h4"
-              sx={{
-                color: theme.palette.primary.main,
-                mb: 2
-              }}
-            >
-              Nhân viên
-            </Typography>
-            <Box
-              component="div"
-              sx={{ display: 'flex', justifyContent: 'space-between' }}
-            >
-              <InputSearch
-                placeholder="Tìm kiếm..."
-                onTextChange={debouncedSearch}
-              />
-              <Box component="div" sx={{ display: 'flex', gap: 2 }}>
-                <CustomButton
-                  label="Thêm người dùng"
-                  onClick={handleCreateUser}
+        <Box bgcolor="#fff" sx={{ mb: 3 }}>
+          <Box sx={{ py: 2, mx: 'auto', width: DEFAULT_PAGE_WIDTH }}>
+            <Box>
+              <Typography
+                variant="h4"
+                sx={{
+                  mb: 2
+                }}
+              >
+                NHÂN VIÊN
+              </Typography>
+              <Box
+                component="div"
+                sx={{ display: 'flex', justifyContent: 'space-between' }}
+              >
+                <InputSearch
+                  placeholder="Tìm kiếm..."
+                  onTextChange={debouncedSearch}
                 />
-                <CustomButton
-                  variant="outlined"
-                  label="Nhập file CSV"
-                  color="primary"
-                  onClick={handleOpenImportFileDialog}
-                />
+                <Box component="div" sx={{ display: 'flex', gap: 2 }}>
+                  <CustomButton
+                    label="Thêm người dùng"
+                    onClick={handleCreateUser}
+                  />
+                  <CustomButton
+                    variant="outlined"
+                    label="Nhập file CSV"
+                    color="primary"
+                    onClick={handleOpenImportFileDialog}
+                  />
+                </Box>
               </Box>
             </Box>
           </Box>
+        </Box>
+        <Box
+          sx={{
+            mx: 'auto',
+            width: DEFAULT_PAGE_WIDTH
+          }}
+        >
           <UserTable
             data={data.data}
             metadata={data.metadata}

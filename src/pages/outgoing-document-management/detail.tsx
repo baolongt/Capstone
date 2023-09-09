@@ -1,4 +1,4 @@
-import { Box, Stack, Typography, useTheme } from '@mui/material';
+import { Box, Paper, Typography } from '@mui/material';
 import * as React from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -10,22 +10,22 @@ import {
   DetailDescription,
   DetailTimeline
 } from '@/components/document';
+import { DEFAULT_PAGE_WIDTH } from '@/constants';
 import { Attachment } from '@/models';
 
 const OutgoingDocumentDetail = () => {
-  const theme = useTheme();
   const { id } = useParams<{ id: string }>();
   const { data, isLoading } = useGetOneDocument(id ? parseInt(id) : -1);
   const [openModal, setOpenModal] = React.useState(false);
   const [mode, setMode] = React.useState<'foward' | 'send-back'>('foward');
   const newestStatus = data?.processHistory?.[0].status;
 
-  const removeAttachment = (id: string) => {
-    console.log('remove attachment', id);
+  const watchAttachment = (attachmentId: string) => {
+    console.log('watch attachment', attachmentId);
   };
 
-  const signAttachment = (id: string) => {
-    console.log('sign', id);
+  const signAttachment = (attachmentId: string) => {
+    console.log('sign', attachmentId);
   };
 
   if (isLoading) {
@@ -47,18 +47,19 @@ const OutgoingDocumentDetail = () => {
   return (
     <>
       <Box>
-        <Box
-          sx={{
-            bgcolor: theme.palette.secondary.main,
-            minHeight: '16vh'
-          }}
-        >
-          <Box sx={{ mx: 'auto', width: '1080px' }}>
-            <Box sx={{ py: 3 }}>
-              <Typography variant="h4">Thông tin văn bản</Typography>
+        <Box bgcolor="#fff" sx={{ mb: 3 }}>
+          <Box sx={{ py: 2, mx: 'auto', width: DEFAULT_PAGE_WIDTH }}>
+            <Box sx={{ mt: 2 }}>
+              <Typography variant="h4">THÔNG TIN VĂN BẢN</Typography>
             </Box>
 
-            <Stack spacing={{ xs: 1, sm: 2 }} direction="row">
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'start',
+                mt: 2
+              }}
+            >
               {/* //TODO: thêm chỉnh sửa */}
               {newestStatus === 5 && <CustomButton label="Chỉnh sửa" />}
               {/* // TODO: ban hành vản bản */}
@@ -73,18 +74,22 @@ const OutgoingDocumentDetail = () => {
                     <CustomButton
                       label="Trả lại"
                       variant="outlined"
+                      sx={{ ml: 2 }}
                       onClick={() => handleOpenModal('send-back')}
                     />
                   </>
                 )}
-            </Stack>
+            </Box>
           </Box>
         </Box>
-        <Box sx={{ mx: 'auto', width: '1080px', mt: 3 }}>
+        <Box
+          sx={{ mx: 'auto', width: '1080px', mt: 3, px: 2, minHeight: '80vh' }}
+          component={Paper}
+        >
           <DetailDescription sx={{ width: '100%' }} data={data} />
           <DetailAttachmentAccordion
             attachments={data.attachments as Attachment[]}
-            removeAttachment={removeAttachment}
+            watchAttachment={watchAttachment}
             signAttachment={signAttachment}
             sx={{ mt: 2 }}
           />

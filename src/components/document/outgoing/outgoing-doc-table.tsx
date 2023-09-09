@@ -1,5 +1,5 @@
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import { IconButton, Tooltip } from '@mui/material';
+import { IconButton, SxProps, Tooltip } from '@mui/material';
 import { createColumnHelper } from '@tanstack/react-table';
 import moment from 'moment';
 import * as React from 'react';
@@ -16,12 +16,14 @@ export type OutgoingDocumentTableProps = {
   data: outgoingDocument.OutgoingDocument[];
   metadata: Metadata;
   handleChangePage: (page: number) => void;
+  sx?: SxProps;
 };
 
 export const OutgoingDocumentTable: React.FC<OutgoingDocumentTableProps> = ({
   data,
   metadata,
-  handleChangePage
+  handleChangePage,
+  sx
 }) => {
   const columns = [
     columnHelper.accessor('epitomize', {
@@ -32,10 +34,10 @@ export const OutgoingDocumentTable: React.FC<OutgoingDocumentTableProps> = ({
     columnHelper.accessor('documentNotation', {
       header: 'Ký hiệu',
       cell: (row) => row.renderValue(),
-      size: 50
+      size: 100
     }),
     columnHelper.accessor('createdDate', {
-      header: 'Ngày soạn thảo',
+      header: 'Ngày soạn',
       cell: (row) => moment(row.getValue()).format('DD/MM/YYYY'),
       size: 100
     }),
@@ -74,7 +76,7 @@ export const OutgoingDocumentTable: React.FC<OutgoingDocumentTableProps> = ({
         columns={columns}
         sx={{
           width: '100%',
-          minHeight: '90vh'
+          ...sx
         }}
       />
     );

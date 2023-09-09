@@ -1,7 +1,7 @@
 import AttachFileIcon from '@mui/icons-material/AttachFile';
-import DeleteIcon from '@mui/icons-material/Delete';
 import DrawIcon from '@mui/icons-material/Draw';
 import ImageIcon from '@mui/icons-material/Image';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import {
   Box,
   Card,
@@ -19,12 +19,12 @@ import { Attachment } from '@/models';
 
 export type AttachmentCardProps = {
   attachment: Attachment;
-  removeAttachment: (id: string) => void;
+  watchAttachment: (id: string) => void;
   signAttachment: (id: string) => void;
 };
 
 export const AttachmentCard: React.FC<AttachmentCardProps> = (props) => {
-  const { attachment, removeAttachment, signAttachment } = props;
+  const { attachment, watchAttachment, signAttachment } = props;
   const size = parseInt(attachment.size);
   const getAttachmentIcon = () => {
     if (attachment.mimeType.startsWith('image/')) {
@@ -87,13 +87,12 @@ export const AttachmentCard: React.FC<AttachmentCardProps> = (props) => {
               <DrawIcon />
             </IconButton>
           </Tooltip>
-          <Tooltip title="Xoá">
+          <Tooltip title="Xem">
             <IconButton
-              aria-label="delete"
-              color="error"
-              onClick={() => removeAttachment(attachment.id)}
+              aria-label="xem"
+              onClick={() => watchAttachment(attachment.id)}
             >
-              <DeleteIcon />
+              <VisibilityIcon />
             </IconButton>
           </Tooltip>
         </Stack>

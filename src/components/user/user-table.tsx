@@ -38,18 +38,13 @@ export const UserTable: React.FC<UserTableProps> = ({
       size: 100
     }),
 
-    columnHelper.accessor('citizenIdentification', {
-      header: 'Căn cước công dân',
-      cell: (row) => row.renderValue(),
-      size: 100
-    }),
     columnHelper.accessor('roleName', {
-      header: () => 'Vai trò',
+      header: 'Vai trò',
       cell: (row) => row.renderValue(),
       size: 100
     }),
     columnHelper.accessor('jobPositionName', {
-      header: () => 'Chức vụ',
+      header: 'Chức vụ',
       cell: (row) => row.renderValue(),
       size: 100
     }),

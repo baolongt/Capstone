@@ -14,7 +14,7 @@ const TestPage = () => {
     size: 10_000,
     search: ''
   });
-  const { data, isLoading } = useListUsers({ queryParams });
+  const { data } = useListUsers({ queryParams });
   const form = useForm({
     defaultValues: {
       user: []

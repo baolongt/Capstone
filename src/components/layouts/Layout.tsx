@@ -6,7 +6,8 @@ import {
   Footer,
   Header,
   Root,
-  SidebarContent
+  SidebarContent,
+  TopHeader
 } from '@mui-treasury/layout';
 import React from 'react';
 import { Outlet } from 'react-router-dom';
@@ -36,7 +37,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = () => {
                 height: 56
               },
               md: {
-                position: 'relative',
+                position: 'sticky',
                 height: 64
               }
             }
@@ -47,7 +48,6 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = () => {
               md: {
                 variant: 'permanent',
                 width: 256,
-                collapsible: true,
                 collapsedWidth: 64
               }
             }
@@ -57,8 +57,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = () => {
         <CssBaseline />
         <Header>
           <Box
-            bgcolor={theme.palette.primary.light}
-            component="div"
+            bgcolor={theme.palette.primary.main}
             sx={{
               flex: 1,
               display: 'flex',
@@ -66,17 +65,13 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = () => {
               px: 2,
               gap: 1
             }}
-          >
-            <EdgeTrigger
-              target={{ anchor: 'left', field: 'collapsed' }}
-              // {...headerEdgeTrigger}
-            ></EdgeTrigger>
-          </Box>
+          ></Box>
         </Header>
         <EdgeSidebar anchor="left">
           <SidebarContent
             sx={{
-              bgcolor: theme.palette.primary.main
+              mt: 10,
+              bgcolor: '#fff'
             }}
           >
             <SidebarItems isCollapsed={false} />
@@ -86,14 +81,16 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = () => {
           ></EdgeTrigger>
         </EdgeSidebar>
         <Content
-          sx={{ minHeight: `calc(100vh - 10px - ${FOOTER_HEADER_HEIGHT})` }}
+          sx={{
+            minHeight: `calc(100vh - 10px - ${FOOTER_HEADER_HEIGHT})`,
+            bgcolor: '#eee'
+          }}
         >
           <Outlet />
         </Content>
         <Footer
           sx={{
-            bgcolor: theme.palette.primary.light,
-            marginTop: '10px'
+            bgcolor: '#eee'
           }}
         >
           <DefaultFooter />

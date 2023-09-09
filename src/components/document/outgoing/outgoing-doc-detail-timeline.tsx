@@ -61,7 +61,7 @@ export const DetailTimeline: React.FC<DetailTimelineProps> = (props) => {
         }}
       >
         <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
-          Quá trình xử lý {'  '}
+          Quá trình xử lý
         </Typography>
         {processHistory.map((history, idx) => {
           let title = '';

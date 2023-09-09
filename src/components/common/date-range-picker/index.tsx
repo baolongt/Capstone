@@ -1,5 +1,5 @@
 import Calendar from '@mui/icons-material/Event';
-import { SxProps } from '@mui/material';
+import { InputAdornment, SxProps, Typography } from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -67,7 +67,14 @@ export const DateRangePickerInput: React.FC<DateRangePickerInputProps> = (
           }}
           slotProps={{
             textField: {
-              InputProps: { endAdornment: <Calendar /> },
+              InputProps: {
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Typography variant="body2">Ngày</Typography>
+                  </InputAdornment>
+                ),
+                endAdornment: <Calendar />
+              },
               size: 'small',
               sx
             }

@@ -6,11 +6,10 @@ import { useListDepartments } from '@/apis/department';
 import { CustomButton, InputSearch } from '@/components/common';
 import { DepartmentTable } from '@/components/department/department-table';
 import { AddDepartmentDialog } from '@/components/dialogs';
-import { DEBOUND_SEARCH_TIME } from '@/constants';
+import { DEBOUND_SEARCH_TIME, DEFAULT_PAGE_WIDTH } from '@/constants';
 import { BaseTableQueryParams } from '@/types';
 
 const DepartmentManagement = () => {
-  const theme = useTheme();
   const [queryParams, setQueryParams] = useState<BaseTableQueryParams>({
     page: 1,
     size: 10,
@@ -33,11 +32,11 @@ const DepartmentManagement = () => {
   const debouncedSearch = debounce(handleChangeSearch, DEBOUND_SEARCH_TIME);
 
   const handleUpdateDepartment = (departmentId: number) => {
-    console.log('update');
+    console.log('update', departmentId);
   };
 
   const handleOpenDeleteDialog = (departmentId: number) => {
-    console.log('delete');
+    console.log('delete', departmentId);
   };
 
   if (isLoading) {
@@ -48,16 +47,15 @@ const DepartmentManagement = () => {
 
     return (
       <Box>
-        <Box sx={{ mx: 'auto', width: '1080px' }}>
-          <Box sx={{ py: 3 }}>
+        <Box bgcolor="#fff" sx={{ mb: 3 }}>
+          <Box sx={{ py: 2, mx: 'auto', width: DEFAULT_PAGE_WIDTH }}>
             <Typography
               variant="h4"
               sx={{
-                color: theme.palette.primary.main,
                 mb: 2
               }}
             >
-              Phòng ban
+              PHÒNG BAN
             </Typography>
             <Box
               component="div"
@@ -67,10 +65,20 @@ const DepartmentManagement = () => {
                 placeholder="Tìm kiếm"
                 onTextChange={debouncedSearch}
               />
-              <CustomButton label="Thêm phòng ban" onClick={handleOpen} />
+              <CustomButton
+                size="small"
+                label="Thêm phòng ban"
+                onClick={handleOpen}
+              />
             </Box>
           </Box>
-
+        </Box>
+        <Box
+          sx={{
+            mx: 'auto',
+            width: DEFAULT_PAGE_WIDTH
+          }}
+        >
           <DepartmentTable
             data={data}
             metadata={metadata}
@@ -79,6 +87,7 @@ const DepartmentManagement = () => {
             //handleOpenDeleteDialog={handleOpenDeleteDialog}
           />
         </Box>
+
         <AddDepartmentDialog isOpen={isOpen} onClose={handleClose} />
       </Box>
     );
