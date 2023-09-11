@@ -30,7 +30,6 @@ export const CustomButton = (props: CustomButtonProps) => {
     variant = 'contained',
     label,
     icon,
-    background,
     color = 'primary',
     sx,
     onClick,

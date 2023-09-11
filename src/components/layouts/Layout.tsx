@@ -6,15 +6,15 @@ import {
   Footer,
   Header,
   Root,
-  SidebarContent,
-  TopHeader
+  SidebarContent
 } from '@mui-treasury/layout';
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 
-import { FOOTER_HEADER_HEIGHT } from '@/constants/common';
+import { DEFAULT_PAGE_WIDTH, FOOTER_HEADER_HEIGHT } from '@/constants/common';
 
 import DefaultFooter from './footer';
+import DefaultHeader from './header';
 import SidebarItems from './sidebar';
 // import DynamicBreadcrums from './DynamicBreadcrums';
 
@@ -59,13 +59,21 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = () => {
           <Box
             bgcolor={theme.palette.primary.main}
             sx={{
-              flex: 1,
-              display: 'flex',
-              alignItems: 'center',
-              px: 2,
-              gap: 1
+              p: 2
             }}
-          ></Box>
+          >
+            <Box
+              sx={{
+                mt: 1,
+                mx: 'auto',
+                width: DEFAULT_PAGE_WIDTH,
+                justifyContent: 'end',
+                display: 'flex'
+              }}
+            >
+              <DefaultHeader />
+            </Box>
+          </Box>
         </Header>
         <EdgeSidebar anchor="left">
           <SidebarContent

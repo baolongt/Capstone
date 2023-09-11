@@ -16,7 +16,7 @@ interface Props {
 }
 
 export default function AutocompleteInput(props: Props) {
-  const { data, name, form, onSearchChange, sx = {}, ...resProps } = props;
+  const { data, name, form, onSearchChange, sx, ...resProps } = props;
   const { control } = form;
 
   return (
@@ -32,7 +32,8 @@ export default function AutocompleteInput(props: Props) {
             sx={{
               '& .MuiOutlinedInput-root': {
                 padding: '1px 12px'
-              }
+              },
+              ...sx
             }}
             id="auto-complete"
             options={data}

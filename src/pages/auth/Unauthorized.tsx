@@ -1,4 +1,4 @@
-import { Button, Divider, Stack, Typography } from '@mui/material';
+import { Button, Stack, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 const Unauthorized = () => {
