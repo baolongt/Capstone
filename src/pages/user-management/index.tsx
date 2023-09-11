@@ -28,7 +28,6 @@ const UserManagement = () => {
   const [isImportFileDialogOpen, setIsImportFileDialogOpen] =
     useState<boolean>(false);
 
-  const theme = useTheme();
   const { data, isLoading } = useListUsers({ queryParams });
   const handleChangePage = (page: number) => {
     setQueryParams((prev) => ({ ...prev, page }));

@@ -15,7 +15,6 @@ import { DEBOUND_SEARCH_TIME, DEFAULT_PAGE_WIDTH } from '@/constants';
 import { BaseTableQueryParams } from '@/types';
 
 const IncomingDocumentManagement = () => {
-  const theme = useTheme();
   const [queryParams, setQueryParams] = React.useState<BaseTableQueryParams>({
     page: 1,
     size: 10,

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, IconButton, SxProps, Typography, useTheme } from '@mui/material';
 import React, { ReactNode, useRef, useState } from 'react';
 import { Controller, FieldValues } from 'react-hook-form';
