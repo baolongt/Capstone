@@ -1,8 +1,19 @@
 # Capstone
 
-------
+---
 
-## Last update 07/07/2023 
+## Accounts
+
+| Name               | Email            | Paswpord | Role ID | Job Position ID |
+| ------------------ | ---------------- | -------- | ------- | --------------- |
+| dummyAdmin         | email@gmail.com  | password | 2       | 1               |
+| dummyOfficier      | email1@gmail.com | password | 1       | 1               |
+| dummyTruongPhong   | email2@gmail.com | password | 1       | 2               |
+| dummyVanthu        | email3@gmail.com | password | 1       | 3               |
+| dummyChanhVanPhong | email4@gmail.com | password | 1       | 4               |
+| dummyLanhDao       | email5@gmail.com | password | 1       | 6               |
+
+## Last update 12/09/2023
 
 [First ideal](https://lucid.app/lucidchart/0a241539-526f-4aa9-91b5-5bd295faccab/view?page=0_0#)
 
@@ -10,11 +21,11 @@
 
 [Project plan](https://docs.google.com/spreadsheets/d/1RnE0gb4YQmA0jegu4ucekXinwKjCz0GT8JERSmzUVNw/edit?usp=sharing) -- fpt mail
 
--------
+---
 
 ## Design
-[Figma](https://www.figma.com/file/iLISn7WVIXUg8X4luhZgz7/Untitled?type=design&node-id=0%3A1&mode=design&t=ykrSVH8eNxI25daT-1)
 
+[Figma](https://www.figma.com/file/iLISn7WVIXUg8X4luhZgz7/Untitled?type=design&node-id=0%3A1&mode=design&t=ykrSVH8eNxI25daT-1)
 
 ## Flow
 
