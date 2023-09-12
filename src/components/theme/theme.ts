@@ -1,16 +1,18 @@
-import { red } from '@mui/material/colors';
-import { outlinedInputClasses } from '@mui/material/OutlinedInput';
+import { grey, indigo, red } from '@mui/material/colors';
 import { createTheme } from '@mui/material/styles';
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#2196f3',
+      main: indigo[500],
       contrastText: '#fff',
-      light: '#F6FAFE'
+      light: indigo[300],
+      dark: indigo[900]
     },
     secondary: {
-      main: '#D8D9DA'
+      main: grey[400],
+      light: grey['A200'],
+      dark: grey[700]
     },
     error: {
       main: red.A400
@@ -43,6 +45,36 @@ const theme = createTheme({
         },
         root: {
           backgroundColor: '#fff'
+        }
+      }
+    },
+    MuiTableHead: {
+      styleOverrides: {
+        root: {
+          backgroundColor: indigo[300]
+        }
+      }
+    },
+    MuiTableRow: {
+      styleOverrides: {
+        root: {
+          '&:last-child td, &:last-child th': {
+            border: 0
+          },
+          '&:hover td': {
+            backgroundColor: indigo[50],
+            cursor: 'pointer'
+          }
+        }
+      }
+    },
+    MuiIcon: {
+      styleOverrides: {
+        root: {
+          color: grey[400],
+          '&:hover': {
+            color: indigo[500]
+          }
         }
       }
     }

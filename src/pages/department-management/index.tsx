@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 
 import { useListDepartments } from '@/apis/department';
 import { CustomButton, InputSearch } from '@/components/common';
+import PageHeader from '@/components/common/page-header';
+import PageTitle from '@/components/common/page-title';
 import { DepartmentTable } from '@/components/department/department-table';
 import { AddDepartmentDialog } from '@/components/dialogs';
 import { DEBOUND_SEARCH_TIME, DEFAULT_PAGE_WIDTH } from '@/constants';
@@ -47,32 +49,23 @@ const DepartmentManagement = () => {
 
     return (
       <Box>
-        <Box bgcolor="#fff" sx={{ mb: 3 }}>
-          <Box sx={{ py: 2, mx: 'auto', width: DEFAULT_PAGE_WIDTH }}>
-            <Typography
-              variant="h4"
-              sx={{
-                mb: 2
-              }}
-            >
-              PHÒNG BAN
-            </Typography>
-            <Box
-              component="div"
-              sx={{ display: 'flex', justifyContent: 'space-between' }}
-            >
-              <InputSearch
-                placeholder="Tìm kiếm"
-                onTextChange={debouncedSearch}
-              />
-              <CustomButton
-                size="small"
-                label="Thêm phòng ban"
-                onClick={handleOpen}
-              />
-            </Box>
+        <PageHeader>
+          <PageTitle label="phòng ban" />
+          <Box
+            component="div"
+            sx={{ display: 'flex', justifyContent: 'space-between', mt: 1 }}
+          >
+            <InputSearch
+              placeholder="Tìm kiếm"
+              onTextChange={debouncedSearch}
+            />
+            <CustomButton
+              size="small"
+              label="Thêm phòng ban"
+              onClick={handleOpen}
+            />
           </Box>
-        </Box>
+        </PageHeader>
         <Box
           sx={{
             mx: 'auto',

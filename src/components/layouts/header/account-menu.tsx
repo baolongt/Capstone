@@ -10,7 +10,6 @@ import {
 } from '@mui/material';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 
 import { useLogout } from '@/apis/auth/logout';
 import useAuth from '@/hooks/useAuth';
@@ -39,7 +38,8 @@ const AccountMenu = () => {
       navigate('/');
     },
     onError: () => {
-      toast.error('Có lỗi xảy ra');
+      localStorage.clear();
+      navigate('/');
     }
   });
 

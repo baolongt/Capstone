@@ -10,6 +10,8 @@ import {
   DateRangePickerInput,
   InputSearch
 } from '@/components/common';
+import PageHeader from '@/components/common/page-header';
+import PageTitle from '@/components/common/page-title';
 import { OutgoingDocumentTable } from '@/components/document';
 import { DEBOUND_SEARCH_TIME, DEFAULT_PAGE_WIDTH } from '@/constants';
 import { BaseTableQueryParams } from '@/types';
@@ -49,49 +51,46 @@ const OutgoingDocumentManagement = () => {
 
     return (
       <Box>
-        <Box bgcolor="#fff" sx={{ mb: 3 }}>
-          <Box sx={{ py: 2, mx: 'auto', width: DEFAULT_PAGE_WIDTH }}>
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                mt: 2
-              }}
-            >
-              <Typography variant="h4">VĂN BẢN ĐI</Typography>
-
-              <Box>
-                <RouterLink to="create">
-                  <Button fullWidth variant="contained" startIcon={<AddIcon />}>
-                    Đăng ký văn bản đi
-                  </Button>
-                </RouterLink>
-              </Box>
-            </Box>
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                mt: 2
-              }}
-            >
-              <Box>
-                <InputSearch
-                  sx={{ width: '300px', bgcolor: '#fff' }}
-                  placeholder="Tìm kiếm..."
-                  onTextChange={debouncedSearch}
-                />
-              </Box>
-
-              <Box>
-                <DateRangePickerInput
-                  sx={{ width: '300px' }}
-                  onChange={handleDateRangeOnChange}
-                />
-              </Box>
+        <PageHeader>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between'
+            }}
+          >
+            <PageTitle label="văn bản đi" />
+            <Box>
+              <RouterLink to="create">
+                <Button fullWidth variant="contained" startIcon={<AddIcon />}>
+                  Đăng ký văn bản đi
+                </Button>
+              </RouterLink>
             </Box>
           </Box>
-        </Box>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              mt: 1
+            }}
+          >
+            <Box>
+              <InputSearch
+                sx={{ width: '300px', bgcolor: '#fff' }}
+                placeholder="Tìm kiếm..."
+                onTextChange={debouncedSearch}
+              />
+            </Box>
+
+            <Box>
+              <DateRangePickerInput
+                sx={{ width: '300px' }}
+                onChange={handleDateRangeOnChange}
+              />
+            </Box>
+          </Box>
+        </PageHeader>
+
         <Box
           sx={{
             mx: 'auto',

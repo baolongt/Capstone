@@ -5,6 +5,8 @@ import { useForm, UseFormReturn } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
 import { useUploadForm } from '@/apis/outgoingDocument';
+import PageHeader from '@/components/common/page-header';
+import PageTitle from '@/components/common/page-title';
 import CreateDocumentForm from '@/components/document/outgoing/outgoing-doc-create-form';
 import { DEFAULT_PAGE_WIDTH } from '@/constants';
 import { UploadFile, validation } from '@/models';
@@ -53,13 +55,11 @@ const CreateOutgoingDocumentPage: React.FC = () => {
 
   return (
     <Box>
-      <Box bgcolor="#fff" sx={{ mb: 3 }}>
-        <Box sx={{ mx: 'auto', width: DEFAULT_PAGE_WIDTH }}>
-          <Box sx={{ py: 2, mt: 2 }}>
-            <Typography variant="h4">ĐĂNG KÝ VĂN BẢN ĐI</Typography>
-          </Box>
+      <PageHeader>
+        <Box>
+          <PageTitle label="đăng ký văn bản đi" />
         </Box>
-      </Box>
+      </PageHeader>
       <Box
         sx={{ mx: 'auto', width: DEFAULT_PAGE_WIDTH, pr: 4, pb: 2 }}
         component={Paper}

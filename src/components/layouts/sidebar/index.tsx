@@ -31,22 +31,37 @@ type ItemProps = Path & {
 
 const Item = (props: ItemProps) => {
   const location = useLocation();
-  console.log('location', location.pathname);
   const { icon, label, path, isSubItem, isCollapsed, theme } = props;
+  const isSelected = location.pathname === path;
   return (
     <NavLink to={path}>
       <ListItemButton
-        selected={location.pathname === path}
+        selected={isSelected}
         sx={{
           color: theme.palette.primary.main,
           ...(isSubItem ? { pl: 4 } : {})
         }}
       >
-        <ListItemIcon sx={{}}>{icon}</ListItemIcon>
+        <ListItemIcon
+          sx={{
+            color: isSelected
+              ? theme.palette.primary.main
+              : theme.palette.secondary.dark
+          }}
+        >
+          {icon}
+        </ListItemIcon>
         {isCollapsed ? (
           <></>
         ) : (
-          <ListItemText sx={{ color: '#000' }} primary={`${label}`} />
+          <ListItemText
+            sx={{
+              color: isSelected
+                ? theme.palette.primary.main
+                : theme.palette.secondary.dark
+            }}
+            primary={`${label}`}
+          />
         )}
       </ListItemButton>
     </NavLink>
@@ -87,16 +102,25 @@ const CollapseItems = (props: CollapseItemsProps) => {
         }}
         onClick={handleClick}
       >
-        <ListItemIcon sx={{}}>{icon}</ListItemIcon>
+        <ListItemIcon
+          sx={{
+            color: theme.palette.secondary.dark
+          }}
+        >
+          {icon}
+        </ListItemIcon>
         {isCollapsed ? (
           <></>
         ) : (
           <>
-            <ListItemText sx={{ color: '#000' }} primary={`${label}`} />
+            <ListItemText
+              sx={{ color: theme.palette.secondary.dark }}
+              primary={`${label}`}
+            />
             {open ? (
-              <ExpandLess sx={{ color: '#000' }} />
+              <ExpandLess sx={{ color: theme.palette.secondary.dark }} />
             ) : (
-              <ExpandMore sx={{ color: '#000' }} />
+              <ExpandMore sx={{ color: theme.palette.secondary.dark }} />
             )}
           </>
         )}
