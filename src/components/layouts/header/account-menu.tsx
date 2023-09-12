@@ -9,11 +9,16 @@ import {
   Tooltip
 } from '@mui/material';
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
+import { useLogout } from '@/apis/auth/logout';
 import useAuth from '@/hooks/useAuth';
 
 const AccountMenu = () => {
   const auth = useAuth();
+  const navigate = useNavigate();
+  const { setAuthState } = auth;
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -23,6 +28,20 @@ const AccountMenu = () => {
     setAnchorEl(null);
   };
   const user = auth.authState.user?.name;
+
+  const { mutate: logout } = useLogout({
+    onSuccess: () => {
+      setAuthState({
+        isAuthenticated: false,
+        user: null
+      });
+      localStorage.clear();
+      navigate('/');
+    },
+    onError: () => {
+      toast.error('Có lỗi xảy ra');
+    }
+  });
 
   return (
     <>
@@ -75,12 +94,11 @@ const AccountMenu = () => {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
         onClose={handleClose}
-        onClick={handleClose}
       >
-        <MenuItem onClick={handleClose}>
+        <MenuItem>
           <Avatar /> Thông tin tài khoản
         </MenuItem>
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={() => logout()}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>

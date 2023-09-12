@@ -29,11 +29,6 @@ export const adminPaths: Path[] = [
     icon: <DashboardIcon />
   },
   {
-    label: 'Login',
-    path: '/login',
-    icon: <DashboardIcon />
-  },
-  {
     label: 'Quản lí người dùng',
     path: '/users',
     icon: <AdminPanelSettings />
@@ -49,16 +44,6 @@ export const officerPaths: Path[] = [
   {
     label: 'Trang chủ',
     path: '/',
-    icon: <DashboardIcon />
-  },
-  {
-    label: 'Test',
-    path: '/test',
-    icon: <DashboardIcon />
-  },
-  {
-    label: 'Login',
-    path: '/login',
     icon: <DashboardIcon />
   },
   {
