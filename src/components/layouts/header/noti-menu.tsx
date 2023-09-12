@@ -32,8 +32,10 @@ const NotiItem: React.FC<NotiItemProps> = ({ notification, onClick }) => {
           p: 1
         }}
       >
-        <Typography>{title}</Typography>
-        <Typography>{dayjs(createdDate).format('HH:mm DD/MM')}</Typography>
+        <Typography sx={{ fontWeight: 'bold' }}>{title}</Typography>
+        <Typography variant="caption">
+          {dayjs(createdDate).format('HH:mm DD/MM')}
+        </Typography>
         <Typography>{description}</Typography>
       </Box>
     </MenuItem>
