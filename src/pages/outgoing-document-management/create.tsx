@@ -32,7 +32,7 @@ const CreateOutgoingDocumentPage: React.FC = () => {
       documentTypeId: 1,
       status: 1,
       note: '',
-      processDeadline: new Date().toISOString(),
+      processDeadline: '',
       files: [] as UploadFile[]
     },
     resolver: yupResolver(validation.outgoingDocument.createSchema)

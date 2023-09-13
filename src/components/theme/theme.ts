@@ -1,13 +1,14 @@
+import { inputBaseClasses } from '@mui/material';
 import { grey, indigo, red } from '@mui/material/colors';
 import { createTheme } from '@mui/material/styles';
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: indigo[500],
+      main: indigo[400],
       contrastText: '#fff',
       light: indigo[300],
-      dark: indigo[900]
+      dark: indigo[600]
     },
     secondary: {
       main: grey[400],
@@ -31,23 +32,6 @@ const theme = createTheme({
         }
       }
     },
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          textTransform: 'none'
-        }
-      }
-    },
-    MuiOutlinedInput: {
-      styleOverrides: {
-        notchedOutline: {
-          borderColor: '#030303'
-        },
-        root: {
-          backgroundColor: '#fff'
-        }
-      }
-    },
     MuiTableHead: {
       styleOverrides: {
         root: {
@@ -68,12 +52,26 @@ const theme = createTheme({
         }
       }
     },
-    MuiIcon: {
+    MuiIconButton: {
       styleOverrides: {
         root: {
-          color: grey[400],
+          '&#noti-button': {
+            '&:hover': {
+              backgroundColor: indigo[50],
+              color: indigo[400]
+            },
+            '&[aria-expanded="true"]': {
+              color: indigo[400]
+            }
+          }
+        }
+      }
+    },
+    MuiFormControl: {
+      styleOverrides: {
+        root: {
           '&:hover': {
-            color: indigo[500]
+            borderColor: indigo[200]
           }
         }
       }

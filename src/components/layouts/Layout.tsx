@@ -91,8 +91,9 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = () => {
         </EdgeSidebar>
         <Content
           sx={{
+            width: '100vw',
             minHeight: `calc(100vh - 10px - ${FOOTER_HEADER_HEIGHT})`,
-            bgcolor: '#eee'
+            bgcolor: theme.palette.secondary.light
           }}
         >
           <Outlet />

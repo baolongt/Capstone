@@ -134,6 +134,7 @@ const NotiMenu = () => {
             aria-controls={open ? 'account-menu' : undefined}
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
+            id="noti-button"
             onClick={handleClick}
           >
             <NotificationsNoneOutlinedIcon sx={{ width: 32, height: 32 }} />
