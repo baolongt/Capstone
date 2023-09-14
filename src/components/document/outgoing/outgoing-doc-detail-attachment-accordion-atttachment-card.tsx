@@ -81,7 +81,7 @@ export const AttachmentCard: React.FC<AttachmentCardProps> = (props) => {
           </Stack>
           <Tooltip title="Ký số">
             <IconButton
-              color={attachment.needSigned ? 'success' : 'primary'}
+              color={attachment.needSigned ? 'success' : 'secondary'}
               onClick={() => signAttachment(attachment.id)}
             >
               <DrawIcon />
