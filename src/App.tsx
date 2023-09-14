@@ -7,6 +7,7 @@ import DashboardLayout from './components/layouts/Layout';
 import { Role } from './models/user';
 import Login from './pages/auth/Login';
 import Unauthorized from './pages/auth/Unauthorized';
+import ContactList from './pages/contact-list';
 import Dashboard from './pages/dashboard';
 import DepartmentManagement from './pages/department-management';
 import FileManagement from './pages/file-management';
@@ -45,6 +46,9 @@ const App = () => {
           </Route>
           <Route path={'/incoming-documents'}>
             <Route index element={<IncomingDocumentManagement />} />
+          </Route>
+          <Route path={'/contact-list'}>
+            <Route index element={<ContactList />} />
           </Route>
         </Route>
       </Route>

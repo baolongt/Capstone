@@ -57,7 +57,7 @@ export const FileTable: React.FC<FileTableProps> = ({
   };
 
   const handleCellClick = (origin: file.File) => {
-    console.log('cell id', origin.id);
+    navigate(`${origin.id}`);
   };
 
   const columnHelper = createColumnHelper<file.File>();
