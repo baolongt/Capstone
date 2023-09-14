@@ -27,7 +27,6 @@ const theme = createTheme({
     MuiTableCell: {
       styleOverrides: {
         root: {
-          borderBottom: '2px solid #ccc',
           padding: '16px 4px'
         }
       }
@@ -35,7 +34,14 @@ const theme = createTheme({
     MuiTableHead: {
       styleOverrides: {
         root: {
-          backgroundColor: indigo[300]
+          backgroundColor: indigo[300],
+          borderBottom: '1px solid #ccc',
+          '& .MuiTableCell-root': {
+            '&::selection': {
+              backgroundColor: indigo[300],
+              color: '#fff'
+            }
+          }
         }
       }
     },
@@ -47,7 +53,10 @@ const theme = createTheme({
           },
           '&:hover td': {
             backgroundColor: indigo[50],
-            cursor: 'pointer'
+            cursor: 'pointer',
+            '&.MuiTableCell-root': {
+              color: indigo[400]
+            }
           }
         }
       }
@@ -72,6 +81,16 @@ const theme = createTheme({
         root: {
           '&:hover': {
             borderColor: indigo[200]
+          }
+        }
+      }
+    },
+    MuiTypography: {
+      styleOverrides: {
+        root: {
+          '&::selection': {
+            backgroundColor: indigo[300],
+            color: '#fff'
           }
         }
       }

@@ -198,7 +198,7 @@ const NotiMenu = () => {
               py: 10
             }}
           >
-            <Typography>Không có thông báo</Typography>
+            <Typography color="secondary">Không có thông báo</Typography>
           </Box>
         )}
       </Menu>
