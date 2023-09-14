@@ -42,7 +42,7 @@ export const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({
     },
     resolver: yupResolver(addDepartmentSchema)
   });
-  const [queryParams, setQueryParams] = React.useState<BaseTableQueryParams>({
+  const [queryParams] = React.useState<BaseTableQueryParams>({
     page: 1,
     size: 10
   });
