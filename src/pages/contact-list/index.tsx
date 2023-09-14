@@ -1,5 +1,5 @@
 import AddIcon from '@mui/icons-material/Add';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { debounce } from 'lodash';
 import React, { useState } from 'react';
 
