@@ -55,6 +55,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         String(new Date().getTime() + DEFAULT_SESSION_TIMEOUT)
       );
     } else {
+      localStorage.clear();
       navigate('/login');
     }
   }, [authState, navigate]);
