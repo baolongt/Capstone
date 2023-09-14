@@ -3,13 +3,10 @@ import { Box, Typography } from '@mui/material';
 import { debounce } from 'lodash';
 import React, { useState } from 'react';
 
-import { useListFiles } from '@/apis';
 import { useListContacts } from '@/apis/contact';
 import { CustomButton, InputSearch } from '@/components/common';
 import { ContactTable } from '@/components/contact/contact-table';
 import { CreateContactDialog } from '@/components/dialogs';
-import CreateUpdateFileDialog from '@/components/dialogs/create-update-file-dialog';
-import { FileTable } from '@/components/file';
 import { DEBOUND_SEARCH_TIME, DEFAULT_PAGE_WIDTH } from '@/constants';
 import { BaseTableQueryParams } from '@/types';
 

@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 import * as React from 'react';
 
-import { Attachment, UploadFile } from '@/models';
+import { Attachment } from '@/models';
 
 import { AttachmentCard } from './outgoing-doc-detail-attachment-accordion-atttachment-card';
 

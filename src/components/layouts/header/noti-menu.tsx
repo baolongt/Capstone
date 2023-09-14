@@ -1,4 +1,4 @@
-import NotificationsIcon from '@mui/icons-material/Notifications';
+import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
 import LoadingButton from '@mui/lab/LoadingButton';
 import {
   Box,
@@ -84,8 +84,6 @@ const NotiListItems: React.FC<NotiListItems> = ({
 };
 
 const NotiMenu = () => {
-  const auth = useAuth();
-  const userId = auth.authState.user?.id;
   const [queryParams, setQueryParams] = React.useState({
     page: 1,
     size: 5
@@ -93,7 +91,6 @@ const NotiMenu = () => {
 
   const { data, hasNextPage, fetchNextPage, isFetching } = useListNotifications(
     {
-      userId: userId || 1,
       queryParams
     }
   );
@@ -137,9 +134,10 @@ const NotiMenu = () => {
             aria-controls={open ? 'account-menu' : undefined}
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
+            id="noti-button"
             onClick={handleClick}
           >
-            <NotificationsIcon sx={{ width: 32, height: 32, color: '#fff' }} />
+            <NotificationsNoneOutlinedIcon sx={{ width: 32, height: 32 }} />
           </IconButton>
         </Tooltip>
       </Box>
@@ -193,7 +191,13 @@ const NotiMenu = () => {
             notifications={notifications}
           />
         ) : (
-          <Box sx={{ minHeight: '20vh' }}>
+          <Box
+            sx={{
+              justifyContent: 'center',
+              display: 'flex',
+              py: 10
+            }}
+          >
             <Typography>Không có thông báo</Typography>
           </Box>
         )}

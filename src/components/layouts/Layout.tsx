@@ -38,7 +38,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = () => {
               },
               md: {
                 position: 'sticky',
-                height: 64
+                height: 56
               }
             }
           },
@@ -57,10 +57,11 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = () => {
         <CssBaseline />
         <Header>
           <Box
-            bgcolor={theme.palette.primary.main}
+            bgcolor="#fff"
             sx={{
               px: 2,
-              py: 1
+              py: 1,
+              borderBottom: `1px solid ${theme.palette.divider}`
             }}
           >
             <Box
@@ -91,8 +92,9 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = () => {
         </EdgeSidebar>
         <Content
           sx={{
+            width: '100vw',
             minHeight: `calc(100vh - 10px - ${FOOTER_HEADER_HEIGHT})`,
-            bgcolor: '#eee'
+            bgcolor: theme.palette.secondary.light
           }}
         >
           <Outlet />

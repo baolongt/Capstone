@@ -1,6 +1,6 @@
 import { Box, Grid, SxProps, Typography } from '@mui/material';
 import dayjs from 'dayjs';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { outgoingDocument } from '@/models';
 

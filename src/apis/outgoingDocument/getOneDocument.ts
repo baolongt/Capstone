@@ -1,9 +1,7 @@
-import { fakerVI as faker } from '@faker-js/faker';
 import { useQuery } from '@tanstack/react-query';
 
 import { api } from '@/constants';
-import { Attachment, outgoingDocument } from '@/models';
-import { ProcessHisstory } from '@/models/outgoingDocument';
+import { outgoingDocument } from '@/models';
 import { Metadata } from '@/types';
 import { axiosInstance } from '@/utils';
 

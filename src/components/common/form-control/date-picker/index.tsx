@@ -44,7 +44,7 @@ export const DatePickerField: React.FC<DatePickerFieldProps> = (props) => {
                 error: Boolean(fieldState?.error),
                 helperText: fieldState?.error?.message,
                 size: 'small',
-                sx: { '& input': { py: 1.25 }, ...sx },
+                sx: { ...sx },
                 fullWidth: true,
                 ...rest
               }

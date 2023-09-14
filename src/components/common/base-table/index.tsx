@@ -161,8 +161,9 @@ const BaseTable: React.FC<BaseTableProps<any>> = (props) => {
 
   return (
     <TableContainer
-      sx={{ bgcolor: '#fff', p: 1, borderRadius: '8px' }}
+      sx={{ bgcolor: '#fff', px: 1, pt: 1, borderRadius: '8px' }}
       component={Paper}
+      elevation={4}
     >
       <Table
         stickyHeader
