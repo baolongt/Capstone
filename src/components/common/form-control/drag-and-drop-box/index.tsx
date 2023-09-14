@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Box, FormHelperText, Typography } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { Box, FormHelperText, Paper, Typography } from '@mui/material';
+import { styled, useTheme } from '@mui/material/styles';
 import React, { useState } from 'react';
 import { Accept, useDropzone } from 'react-dropzone';
 import { Controller, UseFormReturn } from 'react-hook-form';
@@ -8,30 +8,6 @@ import { Controller, UseFormReturn } from 'react-hook-form';
 import { UploadFile } from '@/models';
 
 import FileUploadedAccordion from './file-uploaded-accordion';
-
-const PREFIX = 'Dropzone';
-const classes = {
-  root: `${PREFIX}-root`,
-  thumb: `${PREFIX}-thumb`,
-  thumbOverlay: `${PREFIX}-thumbOverlay`,
-  thumbDeleteButton: `${PREFIX}-thumbDeleteButton`,
-  thumbName: `${PREFIX}-thumbName`,
-  thumbContainer: `${PREFIX}-thumbContainer`
-};
-const Root = styled('div')(({ theme }) => ({
-  [`& .${classes.root}`]: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: 200,
-    border: `1px solid #030303`,
-    backgroundColor: theme.palette.grey[100],
-    '&:hover': {
-      cursor: 'pointer',
-      backgroundColor: theme.palette.grey[200]
-    }
-  }
-}));
 
 export type DragAndDropBoxProps = {
   fileAccpetType?: Accept;
@@ -48,6 +24,7 @@ const DragAndDropBox: React.FC<DragAndDropBoxProps> = ({
   onChange,
   value
 }) => {
+  const theme = useTheme();
   const [isHovered, setIsHovered] = useState(false);
 
   const onDrop = (acceptedFiles: File[]) => {
@@ -83,24 +60,38 @@ const DragAndDropBox: React.FC<DragAndDropBoxProps> = ({
   });
 
   return (
-    <Box component="div">
+    <Box>
       <Box
-        component="div"
-        className={classes.root}
-        {...getRootProps()}
-        borderColor={
-          error
-            ? 'error.main'
+        sx={{
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+          minHeight: 150,
+          borderColor: error
+            ? theme.palette.error.main
             : isDragActive
-            ? 'primary.main'
+            ? theme.palette.primary.light
             : isHovered
-            ? 'primary.light'
-            : 'inherit'
-        }
+            ? theme.palette.primary.light
+            : 'grey.400',
+          borderRadius: '4px',
+          '&.Mui-error': {
+            borderColor: theme.palette.error.main
+          }
+        }}
+        {...getRootProps()}
+        border={1}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        <Box component="div" className={classes.thumbContainer}>
+        <Box
+          sx={{
+            py: 10,
+            color: error
+              ? theme.palette.error.main
+              : theme.palette.secondary.dark
+          }}
+        >
           {isDragActive ? (
             <Typography>Kéo file vào đây</Typography>
           ) : (
@@ -111,12 +102,14 @@ const DragAndDropBox: React.FC<DragAndDropBoxProps> = ({
         </Box>
       </Box>
       {error && <FormHelperText error>{helperText}</FormHelperText>}
-      <FileUploadedAccordion
-        sx={{ marginTop: '10px' }}
-        files={value}
-        removeFile={removeFile}
-        updateNeedSigned={updateNeedSigned}
-      />
+      {value.length > 0 && (
+        <FileUploadedAccordion
+          sx={{ marginTop: '10px' }}
+          files={value}
+          removeFile={removeFile}
+          updateNeedSigned={updateNeedSigned}
+        />
+      )}
     </Box>
   );
 };
@@ -143,7 +136,7 @@ export const WrappedDragDropFileBox: React.FC<WrappedDragDropFileBoxProps> = (
   };
 
   return (
-    <Root>
+    <Box>
       <Controller
         control={control}
         name={name}
@@ -159,6 +152,6 @@ export const WrappedDragDropFileBox: React.FC<WrappedDragDropFileBoxProps> = (
           );
         }}
       />
-    </Root>
+    </Box>
   );
 };

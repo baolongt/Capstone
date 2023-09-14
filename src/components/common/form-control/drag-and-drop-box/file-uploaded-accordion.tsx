@@ -4,6 +4,7 @@ import {
   AccordionDetails,
   AccordionSummary,
   Box,
+  Paper,
   Stack,
   SxProps,
   Typography
@@ -24,7 +25,7 @@ export type FileUploadedAccordionProps = {
 const FileUploadedAccordion: React.FC<FileUploadedAccordionProps> = (props) => {
   const { files, removeFile, updateNeedSigned, sx } = props;
   const fileCards = files.map((file, idx) => (
-    <Box key={idx} component="div" sx={{ paddingLeft: 1, paddingRight: 1 }}>
+    <Box key={idx} component={Paper} elevation={1}>
       <FileCard
         key={idx}
         file={file}
@@ -35,7 +36,12 @@ const FileUploadedAccordion: React.FC<FileUploadedAccordionProps> = (props) => {
   ));
 
   return (
-    <Accordion sx={sx}>
+    <Accordion
+      component={Paper}
+      elevation={3}
+      sx={sx}
+      disabled={files.length === 0}
+    >
       <AccordionSummary
         expandIcon={<ExpandMoreIcon />}
         aria-controls="panel1a-content"
@@ -45,15 +51,16 @@ const FileUploadedAccordion: React.FC<FileUploadedAccordionProps> = (props) => {
       </AccordionSummary>
       <AccordionDetails>
         <Box
-          component="div"
           sx={{
-            minHeight: '250px',
-            maxHeight: '250px',
+            minHeight: '150px',
+            maxHeight: '300px',
             marginRight: '10px',
-            overflowY: 'scroll'
+            overflow: 'auto'
           }}
         >
-          <Stack spacing={3}>{fileCards}</Stack>
+          <Stack sx={{ px: 1 }} spacing={3}>
+            {fileCards}
+          </Stack>
         </Box>
       </AccordionDetails>
     </Accordion>

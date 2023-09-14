@@ -86,7 +86,7 @@ export const CreateContactDialog: React.FC<AddContactDialogProps> = ({
       email: data?.email ?? '',
       phone: data?.phone ?? ''
     });
-  }, [data]);
+  }, [data, reset]);
 
   return (
     <Dialog

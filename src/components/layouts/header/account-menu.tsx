@@ -10,7 +10,6 @@ import {
 } from '@mui/material';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 
 import { useLogout } from '@/apis/auth/logout';
 import useAuth from '@/hooks/useAuth';
@@ -39,20 +38,22 @@ const AccountMenu = () => {
       navigate('/');
     },
     onError: () => {
-      toast.error('Có lỗi xảy ra');
+      localStorage.clear();
+      navigate('/');
     }
   });
 
   return (
     <>
       <Box>
-        <Tooltip title="Account settings">
+        <Tooltip title="Thông tin">
           <IconButton
             size="small"
             sx={{ ml: 2 }}
             aria-controls={open ? 'account-menu' : undefined}
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
+            id="account-button"
             onClick={handleClick}
           >
             <Avatar sx={{ width: 32, height: 32 }}>

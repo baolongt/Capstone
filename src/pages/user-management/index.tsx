@@ -1,10 +1,12 @@
-import { Box, Typography, useTheme } from '@mui/material';
+import { Box } from '@mui/material';
 import { debounce } from 'lodash';
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { useDeleteUser, useListUsers } from '@/apis';
 import { CustomButton, InputSearch } from '@/components/common';
+import PageHeader from '@/components/common/page-header';
+import PageTitle from '@/components/common/page-title';
 import {
   AddUserDialog,
   ConfirmDialog,
@@ -84,41 +86,31 @@ const UserManagement = () => {
   if (data) {
     return (
       <Box>
-        <Box bgcolor="#fff" sx={{ mb: 3 }}>
-          <Box sx={{ py: 2, mx: 'auto', width: DEFAULT_PAGE_WIDTH }}>
-            <Box>
-              <Typography
-                variant="h4"
-                sx={{
-                  mb: 2
-                }}
-              >
-                NHÂN VIÊN
-              </Typography>
-              <Box
-                component="div"
-                sx={{ display: 'flex', justifyContent: 'space-between' }}
-              >
-                <InputSearch
-                  placeholder="Tìm kiếm..."
-                  onTextChange={debouncedSearch}
+        <PageHeader>
+          <Box>
+            <PageTitle label="nhân viên" />
+            <Box
+              sx={{ display: 'flex', justifyContent: 'space-between', mt: 1 }}
+            >
+              <InputSearch
+                placeholder="Tìm kiếm..."
+                onTextChange={debouncedSearch}
+              />
+              <Box sx={{ display: 'flex', gap: 2 }}>
+                <CustomButton
+                  label="Thêm người dùng"
+                  onClick={handleCreateUser}
                 />
-                <Box component="div" sx={{ display: 'flex', gap: 2 }}>
-                  <CustomButton
-                    label="Thêm người dùng"
-                    onClick={handleCreateUser}
-                  />
-                  <CustomButton
-                    variant="outlined"
-                    label="Nhập file CSV"
-                    color="primary"
-                    onClick={handleOpenImportFileDialog}
-                  />
-                </Box>
+                <CustomButton
+                  variant="outlined"
+                  label="Nhập file CSV"
+                  color="primary"
+                  onClick={handleOpenImportFileDialog}
+                />
               </Box>
             </Box>
           </Box>
-        </Box>
+        </PageHeader>
         <Box
           sx={{
             mx: 'auto',
