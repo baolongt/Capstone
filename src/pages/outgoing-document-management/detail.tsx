@@ -52,7 +52,6 @@ const OutgoingDocumentDetail = () => {
           <Box>
             <PageTitle label="thông tin văn bản" />
           </Box>
-
           <Box
             sx={{
               display: 'flex',

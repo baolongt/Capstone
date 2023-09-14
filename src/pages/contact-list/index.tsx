@@ -1,10 +1,12 @@
 import AddIcon from '@mui/icons-material/Add';
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import { debounce } from 'lodash';
 import React, { useState } from 'react';
 
 import { useListContacts } from '@/apis/contact';
 import { CustomButton, InputSearch } from '@/components/common';
+import PageHeader from '@/components/common/page-header';
+import PageTitle from '@/components/common/page-title';
 import { ContactTable } from '@/components/contact/contact-table';
 import { CreateContactDialog } from '@/components/dialogs';
 import { DEBOUND_SEARCH_TIME, DEFAULT_PAGE_WIDTH } from '@/constants';
@@ -38,33 +40,25 @@ const ContactList = () => {
 
     return (
       <Box>
-        <Box bgcolor="#fff" sx={{ mb: 3 }}>
-          <Box sx={{ py: 2, mx: 'auto', width: DEFAULT_PAGE_WIDTH }}>
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                mt: 2
-              }}
-            >
-              <Typography variant="h4">Danh sách liên lạc</Typography>
-            </Box>
-            <Box
-              component="div"
-              sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}
-            >
-              <InputSearch
-                placeholder="Tìm kiếm..."
-                onTextChange={debouncedSearch}
-              />
-              <CustomButton
-                label="Thêm đơn vị"
-                startIcon={<AddIcon />}
-                onClick={() => setIsOpen(true)}
-              />
-            </Box>
+        <PageHeader>
+          <Box>
+            <PageTitle label="Danh sách liên lạc" />
           </Box>
-        </Box>
+          <Box
+            component="div"
+            sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}
+          >
+            <InputSearch
+              placeholder="Tìm kiếm..."
+              onTextChange={debouncedSearch}
+            />
+            <CustomButton
+              label="Thêm đơn vị"
+              startIcon={<AddIcon />}
+              onClick={() => setIsOpen(true)}
+            />
+          </Box>
+        </PageHeader>
         <Box
           sx={{
             mx: 'auto',
