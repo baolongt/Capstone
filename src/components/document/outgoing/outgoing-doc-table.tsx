@@ -15,7 +15,7 @@ const columnHelper = createColumnHelper<outgoingDocument.OutgoingDocument>();
 export type OutgoingDocumentTableProps = {
   data: outgoingDocument.OutgoingDocument[];
   metadata?: Metadata;
-  handleChangePage: (page: number) => void;
+  handleChangePage?: (page: number) => void;
   sx?: SxProps;
 };
 
