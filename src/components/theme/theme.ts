@@ -1,4 +1,3 @@
-import { inputBaseClasses } from '@mui/material';
 import { grey, indigo, red } from '@mui/material/colors';
 import { createTheme } from '@mui/material/styles';
 

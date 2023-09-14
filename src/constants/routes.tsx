@@ -62,5 +62,10 @@ export const officerPaths: Path[] = [
     label: 'Quản lí hồ sơ',
     path: '/files',
     icon: <FolderIcon />
+  },
+  {
+    label: 'Danh sách liên lạc',
+    path: '/contact-list',
+    icon: <FolderIcon />
   }
 ];

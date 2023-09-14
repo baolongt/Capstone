@@ -1,4 +1,4 @@
-import { Box, Typography, useTheme } from '@mui/material';
+import { Box } from '@mui/material';
 import { debounce } from 'lodash';
 import React, { useState } from 'react';
 

@@ -14,7 +14,7 @@ const columnHelper = createColumnHelper<outgoingDocument.OutgoingDocument>();
 
 export type OutgoingDocumentTableProps = {
   data: outgoingDocument.OutgoingDocument[];
-  metadata: Metadata;
+  metadata?: Metadata;
   handleChangePage: (page: number) => void;
   sx?: SxProps;
 };
@@ -31,25 +31,25 @@ export const OutgoingDocumentTable: React.FC<OutgoingDocumentTableProps> = ({
       cell: (row) => row.renderValue(),
       size: 300
     }),
-    columnHelper.accessor('documentNotation', {
-      header: 'Ký hiệu',
+    columnHelper.accessor('documentTypeName', {
+      header: 'Loại văn bản',
       cell: (row) => row.renderValue(),
+      size: 100
+    }),
+    columnHelper.accessor('createdByName', {
+      header: 'Người tạo',
+      cell: (row) => row.renderValue(),
+      size: 100
+    }),
+    columnHelper.accessor('processHistory', {
+      header: 'Trạng thái',
+      cell: (row) => DocumentStatusDict.get(row.getValue()[0]?.status ?? 0),
       size: 100
     }),
     columnHelper.accessor('createdDate', {
       header: 'Ngày soạn',
       cell: (row) => moment(row.getValue()).format('DD/MM/YYYY'),
       size: 100
-    }),
-    columnHelper.accessor('processHistory', {
-      header: 'Trạng thái',
-      cell: (row) => DocumentStatusDict.get(row.getValue()[0].status) || '',
-      size: 100
-    }),
-    columnHelper.accessor('note', {
-      header: 'Ghi chú',
-      size: 300,
-      cell: (row) => row.renderValue()
     }),
     columnHelper.accessor('id', {
       header: '',

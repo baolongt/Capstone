@@ -3,6 +3,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { IconButton, Stack, Tooltip } from '@mui/material';
 import { createColumnHelper } from '@tanstack/react-table';
 import * as React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import { useDeleteFile } from '@/apis';
@@ -24,6 +25,8 @@ export const FileTable: React.FC<FileTableProps> = ({
   metadata,
   handleChangePage
 }) => {
+  console.log(metadata);
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
   const [isOpenDelete, setIsOpenDelete] = React.useState<boolean>(false);
   const [currentFile, SetCurrentFile] = React.useState<file.File | null>(null);
@@ -54,7 +57,7 @@ export const FileTable: React.FC<FileTableProps> = ({
   };
 
   const handleCellClick = (origin: file.File) => {
-    console.log('cell id', origin.id);
+    navigate(`${origin.id}`);
   };
 
   const columnHelper = createColumnHelper<file.File>();

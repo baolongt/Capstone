@@ -12,7 +12,6 @@ import dayjs from 'dayjs';
 import React, { useEffect } from 'react';
 
 import { useListNotifications } from '@/apis';
-import useAuth from '@/hooks/useAuth';
 import { notification } from '@/models';
 
 type NotiItemProps = {

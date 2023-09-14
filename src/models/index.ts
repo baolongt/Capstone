@@ -1,6 +1,7 @@
 export * from './attachment';
 export * as auth from './auth';
 export * as common from './common';
+export * as contact from './contact';
 export * as department from './department';
 export * as file from './file';
 export * as notification from './notification';

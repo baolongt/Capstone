@@ -83,7 +83,7 @@ export const CreateUpdateFileDialog = (props: CreateUpdateFileDialogProps) => {
       language: data?.language ?? 'vi',
       description: data?.description ?? ''
     });
-  }, [data]);
+  }, [data, reset]);
   return (
     <Dialog
       open={isOpen}
