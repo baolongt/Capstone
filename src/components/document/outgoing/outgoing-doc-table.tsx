@@ -56,7 +56,7 @@ export const OutgoingDocumentTable: React.FC<OutgoingDocumentTableProps> = ({
       size: 100,
       cell: (row) => (
         <>
-          <RouterLink to={`/outgoing-documents/${row.getValue()}`}>
+          <RouterLink to={`${row.getValue()}`}>
             <Tooltip title="Xem chi tiết">
               <IconButton color="primary">
                 <VisibilityIcon />
