@@ -2,6 +2,8 @@ import { inputBaseClasses } from '@mui/material';
 import { grey, indigo, red } from '@mui/material/colors';
 import { createTheme } from '@mui/material/styles';
 
+//MuiTableFooter-root
+
 const theme = createTheme({
   palette: {
     primary: {
@@ -24,10 +26,11 @@ const theme = createTheme({
     fontSize: 14
   },
   components: {
-    MuiTableCell: {
+    MuiCssBaseline: {
       styleOverrides: {
-        root: {
-          padding: '16px 4px'
+        '::selection': {
+          backgroundColor: indigo[300],
+          color: '#fff'
         }
       }
     },
@@ -35,13 +38,7 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           backgroundColor: indigo[300],
-          borderBottom: '1px solid #ccc',
-          '& .MuiTableCell-root': {
-            '&::selection': {
-              backgroundColor: indigo[300],
-              color: '#fff'
-            }
-          }
+          borderBottom: '1px solid #ccc'
         }
       }
     },
@@ -51,11 +48,13 @@ const theme = createTheme({
           '&:last-child td, &:last-child th': {
             border: 0
           },
-          '&:hover td': {
-            backgroundColor: indigo[50],
-            cursor: 'pointer',
-            '&.MuiTableCell-root': {
-              color: indigo[400]
+          '&.MuiTableRow-root': {
+            '&:not(:last-child)&:hover': {
+              backgroundColor: indigo[50],
+              cursor: 'pointer',
+              td: {
+                color: indigo[400]
+              }
             }
           }
         }
@@ -72,25 +71,48 @@ const theme = createTheme({
             '&[aria-expanded="true"]': {
               color: indigo[400]
             }
+          },
+          '&##account-button': {
+            '&:hover': {
+              '.MuiSvgIcon-root': {
+                color: indigo[400]
+              }
+            }
           }
         }
       }
     },
-    MuiFormControl: {
+    MuiInputBase: {
       styleOverrides: {
         root: {
-          '&:hover': {
-            borderColor: indigo[200]
+          '.Mui-focused': {
+            '.MuiSvgIcon-root': {
+              color: indigo[400]
+            }
+          },
+          '.MuiInputAdornment-root': {
+            '.MuiSvgIcon-root': {
+              color: grey[900]
+            }
           }
         }
       }
     },
-    MuiTypography: {
+    MuiOutlinedInput: {
       styleOverrides: {
         root: {
-          '&::selection': {
-            backgroundColor: indigo[300],
-            color: '#fff'
+          '&:hover:not(.Mui-disabled) .MuiOutlinedInput-notchedOutline': {
+            borderColor: indigo[300]
+          },
+          '& .Mui-focused .MuiOutlinedInput-notchedOutline': {
+            borderColor: indigo[300]
+          },
+          '& .Mui-focused .MuiInputAdornment-root .MuiSvgIcon-root': {
+            color: indigo[300]
+          },
+          '& .Mui-disabled': {
+            backgroundColor: grey[100],
+            color: grey[500]
           }
         }
       }
