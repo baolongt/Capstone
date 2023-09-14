@@ -11,10 +11,8 @@ export type ListNotificationsResponse = {
 };
 
 const fetchNotifications = async ({
-  userId,
   queryParams
 }: {
-  userId: number;
   queryParams: NotificationPagingParams;
 }): Promise<ListNotificationsResponse> => {
   const { page, size } = queryParams;
@@ -25,7 +23,7 @@ const fetchNotifications = async ({
   };
 
   const response: ListNotificationsResponse = await axiosInstance.get(
-    `/api/notifications/${userId}`,
+    `/api/notifications`,
     {
       params
     }
@@ -39,14 +37,12 @@ type UseListNotificationsParams = {
 };
 
 export const useListNotifications = ({
-  userId,
   queryParams
-}: UseListNotificationsParams & { userId: number }) => {
+}: UseListNotificationsParams) => {
   return useInfiniteQuery<ListNotificationsResponse, Error>({
     queryKey: [api.NOTIFICATION],
     queryFn: () =>
       fetchNotifications({
-        userId,
         queryParams
       }),
     getNextPageParam: (lastPage, pages) => {

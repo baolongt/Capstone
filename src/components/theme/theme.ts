@@ -1,16 +1,19 @@
-import { red } from '@mui/material/colors';
-import { outlinedInputClasses } from '@mui/material/OutlinedInput';
+import { inputBaseClasses } from '@mui/material';
+import { grey, indigo, red } from '@mui/material/colors';
 import { createTheme } from '@mui/material/styles';
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#2196f3',
+      main: indigo[400],
       contrastText: '#fff',
-      light: '#F6FAFE'
+      light: indigo[300],
+      dark: indigo[600]
     },
     secondary: {
-      main: '#D8D9DA'
+      main: grey[400],
+      light: grey['A200'],
+      dark: grey[700]
     },
     error: {
       main: red.A400
@@ -29,20 +32,47 @@ const theme = createTheme({
         }
       }
     },
-    MuiButton: {
+    MuiTableHead: {
       styleOverrides: {
         root: {
-          textTransform: 'none'
+          backgroundColor: indigo[300]
         }
       }
     },
-    MuiOutlinedInput: {
+    MuiTableRow: {
       styleOverrides: {
-        notchedOutline: {
-          borderColor: '#030303'
-        },
         root: {
-          backgroundColor: '#fff'
+          '&:last-child td, &:last-child th': {
+            border: 0
+          },
+          '&:hover td': {
+            backgroundColor: indigo[50],
+            cursor: 'pointer'
+          }
+        }
+      }
+    },
+    MuiIconButton: {
+      styleOverrides: {
+        root: {
+          '&#noti-button': {
+            '&:hover': {
+              backgroundColor: indigo[50],
+              color: indigo[400]
+            },
+            '&[aria-expanded="true"]': {
+              color: indigo[400]
+            }
+          }
+        }
+      }
+    },
+    MuiFormControl: {
+      styleOverrides: {
+        root: {
+          '&:hover': {
+            borderColor: indigo[200]
+          }
         }
       }
     }

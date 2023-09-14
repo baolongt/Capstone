@@ -4,6 +4,8 @@ import { useParams } from 'react-router-dom';
 
 import { useGetOneDocument } from '@/apis/outgoingDocument/getOneDocument';
 import { CustomButton } from '@/components/common';
+import PageHeader from '@/components/common/page-header';
+import PageTitle from '@/components/common/page-title';
 import { ForwardDocumentDialog } from '@/components/dialogs';
 import {
   DetailAttachmentAccordion,
@@ -47,41 +49,39 @@ const OutgoingDocumentDetail = () => {
   return (
     <>
       <Box>
-        <Box bgcolor="#fff" sx={{ mb: 3 }}>
-          <Box sx={{ py: 2, mx: 'auto', width: DEFAULT_PAGE_WIDTH }}>
-            <Box sx={{ mt: 2 }}>
-              <Typography variant="h4">THÔNG TIN VĂN BẢN</Typography>
-            </Box>
-
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'start',
-                mt: 2
-              }}
-            >
-              {/* //TODO: thêm chỉnh sửa */}
-              {newestStatus === 5 && <CustomButton label="Chỉnh sửa" />}
-              {/* // TODO: ban hành vản bản */}
-              {newestStatus === 4 && <CustomButton label="Ban hành văn bản" />}
-              {newestStatus != undefined &&
-                [0, 1, 2, 3].includes(newestStatus) && (
-                  <>
-                    <CustomButton
-                      label="Chuyến tiếp"
-                      onClick={() => handleOpenModal('foward')}
-                    />
-                    <CustomButton
-                      label="Trả lại"
-                      variant="outlined"
-                      sx={{ ml: 2 }}
-                      onClick={() => handleOpenModal('send-back')}
-                    />
-                  </>
-                )}
-            </Box>
+        <PageHeader>
+          <Box>
+            <PageTitle label="thông tin văn bản" />
           </Box>
-        </Box>
+
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'start',
+              mt: 1
+            }}
+          >
+            {/* //TODO: thêm chỉnh sửa */}
+            {newestStatus === 5 && <CustomButton label="Chỉnh sửa" />}
+            {/* // TODO: ban hành vản bản */}
+            {newestStatus === 4 && <CustomButton label="Ban hành văn bản" />}
+            {newestStatus != undefined &&
+              [0, 1, 2, 3].includes(newestStatus) && (
+                <>
+                  <CustomButton
+                    label="Chuyến tiếp"
+                    onClick={() => handleOpenModal('foward')}
+                  />
+                  <CustomButton
+                    label="Trả lại"
+                    variant="outlined"
+                    sx={{ ml: 2 }}
+                    onClick={() => handleOpenModal('send-back')}
+                  />
+                </>
+              )}
+          </Box>
+        </PageHeader>
         <Box
           sx={{ mx: 'auto', width: '1080px', mt: 3, px: 2, minHeight: '80vh' }}
           component={Paper}

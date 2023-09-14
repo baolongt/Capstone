@@ -84,7 +84,7 @@ const FileCard: React.FC<FileCardProps> = (props) => {
           <Tooltip title="Đánh dấu cần ký số">
             <IconButton
               aria-label="delete"
-              color={needSigned ? 'success' : 'primary'}
+              color={needSigned ? 'success' : 'secondary'}
               onClick={() => updateNeedSigned(id)}
             >
               <DrawIcon />
