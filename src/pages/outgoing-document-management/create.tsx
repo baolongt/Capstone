@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Box, Paper, Typography } from '@mui/material';
+import { Box, Paper } from '@mui/material';
 import React, { useEffect } from 'react';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import { toast } from 'react-toastify';

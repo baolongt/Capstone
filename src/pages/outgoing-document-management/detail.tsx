@@ -1,4 +1,4 @@
-import { Box, Paper, Typography } from '@mui/material';
+import { Box, Paper } from '@mui/material';
 import * as React from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -12,7 +12,6 @@ import {
   DetailDescription,
   DetailTimeline
 } from '@/components/document';
-import { DEFAULT_PAGE_WIDTH } from '@/constants';
 import { Attachment } from '@/models';
 
 const OutgoingDocumentDetail = () => {
