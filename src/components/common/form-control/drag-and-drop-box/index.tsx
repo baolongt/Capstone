@@ -72,7 +72,7 @@ const DragAndDropBox: React.FC<DragAndDropBoxProps> = ({
             : isDragActive
             ? theme.palette.primary.light
             : isHovered
-            ? 'gray.700'
+            ? theme.palette.primary.light
             : 'grey.400',
           borderRadius: '4px',
           '&.Mui-error': {
@@ -102,12 +102,14 @@ const DragAndDropBox: React.FC<DragAndDropBoxProps> = ({
         </Box>
       </Box>
       {error && <FormHelperText error>{helperText}</FormHelperText>}
-      <FileUploadedAccordion
-        sx={{ marginTop: '10px' }}
-        files={value}
-        removeFile={removeFile}
-        updateNeedSigned={updateNeedSigned}
-      />
+      {value.length > 0 && (
+        <FileUploadedAccordion
+          sx={{ marginTop: '10px' }}
+          files={value}
+          removeFile={removeFile}
+          updateNeedSigned={updateNeedSigned}
+        />
+      )}
     </Box>
   );
 };

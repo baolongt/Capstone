@@ -17,9 +17,7 @@ export const DetailDescription: FC<DetailDescriptionProps> = (props) => {
     documentField,
     documentTypeName,
     createdByName,
-    isRepliedDocument,
-    publishDate,
-    note
+    publishDate
   } = document;
   const detailStyle = { py: 1, px: 1 };
   const labelFontWeight = 600;

@@ -4,6 +4,7 @@ import {
   AccordionDetails,
   AccordionSummary,
   Box,
+  Paper,
   Stack,
   SxProps,
   Typography
@@ -27,7 +28,7 @@ export const DetailAttachmentAccordion: React.FC<
   const { attachments, watchAttachment, signAttachment, sx } = props;
 
   const attachmentCards = attachments.map((att, idx) => (
-    <Box key={idx} component="div" sx={{ paddingLeft: 1, paddingRight: 1 }}>
+    <Box key={idx} component={Paper} elevation={1}>
       <AttachmentCard
         key={idx}
         attachment={att}
@@ -37,7 +38,7 @@ export const DetailAttachmentAccordion: React.FC<
     </Box>
   ));
   return (
-    <Accordion>
+    <Accordion component={Paper} elevation={3}>
       <AccordionSummary
         expandIcon={<ExpandMoreIcon />}
         aria-controls="panel1a-content"
@@ -59,7 +60,9 @@ export const DetailAttachmentAccordion: React.FC<
             overflowY: 'scroll'
           }}
         >
-          <Stack spacing={3}>{attachmentCards}</Stack>
+          <Stack sx={{ px: 1 }} spacing={3}>
+            {attachmentCards}
+          </Stack>
         </Box>
       </AccordionDetails>
     </Accordion>
