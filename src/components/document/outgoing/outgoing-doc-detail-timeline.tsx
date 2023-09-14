@@ -28,7 +28,7 @@ const BaseTimelineItem: React.FC<BaseTimelineItemProps> = (props) => {
         {time}
       </TimelineOppositeContent>
       <TimelineSeparator>
-        <TimelineDot />
+        <TimelineDot variant="outlined" color="primary" />
         {!isLast && <TimelineConnector />}
       </TimelineSeparator>
       <TimelineContent>

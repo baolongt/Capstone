@@ -46,13 +46,14 @@ const AccountMenu = () => {
   return (
     <>
       <Box>
-        <Tooltip title="Account settings">
+        <Tooltip title="Thông tin">
           <IconButton
             size="small"
             sx={{ ml: 2 }}
             aria-controls={open ? 'account-menu' : undefined}
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
+            id="account-button"
             onClick={handleClick}
           >
             <Avatar sx={{ width: 32, height: 32 }}>
