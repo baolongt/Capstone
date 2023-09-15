@@ -59,7 +59,8 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = () => {
           <Box
             bgcolor="#fff"
             sx={{
-              pb: 1,
+              px: 2,
+              py: 1,
               borderBottom: `1px solid ${theme.palette.divider}`
             }}
           >
