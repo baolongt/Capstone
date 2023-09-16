@@ -18,11 +18,12 @@ export type FileDetailOutgoingDocumentTableProps = {
   metadata?: Metadata;
   handleChangePage?: (page: number) => void;
   sx?: SxProps;
+  handleOpenRemoveDoc: (docId: number) => void;
 };
 
 export const FileDetailOutgoingDocumentTable: React.FC<
   FileDetailOutgoingDocumentTableProps
-> = ({ data, metadata, handleChangePage, sx }) => {
+> = ({ data, metadata, handleChangePage, handleOpenRemoveDoc, sx }) => {
   const columns = [
     columnHelper.accessor('epitomize', {
       header: 'Trích yếu',
@@ -54,13 +55,14 @@ export const FileDetailOutgoingDocumentTable: React.FC<
       size: 100,
       cell: (row) => (
         <>
-          <RouterLink to={`${row.getValue()}`}>
-            <Tooltip title="Xoá khỏi sổ công việc">
-              <IconButton color="error">
-                <DeleteIcon />
-              </IconButton>
-            </Tooltip>
-          </RouterLink>
+          <Tooltip title="Xoá khỏi sổ công việc">
+            <IconButton
+              color="error"
+              onClick={() => handleOpenRemoveDoc(Number(row.renderValue()))}
+            >
+              <DeleteIcon />
+            </IconButton>
+          </Tooltip>
         </>
       )
     })

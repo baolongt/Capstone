@@ -14,6 +14,7 @@ interface Props {
   sx?: SxProps;
   multiple?: boolean;
   filterSelectedOptions?: boolean;
+  disablePortal?: boolean;
   onSearchChange: (textSearch: string) => void;
 }
 
@@ -25,6 +26,7 @@ export default function AutocompleteInput(props: Props) {
     multiple,
     filterSelectedOptions,
     onSearchChange,
+    disablePortal = false,
     sx,
     ...resProps
   } = props;
@@ -38,7 +40,7 @@ export default function AutocompleteInput(props: Props) {
         <>
           <Autocomplete
             autoHighlight
-            disablePortal
+            disablePortal={disablePortal}
             getOptionLabel={(option: SelectOption) => option.title ?? ''}
             sx={{
               '& .MuiOutlinedInput-root': {

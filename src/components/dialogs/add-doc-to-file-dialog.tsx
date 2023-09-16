@@ -52,7 +52,7 @@ export const AddDocToFileDialog: React.FC<AddDocToFileProps> = ({
     resolver: yupResolver(addDocToFileSchema)
   });
 
-  const { handleSubmit, reset } = form;
+  const { reset } = form;
 
   const handleClose = () => {
     onClose();
@@ -84,7 +84,12 @@ export const AddDocToFileDialog: React.FC<AddDocToFileProps> = ({
     return setQueryParams({ ...queryParams, search: textSearch });
   };
   return (
-    <Dialog fullWidth={true} open={isOpen} onClose={onClose}>
+    <Dialog
+      sx={{ overflowY: 'visible' }}
+      fullWidth={true}
+      open={isOpen}
+      onClose={onClose}
+    >
       <DialogTitle fontWeight={600}>Thêm vào sổ công việc</DialogTitle>
       <DialogContent>
         <Box
@@ -92,7 +97,7 @@ export const AddDocToFileDialog: React.FC<AddDocToFileProps> = ({
             display: 'flex',
             flexDirection: 'column',
             m: 'auto',
-            minHeight: '200px'
+            minHeight: '50px'
           }}
         >
           <FieldTitle title="Sổ công việc" isRequired={true} />

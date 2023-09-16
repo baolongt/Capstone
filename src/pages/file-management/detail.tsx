@@ -1,11 +1,12 @@
 import { Box, Grid, Paper, Typography, useTheme } from '@mui/material';
 import moment from 'moment';
+import React from 'react';
 import { useParams } from 'react-router-dom';
 
 import { useGetFileById } from '@/apis';
 import PageHeader from '@/components/common/page-header';
 import PageTitle from '@/components/common/page-title';
-import { OutgoingDocumentTable } from '@/components/document';
+import RemoveDocFromFileDialog from '@/components/dialogs/remove-doc-from-file-dialog';
 import { FileDetailOutgoingDocumentTable } from '@/components/file';
 
 const labelFontWeight = 600;
@@ -21,9 +22,19 @@ const GridItem = (props: { label: string; value: string }) => {
 };
 
 const FileDetail = () => {
-  const params = useParams();
-  const theme = useTheme();
-  const { data: file, isLoading } = useGetFileById(Number(params.id));
+  const { id } = useParams<{ id: string }>();
+  const [openRemoveDoc, setOpenRemoveDoc] = React.useState(false);
+  const [selectedDoc, setSelectedDoc] = React.useState<number>();
+  const { data: file, isLoading } = useGetFileById(Number(id));
+
+  const handleOpenRemoveDoc = (docId: number) => {
+    setSelectedDoc(docId);
+    setOpenRemoveDoc(true);
+  };
+
+  const handleCloseRemoveDoc = () => {
+    setOpenRemoveDoc(false);
+  };
 
   if (isLoading) return <>Loading...</>;
   if (file) {
@@ -65,8 +76,17 @@ const FileDetail = () => {
           <Typography variant="h6" sx={{ my: 2, fontWeight: 'bold' }}>
             Văn bản
           </Typography>
-          <FileDetailOutgoingDocumentTable data={file?.outgoingDocuments} />
+          <FileDetailOutgoingDocumentTable
+            handleOpenRemoveDoc={handleOpenRemoveDoc}
+            data={file?.outgoingDocuments}
+          />
         </Box>
+        <RemoveDocFromFileDialog
+          isOpen={openRemoveDoc}
+          fileId={Number(id) || -1}
+          outGoingDocumentId={selectedDoc || -1}
+          onClose={handleCloseRemoveDoc}
+        />
       </>
     );
   }
