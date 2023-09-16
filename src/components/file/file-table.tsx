@@ -96,7 +96,10 @@ export const FileTable: React.FC<FileTableProps> = ({
           <Tooltip title="Cập nhật">
             <IconButton
               color="primary"
-              onClick={() => targetFile(row.getValue(), false)}
+              onClick={(e) => {
+                e.stopPropagation();
+                targetFile(row.getValue(), false);
+              }}
             >
               <EditIcon />
             </IconButton>
@@ -104,7 +107,10 @@ export const FileTable: React.FC<FileTableProps> = ({
           <Tooltip title="Xoá">
             <IconButton
               color="primary"
-              onClick={() => targetFile(row.getValue())}
+              onClick={(e) => {
+                e.stopPropagation();
+                targetFile(row.getValue());
+              }}
             >
               <Delete />
             </IconButton>

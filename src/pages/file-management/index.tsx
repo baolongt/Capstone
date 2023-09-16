@@ -47,7 +47,7 @@ const FileManagement = () => {
               justifyContent: 'space-between'
             }}
           >
-            <PageTitle label="hồ sơ" />
+            <PageTitle label="Sổ công việc" />
           </Box>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 1 }}>
             <InputSearch

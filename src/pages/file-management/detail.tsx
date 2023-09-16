@@ -6,6 +6,7 @@ import { useGetFileById } from '@/apis';
 import PageHeader from '@/components/common/page-header';
 import PageTitle from '@/components/common/page-title';
 import { OutgoingDocumentTable } from '@/components/document';
+import { FileDetailOutgoingDocumentTable } from '@/components/file';
 
 const labelFontWeight = 600;
 const GridItem = (props: { label: string; value: string }) => {
@@ -64,7 +65,7 @@ const FileDetail = () => {
           <Typography variant="h6" sx={{ my: 2, fontWeight: 'bold' }}>
             Văn bản
           </Typography>
-          <OutgoingDocumentTable data={file?.outgoingDocuments} />
+          <FileDetailOutgoingDocumentTable data={file?.outgoingDocuments} />
         </Box>
       </>
     );

@@ -205,18 +205,20 @@ const BaseTable: React.FC<BaseTableProps<any>> = (props) => {
         <TableBody>
           {getRowModel().rows.map((row) => (
             <TableRow key={row.id} style={{ height: '50px' }}>
-              {row.getVisibleCells().map((cell) => (
-                <TableCell
-                  key={cell.id}
-                  style={{ height: '52px', padding: '0px 4px' }}
-                  onClick={() => {
-                    console.log('cell', cell);
-                    handleCellClick?.(cell.row.original);
-                  }}
-                >
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </TableCell>
-              ))}
+              {row.getVisibleCells().map((cell) => {
+                return (
+                  <TableCell
+                    key={cell.id}
+                    style={{ height: '52px', padding: '0px 4px' }}
+                    onClick={() => {
+                      console.log('cell', cell);
+                      handleCellClick?.(cell.row.original);
+                    }}
+                  >
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </TableCell>
+                );
+              })}
             </TableRow>
           ))}
           {showPagination &&

@@ -108,8 +108,6 @@ export const uploadForm = async (
 
   const payload = convertToOutGoingDocumentUploadFormType(formData);
 
-  console.log(payload);
-
   return await axiosInstance.post(url, payload);
 };
 

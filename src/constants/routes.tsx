@@ -59,7 +59,7 @@ export const officerPaths: Path[] = [
     subPaths: outGoingDocumentSubPaths
   },
   {
-    label: 'Quản lí hồ sơ',
+    label: 'Sổ công việc',
     path: '/files',
     icon: <FolderIcon />
   },

@@ -12,11 +12,22 @@ interface Props {
   name: string;
   form: FieldValues;
   sx?: SxProps;
+  multiple?: boolean;
+  filterSelectedOptions?: boolean;
   onSearchChange: (textSearch: string) => void;
 }
 
 export default function AutocompleteInput(props: Props) {
-  const { data, name, form, onSearchChange, sx, ...resProps } = props;
+  const {
+    data,
+    name,
+    form,
+    multiple,
+    filterSelectedOptions,
+    onSearchChange,
+    sx,
+    ...resProps
+  } = props;
   const { control } = form;
 
   return (
@@ -37,6 +48,8 @@ export default function AutocompleteInput(props: Props) {
             }}
             id="auto-complete"
             options={data}
+            multiple={multiple}
+            filterSelectedOptions={filterSelectedOptions}
             renderInput={(params) => (
               <TextField
                 onChange={(event) => onSearchChange(event.target.value)}
@@ -45,7 +58,9 @@ export default function AutocompleteInput(props: Props) {
               />
             )}
             onChange={(event, item) => {
-              onChange(item?.value);
+              if (Array.isArray(item)) {
+                onChange(item?.map((item) => item?.value));
+              } else onChange(item?.value);
             }}
             onClose={() => {
               if (!value || value == -1) {

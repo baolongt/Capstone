@@ -41,17 +41,17 @@ const theme = createTheme({
         }
       }
     },
-    MuiTableRow: {
+    MuiTableBody: {
       styleOverrides: {
         root: {
           '&:last-child td, &:last-child th': {
             border: 0
           },
-          '&.MuiTableRow-root': {
-            '&:not(:last-child)&:hover': {
-              backgroundColor: indigo[50],
-              cursor: 'pointer',
-              td: {
+          tr: {
+            '&.MuiTableRow-root': {
+              '&:hover': {
+                backgroundColor: indigo[50],
+                cursor: 'pointer',
                 color: indigo[400]
               }
             }
