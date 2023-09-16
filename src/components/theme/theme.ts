@@ -13,7 +13,7 @@ const theme = createTheme({
     },
     secondary: {
       main: grey[400],
-      light: grey['A200'],
+      light: grey['A100'],
       dark: grey[700]
     },
     error: {
