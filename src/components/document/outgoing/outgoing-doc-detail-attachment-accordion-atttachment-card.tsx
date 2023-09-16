@@ -28,75 +28,82 @@ export const AttachmentCard: React.FC<AttachmentCardProps> = (props) => {
   const size = parseInt(attachment.size);
   const getAttachmentIcon = () => {
     if (attachment.mimeType.startsWith('image/')) {
-      return <ImageIcon />;
+      return <ImageIcon style={{ fontSize: '2rem' }} />;
     } else {
       switch (attachment.mimeType.toLowerCase()) {
         case 'application/pdf':
-          return <FaFilePdf />;
+          return <FaFilePdf style={{ fontSize: '2rem' }} />;
         case 'application/vnd.ms-excel':
         case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
-          return <FaFileExcel />;
+          return <FaFileExcel style={{ fontSize: '2rem' }} />;
         case 'application/msword':
         case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
-          return <FaFileWord />;
+          return <FaFileWord style={{ fontSize: '2rem' }} />;
         default:
-          return <AttachFileIcon />;
+          return <AttachFileIcon style={{ fontSize: '2rem' }} />;
       }
     }
   };
   return (
-    <Card>
-      <CardContent>
-        <Stack direction="row" spacing={2}>
-          <Box component="div" style={{ marginTop: 12 }}>
-            {getAttachmentIcon()}
-          </Box>
-          <Stack
+    <Box>
+      <Stack direction="row" spacing={1}>
+        <Box sx={{ maxHeight: '100%', overflow: 'auto', mr: 1 }}>
+          <Box style={{ marginTop: 12 }}>{getAttachmentIcon()}</Box>
+        </Box>
+        <Stack
+          sx={{
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            width: '80%',
+            maxWidth: '80%',
+            whiteSpace: 'nowrap'
+          }}
+        >
+          <Typography
+            gutterBottom
+            variant="subtitle1"
             sx={{
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              width: '70%',
-              maxWidth: '70%',
-              height: '50px',
-              whiteSpace: 'nowrap'
+              minWidth: '100%'
             }}
           >
-            <Typography
-              gutterBottom
-              variant="subtitle1"
-              sx={{
-                minWidth: '100%'
-              }}
-            >
-              {attachment.name}
-              {attachment.needSigned && (
-                <Chip label="Cần ký số" size="small" sx={{ ml: 2 }} />
-              )}
-            </Typography>
+            {attachment.name}
+          </Typography>
+          <Box>
             <Typography gutterBottom variant="caption">
               {size > 100000
                 ? `${(size / 1000000).toFixed(2)} MB`
                 : `${(size / 1000).toFixed(2)} KB`}
             </Typography>
-          </Stack>
+            {attachment.needSigned && (
+              <Chip
+                label="Cần ký số"
+                color="primary"
+                size="small"
+                sx={{ ml: 2 }}
+              />
+            )}
+          </Box>
+        </Stack>
+        {attachment.needSigned && (
           <Tooltip title="Ký số">
             <IconButton
-              color={attachment.needSigned ? 'success' : 'secondary'}
+              color={'success'}
               onClick={() => signAttachment(attachment.id)}
             >
               <DrawIcon />
             </IconButton>
           </Tooltip>
-          <Tooltip title="Xem">
-            <IconButton
-              aria-label="xem"
-              onClick={() => watchAttachment(attachment.id)}
-            >
-              <VisibilityIcon />
-            </IconButton>
-          </Tooltip>
-        </Stack>
-      </CardContent>
-    </Card>
+        )}
+
+        <Tooltip title="Xem">
+          <IconButton
+            aria-label="xem"
+            onClick={() => watchAttachment(attachment.url)}
+          >
+            <VisibilityIcon />
+          </IconButton>
+        </Tooltip>
+      </Stack>
+    </Box>
   );
 };

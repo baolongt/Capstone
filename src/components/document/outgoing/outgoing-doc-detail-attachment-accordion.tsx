@@ -7,7 +7,8 @@ import {
   Paper,
   Stack,
   SxProps,
-  Typography
+  Typography,
+  useTheme
 } from '@mui/material';
 import * as React from 'react';
 
@@ -26,9 +27,13 @@ export const DetailAttachmentAccordion: React.FC<
   DetailAttachmentAccordionProps
 > = (props) => {
   const { attachments, watchAttachment, signAttachment, sx } = props;
+  const theme = useTheme();
 
   const attachmentCards = attachments.map((att, idx) => (
-    <Box key={idx} component={Paper} elevation={1}>
+    <Box
+      key={idx}
+      sx={{ backgroundColor: theme.palette.secondary.light, py: 2, px: 1 }}
+    >
       <AttachmentCard
         key={idx}
         attachment={att}

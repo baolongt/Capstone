@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 
 import { useGetOneDocument } from '@/apis/outgoingDocument/getOneDocument';
 import { CustomButton } from '@/components/common';
+import AppDocViewer from '@/components/common/document-viewer';
 import PageHeader from '@/components/common/page-header';
 import PageTitle from '@/components/common/page-title';
 import { ForwardDocumentDialog } from '@/components/dialogs';
@@ -18,16 +19,12 @@ const OutgoingDocumentDetail = () => {
   const { id } = useParams<{ id: string }>();
   const { data, isLoading } = useGetOneDocument(id ? parseInt(id) : -1);
   const [openModal, setOpenModal] = React.useState(false);
+  const [docPreview, setDocPreview] = React.useState(false);
+  const [docPreviewData, setDocPreviewData] = React.useState<{ uri: string }[]>(
+    []
+  );
   const [mode, setMode] = React.useState<'foward' | 'send-back'>('foward');
   const newestStatus = data?.processHistory?.[0].status;
-
-  const watchAttachment = (attachmentId: string) => {
-    console.log('watch attachment', attachmentId);
-  };
-
-  const signAttachment = (attachmentId: string) => {
-    console.log('sign', attachmentId);
-  };
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -43,6 +40,25 @@ const OutgoingDocumentDetail = () => {
 
   const handleCloseModal = () => {
     setOpenModal(false);
+  };
+
+  const handleClosePeview = () => {
+    setDocPreview(false);
+  };
+
+  const handleOpenPreview = (uri: string) => {
+    setDocPreviewData([{ uri }]);
+    setDocPreview(true);
+  };
+
+  const watchAttachment = (url: string) => {
+    console.log('watch attachment', url);
+    setDocPreviewData([{ uri: url }]);
+    setDocPreview(true);
+  };
+
+  const signAttachment = (attachmentId: string) => {
+    console.log('sign', attachmentId);
   };
 
   return (
@@ -100,6 +116,11 @@ const OutgoingDocumentDetail = () => {
         id={parseInt(id ? id : '-1')}
         newestStatus={newestStatus}
         onClose={handleCloseModal}
+      />
+      <AppDocViewer
+        docs={docPreviewData}
+        open={docPreview}
+        handleClose={handleClosePeview}
       />
     </>
   );

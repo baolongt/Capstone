@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, FormHelperText, Paper, Typography } from '@mui/material';
+import { indigo } from '@mui/material/colors';
 import { styled, useTheme } from '@mui/material/styles';
 import React, { useState } from 'react';
 import { Accept, useDropzone } from 'react-dropzone';
@@ -67,6 +68,11 @@ const DragAndDropBox: React.FC<DragAndDropBoxProps> = ({
           display: 'flex',
           justifyContent: 'center',
           minHeight: 150,
+          backgroundColor: isDragActive
+            ? indigo[50]
+            : isHovered
+            ? indigo[50]
+            : '#fff',
           borderColor: error
             ? theme.palette.error.main
             : isDragActive
