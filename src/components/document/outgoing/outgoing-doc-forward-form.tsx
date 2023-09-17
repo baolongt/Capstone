@@ -13,17 +13,10 @@ import { BaseTableQueryParams } from '@/types';
 
 export type ForwardFormProps = {
   form: UseFormReturn<validation.outgoingDocument.ForwardType, any>;
-  isSubmitForm: boolean;
-  handleSubmitForm: () => void;
 };
 
 export const ForwardForm: React.FC<ForwardFormProps> = (props) => {
-  const { form, isSubmitForm, handleSubmitForm } = props;
-
-  const { handleSubmit } = form;
-  const submitHandler = () => {
-    handleSubmitForm();
-  };
+  const { form } = props;
 
   const [queryParams, setQueryParams] = React.useState<BaseTableQueryParams>({
     page: 1,
@@ -68,17 +61,6 @@ export const ForwardForm: React.FC<ForwardFormProps> = (props) => {
           <FieldTitle title="Ghi chú" />
           <MultilineTextField form={form} name="newNote" minRows={4} />
         </Grid>
-      </Grid>
-      <Grid item xs={12}>
-        <LoadingButton
-          sx={{ ml: 3, mt: 2 }}
-          variant="contained"
-          color="primary"
-          loading={isSubmitForm}
-          onClick={handleSubmit(submitHandler)}
-        >
-          Chuyển
-        </LoadingButton>
       </Grid>
     </Stack>
   );

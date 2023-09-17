@@ -8,7 +8,6 @@ import AppDocViewer from '@/components/common/document-viewer';
 import PageHeader from '@/components/common/page-header';
 import PageTitle from '@/components/common/page-title';
 import {
-  AddDepartmentDialog,
   AddDocToFileDialog,
   ForwardDocumentDialog
 } from '@/components/dialogs';

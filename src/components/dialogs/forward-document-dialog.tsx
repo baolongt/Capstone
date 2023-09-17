@@ -1,4 +1,10 @@
-import { Dialog, DialogContent, DialogTitle } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle
+} from '@mui/material';
 import * as React from 'react';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -7,6 +13,7 @@ import { toast } from 'react-toastify';
 import { useForwardDocument } from '@/apis/outgoingDocument/forwardDocument';
 import { validation } from '@/models';
 
+import { CustomButton } from '../common';
 import { ForwardForm, WithoutHandlerForwardForm } from '../document';
 
 export type ForwardDocumentDialogProps = {
@@ -72,19 +79,20 @@ export const ForwardDocumentDialog: React.FC<ForwardDocumentDialogProps> = (
 
       <DialogContent>
         {newestStatus === 2 ? (
-          <ForwardForm
-            isSubmitForm={isLoading}
-            form={form}
-            handleSubmitForm={onSubmit}
-          />
+          <ForwardForm form={form} />
         ) : (
-          <WithoutHandlerForwardForm
-            isSubmitForm={isLoading}
-            form={form}
-            handleSubmitForm={onSubmit}
-          />
+          <WithoutHandlerForwardForm form={form} />
         )}
       </DialogContent>
+      <DialogActions sx={{ p: '0 24px 24px 0' }}>
+        <LoadingButton
+          variant="contained"
+          loading={isLoading}
+          onClick={onSubmit}
+        >
+          {mode === 'foward' ? 'Chuyển tiếp' : 'Trả lại'}
+        </LoadingButton>
+      </DialogActions>
     </Dialog>
   );
 };

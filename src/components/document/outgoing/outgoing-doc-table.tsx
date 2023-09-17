@@ -3,7 +3,7 @@ import { IconButton, SxProps, Tooltip } from '@mui/material';
 import { createColumnHelper } from '@tanstack/react-table';
 import moment from 'moment';
 import * as React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
 import BaseTable from '@/components/common/base-table';
 import { outgoingDocument } from '@/models';
@@ -25,6 +25,11 @@ export const OutgoingDocumentTable: React.FC<OutgoingDocumentTableProps> = ({
   handleChangePage,
   sx
 }) => {
+  const navigate = useNavigate();
+  const handleCellClick = (origin: outgoingDocument.OutgoingDocument) => {
+    navigate(`${origin.id}`);
+  };
+
   const columns = [
     columnHelper.accessor('epitomize', {
       header: 'Trích yếu',
@@ -50,21 +55,6 @@ export const OutgoingDocumentTable: React.FC<OutgoingDocumentTableProps> = ({
       header: 'Ngày soạn',
       cell: (row) => moment(row.getValue()).format('DD/MM/YYYY'),
       size: 100
-    }),
-    columnHelper.accessor('id', {
-      header: '',
-      size: 100,
-      cell: (row) => (
-        <>
-          <RouterLink to={`${row.getValue()}`}>
-            <Tooltip title="Xem chi tiết">
-              <IconButton color="primary">
-                <VisibilityIcon />
-              </IconButton>
-            </Tooltip>
-          </RouterLink>
-        </>
-      )
     })
   ];
   if (data) {
@@ -74,6 +64,7 @@ export const OutgoingDocumentTable: React.FC<OutgoingDocumentTableProps> = ({
         metadata={metadata}
         handleChangePage={handleChangePage}
         columns={columns}
+        handleCellClick={handleCellClick}
         sx={{
           width: '100%',
           ...sx
