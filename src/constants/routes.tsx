@@ -69,3 +69,16 @@ export const officerPaths: Path[] = [
     icon: <FolderIcon />
   }
 ];
+
+type PathDict = {
+  [key: string]: string;
+};
+
+export const pathDict: PathDict = {
+  '/': 'Trang chủ',
+  users: 'Quản lí người dùng',
+  departments: 'Quản lí phòng ban',
+  'outgoing-documents': 'Văn bản đi',
+  files: 'Sổ công việc',
+  'contact-list': 'Danh sách liên lạc'
+};

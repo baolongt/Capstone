@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { useDeleteUser, useListUsers } from '@/apis';
-import { CustomButton, InputSearch } from '@/components/common';
+import { CustomButton, InputSearch, Loading } from '@/components/common';
 import PageHeader from '@/components/common/page-header';
 import PageTitle from '@/components/common/page-title';
 import {
@@ -81,7 +81,7 @@ const UserManagement = () => {
   const handleCloseImportFileDialog = () => setIsImportFileDialogOpen(false);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
   if (data) {
     return (

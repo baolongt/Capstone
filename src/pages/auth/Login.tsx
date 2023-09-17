@@ -1,6 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { LoadingButton } from '@mui/lab';
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Grid, Paper, Typography } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -39,42 +39,44 @@ const Login = () => {
   };
 
   return (
-    <Box sx={{ width: '300px', mx: 'auto', mt: 15 }}>
-      <Grid
-        container
-        spacing={2}
+    <Box sx={{ display: 'flex', height: '100vh' }}>
+      <Box sx={{ height: '100vh', width: '70%' }}>
+        <img
+          src="/src/assets/login_page.jpeg"
+          alt="logo"
+          style={{
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover'
+          }}
+        />
+      </Box>
+      <Box
+        sx={{ width: '400px', mx: 'auto', mt: 20 }}
         component="form"
-        id="create-document-form"
         onSubmit={handleSubmit}
       >
-        <Grid item xs={12}>
+        <Box sx={{ mb: 7 }}>
           <Typography variant="h5" fontWeight="bold">
-            Login
+            Hệ thống quản lý văn bản
           </Typography>
-        </Grid>
-        <Grid item xs={12}>
-          <Typography style={{ marginBottom: '5px' }} fontWeight="bold">
-            Email
-          </Typography>
-          <InputField label="" form={form} name="email" />
-        </Grid>
-        <Grid item xs={12}>
-          <Typography style={{ marginBottom: '5px' }} fontWeight="bold">
-            Password
-          </Typography>
-          <InputField type="password" label="" form={form} name="password" />
-        </Grid>
-        <Grid item xs={12}>
-          <LoadingButton
-            variant="contained"
-            color="primary"
-            type="submit"
-            loading={false}
-          >
-            Login
-          </LoadingButton>
-        </Grid>
-      </Grid>
+        </Box>
+        <Typography fontWeight="bold">Email</Typography>
+        <InputField sx={{ mb: 2 }} label="" form={form} name="email" />
+        <Typography fontWeight="bold">Password</Typography>
+        <InputField type="password" label="" form={form} name="password" />
+        <LoadingButton
+          variant="contained"
+          color="primary"
+          type="submit"
+          sx={{ mt: 3 }}
+          loading={false}
+        >
+          Login
+        </LoadingButton>
+      </Box>
     </Box>
   );
 };
