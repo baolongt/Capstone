@@ -3,7 +3,7 @@ import * as React from 'react';
 import { useParams } from 'react-router-dom';
 
 import { useGetOneDocument } from '@/apis/outgoingDocument/getOneDocument';
-import { CustomButton } from '@/components/common';
+import { CustomButton, Loading } from '@/components/common';
 import AppDocViewer from '@/components/common/document-viewer';
 import PageHeader from '@/components/common/page-header';
 import PageTitle from '@/components/common/page-title';
@@ -31,7 +31,7 @@ const OutgoingDocumentDetail = () => {
   const newestStatus = data?.processHistory?.[0].status;
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
   if (!data) {
     return <div>Not found</div>;

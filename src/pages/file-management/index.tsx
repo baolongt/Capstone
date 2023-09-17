@@ -4,7 +4,7 @@ import { debounce } from 'lodash';
 import React, { useState } from 'react';
 
 import { useListFiles } from '@/apis';
-import { CustomButton, InputSearch } from '@/components/common';
+import { CustomButton, InputSearch, Loading } from '@/components/common';
 import PageHeader from '@/components/common/page-header';
 import PageTitle from '@/components/common/page-title';
 import CreateUpdateFileDialog from '@/components/dialogs/create-update-file-dialog';
@@ -33,7 +33,7 @@ const FileManagement = () => {
   const debouncedSearch = debounce(handleChangeSearch, DEBOUND_SEARCH_TIME);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
   if (response) {
     const { data, metadata } = response;

@@ -4,7 +4,7 @@ import { debounce } from 'lodash';
 import React, { useState } from 'react';
 
 import { useListContacts } from '@/apis/contact';
-import { CustomButton, InputSearch } from '@/components/common';
+import { CustomButton, InputSearch, Loading } from '@/components/common';
 import PageHeader from '@/components/common/page-header';
 import PageTitle from '@/components/common/page-title';
 import { ContactTable } from '@/components/contact/contact-table';
@@ -33,7 +33,7 @@ const ContactList = () => {
   const debouncedSearch = debounce(handleChangeSearch, DEBOUND_SEARCH_TIME);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
   if (response) {
     const { data, metadata } = response;

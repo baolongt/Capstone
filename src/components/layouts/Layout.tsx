@@ -13,6 +13,7 @@ import { Outlet } from 'react-router-dom';
 
 import { DEFAULT_PAGE_WIDTH, FOOTER_HEADER_HEIGHT } from '@/constants/common';
 
+import DynamicBreadcrums from './DynamicBreadcrums';
 import DefaultFooter from './footer';
 import DefaultHeader from './header';
 import SidebarItems from './sidebar';
@@ -69,10 +70,11 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = () => {
                 mt: 1,
                 mx: 'auto',
                 width: DEFAULT_PAGE_WIDTH,
-                justifyContent: 'end',
+                justifyContent: 'space-between',
                 display: 'flex'
               }}
             >
+              <DynamicBreadcrums />
               <DefaultHeader />
             </Box>
           </Box>

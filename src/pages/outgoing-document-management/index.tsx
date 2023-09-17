@@ -8,7 +8,8 @@ import { useListDocuments } from '@/apis';
 import {
   DateRange,
   DateRangePickerInput,
-  InputSearch
+  InputSearch,
+  Loading
 } from '@/components/common';
 import PageHeader from '@/components/common/page-header';
 import PageTitle from '@/components/common/page-title';
@@ -44,7 +45,7 @@ const OutgoingDocumentManagement = () => {
     queryParams
   });
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
   if (response) {
     const { data, metadata } = response;
