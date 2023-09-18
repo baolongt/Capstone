@@ -5,9 +5,9 @@ import { DocumentStatusPieChart } from '@/components/dashboard';
 import { DEFAULT_PAGE_WIDTH } from '@/constants';
 
 const data = [
-  { id: 1, value: 15, label: 'Trễ hạn ký', color: '#cddc39' },
-  { id: 2, value: 20, label: 'Chờ ký', color: '#009688' },
-  { id: 2, value: 20, label: 'Đã xử lý', color: '#2196f3' }
+  { id: 1, value: 15, label: 'Trễ hạn ký', color: '#e8eaf6' },
+  { id: 2, value: 20, label: 'Chờ ký', color: '#9fa8da' },
+  { id: 2, value: 20, label: 'Đã xử lý', color: '#5c6bc0' }
 ];
 
 const Dashboard = () => {
