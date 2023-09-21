@@ -86,7 +86,7 @@ export const AttachmentCard: React.FC<AttachmentCardProps> = (props) => {
           <Tooltip title="Ký số">
             <IconButton
               color={'success'}
-              onClick={() => signAttachment(attachment.id)}
+              onClick={() => signAttachment(attachment.name)}
             >
               <DrawIcon />
             </IconButton>

@@ -3,10 +3,45 @@
   <head>
     <meta charset="utf-8" />
     <title>Hệ thống quản lý văn bản</title>
+
+    <!-- <script src="http://localhost:8080/signalr/hubs"></script> -->
   </head>
 
   <body>
     <div id="root"></div>
     <script type="module" src="/src/index.tsx"></script>
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/signalr.js/2.1.0/jquery.signalR.js"></script>
+    <script src="http://localhost:8080/signalr/hubs"></script>
+    <script>
+      async function connect() {
+        $.connection.hub.url = 'http://localhost:8080/signalr';
+
+        simpleHubProxy = $.connection.simpleHub;
+
+        $.connection.hub.start().done(function () {
+          console.log("Connected")
+        });
+      }
+      connect();
+
+      async function sendToSignalR(id) {
+        if (simpleHubProxy != null) {
+          simpleHubProxy.server.setUserName(`debug test signed file ${id}`);
+          simpleHubProxy.server.send({
+            llx: 100,
+            lly: 100,
+            urx: 100,
+            ury: 250,
+            searchText: 'test',
+            FileType: 'PDF',
+            Token: 'xxxx',
+            FileID: id
+          });
+        } else {
+          console.log('simpleHubProxy is null');
+        }
+      }
+    </script>
   </body>
 </html>

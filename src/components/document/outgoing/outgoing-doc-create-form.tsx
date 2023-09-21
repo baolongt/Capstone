@@ -23,7 +23,10 @@ const fileAccpetType: Accept = {
     '.docx'
   ],
   'application/vnd.ms-excel': ['.xls'],
-  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': ['.xlsx']
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': [
+    '.xlsx'
+  ],
+  'application/pdf': ['.pdf']
 };
 
 const { documentFieldOptions, documentTypeOptionsMap } = outgoingDocument;
