@@ -8,6 +8,8 @@ import { SingleInputDateRangeField } from '@mui/x-date-pickers-pro/SingleInputDa
 import dayjs from 'dayjs';
 import * as React from 'react';
 
+import { getOneWeekDateRange } from '@/utils';
+
 export interface DateRangePickerInputProps {
   onChange?: (value: DateRange) => void;
   sx?: SxProps;
@@ -23,14 +25,9 @@ export const DateRangePickerInput: React.FC<DateRangePickerInputProps> = (
   props
 ) => {
   const { onChange, sx, defaultValue } = props;
-  const [dateRange, setDateRange] = React.useState<DateRange>({
-    from:
-      defaultValue?.from ||
-      dayjs().startOf('week').toISOString().split('T')[0] + 'T00:00:00.000Z',
-    to:
-      defaultValue?.to ||
-      dayjs().endOf('week').toISOString().split('T')[0] + 'T23:59:59.999Z'
-  });
+  const [dateRange, setDateRange] = React.useState<DateRange>(
+    defaultValue ?? getOneWeekDateRange()
+  );
   const handleOnChange = (e: any) => {
     if (Array.isArray(e)) {
       e.map((date, idx) => {

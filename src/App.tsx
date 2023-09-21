@@ -3,8 +3,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Route, Routes } from 'react-router-dom';
 
 import RequireAuth from './components/auth/RequiredAuth';
+import { Loading } from './components/common';
 import AppDocViewer from './components/common/document-viewer';
 import DashboardLayout from './components/layouts/Layout';
+import useAuth from './hooks/useAuth';
 import { Role } from './models/user';
 import Login from './pages/auth/Login';
 import Unauthorized from './pages/auth/Unauthorized';
@@ -20,11 +22,25 @@ import OutgoingDocumentDetail from './pages/outgoing-document-management/detail'
 import UserManagement from './pages/user-management';
 
 const App = () => {
+  const {
+    authState: { user }
+  } = useAuth();
   return (
     <Routes>
       <Route path={'/login'} element={<Login />} />
       <Route path={'/'} element={<DashboardLayout />}>
-        <Route path={'/'} element={<Dashboard />} />
+        {user && user.roleID === Role.OFFICER ? (
+          <Route path={'/dashboard'} element={<Dashboard />} />
+        ) : (
+          <Route
+            path={'/dashboard'}
+            element={
+              <>
+                <Loading />
+              </>
+            }
+          />
+        )}
         {/* ADMIN pages */}
         <Route element={<RequireAuth role={Role.ADMIN} />}>
           <Route path={'/users'} element={<UserManagement />} />
