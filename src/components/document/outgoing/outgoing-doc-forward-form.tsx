@@ -24,7 +24,7 @@ export const ForwardForm: React.FC<ForwardFormProps> = (props) => {
   }, [data]);
 
   const handleSearchLeader = (text: string) => {
-    const res = leaders?.filter((item) => item.name.includes(text)) ?? [];
+    const res = data ? data.filter((item) => item.name.includes(text)) : [];
     setLeaders(res);
   };
 
