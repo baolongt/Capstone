@@ -8,10 +8,35 @@ import { DEFAULT_PAGE_WIDTH, StatusCorlorDict, StatusDict } from '@/constants';
 import { DashboardStatus } from '@/models/dashboard-status';
 import { getOneWeekDateRange } from '@/utils';
 
-const data = [
-  { id: 1, value: 15, label: 'Trễ hạn ký', color: '#e8eaf6' },
-  { id: 2, value: 20, label: 'Chờ ký', color: '#9fa8da' },
-  { id: 2, value: 20, label: 'Đã xử lý', color: '#5c6bc0' }
+const mockData = [
+  {
+    status: 0,
+    number: 2
+  },
+  {
+    status: 1,
+    number: 7
+  },
+  {
+    status: 2,
+    number: 7
+  },
+  {
+    status: 3,
+    number: 2
+  },
+  {
+    status: 4,
+    number: 2
+  },
+  {
+    status: 5,
+    number: 7
+  },
+  {
+    status: 6,
+    number: 2
+  }
 ];
 
 const convertResponseDataToChartData = (data?: DashboardStatus[]) => {
@@ -53,13 +78,13 @@ const Dashboard = () => {
         <DocumentStatusPieChart
           label="Văn bản đi"
           data={convertResponseDataToChartData(odData)}
-          sx={{ width: '45%', p: 3 }}
+          sx={{ width: '60%', p: 3 }}
           isLoading={odLoading}
           handleDateRangeOnChange={handleOdDateFilterChange}
         />
         <DocumentStatusPieChart
           label="Văn bản đến"
-          data={data}
+          data={convertResponseDataToChartData(mockData)}
           sx={{ width: '45%', p: 3 }}
           handleDateRangeOnChange={handleOdDateFilterChange}
         />

@@ -23,7 +23,7 @@ export const DocumentStatusPieChart: React.FC<DocumentStatusChartProps> = ({
   return (
     <Box
       sx={{
-        height: 360,
+        height: 420,
         ...sx
       }}
       component={Paper}
@@ -67,10 +67,10 @@ export const DocumentStatusPieChart: React.FC<DocumentStatusChartProps> = ({
                   [`& .${pieArcClasses.faded}`]: {
                     fill: 'gray'
                   },
-                  '--ChartsLegend-rootOffsetX': '-40px',
-                  '--ChartsLegend-rootOffsetY': '-20px'
+                  '--ChartsLegend-rootOffsetX': '-150px',
+                  '--ChartsLegend-rootOffsetY': '-10px'
                 }}
-                height={200}
+                height={250}
               />
             )}
           </Box>
