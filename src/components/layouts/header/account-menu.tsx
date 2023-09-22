@@ -38,6 +38,10 @@ const AccountMenu = () => {
       navigate('/');
     },
     onError: () => {
+      setAuthState({
+        isAuthenticated: false,
+        user: null
+      });
       localStorage.clear();
       navigate('/');
     }

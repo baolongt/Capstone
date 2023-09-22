@@ -1,15 +1,11 @@
-import { LoadingButton } from '@mui/lab';
 import { Grid, Stack } from '@mui/material';
-import { debounce } from 'lodash';
 import * as React from 'react';
 import { UseFormReturn } from 'react-hook-form';
 
-import { useListUsers } from '@/apis';
+import { useListLeaders } from '@/apis/department/getListLeader';
 import { FieldTitle, MultilineTextField } from '@/components/common';
 import AutocompleteInput from '@/components/common/form-control/autocomplete';
-import { DEBOUND_SEARCH_TIME } from '@/constants';
-import { validation } from '@/models';
-import { BaseTableQueryParams } from '@/types';
+import { user, validation } from '@/models';
 
 export type ForwardFormProps = {
   form: UseFormReturn<validation.outgoingDocument.ForwardType, any>;
@@ -17,20 +13,20 @@ export type ForwardFormProps = {
 
 export const ForwardForm: React.FC<ForwardFormProps> = (props) => {
   const { form } = props;
+  const [leaders, setLeaders] = React.useState<user.User[]>([]);
 
-  const [queryParams, setQueryParams] = React.useState<BaseTableQueryParams>({
-    page: 1,
-    size: 10_000,
-    search: ''
-  });
-  const { data } = useListUsers({ queryParams });
-  const users = data?.data;
+  const { data } = useListLeaders();
 
-  const onSearchUser = (textSearch: string) => {
-    return setQueryParams({ ...queryParams, search: textSearch });
+  React.useEffect(() => {
+    if (data) {
+      setLeaders(data);
+    }
+  }, [data]);
+
+  const handleSearchLeader = (text: string) => {
+    const res = data ? data.filter((item) => item.name.includes(text)) : [];
+    setLeaders(res);
   };
-
-  const debounceSearch = debounce(onSearchUser, DEBOUND_SEARCH_TIME);
 
   return (
     <Stack sx={{ width: '100%', pr: 1 }} spacing={1}>
@@ -45,7 +41,7 @@ export const ForwardForm: React.FC<ForwardFormProps> = (props) => {
           <FieldTitle title="Người nhận" />
           <AutocompleteInput
             data={
-              users?.map(({ name, id }) => {
+              leaders?.map(({ name, id }) => {
                 return {
                   title: name,
                   value: id
@@ -54,7 +50,7 @@ export const ForwardForm: React.FC<ForwardFormProps> = (props) => {
             }
             name="newHandlerId"
             form={form}
-            onSearchChange={debounceSearch}
+            onSearchChange={handleSearchLeader}
           />
         </Grid>
         <Grid item xs={12}>
