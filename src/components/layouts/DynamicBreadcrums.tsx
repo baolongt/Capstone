@@ -16,7 +16,11 @@ function LinkRouter(props: LinkRouterProps) {
 
 const DynamicBreadcrums: FC = (): ReactElement => {
   const location = useLocation();
-  const pathnames = location.pathname.split('/').filter((x) => x);
+
+  const isDashboard = location.pathname === '/dashboard';
+  const pathnames = isDashboard
+    ? ['/']
+    : location.pathname.split('/').filter((x) => x);
 
   return (
     <Box
@@ -27,9 +31,12 @@ const DynamicBreadcrums: FC = (): ReactElement => {
       }}
     >
       <Breadcrumbs aria-label="breadcrumb">
-        <LinkRouter underline="hover" color="inherit" to="/">
-          {pathDict['/']}
-        </LinkRouter>
+        {!isDashboard && (
+          <LinkRouter underline="hover" color="inherit" to="/">
+            {pathDict['/']}
+          </LinkRouter>
+        )}
+
         {pathnames.map((value, index) => {
           const last = index === pathnames.length - 1;
           const to = `/${pathnames.slice(0, index + 1).join('/')}`;

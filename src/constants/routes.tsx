@@ -25,7 +25,7 @@ const outGoingDocumentSubPaths: Path[] = [
 export const adminPaths: Path[] = [
   {
     label: 'Trang chủ',
-    path: '/',
+    path: '/dashboard',
     icon: <DashboardIcon />
   },
   {
@@ -43,7 +43,7 @@ export const adminPaths: Path[] = [
 export const officerPaths: Path[] = [
   {
     label: 'Trang chủ',
-    path: '/',
+    path: '/dashboard',
     icon: <DashboardIcon />
   },
   {
