@@ -20,6 +20,7 @@ module.exports = {
     'jsx-a11y',
     '@typescript-eslint',
     'import',
+    'prettier',
     'simple-import-sort' // Plugin for sorting imports in file.
   ],
   rules: {
@@ -30,7 +31,7 @@ module.exports = {
     'simple-import-sort/imports': 'warn',
     'simple-import-sort/exports': 'warn',
     'react/prop-types': 'off',
-    'react/react-in-jsx-scope': 'off',
+    'react/react-in-jsx-scope': 'off',   
     'react/jsx-sort-props': [
       'warn',
       {

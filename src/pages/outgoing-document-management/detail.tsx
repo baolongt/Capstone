@@ -2,6 +2,7 @@ import { Box, Paper, Stack } from '@mui/material';
 import * as React from 'react';
 import { useParams } from 'react-router-dom';
 
+import { send } from '@/apis';
 import { useGetOneDocument } from '@/apis/outgoingDocument/getOneDocument';
 import { CustomButton, Loading } from '@/components/common';
 import AppDocViewer from '@/components/common/document-viewer';
@@ -64,8 +65,8 @@ const OutgoingDocumentDetail = () => {
     setDocPreview(true);
   };
 
-  const signAttachment = (attachmentId: string) => {
-    console.log('sign', attachmentId);
+  const signAttachment = async (attachmentId: string) => {
+    await send(attachmentId);
   };
 
   return (

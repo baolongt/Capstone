@@ -81,15 +81,17 @@ const FileCard: React.FC<FileCardProps> = (props) => {
                 : `${(fileObj.size / 1000).toFixed(2)} KB`}
             </Typography>
           </Stack>
-          <Tooltip title="Đánh dấu cần ký số">
-            <IconButton
-              aria-label="delete"
-              color={needSigned ? 'success' : 'secondary'}
-              onClick={() => updateNeedSigned(id)}
-            >
-              <DrawIcon />
-            </IconButton>
-          </Tooltip>
+          {fileObj.type.toLowerCase() === 'application/pdf' && (
+            <Tooltip title="Đánh dấu cần ký số">
+              <IconButton
+                aria-label="delete"
+                color={needSigned ? 'success' : 'secondary'}
+                onClick={() => updateNeedSigned(id)}
+              >
+                <DrawIcon />
+              </IconButton>
+            </Tooltip>
+          )}
           <Tooltip title="Xoá">
             <IconButton
               aria-label="delete"
