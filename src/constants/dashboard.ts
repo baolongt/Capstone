@@ -14,11 +14,11 @@ export const StatusDict: IStatusDict = {
 };
 
 export const StatusCorlorDict: IStatusDict = {
-  0: indigo[100],
-  1: indigo[200],
-  2: indigo[300],
-  3: indigo[400],
-  4: indigo[500],
-  5: indigo[600],
-  6: indigo[700]
+  0: '#3f51b5',
+  1: '#8148b2',
+  2: '#b238a4',
+  3: '#d8248d',
+  4: '#f21d6f',
+  5: '#ff354c',
+  6: '#ff5722'
 };
