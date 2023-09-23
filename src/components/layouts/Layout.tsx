@@ -1,4 +1,4 @@
-import { Box, CssBaseline, useTheme } from '@mui/material';
+import { Box, CssBaseline, Typography, useTheme } from '@mui/material';
 import {
   Content,
   EdgeSidebar,
@@ -82,10 +82,27 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = () => {
         <EdgeSidebar anchor="left">
           <SidebarContent
             sx={{
-              mt: 10,
               bgcolor: '#fff'
             }}
           >
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                my: 5,
+                mx: 'auto'
+              }}
+            >
+              <img
+                src="https://ductt-capstone-bucket.s3.ap-southeast-1.amazonaws.com/assets/favicon_io/android-chrome-192x192.png"
+                alt="Logo"
+                width={32}
+                height={32}
+              />
+              <Typography sx={{ ml: 1 }} variant="h6">
+                Quản lý văn bản
+              </Typography>
+            </Box>
             <SidebarItems isCollapsed={false} />
           </SidebarContent>
           <EdgeTrigger

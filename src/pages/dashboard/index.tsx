@@ -1,10 +1,11 @@
-import { Box, Stack } from '@mui/material';
+import { Box, Stack, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 
 import { useListStatusOutgoingDocument } from '@/apis/dashboard/list-status-outgoing-document';
 import { DateRange } from '@/components/common';
 import { DocumentStatusPieChart } from '@/components/dashboard';
 import { DEFAULT_PAGE_WIDTH, StatusCorlorDict, StatusDict } from '@/constants';
+import useAuth from '@/hooks/useAuth';
 import { DashboardStatus } from '@/models/dashboard-status';
 import { getOneWeekDateRange } from '@/utils';
 
@@ -61,6 +62,9 @@ const Dashboard = () => {
   const handleOdDateFilterChange = (value: DateRange) => {
     setOdDateFilter(value);
   };
+  const {
+    authState: { user }
+  } = useAuth();
 
   useEffect(() => {
     refetchOd();
@@ -68,6 +72,9 @@ const Dashboard = () => {
 
   return (
     <Box sx={{ p: 1, mx: 'auto', width: DEFAULT_PAGE_WIDTH }}>
+      <Typography sx={{ mt: 2 }} variant="h4" fontWeight="bold">
+        {`Welcome ${user?.name} !` || ''}
+      </Typography>
       <Stack
         spacing={{ xs: 1, sm: 2 }}
         direction={{ xs: 'column', sm: 'row' }}
@@ -76,16 +83,16 @@ const Dashboard = () => {
         sx={{ mt: 5, justifyContent: 'space-between' }}
       >
         <DocumentStatusPieChart
-          label="Văn bản đi"
+          label="Thống kê văn bản đi"
           data={convertResponseDataToChartData(odData)}
           sx={{ width: '60%', p: 3 }}
           isLoading={odLoading}
           handleDateRangeOnChange={handleOdDateFilterChange}
         />
         <DocumentStatusPieChart
-          label="Văn bản đến"
+          label="Thống kê văn bản đến"
           data={convertResponseDataToChartData(mockData)}
-          sx={{ width: '45%', p: 3 }}
+          sx={{ width: '60%', p: 3 }}
           handleDateRangeOnChange={handleOdDateFilterChange}
         />
       </Stack>
