@@ -46,7 +46,7 @@ const convertResponseDataToChartData = (data?: DashboardStatus[]) => {
     id: index,
     value: item.number,
     label: StatusDict[item.status],
-    color: StatusCorlorDict[item.status]
+    color: StatusCorlorDict[index]
   }));
 };
 
