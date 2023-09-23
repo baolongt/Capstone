@@ -6,16 +6,20 @@ import React, { useState } from 'react';
 import { Accept, useDropzone } from 'react-dropzone';
 import { Controller, UseFormReturn } from 'react-hook-form';
 
-import { UploadFile } from '@/models';
+import { Attachment, UploadFile } from '@/models';
 
 import FileUploadedAccordion from './file-uploaded-accordion';
+
+export type DragAndDropBoxValueType = UploadFile | Attachment;
 
 export type DragAndDropBoxProps = {
   fileAccpetType?: Accept;
   error: boolean;
   helperText: string;
-  value: UploadFile[];
+  value: DragAndDropBoxValueType[];
   onChange: (event: any) => void;
+  watchAttachment?: (id: string) => void;
+  signAttachment?: (id: string) => void;
 };
 
 const DragAndDropBox: React.FC<DragAndDropBoxProps> = ({
@@ -23,7 +27,9 @@ const DragAndDropBox: React.FC<DragAndDropBoxProps> = ({
   error,
   helperText,
   onChange,
-  value
+  value,
+  watchAttachment,
+  signAttachment
 }) => {
   const theme = useTheme();
   const [isHovered, setIsHovered] = useState(false);
@@ -46,7 +52,7 @@ const DragAndDropBox: React.FC<DragAndDropBoxProps> = ({
 
   const updateNeedSigned = (id: string) => {
     const files = value.map((file) => {
-      if (file.id === id) {
+      if (file.id === id && file instanceof UploadFile) {
         file.needSigned = !file.needSigned;
       }
       return file;
@@ -108,12 +114,14 @@ const DragAndDropBox: React.FC<DragAndDropBoxProps> = ({
         </Box>
       </Box>
       {error && <FormHelperText error>{helperText}</FormHelperText>}
-      {value.length > 0 && (
+      {value && value.length > 0 && (
         <FileUploadedAccordion
           sx={{ marginTop: '10px' }}
           files={value}
           removeFile={removeFile}
           updateNeedSigned={updateNeedSigned}
+          watchAttachment={watchAttachment}
+          signAttachment={signAttachment}
         />
       )}
     </Box>
@@ -125,12 +133,14 @@ export type WrappedDragDropFileBoxProps = {
   form: UseFormReturn<any, any, undefined>;
   defaultValue?: any;
   fileAccpetType?: Accept;
+  watchAttachment?: (id: string) => void;
+  signAttachment?: (id: string) => void;
 };
 
 export const WrappedDragDropFileBox: React.FC<WrappedDragDropFileBoxProps> = (
   props
 ) => {
-  const { name, form, fileAccpetType } = props;
+  const { name, form, fileAccpetType, watchAttachment, signAttachment } = props;
   const { control } = form;
 
   const hanldeInputFiles = (
@@ -153,6 +163,8 @@ export const WrappedDragDropFileBox: React.FC<WrappedDragDropFileBoxProps> = (
               fileAccpetType={fileAccpetType}
               error={Boolean(fieldState?.error)}
               helperText={fieldState?.error?.message}
+              watchAttachment={watchAttachment}
+              signAttachment={signAttachment}
               onChange={(e) => hanldeInputFiles(e, onChange)}
             />
           );

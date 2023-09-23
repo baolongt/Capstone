@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 
 export class Attachment {
-  public readonly id: string;
+  public readonly id?: number | string;
   public readonly name: string;
   public readonly url: string;
   public readonly needSigned: boolean;
@@ -9,19 +9,23 @@ export class Attachment {
   public readonly mimeType: string;
 
   constructor({
+    id,
     name,
     url,
     needSigned = false,
     size,
     mimeType
   }: {
+    id?: number | string;
     name: string;
     url: string;
     needSigned?: boolean;
     size: string;
     mimeType: string;
   }) {
-    this.id = uuidv4();
+    if (id) {
+      this.id = id;
+    }
     this.name = name;
     this.url = url;
     this.needSigned = needSigned;

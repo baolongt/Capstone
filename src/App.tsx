@@ -19,6 +19,7 @@ import IncomingDocumentManagement from './pages/incoming-document-management';
 import OutgoingDocumentManagement from './pages/outgoing-document-management';
 import CreateOutgoingDocumentPage from './pages/outgoing-document-management/create';
 import OutgoingDocumentDetail from './pages/outgoing-document-management/detail';
+import EditOutgoingDocumentPage from './pages/outgoing-document-management/edit';
 import UserManagement from './pages/user-management';
 
 const App = () => {
@@ -57,7 +58,10 @@ const App = () => {
           <Route path={'/outgoing-documents'}>
             <Route index element={<OutgoingDocumentManagement />} />
             <Route path="create" element={<CreateOutgoingDocumentPage />} />
-            <Route path=":id" element={<OutgoingDocumentDetail />} />
+            <Route path=":id">
+              <Route index element={<OutgoingDocumentDetail />} />
+              <Route path="edit" element={<EditOutgoingDocumentPage />} />
+            </Route>
           </Route>
           <Route path={'/incoming-documents'}>
             <Route index element={<IncomingDocumentManagement />} />

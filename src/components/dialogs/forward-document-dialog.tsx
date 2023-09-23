@@ -13,7 +13,6 @@ import { toast } from 'react-toastify';
 import { useForwardDocument } from '@/apis/outgoingDocument/forwardDocument';
 import { validation } from '@/models';
 
-import { CustomButton } from '../common';
 import { ForwardForm, WithoutHandlerForwardForm } from '../document';
 
 export type ForwardDocumentDialogProps = {

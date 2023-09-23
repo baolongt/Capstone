@@ -1,6 +1,6 @@
 import { Box, Paper, Stack } from '@mui/material';
 import * as React from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { send } from '@/apis';
 import { useGetOneDocument } from '@/apis/outgoingDocument/getOneDocument';
@@ -17,6 +17,7 @@ import {
   DetailDescription,
   DetailTimeline
 } from '@/components/document';
+import useAuth from '@/hooks/useAuth';
 import { Attachment } from '@/models';
 
 const OutgoingDocumentDetail = () => {
@@ -30,6 +31,8 @@ const OutgoingDocumentDetail = () => {
   const [mode, setMode] = React.useState<'foward' | 'send-back'>('foward');
   const [openAddDocToFile, setOpenAddDocToFile] = React.useState(false);
   const newestStatus = data?.processHistory?.[0].status;
+  const navigate = useNavigate();
+  const user = useAuth();
 
   if (isLoading) {
     return <Loading />;
@@ -60,7 +63,6 @@ const OutgoingDocumentDetail = () => {
   };
 
   const watchAttachment = (url: string) => {
-    console.log('watch attachment', url);
     setDocPreviewData([{ uri: url }]);
     setDocPreview(true);
   };
@@ -87,24 +89,34 @@ const OutgoingDocumentDetail = () => {
               label="Thêm vào sổ công việc"
               onClick={handleOpenAddDocToFile}
             />
-            {/* //TODO: thêm chỉnh sửa */}
-            {newestStatus === 5 && <CustomButton label="Chỉnh sửa" />}
+            {newestStatus === 5 && (
+              <CustomButton
+                label="Chỉnh sửa"
+                onClick={() => navigate('edit')}
+              />
+            )}
+
             {/* // TODO: ban hành vản bản */}
             {newestStatus === 4 && <CustomButton label="Ban hành văn bản" />}
-            {newestStatus != undefined &&
-              [0, 1, 2, 3].includes(newestStatus) && (
-                <>
-                  <CustomButton
-                    label="Chuyến tiếp"
-                    onClick={() => handleOpenModal('foward')}
-                  />
-                  <CustomButton
-                    label="Trả lại"
-                    variant="outlined"
-                    onClick={() => handleOpenModal('send-back')}
-                  />
-                </>
-              )}
+            {newestStatus === 0 && (
+              <CustomButton
+                label="Chuyển tiếp"
+                onClick={() => handleOpenModal('foward')}
+              />
+            )}
+            {newestStatus != undefined && [1, 2, 3].includes(newestStatus) && (
+              <>
+                <CustomButton
+                  label="Chuyển tiếp"
+                  onClick={() => handleOpenModal('forward')}
+                />
+                <CustomButton
+                  label="Trả lại"
+                  variant="outlined"
+                  onClick={() => handleOpenModal('send-back')}
+                />
+              </>
+            )}
           </Stack>
         </PageHeader>
         <Box

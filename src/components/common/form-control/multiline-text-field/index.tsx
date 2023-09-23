@@ -36,6 +36,7 @@ export function MultilineTextField(props: MultilineTextFieldProps) {
             fullWidth
             multiline
             label={label ?? ''}
+            value={field.value ?? ''}
             placeholder={placeholder}
             disabled={disabled}
             error={Boolean(fieldState?.error?.message)}

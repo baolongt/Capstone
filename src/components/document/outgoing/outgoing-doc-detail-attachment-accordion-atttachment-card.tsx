@@ -17,12 +17,13 @@ import { Attachment } from '@/models';
 
 export type AttachmentCardProps = {
   attachment: Attachment;
-  watchAttachment: (id: string) => void;
-  signAttachment: (id: string) => void;
+  watchAttachment?: (id: string) => void;
+  signAttachment?: (id: string) => void;
+  isUploaded?: boolean;
 };
 
 export const AttachmentCard: React.FC<AttachmentCardProps> = (props) => {
-  const { attachment, watchAttachment, signAttachment } = props;
+  const { attachment, watchAttachment, signAttachment, isUploaded } = props;
   const size = parseInt(attachment.size);
   const getAttachmentIcon = () => {
     if (attachment.mimeType.startsWith('image/')) {
@@ -80,13 +81,21 @@ export const AttachmentCard: React.FC<AttachmentCardProps> = (props) => {
                 sx={{ ml: 2 }}
               />
             )}
+            {isUploaded && (
+              <Chip
+                label="Đã được tải lên"
+                color="success"
+                size="small"
+                sx={{ ml: 2 }}
+              />
+            )}
           </Box>
         </Stack>
         {attachment.needSigned && (
           <Tooltip title="Ký số">
             <IconButton
               color={'success'}
-              onClick={() => signAttachment(attachment.name)}
+              onClick={() => signAttachment?.(attachment.name)}
             >
               <DrawIcon />
             </IconButton>
@@ -96,7 +105,7 @@ export const AttachmentCard: React.FC<AttachmentCardProps> = (props) => {
         <Tooltip title="Xem">
           <IconButton
             aria-label="xem"
-            onClick={() => watchAttachment(attachment.url)}
+            onClick={() => watchAttachment?.(attachment.url)}
           >
             <VisibilityIcon />
           </IconButton>

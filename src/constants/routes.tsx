@@ -80,5 +80,7 @@ export const pathDict: PathDict = {
   departments: 'Quản lí phòng ban',
   'outgoing-documents': 'Văn bản đi',
   files: 'Sổ công việc',
-  'contact-list': 'Danh sách liên lạc'
+  'contact-list': 'Danh sách liên lạc',
+  create: 'Tạo mới',
+  edit: 'Chỉnh sửa'
 };

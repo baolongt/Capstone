@@ -19,7 +19,7 @@ const Login = () => {
         isAuthenticated: true,
         user: data
       });
-      navigate('/');
+      navigate('/dashboard');
     },
     onError: () => {
       toast.error('Sai tài khoản hoặc mật khẩu');
