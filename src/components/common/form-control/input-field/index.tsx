@@ -34,6 +34,7 @@ export function InputField(props: InputFieldProps) {
             fullWidth
             label={label ?? ''}
             placeholder={placeholder}
+            value={field.value ?? ''}
             disabled={disabled}
             error={Boolean(fieldState?.error)}
             helperText={fieldState?.error?.message}

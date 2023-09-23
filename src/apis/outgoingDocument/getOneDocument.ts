@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { api } from '@/constants';
-import { outgoingDocument } from '@/models';
+import { Attachment, outgoingDocument } from '@/models';
 import { Metadata } from '@/types';
 import { axiosInstance } from '@/utils';
 
@@ -17,7 +17,12 @@ export const getOne = async (
     `/api/OutgoingDocument/${id}`
   );
 
-  return res.data;
+  return {
+    ...res.data,
+    attachments: res.data.attachments.map(
+      (attachment) => new Attachment(attachment as Attachment)
+    )
+  };
 };
 
 export const useGetOneDocument = (id: number) => {

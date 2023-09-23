@@ -65,6 +65,7 @@ export function SelectField(props: SelectFieldProps) {
               placeholder={placeholder}
               error={Boolean(fieldState?.error)}
               MenuProps={{ classes: { paper: classes.menuPaper } }}
+              value={field.value ?? ''}
               {...resProps}
               renderValue={(selected) => {
                 if (selected.length === 0) {
