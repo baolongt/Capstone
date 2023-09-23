@@ -5,7 +5,7 @@ export interface DateRange {
   to: string;
 }
 export const getOneWeekDateRange = (): DateRange => {
-  const from = dayjs().subtract(7, 'day').toISOString();
-  const to = dayjs().toISOString();
+  const from = dayjs().subtract(7, 'day').startOf('day').toISOString();
+  const to = dayjs().endOf('day').toISOString();
   return { from, to };
 };

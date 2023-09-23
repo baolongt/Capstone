@@ -41,7 +41,7 @@ export const DocumentStatusPieChart: React.FC<DocumentStatusChartProps> = ({
         <Loading sx={{ height: '100%' }} />
       ) : (
         <>
-          <Box sx={{ width: '70%', mx: 'auto' }}>
+          <Box sx={{ width: '55%', mx: 'auto' }}>
             <DateRangePickerInput onChange={handleDateRangeOnChange} />
           </Box>
           <Box sx={{ width: '100%', textAlign: 'center', mt: 2 }}>

@@ -2,6 +2,8 @@ import { AdminPanelSettings } from '@mui/icons-material';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import Diversity3Icon from '@mui/icons-material/Diversity3';
 import FolderIcon from '@mui/icons-material/Folder';
+import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
+import PeopleIcon from '@mui/icons-material/People';
 import React from 'react';
 
 import { Path } from '@/types';
@@ -48,25 +50,23 @@ export const officerPaths: Path[] = [
   },
   {
     label: 'Văn bản đến',
-    path: '/documents',
-    icon: <FolderIcon />,
-    subPaths: incomingDocumentSubPaths
+    path: '/incoming-documents',
+    icon: <FolderIcon />
   },
   {
     label: 'Văn bản đi',
-    path: '/documents',
-    icon: <FolderIcon />,
-    subPaths: outGoingDocumentSubPaths
+    path: '/outgoing-documents',
+    icon: <FolderIcon />
   },
   {
     label: 'Sổ công việc',
     path: '/files',
-    icon: <FolderIcon />
+    icon: <LibraryBooksIcon />
   },
   {
     label: 'Danh sách liên lạc',
     path: '/contact-list',
-    icon: <FolderIcon />
+    icon: <PeopleIcon />
   }
 ];
 
@@ -79,6 +79,7 @@ export const pathDict: PathDict = {
   users: 'Quản lí người dùng',
   departments: 'Quản lí phòng ban',
   'outgoing-documents': 'Văn bản đi',
+  'incoming-documents': 'Văn bản đến',
   files: 'Sổ công việc',
   'contact-list': 'Danh sách liên lạc',
   create: 'Tạo mới',

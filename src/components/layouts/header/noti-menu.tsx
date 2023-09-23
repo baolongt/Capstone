@@ -28,6 +28,7 @@ const NotiItem: React.FC<NotiItemProps> = ({ notification, onClick }) => {
           display: 'flex',
           alignItems: 'flex-start',
           flexDirection: 'column',
+          maxWidth: '100%',
           p: 1
         }}
       >

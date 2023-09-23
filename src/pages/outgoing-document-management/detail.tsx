@@ -28,7 +28,7 @@ const OutgoingDocumentDetail = () => {
   const [docPreviewData, setDocPreviewData] = React.useState<{ uri: string }[]>(
     []
   );
-  const [mode, setMode] = React.useState<'foward' | 'send-back'>('foward');
+  const [mode, setMode] = React.useState<'forward' | 'send-back'>('forward');
   const [openAddDocToFile, setOpenAddDocToFile] = React.useState(false);
   const newestStatus = data?.processHistory?.[0].status;
   const navigate = useNavigate();
@@ -41,7 +41,7 @@ const OutgoingDocumentDetail = () => {
     return <div>Not found</div>;
   }
 
-  const handleOpenModal = (mode: 'foward' | 'send-back') => {
+  const handleOpenModal = (mode: 'forward' | 'send-back') => {
     setMode(mode);
     setOpenModal(true);
   };
@@ -101,7 +101,7 @@ const OutgoingDocumentDetail = () => {
             {newestStatus === 0 && (
               <CustomButton
                 label="Chuyển tiếp"
-                onClick={() => handleOpenModal('foward')}
+                onClick={() => handleOpenModal('forward')}
               />
             )}
             {newestStatus != undefined && [1, 2, 3].includes(newestStatus) && (

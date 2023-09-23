@@ -16,7 +16,7 @@ import { validation } from '@/models';
 import { ForwardForm, WithoutHandlerForwardForm } from '../document';
 
 export type ForwardDocumentDialogProps = {
-  mode: 'foward' | 'send-back';
+  mode: 'forward' | 'send-back';
   isOpen: boolean;
   onClose: () => void;
   id: number;
@@ -73,7 +73,7 @@ export const ForwardDocumentDialog: React.FC<ForwardDocumentDialogProps> = (
       onClose={handleClose}
     >
       <DialogTitle fontWeight={600}>
-        {mode === 'foward' ? 'Chuyển tiếp' : 'Trả lại'}
+        {mode === 'forward' ? 'Chuyển tiếp' : 'Trả lại'}
       </DialogTitle>
 
       <DialogContent>
@@ -89,7 +89,7 @@ export const ForwardDocumentDialog: React.FC<ForwardDocumentDialogProps> = (
           loading={isLoading}
           onClick={onSubmit}
         >
-          {mode === 'foward' ? 'Chuyển tiếp' : 'Trả lại'}
+          {mode === 'forward' ? 'Chuyển tiếp' : 'Trả lại'}
         </LoadingButton>
       </DialogActions>
     </Dialog>

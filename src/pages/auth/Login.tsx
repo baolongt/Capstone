@@ -42,7 +42,7 @@ const Login = () => {
     <Box sx={{ display: 'flex', height: '100vh' }}>
       <Box sx={{ height: '100vh', width: '70%' }}>
         <img
-          src="/src/assets/login_page.jpeg"
+          src="https://ductt-capstone-bucket.s3.ap-southeast-1.amazonaws.com/assets/ideogram+(1).jpeg"
           alt="logo"
           style={{
             top: 0,

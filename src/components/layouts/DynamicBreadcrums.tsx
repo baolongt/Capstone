@@ -32,7 +32,7 @@ const DynamicBreadcrums: FC = (): ReactElement => {
     >
       <Breadcrumbs aria-label="breadcrumb">
         {!isDashboard && (
-          <LinkRouter underline="hover" color="inherit" to="/">
+          <LinkRouter underline="hover" color="inherit" to="/dashboard">
             {pathDict['/']}
           </LinkRouter>
         )}

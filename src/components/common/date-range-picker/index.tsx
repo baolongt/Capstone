@@ -35,14 +35,13 @@ export const DateRangePickerInput: React.FC<DateRangePickerInputProps> = (
           if (idx == 0) {
             setDateRange({
               ...dateRange,
-              from:
-                new Date(date).toISOString().split('T')[0] + 'T00:00:00.000Z'
+              from: dayjs(date).startOf('day').toISOString()
             });
           }
           if (idx == 1) {
             setDateRange({
               ...dateRange,
-              to: new Date(date).toISOString().split('T')[0] + 'T23:59:59.999Z'
+              to: dayjs(date).endOf('day').toISOString()
             });
           }
         }
