@@ -16,6 +16,7 @@ export interface OutgoingDocument {
   createdBy: string;
   documentField: string;
   documentType: string;
+  documentTypeId: string;
   directingDescription: string;
   processDeadline: string;
   isRepliedDocument: boolean;
@@ -48,6 +49,34 @@ export interface CreateOutgoingDocument {
   note: string;
   files: UploadFile[];
 }
+
+export interface EditOutgoingDocument {
+  epitomize: string;
+  documentNotation: string;
+  documentField: number;
+  documentTypeId: number;
+  isRepliedDocument: boolean;
+  status: string;
+  note: string;
+  files: UploadFile[] | Attachment[];
+  processDeadline: string;
+}
+
+export const convertDetailToEditForm = (
+  detail: OutgoingDocument
+): EditOutgoingDocument => {
+  return {
+    epitomize: detail.epitomize,
+    documentNotation: detail.documentNotation || '',
+    documentField: parseInt(detail.documentField),
+    documentTypeId: parseInt(detail.documentTypeId),
+    isRepliedDocument: detail.isRepliedDocument,
+    status: detail.status,
+    files: detail.attachments,
+    processDeadline: detail.processDeadline,
+    note: ''
+  };
+};
 
 export enum DocumentStatus {
   CHUYEN_TOI_TRUONG_PHONG = 1,

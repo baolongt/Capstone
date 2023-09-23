@@ -38,6 +38,7 @@ export const DatePickerField: React.FC<DatePickerFieldProps> = (props) => {
             minDate={minDate}
             maxDate={maxDate}
             label={label || ''}
+            value={field.value ? dayjs(field.value) : null}
             slotProps={{
               textField: {
                 disabled: disabled,

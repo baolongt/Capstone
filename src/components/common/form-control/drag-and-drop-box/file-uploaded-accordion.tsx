@@ -7,33 +7,63 @@ import {
   Paper,
   Stack,
   SxProps,
-  Typography
+  Typography,
+  useTheme
 } from '@mui/material';
 import * as React from 'react';
 
+import { AttachmentCard } from '@/components/document/outgoing/outgoing-doc-detail-attachment-accordion-atttachment-card';
 import { UploadFile } from '@/models';
 
+import { DragAndDropBoxValueType } from '.';
 import FileCard from './file-card';
 
 export type FileUploadedAccordionProps = {
-  files: UploadFile[];
+  files: DragAndDropBoxValueType[];
   removeFile: (id: string) => void;
   updateNeedSigned: (id: string) => void;
+  watchAttachment?: (id: string) => void;
+  signAttachment?: (id: string) => void;
   sx?: SxProps;
 };
 
 const FileUploadedAccordion: React.FC<FileUploadedAccordionProps> = (props) => {
-  const { files, removeFile, updateNeedSigned, sx } = props;
-  const fileCards = files.map((file, idx) => (
-    <Box key={idx} component={Paper} elevation={1}>
-      <FileCard
+  const {
+    files,
+    removeFile,
+    updateNeedSigned,
+    watchAttachment,
+    signAttachment,
+    sx
+  } = props;
+  const theme = useTheme();
+
+  const fileCards = files.map((file, idx) => {
+    return (
+      <Box
         key={idx}
-        file={file}
-        removeFile={removeFile}
-        updateNeedSigned={updateNeedSigned}
-      />
-    </Box>
-  ));
+        component={Paper}
+        elevation={1}
+        sx={{ backgroundColor: theme.palette.secondary.light, py: 2, px: 1 }}
+      >
+        {file instanceof UploadFile ? (
+          <FileCard
+            key={idx}
+            file={file}
+            removeFile={removeFile}
+            updateNeedSigned={updateNeedSigned}
+          />
+        ) : (
+          <AttachmentCard
+            isUploaded={true}
+            attachment={file}
+            watchAttachment={watchAttachment}
+            signAttachment={signAttachment}
+          />
+        )}
+      </Box>
+    );
+  });
 
   return (
     <Accordion

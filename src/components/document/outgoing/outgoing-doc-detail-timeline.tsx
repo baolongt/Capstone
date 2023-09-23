@@ -65,20 +65,25 @@ export const DetailTimeline: React.FC<DetailTimelineProps> = (props) => {
         </Typography>
         {processHistory.map((history, idx) => {
           let title = '';
+          const islLast = idx === processHistory.length - 1;
 
-          switch (history.status) {
-            case 0:
-              title = `${history.handlerName} tạo văn bản`;
-              break;
-            case 1:
-            case 2:
-            case 3:
-            case 4:
-              title = `Chuyển cho ${history.handlerName}`;
-              break;
-            case 5:
-              title = `Trả lại cho ${history.handlerName}`;
-              break;
+          if (islLast) {
+            title = `${history.handlerName} tạo văn bản`;
+          } else {
+            switch (history.status) {
+              case 0:
+                title = `${history.handlerName} chỉnh sửa văn bản`;
+                break;
+              case 1:
+              case 2:
+              case 3:
+              case 4:
+                title = `Chuyển cho ${history.handlerName}`;
+                break;
+              case 5:
+                title = `Trả lại cho ${history.handlerName}`;
+                break;
+            }
           }
 
           return (
@@ -87,7 +92,7 @@ export const DetailTimeline: React.FC<DetailTimelineProps> = (props) => {
               time={dayjs(history.createdAt).format('HH:mm DD/MM/YYYY')}
               title={title}
               subTitle={history.note}
-              isLast={idx === processHistory.length - 1}
+              isLast={islLast}
             />
           );
         })}
