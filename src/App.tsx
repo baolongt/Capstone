@@ -3,7 +3,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Route, Routes } from 'react-router-dom';
 
 import RequireAuth from './components/auth/RequiredAuth';
-import AppDocViewer from './components/common/document-viewer';
 import DashboardLayout from './components/layouts/Layout';
 import { Role } from './models/user';
 import Login from './pages/auth/Login';

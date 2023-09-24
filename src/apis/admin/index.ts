@@ -1,4 +1,5 @@
 export {
+  useAddUser,
   useCreateUser,
   type useCreateUserParams,
   useDeleteUser,

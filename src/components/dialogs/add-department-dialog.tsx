@@ -37,8 +37,7 @@ export const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({
 }) => {
   const form = useForm({
     defaultValues: {
-      name: '',
-      departmentLeaderID: 0
+      name: ''
     },
     resolver: yupResolver(addDepartmentSchema)
   });
@@ -84,8 +83,7 @@ export const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({
   };
   useEffect(() => {
     reset({
-      name: data?.name ?? '',
-      departmentLeaderID: data?.departmentLeaderID ?? undefined
+      name: data?.name ?? ''
     });
   }, [data]);
 
@@ -111,7 +109,7 @@ export const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({
         >
           <Box component="div">
             <Typography>
-              Tên người dùng
+              Tên phòng ban
               <Box component="span" color="error.main">
                 *
               </Box>
@@ -125,7 +123,7 @@ export const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({
             />
           </Box>
 
-          <Stack direction={'row'} gap={3}>
+          {/* <Stack direction={'row'} gap={3}>
             <Box component="div" mt={2}>
               <Typography>
                 Chọn trưởng phòng
@@ -144,13 +142,13 @@ export const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({
                 }
               />
             </Box>
-          </Stack>
+          </Stack> */}
         </Stack>
       </DialogContent>
       <DialogActions sx={{ p: '0 24px 24px 0' }}>
         <CustomButton label="Hủy bỏ" variant="outlined" onClick={onClose} />
         <CustomButton
-          label={mode === 'create' ? 'Thêm mới' : 'Cập nhật'}
+          label={mode === 'create' ? 'Thêm' : 'Cập nhật'}
           type="submit"
           form="add-department-form"
         />

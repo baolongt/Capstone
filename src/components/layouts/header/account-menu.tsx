@@ -35,11 +35,11 @@ const AccountMenu = () => {
         user: null
       });
       localStorage.clear();
-      navigate('/');
+      navigate('/login');
     },
     onError: () => {
       localStorage.clear();
-      navigate('/');
+      navigate('/login');
     }
   });
 

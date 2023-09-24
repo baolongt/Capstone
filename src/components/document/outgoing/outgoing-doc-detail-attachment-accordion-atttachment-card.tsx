@@ -4,8 +4,6 @@ import ImageIcon from '@mui/icons-material/Image';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import {
   Box,
-  Card,
-  CardContent,
   Chip,
   IconButton,
   Stack,

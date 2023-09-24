@@ -1,6 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { LoadingButton } from '@mui/lab';
-import { Box, Grid, Paper, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';

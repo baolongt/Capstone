@@ -1,4 +1,4 @@
-import { Box, Paper, styled, SxProps, Typography } from '@mui/material';
+import { Box, Paper, SxProps, Typography } from '@mui/material';
 import { pieArcClasses, PieChart } from '@mui/x-charts/PieChart';
 import * as React from 'react';
 
