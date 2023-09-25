@@ -1,4 +1,5 @@
 import AttachFileIcon from '@mui/icons-material/AttachFile';
+import DownloadIcon from '@mui/icons-material/Download';
 import DrawIcon from '@mui/icons-material/Draw';
 import ImageIcon from '@mui/icons-material/Image';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -6,6 +7,7 @@ import {
   Box,
   Chip,
   IconButton,
+  Link,
   Stack,
   Tooltip,
   Typography
@@ -109,6 +111,16 @@ export const AttachmentCard: React.FC<AttachmentCardProps> = (props) => {
           >
             <VisibilityIcon />
           </IconButton>
+        </Tooltip>
+        <Tooltip title="Tải xuống">
+          <Link
+            sx={{ color: 'inherit' }}
+            href={attachment.url}
+            underline="none"
+            component={IconButton}
+          >
+            <DownloadIcon />
+          </Link>
         </Tooltip>
       </Stack>
     </Box>
