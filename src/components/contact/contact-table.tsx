@@ -5,7 +5,6 @@ import { createColumnHelper } from '@tanstack/react-table';
 import * as React from 'react';
 import { toast } from 'react-toastify';
 
-import { useDeleteDepartment } from '@/apis';
 import { useDeleteContact } from '@/apis/contact';
 import { contact } from '@/models';
 import { Metadata } from '@/types';

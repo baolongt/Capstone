@@ -1,4 +1,4 @@
-import { Box, Paper, useTheme } from '@mui/material';
+import { Box, useTheme } from '@mui/material';
 import React from 'react';
 
 import { DEFAULT_PAGE_WIDTH } from '@/constants';

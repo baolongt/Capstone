@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Box, FormHelperText, Paper, Typography } from '@mui/material';
+import { Box, FormHelperText, Typography } from '@mui/material';
 import { indigo } from '@mui/material/colors';
-import { styled, useTheme } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 import React, { useState } from 'react';
 import { Accept, useDropzone } from 'react-dropzone';
 import { Controller, UseFormReturn } from 'react-hook-form';

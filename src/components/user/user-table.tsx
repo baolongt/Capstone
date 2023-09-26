@@ -15,7 +15,7 @@ type UserTableProps = {
   data: User[];
   metadata: Metadata;
   handleChangePage: (page: number) => void;
-  handleUpateUser: (userId: number) => void;
+  handleUpdateUser: (userId: number) => void;
   handleOpenDeleteDialog: (userId: number) => void;
 };
 
@@ -23,7 +23,7 @@ export const UserTable: React.FC<UserTableProps> = ({
   data,
   metadata,
   handleChangePage,
-  handleUpateUser,
+  handleUpdateUser,
   handleOpenDeleteDialog
 }) => {
   const columns = [
@@ -57,7 +57,7 @@ export const UserTable: React.FC<UserTableProps> = ({
           <Tooltip title="Cập nhật thông tin">
             <IconButton
               color="primary"
-              onClick={() => handleUpateUser(row.getValue())}
+              onClick={() => handleUpdateUser(row.getValue())}
             >
               <EditIcon />
             </IconButton>

@@ -48,6 +48,7 @@ const CreateOutgoingDocumentPage: React.FC = () => {
   const handleSubmitForm = () => {
     // console.log(getValues());
     uploadForm(getValues());
+    console.log(getValues());
   };
 
   useEffect(() => {

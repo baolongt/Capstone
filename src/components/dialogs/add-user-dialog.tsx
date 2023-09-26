@@ -5,15 +5,19 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  Stack,
-  Typography
+  Stack
 } from '@mui/material';
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
 import { useCreateUser, useUpdateUser } from '@/apis';
-import { CustomButton, InputField, SelectField } from '@/components/common';
+import {
+  CustomButton,
+  FieldTitle,
+  InputField,
+  SelectField
+} from '@/components/common';
 import { role, user } from '@/models';
 import { Nullable } from '@/types';
 
@@ -38,8 +42,7 @@ export const AddUserDialog: React.FC<AddUserDialogProps> = ({
       password: '',
       email: '',
       citizenIdentification: '',
-      roleID: 1,
-      jobPositionID: 1
+      roleID: 1
     },
     resolver: yupResolver(addUserSchema)
   });
@@ -79,7 +82,7 @@ export const AddUserDialog: React.FC<AddUserDialogProps> = ({
       createUserMutate(body);
     } else {
       if (userProfile?.id) {
-        updateUserMutate({ id: userProfile?.id, payload: body });
+        updateUserMutate({ id: userProfile.id, payload: body });
       }
     }
     handleClose();
@@ -88,11 +91,8 @@ export const AddUserDialog: React.FC<AddUserDialogProps> = ({
   useEffect(() => {
     reset({
       name: userProfile?.name ?? '',
-      password: userProfile?.password ?? '',
       email: userProfile?.email ?? '',
-      citizenIdentification: userProfile?.citizenIdentification ?? '',
-      roleID: userProfile?.roleID ?? 1,
-      jobPositionID: userProfile?.jobPositionID ?? 1
+      citizenIdentification: userProfile?.citizenIdentification ?? ''
     });
   }, [reset, userProfile]);
 
@@ -114,16 +114,11 @@ export const AddUserDialog: React.FC<AddUserDialogProps> = ({
         <Stack
           component="form"
           id="add-user-form"
+          gap={1}
           onSubmit={handleSubmit(onSubmit)}
         >
           <Box component="div">
-            <Typography>
-              Tên người dùng
-              <Box component="span" color="error.main">
-                *
-              </Box>
-            </Typography>
-
+            <FieldTitle isRequired title="Tên người dùng" />
             <InputField
               form={form}
               placeholder="Nhập tên người dùng"
@@ -131,28 +126,19 @@ export const AddUserDialog: React.FC<AddUserDialogProps> = ({
               label=""
             />
           </Box>
+          {mode === 'create' && (
+            <Box component="div" mt={2}>
+              <FieldTitle isRequired title="Mật khẩu" />
+              <InputField
+                form={form}
+                placeholder="Nhập mật khẩu"
+                name="password"
+                label=""
+              />
+            </Box>
+          )}
           <Box component="div" mt={2}>
-            <Typography>
-              Mật khẩu
-              <Box component="span" color="error.main">
-                *
-              </Box>
-            </Typography>
-
-            <InputField
-              form={form}
-              placeholder="Nhập mật khẩu"
-              name="password"
-              label=""
-            />
-          </Box>
-          <Box component="div" mt={2}>
-            <Typography>
-              Email
-              <Box component="span" color="error.main">
-                *
-              </Box>
-            </Typography>
+            <FieldTitle isRequired title="Email" />
             <InputField
               form={form}
               placeholder="Nhập email"
@@ -161,12 +147,7 @@ export const AddUserDialog: React.FC<AddUserDialogProps> = ({
             />
           </Box>
           <Box component="div" mt={2}>
-            <Typography>
-              CCCD/CMND
-              <Box component="span" color="error.main">
-                *
-              </Box>
-            </Typography>
+            <FieldTitle isRequired title="CCCD/CMND" />
             <InputField
               form={form}
               placeholder="Nhập CCCD/CMND"
@@ -174,44 +155,28 @@ export const AddUserDialog: React.FC<AddUserDialogProps> = ({
               label=""
             />
           </Box>
-
-          <Stack direction={'row'} gap={3}>
-            <Box component="div" mt={2}>
-              <Typography>
-                Vai trò
-                <Box component="span" color="error.main">
-                  *
-                </Box>
-              </Typography>
-
-              <SelectField
-                form={form}
-                name="roleID"
-                placeholder="Chọn vai trò"
-                data={role.roleOptions}
-              />
-            </Box>
-
-            <Box component="div" mt={2}>
-              <Typography>
-                Chức vụ
-                <Box component="span" color="error.main">
-                  *
-                </Box>
-              </Typography>
-              <SelectField
-                form={form}
-                name="jobPositionID"
-                placeholder="Chọn chức vụ"
-                data={role.jobPositionOptions}
-              />
-            </Box>
-          </Stack>
+          {mode === 'create' && (
+            <Stack direction={'row'} gap={3}>
+              <Box>
+                <FieldTitle isRequired title="Vai trò" />
+                <SelectField
+                  form={form}
+                  name="roleID"
+                  placeholder="Chọn vai trò"
+                  data={role.roleOptions}
+                />
+              </Box>
+            </Stack>
+          )}
         </Stack>
       </DialogContent>
       <DialogActions sx={{ p: '0 24px 24px 0' }}>
         <CustomButton label="Hủy bỏ" variant="outlined" onClick={onClose} />
-        <CustomButton label="Thêm" type="submit" form="add-user-form" />
+        <CustomButton
+          label={mode === 'create' ? 'Thêm' : 'Cập nhật'}
+          type="submit"
+          form="add-user-form"
+        />
       </DialogActions>
     </Dialog>
   );
