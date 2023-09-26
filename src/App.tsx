@@ -4,7 +4,6 @@ import { Route, Routes } from 'react-router-dom';
 
 import RequireAuth from './components/auth/RequiredAuth';
 import { Loading } from './components/common';
-import AppDocViewer from './components/common/document-viewer';
 import DashboardLayout from './components/layouts/Layout';
 import useAuth from './hooks/useAuth';
 import { Role } from './models/user';

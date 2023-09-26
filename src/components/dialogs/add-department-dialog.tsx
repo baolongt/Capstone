@@ -14,10 +14,9 @@ import { toast } from 'react-toastify';
 
 import { useListUsers } from '@/apis';
 import { useCreateDepartment, useUpdateDepartment } from '@/apis/department';
-import { CustomButton, InputField, SelectField } from '@/components/common';
+import { CustomButton, InputField } from '@/components/common';
 import { department } from '@/models';
 import { UpdatePayload } from '@/models/department';
-import { User } from '@/models/user';
 import { BaseTableQueryParams } from '@/types';
 
 import { addDepartmentSchema } from './validations';
@@ -53,7 +52,7 @@ export const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({
       handleClose();
     },
     onError: () => {
-      toast.error('Thêm người dùng thất bại');
+      toast.error('Thêm phòng ban thất bại');
     }
   });
   const { mutate: updateDepartmentMutate } = useUpdateDepartment({
