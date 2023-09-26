@@ -11,7 +11,7 @@ interface LinkRouterProps extends LinkProps {
 }
 
 function LinkRouter(props: LinkRouterProps) {
-  return <Link {...props} component={RouterLink as any} />;
+  return <Link {...props} component={RouterLink} />;
 }
 
 const DynamicBreadcrums: FC = (): ReactElement => {

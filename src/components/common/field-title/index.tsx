@@ -9,7 +9,7 @@ interface FieldTitleProps {
 const FieldTitle = (props: FieldTitleProps) => {
   const { title, isRequired = false, sx } = props;
   return (
-    <Typography fontWeight={600} sx={sx}>
+    <Typography sx={sx}>
       {title}
       {isRequired && (
         <Box component="span" color="error.main">

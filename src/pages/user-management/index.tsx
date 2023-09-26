@@ -3,7 +3,7 @@ import { debounce } from 'lodash';
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 
-import { useDeleteUser, useListUsers } from '@/apis';
+import { useAddUser, useDeleteUser, useListUsers } from '@/apis';
 import { CustomButton, InputSearch, Loading } from '@/components/common';
 import PageHeader from '@/components/common/page-header';
 import PageTitle from '@/components/common/page-title';
@@ -42,6 +42,7 @@ const UserManagement = () => {
   const { mutate: deleteUserMutate } = useDeleteUser({
     onSuccess: () => {
       toast.success('Xóa người dùng thành công');
+      handleCloseDeleteDialog();
     },
     onError: () => {
       toast.error('Xóa người dùng thất bại');
@@ -56,11 +57,24 @@ const UserManagement = () => {
     if (currentUserId) {
       deleteUserMutate?.(currentUserId);
     }
-    handleCloseDeleteDialog();
+  };
+  // Add User by Csv file
+  const { mutate } = useAddUser({
+    onSuccess: () => {
+      toast.success('Nhap file thanh cong');
+      handleCloseDeleteDialog();
+    },
+    onError: () => {
+      toast.error('Nhap file that bai');
+    }
+  });
+  const handleAddUserByCsv = (file: File) => {
+    console.log('file: ', file);
+    mutate(file);
   };
 
   //update and create
-  const handleUpateUser = (id: number) => {
+  const handleUpdateUser = (id: number) => {
     setCurrentUserId(id);
     setMode('update');
     handleOpenCreateDialog();
@@ -121,7 +135,7 @@ const UserManagement = () => {
             data={data.data}
             metadata={data.metadata}
             handleChangePage={handleChangePage}
-            handleUpateUser={handleUpateUser}
+            handleUpdateUser={handleUpdateUser}
             handleOpenDeleteDialog={handleOpenDeleteDialog}
           />
         </Box>
@@ -137,9 +151,7 @@ const UserManagement = () => {
         <ImportFileDialog
           isOpen={isImportFileDialogOpen}
           onClose={handleCloseImportFileDialog}
-          onSubmit={() => {
-            return;
-          }}
+          onSubmit={handleAddUserByCsv}
         />
         <ConfirmDialog
           isOpen={isDeleteDialogOpen}

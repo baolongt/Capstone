@@ -10,8 +10,7 @@ import { department } from '@/models';
 import { Metadata } from '@/types';
 
 import BaseTable from '../common/base-table';
-import { AddDepartmentDialog } from '../dialogs';
-import DeleteDialog from '../dialogs/delete-dialog';
+import { AddDepartmentDialog, ConfirmDialog } from '../dialogs';
 
 const columnHelper = createColumnHelper<department.Department>();
 
@@ -107,9 +106,9 @@ export const DepartmentTable: React.FC<DepartmentTableProps> = ({
             width: '100%'
           }}
         />
-        <DeleteDialog
+        <ConfirmDialog
           isOpen={isOpen}
-          message="Thao tác này sẽ xóa phòng ban"
+          message={<>Bạn muốn xóa ?</>}
           onClose={() => setIsOpen(false)}
           onConfirm={onDelete}
         />

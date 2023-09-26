@@ -35,7 +35,7 @@ const AccountMenu = () => {
         user: null
       });
       localStorage.clear();
-      navigate('/');
+      navigate('/login');
     },
     onError: () => {
       setAuthState({
@@ -43,7 +43,7 @@ const AccountMenu = () => {
         user: null
       });
       localStorage.clear();
-      navigate('/');
+      navigate('/login');
     }
   });
 

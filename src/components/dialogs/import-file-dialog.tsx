@@ -8,10 +8,11 @@ import {
 import { useForm } from 'react-hook-form';
 
 import { CustomButton, DragDropFile } from '@/components/common';
+import { UploadFile } from '@/models';
 
 export interface ImportFileDialogProps {
   isOpen: boolean;
-  onSubmit: () => void;
+  onSubmit: (file: File) => void;
   onClose: () => void;
 }
 
@@ -19,7 +20,7 @@ export const ImportFileDialog = (props: ImportFileDialogProps) => {
   const { isOpen, onClose, onSubmit } = props;
   const form = useForm({
     defaultValues: {
-      file: ''
+      file: null
     }
   });
   return (
@@ -47,7 +48,10 @@ export const ImportFileDialog = (props: ImportFileDialogProps) => {
 
       <DialogActions sx={{ p: '0 24px 24px 0' }}>
         <CustomButton label="Hủy bỏ" variant="outlined" onClick={onClose} />
-        <CustomButton label="Upload" onClick={onSubmit} />
+        <CustomButton
+          label="Upload"
+          onClick={() => onSubmit(form.getValues('file') as any)}
+        />
       </DialogActions>
     </Dialog>
   );
