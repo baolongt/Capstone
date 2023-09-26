@@ -45,7 +45,7 @@ export const useListNotifications = ({
       fetchNotifications({
         queryParams
       }),
-    getNextPageParam: (lastPage, pages) => {
+    getNextPageParam: (lastPage) => {
       if (lastPage.metadata.isLastPage) {
         return undefined;
       }
@@ -55,7 +55,7 @@ export const useListNotifications = ({
         size: lastPage.metadata.pageSize
       };
     },
-    getPreviousPageParam: (firstPage, pages) => {
+    getPreviousPageParam: (firstPage) => {
       if (firstPage.metadata.isFirstPage) {
         return undefined;
       }

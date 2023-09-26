@@ -1,10 +1,8 @@
 import DeleteIcon from '@mui/icons-material/Delete';
-import VisibilityIcon from '@mui/icons-material/Visibility';
 import { IconButton, SxProps, Tooltip } from '@mui/material';
 import { createColumnHelper } from '@tanstack/react-table';
 import moment from 'moment';
 import * as React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
 
 import BaseTable from '@/components/common/base-table';
 import { outgoingDocument } from '@/models';

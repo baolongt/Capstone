@@ -1,5 +1,3 @@
-import { deepPurple, indigo, lightGreen } from '@mui/material/colors';
-
 interface IStatusDict {
   [key: number]: string;
 }
