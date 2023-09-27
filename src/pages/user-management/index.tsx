@@ -61,11 +61,11 @@ const UserManagement = () => {
   // Add User by Csv file
   const { mutate } = useAddUser({
     onSuccess: () => {
-      toast.success('Nhap file thanh cong');
+      toast.success('Nhập file thành công');
       handleCloseDeleteDialog();
     },
     onError: () => {
-      toast.error('Nhap file that bai');
+      toast.error('Nhập file thất bại');
     }
   });
   const handleAddUserByCsv = (file: File) => {

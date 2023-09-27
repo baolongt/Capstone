@@ -1,14 +1,20 @@
-import AttachFileOutlinedIcon from '@mui/icons-material/AttachFileOutlined';
 import {
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle
 } from '@mui/material';
+import { Accept } from 'react-dropzone';
 import { useForm } from 'react-hook-form';
 
-import { CustomButton, DragDropFile } from '@/components/common';
+import { CustomButton } from '@/components/common';
 import { UploadFile } from '@/models';
+
+import { WrappedDragDropFile } from '../common/form-control/drag-drop-file';
+
+const fileAccpetType: Accept = {
+  'text/csv': ['.csv']
+};
 
 export interface ImportFileDialogProps {
   isOpen: boolean;
@@ -18,11 +24,20 @@ export interface ImportFileDialogProps {
 
 export const ImportFileDialog = (props: ImportFileDialogProps) => {
   const { isOpen, onClose, onSubmit } = props;
-  const form = useForm({
+  const form = useForm<{
+    file: UploadFile | null;
+  }>({
     defaultValues: {
       file: null
     }
   });
+  const handleSubmit = () => {
+    console.log('values', form.getValues());
+    const { file } = form.getValues();
+    if (file && file.fileObj) {
+      onSubmit(file.fileObj);
+    }
+  };
   return (
     <Dialog
       open={isOpen}
@@ -36,22 +51,16 @@ export const ImportFileDialog = (props: ImportFileDialogProps) => {
       <DialogTitle fontWeight={600}>Upload File CSV</DialogTitle>
 
       <DialogContent>
-        <DragDropFile
+        <WrappedDragDropFile
           form={form}
           name="file"
-          accept={'.csv'}
-          placeholder="Kéo thả file hoặc click chọn"
-          preview={true}
-          icon={<AttachFileOutlinedIcon />}
+          fileAccpetType={fileAccpetType}
         />
       </DialogContent>
 
       <DialogActions sx={{ p: '0 24px 24px 0' }}>
         <CustomButton label="Hủy bỏ" variant="outlined" onClick={onClose} />
-        <CustomButton
-          label="Upload"
-          onClick={() => onSubmit(form.getValues('file') as any)}
-        />
+        <CustomButton label="Upload" onClick={handleSubmit} />
       </DialogActions>
     </Dialog>
   );
