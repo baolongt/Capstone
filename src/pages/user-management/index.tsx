@@ -12,6 +12,7 @@ import {
   ConfirmDialog,
   ImportFileDialog
 } from '@/components/dialogs';
+import theme from '@/components/theme/theme';
 import { UserTable } from '@/components/user';
 import { DEBOUND_SEARCH_TIME, DEFAULT_PAGE_WIDTH } from '@/constants';
 import { user } from '@/models';
@@ -61,15 +62,14 @@ const UserManagement = () => {
   // Add User by Csv file
   const { mutate } = useAddUser({
     onSuccess: () => {
-      toast.success('Nhap file thanh cong');
-      handleCloseDeleteDialog();
+      toast.success('Nhập file thành công');
+      handleCloseImportFileDialog();
     },
     onError: () => {
-      toast.error('Nhap file that bai');
+      toast.error('Nhập file thất bại');
     }
   });
   const handleAddUserByCsv = (file: File) => {
-    console.log('file: ', file);
     mutate(file);
   };
 
@@ -128,7 +128,11 @@ const UserManagement = () => {
         <Box
           sx={{
             mx: 'auto',
-            width: DEFAULT_PAGE_WIDTH
+
+            width: DEFAULT_PAGE_WIDTH,
+            [theme.breakpoints.down('xl')]: {
+              width: '90%'
+            }
           }}
         >
           <UserTable
