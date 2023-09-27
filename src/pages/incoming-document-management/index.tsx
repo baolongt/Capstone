@@ -34,10 +34,6 @@ const IncomingDocumentManagement = () => {
     setQueryParams({ ...queryParams, dateRange: value });
   };
 
-  useEffect(() => {
-    console.debug('debug value change', queryParams);
-  }, [queryParams]);
-
   const debouncedSearch = debounce(handleChangeSearch, DEBOUND_SEARCH_TIME);
 
   const { data: response, isLoading } = useListDocuments({
