@@ -14,7 +14,17 @@ const PageHeader: React.FC<PageHeaderProps> = ({ children }) => {
       bgcolor="#fff"
       sx={{ mb: 3, borderBottom: `1px solid ${theme.palette.divider}` }}
     >
-      <Box sx={{ pt: 4, pb: 2, mx: 'auto', width: DEFAULT_PAGE_WIDTH }}>
+      <Box
+        sx={{
+          pt: 4,
+          pb: 2,
+          mx: 'auto',
+          width: DEFAULT_PAGE_WIDTH,
+          [theme.breakpoints.down('xl')]: {
+            width: '90%'
+          }
+        }}
+      >
         {children}
       </Box>
     </Box>

@@ -19,6 +19,7 @@ import {
   SelectField
 } from '@/components/common';
 import { role, user } from '@/models';
+import { Role } from '@/models/user';
 import { Nullable } from '@/types';
 
 import { addUserSchema } from './validations';
@@ -39,7 +40,6 @@ export const AddUserDialog: React.FC<AddUserDialogProps> = ({
   const form = useForm({
     defaultValues: {
       name: '',
-      password: '',
       email: '',
       citizenIdentification: '',
       roleID: 1
@@ -92,7 +92,8 @@ export const AddUserDialog: React.FC<AddUserDialogProps> = ({
     reset({
       name: userProfile?.name ?? '',
       email: userProfile?.email ?? '',
-      citizenIdentification: userProfile?.citizenIdentification ?? ''
+      citizenIdentification: userProfile?.citizenIdentification ?? '',
+      roleID: userProfile?.roleID ?? Role.OFFICER
     });
   }, [reset, userProfile]);
 
@@ -126,17 +127,6 @@ export const AddUserDialog: React.FC<AddUserDialogProps> = ({
               label=""
             />
           </Box>
-          {mode === 'create' && (
-            <Box component="div" mt={2}>
-              <FieldTitle isRequired title="Mật khẩu" />
-              <InputField
-                form={form}
-                placeholder="Nhập mật khẩu"
-                name="password"
-                label=""
-              />
-            </Box>
-          )}
           <Box component="div" mt={2}>
             <FieldTitle isRequired title="Email" />
             <InputField

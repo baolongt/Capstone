@@ -8,6 +8,7 @@ import PageHeader from '@/components/common/page-header';
 import PageTitle from '@/components/common/page-title';
 import { DepartmentTable } from '@/components/department/department-table';
 import { AddDepartmentDialog } from '@/components/dialogs';
+import theme from '@/components/theme/theme';
 import { DEBOUND_SEARCH_TIME, DEFAULT_PAGE_WIDTH } from '@/constants';
 import { BaseTableQueryParams } from '@/types';
 
@@ -69,7 +70,10 @@ const DepartmentManagement = () => {
         <Box
           sx={{
             mx: 'auto',
-            width: DEFAULT_PAGE_WIDTH
+            width: DEFAULT_PAGE_WIDTH,
+            [theme.breakpoints.down('xl')]: {
+              width: '90%'
+            }
           }}
         >
           <DepartmentTable
