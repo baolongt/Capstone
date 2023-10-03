@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { api } from '@/constants';
 import { template } from '@/models';
 import { BaseTableQueryParams, Metadata } from '@/types';
+import { axiosInstance } from '@/utils';
 
 export type ListTemplateResponse = {
   data: template.Template[];
@@ -14,47 +15,21 @@ export const listTemplate = async ({
 }: {
   queryParams: BaseTableQueryParams;
 }): Promise<ListTemplateResponse> => {
-  console.log(queryParams);
-  // Replace this with your mock data
-  const mockData: template.Template[] = [
-    {
-      id: 1,
-      name: 'Template 1',
-      url: 'https://example.com/template1',
-      createdAt: '2021-10-01T00:00:00.000Z'
-    },
-    {
-      id: 2,
-      name: 'Template 2',
-      url: 'https://example.com/template2',
-      createdAt: '2021-10-02T00:00:00.000Z'
-    },
-    {
-      id: 3,
-      name: 'Template 3',
-      url: 'https://example.com/template3',
-      createdAt: '2021-10-03T00:00:00.000Z'
-    }
-  ];
-  const mockMetadata: Metadata = {
-    pageCount: 1,
-    totalItemCount: 3,
-    pageNumber: 1,
-    pageSize: 10,
-    hasPreviousPage: false,
-    hasNextPage: false,
-    isFirstPage: true,
-    isLastPage: true,
-    firstItemOnPage: 1,
-    lastItemOnPage: 3
+  const { page, size } = queryParams;
+
+  const params = {
+    PageNumber: page,
+    PageSize: size
   };
 
-  // Simulate an API call by returning a Promise that resolves with the mock data
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({ data: mockData, metadata: mockMetadata });
-    }, 1000);
-  });
+  const response: ListTemplateResponse = await axiosInstance.get(
+    `/api/Template`,
+    {
+      params
+    }
+  );
+
+  return response;
 };
 
 export const useListTemplate = ({

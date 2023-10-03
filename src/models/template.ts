@@ -3,4 +3,5 @@ export interface Template {
   name: string;
   url: string;
   createdAt: string;
+  description: string;
 }
