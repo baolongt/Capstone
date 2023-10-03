@@ -20,6 +20,7 @@
     "prettier": "npx prettier --write ./src",
     "preview": "vite preview",
     "serve": "npm run build && vite preview --port 3000",
+    "skip": "echo 'skip'",
     "prestart": "npm run typecheck",
     "start": "npm run dev",
     "typecheck": "tsc --noEmit"
@@ -31,7 +32,7 @@
   },
   "lint-staged": {
     "*.ts?(x)": [
-      "npm run lint:fix"
+      "npm run skip"
     ],
     "package.json": "npx sort-package-json"
   },

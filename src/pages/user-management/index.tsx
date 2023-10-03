@@ -10,7 +10,8 @@ import PageTitle from '@/components/common/page-title';
 import {
   AddUserDialog,
   ConfirmDialog,
-  ImportFileDialog
+  ImportFileDialog,
+  UserUpdateDepartmentAndPositionDialog
 } from '@/components/dialogs';
 import theme from '@/components/theme/theme';
 import { UserTable } from '@/components/user';
@@ -30,6 +31,10 @@ const UserManagement = () => {
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState<boolean>(false);
   const [isImportFileDialogOpen, setIsImportFileDialogOpen] =
     useState<boolean>(false);
+  const [
+    isUpdateDepartmentAndPositionDialogOpen,
+    setIsUpdateDepartmentAndPositionDialogOpen
+  ] = useState<boolean>(false);
 
   const { data, isLoading } = useListUsers({ queryParams });
   const handleChangePage = (page: number) => {
@@ -94,6 +99,23 @@ const UserManagement = () => {
   const handleOpenImportFileDialog = () => setIsImportFileDialogOpen(true);
   const handleCloseImportFileDialog = () => setIsImportFileDialogOpen(false);
 
+  // Update position and department
+  const handleOpenUpdateDepartmentAndPositionDialog = (userId: number) => {
+    setIsUpdateDepartmentAndPositionDialogOpen(true);
+    setCurrentUserId(userId);
+  };
+  const handleCloseUpdateDepartmentAndPositionDialog = () => {
+    setIsUpdateDepartmentAndPositionDialogOpen(false);
+    setCurrentUserId(null);
+  };
+  const handleSubmitUpdateDP = (data: {
+    userId: number;
+    jobPositionId: number;
+    departmentId: number;
+  }) => {
+    console.log('updateDP', data);
+  };
+
   if (isLoading) {
     return <Loading />;
   }
@@ -112,12 +134,12 @@ const UserManagement = () => {
               />
               <Box sx={{ display: 'flex', gap: 2 }}>
                 <CustomButton
-                  label="Thêm người dùng"
+                  label="Thêm nhân viên"
                   onClick={handleCreateUser}
                 />
                 <CustomButton
                   variant="outlined"
-                  label="Nhập file CSV"
+                  label="Thêm bằng CSV"
                   color="primary"
                   onClick={handleOpenImportFileDialog}
                 />
@@ -141,6 +163,7 @@ const UserManagement = () => {
             handleChangePage={handleChangePage}
             handleUpdateUser={handleUpdateUser}
             handleOpenDeleteDialog={handleOpenDeleteDialog}
+            handleUpdatePosition={handleOpenUpdateDepartmentAndPositionDialog}
           />
         </Box>
 
@@ -162,6 +185,12 @@ const UserManagement = () => {
           message={<>Bạn muốn xóa ?</>}
           onClose={handleCloseDeleteDialog}
           onConfirm={handleDeleteUser}
+        />
+        <UserUpdateDepartmentAndPositionDialog
+          userId={currentUserId}
+          isOpen={isUpdateDepartmentAndPositionDialogOpen}
+          onClose={handleCloseUpdateDepartmentAndPositionDialog}
+          onSubmit={handleSubmitUpdateDP}
         />
       </Box>
     );
