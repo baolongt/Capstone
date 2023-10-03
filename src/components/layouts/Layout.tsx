@@ -70,6 +70,9 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = () => {
                 mt: 1,
                 mx: 'auto',
                 width: DEFAULT_PAGE_WIDTH,
+                [theme.breakpoints.down('xl')]: {
+                  width: '90%'
+                },
                 justifyContent: 'space-between',
                 display: 'flex'
               }}
@@ -111,9 +114,9 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = () => {
         </EdgeSidebar>
         <Content
           sx={{
-            width: '100vw',
-            minHeight: `calc(100vh - 10px - ${FOOTER_HEADER_HEIGHT})`,
-            bgcolor: theme.palette.secondary.light
+            minHeight: `calc(100vh - ${FOOTER_HEADER_HEIGHT})`,
+            bgcolor: theme.palette.secondary.light,
+            pb: 3
           }}
         >
           <Outlet />

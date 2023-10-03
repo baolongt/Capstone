@@ -43,6 +43,8 @@ export class User {
   jobPositionID: JobPosition;
   roleName: string;
   jobPositionName: string;
+  departmentId: number;
+  departmentName: string;
 
   constructor({
     id,
@@ -53,7 +55,9 @@ export class User {
     roleID,
     jobPositionID,
     roleName,
-    jobPositionName
+    jobPositionName,
+    departmentId,
+    departmentName
   }: {
     id: number;
     name: string;
@@ -64,6 +68,8 @@ export class User {
     jobPositionID: number;
     roleName: string;
     jobPositionName: string;
+    departmentId: number;
+    departmentName: string;
   }) {
     this.id = id;
     this.name = name;
@@ -74,6 +80,8 @@ export class User {
     this.jobPositionID = jobPositionID;
     this.roleName = roleName;
     this.jobPositionName = jobPositionName;
+    this.departmentId = departmentId;
+    this.departmentName = departmentName;
   }
 
   getprop(propName: keyof User): string | null {

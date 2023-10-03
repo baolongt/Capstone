@@ -1,5 +1,6 @@
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import { Box, IconButton, Tooltip } from '@mui/material';
 import { createColumnHelper } from '@tanstack/react-table';
 import * as React from 'react';
@@ -15,6 +16,7 @@ type UserTableProps = {
   data: User[];
   metadata: Metadata;
   handleChangePage: (page: number) => void;
+  handleUpdatePosition?: (userId: number) => void;
   handleUpdateUser: (userId: number) => void;
   handleOpenDeleteDialog: (userId: number) => void;
 };
@@ -24,7 +26,8 @@ export const UserTable: React.FC<UserTableProps> = ({
   metadata,
   handleChangePage,
   handleUpdateUser,
-  handleOpenDeleteDialog
+  handleOpenDeleteDialog,
+  handleUpdatePosition
 }) => {
   const columns = [
     columnHelper.accessor('name', {
@@ -48,12 +51,25 @@ export const UserTable: React.FC<UserTableProps> = ({
       cell: (row) => row.renderValue(),
       size: 100
     }),
+    columnHelper.accessor('departmentName', {
+      header: 'Phòng ban',
+      cell: (row) => row.renderValue(),
+      size: 100
+    }),
 
     columnHelper.accessor('id', {
       header: '',
       size: 100,
       cell: (row) => (
         <Box component="div" sx={{ display: 'flex', gap: 2 }}>
+          <Tooltip title="Cập nhật phòng ban/chức vụ">
+            <IconButton
+              color="primary"
+              onClick={() => handleUpdatePosition?.(row.getValue())}
+            >
+              <ManageAccountsIcon />
+            </IconButton>
+          </Tooltip>
           <Tooltip title="Cập nhật thông tin">
             <IconButton
               color="primary"

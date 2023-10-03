@@ -31,7 +31,7 @@ export const adminPaths: Path[] = [
     icon: <DashboardIcon />
   },
   {
-    label: 'Quản lí người dùng',
+    label: 'Quản lí nhân viên',
     path: '/users',
     icon: <AdminPanelSettings />
   },
@@ -76,7 +76,7 @@ type PathDict = {
 
 export const pathDict: PathDict = {
   '/': 'Trang chủ',
-  users: 'Quản lí người dùng',
+  users: 'Quản lí nhân viên',
   departments: 'Quản lí phòng ban',
   'outgoing-documents': 'Văn bản đi',
   'incoming-documents': 'Văn bản đến',
