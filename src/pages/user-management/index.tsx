@@ -132,12 +132,12 @@ const UserManagement = () => {
               />
               <Box sx={{ display: 'flex', gap: 2 }}>
                 <CustomButton
-                  label="Thêm người dùng"
+                  label="Thêm nhân viên"
                   onClick={handleCreateUser}
                 />
                 <CustomButton
                   variant="outlined"
-                  label="Nhập file CSV"
+                  label="Thêm bằng CSV"
                   color="primary"
                   onClick={handleOpenImportFileDialog}
                 />

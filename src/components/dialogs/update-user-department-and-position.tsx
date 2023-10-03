@@ -72,21 +72,29 @@ export const UserUpdateDepartmentAndPositionDialog = ({
           onSubmit={handleSubmit(handleFormSubmit)}
         >
           <Box>
-            <FieldTitle title="Chức vụ" />
+            <FieldTitle
+              sx={{
+                fontWeight: 'bold'
+              }}
+              title="Chức vụ"
+            />
             <SelectField
               name="jobPositionId"
-              label="Chọn chức vụ"
               form={form}
               defaultValue={defaultValues?.jobPositionId ?? 1}
               data={role.jobPositionOptions}
             />
           </Box>
           <Box>
-            <FieldTitle title="Phòng ban" />
+            <FieldTitle
+              sx={{
+                fontWeight: 'bold'
+              }}
+              title="Phòng ban"
+            />
             <SelectField
               form={form}
               name="departmentId"
-              label="Chọn phòng ban"
               defaultValue={defaultValues?.departmentId ?? 1}
               data={
                 depaResponse?.data.map((department) => {
