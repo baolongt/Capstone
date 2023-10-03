@@ -51,6 +51,11 @@ export const UserTable: React.FC<UserTableProps> = ({
       cell: (row) => row.renderValue(),
       size: 100
     }),
+    columnHelper.accessor('departmentName', {
+      header: 'Phòng ban',
+      cell: (row) => row.renderValue(),
+      size: 100
+    }),
 
     columnHelper.accessor('id', {
       header: '',

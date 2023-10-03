@@ -6,7 +6,7 @@ export const roleOptions: SelectOption[] = [
     value: 2
   },
   {
-    title: 'Công chức',
+    title: 'Nhân viên',
     value: 1
   }
 ];
@@ -16,27 +16,23 @@ export const jobPositionOptions: SelectOption[] = [
     value: 1
   },
   {
-    title: 'Phó trưởng phòng',
+    title: 'Trưởng phòng',
     value: 2
   },
   {
-    title: 'Trưởng phòng',
+    title: 'Văn thư',
     value: 3
   },
   {
-    title: 'Phó vụ trưởng',
+    title: 'Chánh văn phòng',
     value: 4
   },
   {
-    title: 'Phó tổng cục trưởng',
+    title: 'Phó Lãnh đạo',
     value: 5
   },
   {
-    title: 'Tổng cục trưởng',
+    title: 'Lãnh đạo',
     value: 6
-  },
-  {
-    title: 'Lãnh đạo cấp cao',
-    value: 7
   }
 ];

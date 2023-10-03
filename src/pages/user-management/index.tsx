@@ -104,12 +104,14 @@ const UserManagement = () => {
     setIsUpdateDepartmentAndPositionDialogOpen(true);
     setCurrentUserId(userId);
   };
-  const handleCloseUpdateDepartmentAndPositionDialog = () =>
+  const handleCloseUpdateDepartmentAndPositionDialog = () => {
     setIsUpdateDepartmentAndPositionDialogOpen(false);
+    setCurrentUserId(null);
+  };
   const handleSubmitUpdateDP = (data: {
     userId: number;
-    jobPositionId: string;
-    departmentId: string;
+    jobPositionId: number;
+    departmentId: number;
   }) => {
     console.log('updateDP', data);
   };
@@ -185,6 +187,7 @@ const UserManagement = () => {
           onConfirm={handleDeleteUser}
         />
         <UserUpdateDepartmentAndPositionDialog
+          userId={currentUserId}
           isOpen={isUpdateDepartmentAndPositionDialogOpen}
           onClose={handleCloseUpdateDepartmentAndPositionDialog}
           onSubmit={handleSubmitUpdateDP}

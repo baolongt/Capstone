@@ -6,49 +6,50 @@ import {
   DialogTitle,
   Stack
 } from '@mui/material';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { useListDepartments } from '@/apis';
-import { CustomButton, FieldTitle, SelectField } from '@/components/common';
+import { useGetUserById, useListDepartments, useUpdateUserDepartment } from '@/apis';
+import {
+  CustomButton,
+  FieldTitle,
+  Loading,
+  SelectField
+} from '@/components/common';
 import { role, user } from '@/models';
+import { toast } from 'react-toastify';
 
 type UserUpdateProps = {
   isOpen: boolean;
   onClose: () => void;
-  defaultValues?: {
-    userId: number;
-    jobPositionId: string;
-    departmentId: string;
-  };
+  userId?: number | null;
   onSubmit: (data: {
     userId: number;
-    jobPositionId: string;
-    departmentId: string;
+    jobPositionId: number;
+    departmentId: number;
   }) => void;
 };
 
 type UserUpdateForm = {
-  jobPositionId: string;
-  departmentId: string;
+  jobPositionId: number;
+  departmentId: number;
 };
 
 export const UserUpdateDepartmentAndPositionDialog = ({
   isOpen,
   onClose,
-  defaultValues,
+  userId,
   onSubmit
 }: UserUpdateProps) => {
-  const form = useForm<UserUpdateForm>();
-  const { handleSubmit, reset } = form;
-
-  const handleFormSubmit = (data: UserUpdateForm) => {
-    onSubmit({
-      userId: defaultValues?.userId ?? -1,
-      jobPositionId: data.jobPositionId,
-      departmentId: data.departmentId
-    });
-    onClose();
-  };
+  const form = useForm<UserUpdateForm>({
+    defaultValues: {
+      jobPositionId: -1,
+      departmentId: -1
+    }
+  });
+  const { handleSubmit, reset, formState:{
+    isDirty
+  }, getValues } = form;
 
   const handleDialogClose = () => {
     reset();
@@ -61,56 +62,88 @@ export const UserUpdateDepartmentAndPositionDialog = ({
       size: 10_000
     }
   });
+  const { data: user, isLoading } = useGetUserById(userId);
+
+  const {mutate: updatePositionAndDepartment} = useUpdateUserDepartment({
+    onSuccess: () => {
+      toast.success('Cập nhật nhân viên thành công');
+    },
+    onError: () => {
+      toast.error('Cập nhật nhân viên thất bại');
+    }
+  });
+
+  const handleFormSubmit = () => {
+    updatePositionAndDepartment({
+      userId: userId || -1,
+      ...getValues()
+    })
+    onClose();
+  };
+
+  useEffect(() => {
+    if (user) {
+      form.reset({
+        jobPositionId: user.jobPositionID ?? -1,
+        departmentId: user.departmentId ?? -1
+      }, { keepDirty: false });
+    }
+  }, [form, user]);
 
   return (
     <Dialog open={isOpen} onClose={handleDialogClose}>
-      <DialogTitle>Cập nhật thông tin người dùng</DialogTitle>
+      <DialogTitle fontWeight={600}>Cập nhật thông tin người dùng</DialogTitle>
       <DialogContent>
         <Stack
           component="form"
           gap={2}
-          onSubmit={handleSubmit(handleFormSubmit)}
         >
-          <Box>
-            <FieldTitle
-              sx={{
-                fontWeight: 'bold'
-              }}
-              title="Chức vụ"
-            />
-            <SelectField
-              name="jobPositionId"
-              form={form}
-              defaultValue={defaultValues?.jobPositionId ?? 1}
-              data={role.jobPositionOptions}
-            />
-          </Box>
-          <Box>
-            <FieldTitle
-              sx={{
-                fontWeight: 'bold'
-              }}
-              title="Phòng ban"
-            />
-            <SelectField
-              form={form}
-              name="departmentId"
-              defaultValue={defaultValues?.departmentId ?? 1}
-              data={
-                depaResponse?.data.map((department) => {
-                  return {
-                    title: department.name,
-                    value: department.id
-                  };
-                }) ?? []
-              }
-            />
-          </Box>
+          {isLoading ? (
+            <Loading sx={{ height: '100%' }} />
+          ) : (
+            <>
+              <Box>
+                <FieldTitle
+                  sx={{
+                    fontWeight: 'bold'
+                  }}
+                  title="Chức vụ"
+                />
+                <SelectField
+                  name="jobPositionId"
+                  form={form}
+                  data={role.jobPositionOptions}
+                />
+              </Box>
+              <Box>
+                <FieldTitle
+                  sx={{
+                    fontWeight: 'bold'
+                  }}
+                  title="Phòng ban"
+                />
+                <SelectField
+                  form={form}
+                  name="departmentId"
+                  data={
+                    depaResponse?.data.map((department) => {
+                      return {
+                        title: department.name,
+                        value: department.id
+                      };
+                    }) ?? []
+                  }
+                />
+              </Box>
+            </>
+          )}
         </Stack>
       </DialogContent>
       <DialogActions>
         <CustomButton label="Hủy bỏ" onClick={handleDialogClose} />
-        <CustomButton label="Cập nhật" type="submit" form="user-update-form" />
+        <CustomButton onClick={
+         () => handleFormSubmit()
+        } disabled={!isDirty} label="Cập nhật" form="user-update-form" />
       </DialogActions>
     </Dialog>
   );

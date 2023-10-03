@@ -4,3 +4,4 @@ export { useDeleteUser, type useDeleteUserParams } from './deleteUser';
 export { useGetUserById } from './getUserById';
 export { useListUsers } from './listUsers';
 export { useUpdateUser, type useUpdateUserParams } from './updateUser';
+export * from "./update-department-and-position"
