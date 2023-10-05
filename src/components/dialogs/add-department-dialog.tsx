@@ -45,7 +45,6 @@ export const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({
     size: 10
   });
   const { handleSubmit, reset } = form;
-  const { data: users } = useListUsers({ queryParams });
   const { mutate: createDepartmentMutate } = useCreateDepartment({
     onSuccess: () => {
       toast.success('Thêm phòng ban thành công');
@@ -84,7 +83,7 @@ export const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({
     reset({
       name: data?.name ?? ''
     });
-  }, [data]);
+  }, [data, reset]);
 
   return (
     <Dialog

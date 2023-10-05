@@ -7,9 +7,9 @@ import {
   DialogTitle
 } from '@mui/material';
 import { Accept } from 'react-dropzone';
-import { Resolver, useForm, UseFormReturn } from 'react-hook-form';
+import { Resolver, useForm } from 'react-hook-form';
 
-import { template, UploadFile } from '@/models';
+import { UploadFile } from '@/models';
 
 import { CustomButton, FieldTitle, InputField } from '../common';
 import { WrappedDragDropFile } from '../common/form-control/drag-drop-file';
