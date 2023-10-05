@@ -2,20 +2,6 @@
 
 ---
 
-##TODO 
-```
-     "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.ts?(x)": [
-      "npm run lint:fix"
-    ],
-    "package.json": "npx sort-package-json"
-  },
-```
 ## Accounts
 
 | Name               | Email            | Paswpord | Role ID | Job Position ID |
