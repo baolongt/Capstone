@@ -8,16 +8,20 @@ import {
 } from '@mui/material';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 
-import { useGetUserById, useListDepartments, useUpdateUserDepartment } from '@/apis';
+import {
+  useGetUserById,
+  useListDepartments,
+  useUpdateUserDepartment
+} from '@/apis';
 import {
   CustomButton,
   FieldTitle,
   Loading,
   SelectField
 } from '@/components/common';
-import { role, user } from '@/models';
-import { toast } from 'react-toastify';
+import { role } from '@/models';
 
 type UserUpdateProps = {
   isOpen: boolean;
@@ -38,8 +42,7 @@ type UserUpdateForm = {
 export const UserUpdateDepartmentAndPositionDialog = ({
   isOpen,
   onClose,
-  userId,
-  onSubmit
+  userId
 }: UserUpdateProps) => {
   const form = useForm<UserUpdateForm>({
     defaultValues: {
@@ -47,9 +50,11 @@ export const UserUpdateDepartmentAndPositionDialog = ({
       departmentId: -1
     }
   });
-  const { handleSubmit, reset, formState:{
-    isDirty
-  }, getValues } = form;
+  const {
+    reset,
+    formState: { isDirty },
+    getValues
+  } = form;
 
   const handleDialogClose = () => {
     reset();
@@ -64,7 +69,7 @@ export const UserUpdateDepartmentAndPositionDialog = ({
   });
   const { data: user, isLoading } = useGetUserById(userId);
 
-  const {mutate: updatePositionAndDepartment} = useUpdateUserDepartment({
+  const { mutate: updatePositionAndDepartment } = useUpdateUserDepartment({
     onSuccess: () => {
       toast.success('Cập nhật nhân viên thành công');
     },
@@ -77,16 +82,19 @@ export const UserUpdateDepartmentAndPositionDialog = ({
     updatePositionAndDepartment({
       userId: userId || -1,
       ...getValues()
-    })
+    });
     onClose();
   };
 
   useEffect(() => {
     if (user) {
-      form.reset({
-        jobPositionId: user.jobPositionID ?? -1,
-        departmentId: user.departmentId ?? -1
-      }, { keepDirty: false });
+      form.reset(
+        {
+          jobPositionId: user.jobPositionID ?? -1,
+          departmentId: user.departmentId ?? -1
+        },
+        { keepDirty: false }
+      );
     }
   }, [form, user]);
 
@@ -94,10 +102,7 @@ export const UserUpdateDepartmentAndPositionDialog = ({
     <Dialog open={isOpen} onClose={handleDialogClose}>
       <DialogTitle fontWeight={600}>Cập nhật thông tin người dùng</DialogTitle>
       <DialogContent>
-        <Stack
-          component="form"
-          gap={2}
-        >
+        <Stack component="form" gap={2}>
           {isLoading ? (
             <Loading sx={{ height: '100%' }} />
           ) : (
@@ -141,9 +146,12 @@ export const UserUpdateDepartmentAndPositionDialog = ({
       </DialogContent>
       <DialogActions>
         <CustomButton label="Hủy bỏ" onClick={handleDialogClose} />
-        <CustomButton onClick={
-         () => handleFormSubmit()
-        } disabled={!isDirty} label="Cập nhật" form="user-update-form" />
+        <CustomButton
+          disabled={!isDirty}
+          label="Cập nhật"
+          form="user-update-form"
+          onClick={() => handleFormSubmit()}
+        />
       </DialogActions>
     </Dialog>
   );

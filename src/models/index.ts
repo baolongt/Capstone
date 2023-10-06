@@ -7,6 +7,7 @@ export * as file from './file';
 export * as notification from './notification';
 export * as outgoingDocument from './outgoingDocument';
 export * as role from './role';
+export * as template from './template';
 export * from './uploadFile';
 export * as user from './user';
 export * as validation from './validation';

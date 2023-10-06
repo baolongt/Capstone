@@ -1,7 +1,8 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Box, Paper } from '@mui/material';
+import { Box, Link, Paper } from '@mui/material';
 import React, { useEffect } from 'react';
 import { useForm, UseFormReturn } from 'react-hook-form';
+import { Link as RouterLink } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import { useUploadForm } from '@/apis/outgoingDocument';
@@ -59,6 +60,9 @@ const CreateOutgoingDocumentPage: React.FC = () => {
       <PageHeader>
         <Box>
           <PageTitle label="đăng ký văn bản đi" />
+          <Link href="#">
+            <RouterLink to="/template">Mẫu văn bản</RouterLink>
+          </Link>
         </Box>
       </PageHeader>
       <Box

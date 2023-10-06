@@ -8,21 +8,21 @@ import React from 'react';
 
 import { Path } from '@/types';
 
-const incomingDocumentSubPaths: Path[] = [
-  {
-    label: 'Sổ văn bản đến',
-    path: '/incoming-documents',
-    icon: <FolderIcon />
-  }
-];
+// const incomingDocumentSubPaths: Path[] = [
+//   {
+//     label: 'Sổ văn bản đến',
+//     path: '/incoming-documents',
+//     icon: <FolderIcon />
+//   }
+// ];
 
-const outGoingDocumentSubPaths: Path[] = [
-  {
-    label: 'Sổ văn bản đi',
-    path: '/outgoing-documents',
-    icon: <FolderIcon />
-  }
-];
+// const outGoingDocumentSubPaths: Path[] = [
+//   {
+//     label: 'Sổ văn bản đi',
+//     path: '/outgoing-documents',
+//     icon: <FolderIcon />
+//   }
+// ];
 
 export const adminPaths: Path[] = [
   {
@@ -66,6 +66,11 @@ export const officerPaths: Path[] = [
   {
     label: 'Danh sách liên lạc',
     path: '/contact-list',
+    icon: <PeopleIcon />
+  },
+  {
+    label: 'Văn bản mẫu',
+    path: '/template',
     icon: <PeopleIcon />
   }
 ];

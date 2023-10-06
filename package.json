@@ -32,7 +32,7 @@
   },
   "lint-staged": {
     "*.ts?(x)": [
-      "npm run skip"
+      "npm run lint:fix"
     ],
     "package.json": "npx sort-package-json"
   },

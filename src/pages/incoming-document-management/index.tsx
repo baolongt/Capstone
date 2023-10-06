@@ -1,7 +1,7 @@
 import AddIcon from '@mui/icons-material/Add';
 import { Box, Button } from '@mui/material';
 import { debounce } from 'lodash';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 
 import { useListDocuments } from '@/apis';
@@ -33,10 +33,6 @@ const IncomingDocumentManagement = () => {
   const handleDateRangeOnChange = (value: DateRange) => {
     setQueryParams({ ...queryParams, dateRange: value });
   };
-
-  useEffect(() => {
-    console.debug('debug value change', queryParams);
-  }, [queryParams]);
 
   const debouncedSearch = debounce(handleChangeSearch, DEBOUND_SEARCH_TIME);
 

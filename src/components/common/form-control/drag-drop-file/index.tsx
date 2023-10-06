@@ -1,241 +1,230 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Box, IconButton, SxProps, Typography, useTheme } from '@mui/material';
-import React, { ReactNode, useRef, useState } from 'react';
-import { Controller, FieldValues } from 'react-hook-form';
-import { IoMdClose } from 'react-icons/io';
+import AttachFileIcon from '@mui/icons-material/AttachFile';
+import CloseIcon from '@mui/icons-material/Close';
+import ImageIcon from '@mui/icons-material/Image';
+import {
+  Box,
+  FormHelperText,
+  IconButton,
+  Tooltip,
+  Typography,
+  useTheme
+} from '@mui/material';
+import { indigo } from '@mui/material/colors';
+import React, { useState } from 'react';
+import { Accept, useDropzone } from 'react-dropzone';
+import { Controller, UseFormReturn } from 'react-hook-form';
+import { FaFileExcel, FaFilePdf, FaFileWord } from 'react-icons/fa';
+
+import { UploadFile } from '@/models';
+
+const getFileIcon = (file: File) => {
+  if (file.type.startsWith('image/')) {
+    return <ImageIcon style={{ fontSize: '2rem' }} />;
+  } else {
+    switch (file.type.toLowerCase()) {
+      case 'application/pdf':
+        return <FaFilePdf style={{ fontSize: '2rem' }} />;
+      case 'application/vnd.ms-excel':
+      case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+        return <FaFileExcel style={{ fontSize: '2rem' }} />;
+      case 'application/msword':
+      case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+        return <FaFileWord style={{ fontSize: '2rem' }} />;
+      default:
+        return <AttachFileIcon style={{ fontSize: '2rem' }} />;
+    }
+  }
+};
 
 export interface DragDropFiledProps {
-  name: string;
-  icon?: ReactNode;
-  form: FieldValues;
-  disabled?: boolean;
-  placeholder?: string;
-  sizeFile?: string;
-  oldUrl?: string;
-  sx?: SxProps;
-  preview?: boolean;
-  accept: string;
-  onFileChange?: (file: any) => void;
+  fileAccpetType?: Accept;
+  error: boolean;
+  helperText: string;
+  value: UploadFile | null;
+  onChange: (event: any) => void;
 }
 
-export const DragDropFile = (props: DragDropFiledProps) => {
-  const {
-    name,
-    icon,
-    accept,
-    form,
-    disabled,
-    placeholder,
-    sizeFile,
-    oldUrl,
-    onFileChange,
-    preview = true,
-    ...resProps
-  } = props;
-  const { control } = form;
-  const wrapperRef = useRef(null);
-  const [file, setFile] = useState<any>(null);
-  const [imgPath, setImgPath] = useState<any>(null);
-  const [isDragover, setIsDragOver] = useState(false);
-  const onDragEnter = () => setIsDragOver(true);
-  const onDragLeave = () => setIsDragOver(false);
-  const onDrop = () => setIsDragOver(false);
-  const [loading, setLoading] = useState(true);
-  const [loadError, setLoadError] = useState(false);
+export const DragDropFile: React.FC<DragDropFiledProps> = ({
+  fileAccpetType,
+  error,
+  helperText,
+  onChange,
+  value
+}) => {
   const theme = useTheme();
+  const [isHovered, setIsHovered] = useState(false);
 
-  const handleImageLoad = () => {
-    setLoading(false);
-  };
-  const handleImageError = () => {
-    setLoading(false);
-    setLoadError(true);
+  const onDrop = (acceptedFiles: File[]) => {
+    const newFile = new UploadFile({
+      fileObj: acceptedFiles[0]
+    });
+    onChange(newFile);
   };
 
-  const handleFileDrop = (event: any) => {
-    const newFile = event.target.files && event.target.files[0];
-    if (newFile) {
-      setFile(newFile);
-      setImgPath(URL.createObjectURL(newFile));
-      onFileChange && onFileChange(newFile);
-      // if (accept.replaceAll('.', '').split(',').includes(newFile.type.split('/')[1])) {
-      // }
-    }
+  const removeFile = () => {
+    onChange(null);
   };
-  const onRemoveFile = (field: any) => {
-    setFile(null);
-    setImgPath(null);
-    field.onChange(null);
+
+  const { getRootProps, isDragActive } = useDropzone({
+    accept: fileAccpetType,
+    onDrop,
+    multiple: true
+  });
+
+  return (
+    <Box>
+      {!value ? (
+        <Box
+          sx={{
+            width: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+            minHeight: 150,
+            backgroundColor: isDragActive
+              ? indigo[50]
+              : isHovered
+              ? indigo[50]
+              : '#fff',
+            borderColor: error
+              ? theme.palette.error.main
+              : isDragActive
+              ? theme.palette.primary.light
+              : isHovered
+              ? theme.palette.primary.light
+              : 'grey.400',
+            borderRadius: '4px',
+            '&.Mui-error': {
+              borderColor: theme.palette.error.main
+            }
+          }}
+          {...getRootProps()}
+          border={1}
+          onMouseEnter={() => setIsHovered(true)}
+        >
+          <Box
+            component="div"
+            sx={{
+              width: '100%',
+              height: '100%',
+              display: 'flex',
+              justifyContent: 'space-around',
+              alignItems: 'center',
+              flexDirection: 'column'
+            }}
+          >
+            <Box
+              sx={{
+                py: 10,
+                color: error
+                  ? theme.palette.error.main
+                  : theme.palette.secondary.dark
+              }}
+            >
+              {isDragActive ? (
+                <Typography>Kéo file vào đây</Typography>
+              ) : (
+                <Typography>
+                  Kéo thả file vào đây hoặc click để tải file lên
+                </Typography>
+              )}
+            </Box>
+          </Box>
+
+          {error && <FormHelperText error>{helperText}</FormHelperText>}
+        </Box>
+      ) : value.fileObj ? (
+        <Box
+          sx={{
+            px: 'auto',
+            display: 'flex',
+            justifyContent: 'center',
+            minHeight: 150,
+            backgroundColor: theme.palette.secondary.light,
+            pt: 5
+          }}
+        >
+          <Box sx={{ maxHeight: '100%', overflow: 'auto', mr: 1 }}>
+            <Box style={{ marginTop: 12 }}>{getFileIcon(value.fileObj)}</Box>
+          </Box>
+          <Box
+            sx={{
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap'
+            }}
+          >
+            <Typography
+              gutterBottom
+              variant="subtitle1"
+              sx={{
+                minWidth: '100%'
+              }}
+            >
+              {value.fileObj.name}
+            </Typography>
+            <Box>
+              <Typography gutterBottom variant="caption">
+                {value.fileObj.size > 100000
+                  ? `${(value.fileObj.size / 1000000).toFixed(2)} MB`
+                  : `${(value.fileObj.size / 1000).toFixed(2)} KB`}
+              </Typography>
+            </Box>
+          </Box>
+          <Box sx={{ maxHeight: '100%', overflow: 'auto', pt: 2, pl: 3 }}>
+            <Tooltip title="Xoá">
+              <IconButton onClick={removeFile}>
+                <CloseIcon />
+              </IconButton>
+            </Tooltip>
+          </Box>
+        </Box>
+      ) : (
+        <></>
+      )}
+    </Box>
+  );
+};
+
+export type WrappedDragDropFileProps = {
+  name: any;
+  form: UseFormReturn<any, any, undefined>;
+  defaultValue?: any;
+  fileAccpetType?: Accept;
+};
+
+export const WrappedDragDropFile: React.FC<WrappedDragDropFileProps> = ({
+  name,
+  form,
+  fileAccpetType
+}) => {
+  const { control } = form;
+  const hanldeInputFiles = (
+    file: UploadFile[],
+    onChange: (value: any) => void
+  ) => {
+    onChange(file);
   };
 
   return (
-    <Box component="div">
-      <Box
-        ref={wrapperRef}
-        component="div"
-        sx={{
-          border: '2px dashed',
-          borderRadius: '5px',
-          alignItems: 'center',
-          height: '145px',
-          padding: '10px',
-          opacity: isDragover ? 0.6 : 1,
-          position: 'relative',
-          fontSize: '14px',
-          fontWeight: 600,
-          '&:hover': {
-            opacity: 0.8
-          },
-          backgroundColor: theme.palette.grey[300]
+    <Box>
+      <Controller
+        control={control}
+        name={name}
+        render={({ field: { onChange, value }, fieldState }: any) => {
+          console.log('files line 138', value);
+
+          return (
+            <DragDropFile
+              value={value}
+              fileAccpetType={fileAccpetType}
+              error={Boolean(fieldState?.error)}
+              helperText={fieldState?.error?.message}
+              onChange={(e) => hanldeInputFiles(e, onChange)}
+            />
+          );
         }}
-        onDragEnter={onDragEnter}
-        onDragLeave={onDragLeave}
-        onDrop={onDrop}
-      >
-        <Controller
-          control={control}
-          name={name}
-          render={({ field }) => (
-            <>
-              <Box
-                component="div"
-                sx={{
-                  width: '100%',
-                  height: '100%',
-                  display: 'flex',
-                  justifyContent: 'space-around',
-                  alignItems: 'center',
-                  flexDirection: 'column'
-                }}
-              >
-                {(file || oldUrl) && preview ? (
-                  <Box
-                    component="div"
-                    sx={{
-                      display: 'flex',
-                      justifyContent: 'space-around',
-                      alignItems: 'center'
-                    }}
-                  >
-                    <Box
-                      component="div"
-                      sx={{
-                        width: '100px',
-                        height: '100px',
-                        position: 'relative',
-                        borderRadius: '5px'
-                      }}
-                    >
-                      {loading && !loadError && (
-                        <>Loading...</>
-                        // <CircularLoader size='20px' color={theme.palette.grey[400]} />
-                      )}
-                      <Box
-                        component="img"
-                        src={file ? imgPath : oldUrl}
-                        sx={{
-                          width: '100px',
-                          height: '100px',
-                          objectFit: 'contain',
-                          border: '1px solid #EDF0F2',
-                          borderRadius: '5px',
-                          opacity: loading ? 0 : 1
-                        }}
-                        onLoad={handleImageLoad}
-                        onError={handleImageError}
-                      />
-                      <IconButton
-                        size="small"
-                        sx={{
-                          display: imgPath ? 'flex' : 'none',
-                          position: 'absolute',
-                          top: '-10px',
-                          right: '-10px',
-                          backgroundColor: theme.palette.grey[500],
-                          color: theme.palette.common.white,
-                          cursor: 'pointer',
-                          fontSize: '15px',
-                          zIndex: 1,
-                          '&:hover': {
-                            backgroundColor: theme.palette.grey[500],
-                            color: theme.palette.common.white,
-                            opacity: 0.6
-                          }
-                        }}
-                        disabled={!imgPath}
-                        onClick={() => onRemoveFile(field)}
-                      >
-                        <IoMdClose />
-                      </IconButton>
-                    </Box>
-                    <Box component="div" sx={{ ml: '24px' }}>
-                      {file?.name}
-                      {/* <TextLimitShowTooltip
-                        text={file?.name}
-                        maxLength={20}
-                        sx={{ fontSize: 'inherit', fontWeight: 'inherit' }}
-                      /> */}
-                      <Typography
-                        sx={{ fontSize: 'inherit', fontWeight: 'inherit' }}
-                      >
-                        {/* {file && `${formatFileSize(file?.size)}`}{' '} */}
-                        Format file size
-                      </Typography>
-                    </Box>
-                  </Box>
-                ) : (
-                  <>
-                    <Typography
-                      sx={{
-                        fontSize: '14px',
-                        fontWeight: '600',
-                        textAlign: 'center'
-                      }}
-                    >
-                      {icon}
-                      <br />
-                      {placeholder}
-                    </Typography>
-                    <Typography
-                      sx={{
-                        display: sizeFile ? 'flex' : 'none',
-                        color: theme.palette.grey[300],
-                        fontSize: '14px',
-                        fontWeight: '600'
-                      }}
-                    >
-                      {accept.toUpperCase().replace(/\./g, ' ') + sizeFile}
-                    </Typography>
-                  </>
-                )}
-              </Box>
-              <Box
-                component="input"
-                disabled={disabled}
-                type="file"
-                title=""
-                sx={{
-                  opacity: 0,
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  height: '100%',
-                  width: '100%',
-                  cursor: 'pointer'
-                }}
-                {...field}
-                {...resProps}
-                value=""
-                accept={accept}
-                onChange={(event: any) => {
-                  handleFileDrop(event);
-                  field.onChange(event.target.files?.[0]);
-                }}
-              />
-            </>
-          )}
-        />
-      </Box>
+      />
     </Box>
   );
 };

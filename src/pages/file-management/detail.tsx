@@ -1,4 +1,4 @@
-import { Box, Grid, Paper, Typography, useTheme } from '@mui/material';
+import { Box, Grid, Paper, Typography } from '@mui/material';
 import moment from 'moment';
 import React from 'react';
 import { useParams } from 'react-router-dom';

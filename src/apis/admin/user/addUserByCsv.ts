@@ -28,7 +28,6 @@ export const uploadCSVUser = async (payload: UploadFile) => {
 
 export const upLoadUser = async (file: File) => {
   console.log('file input: ', file);
-  const url = '/api/users/AddUsers';
   if (!file) throw new Error('File is required');
   const upFile: UploadFile = new UploadFile({
     fileObj: file
