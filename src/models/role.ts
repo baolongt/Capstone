@@ -36,3 +36,8 @@ export const jobPositionOptions: SelectOption[] = [
     value: 6
   }
 ];
+
+enum Role {
+  ADMIN = 2,
+  USER = 1
+}
