@@ -18,6 +18,8 @@ import CreateTemplateDialog, {
 import DeleteDialog from '@/components/dialogs/delete-dialog';
 import { TemplateDocTable } from '@/components/template-document';
 import { DEBOUND_SEARCH_TIME, DEFAULT_PAGE_WIDTH } from '@/constants';
+import useAuth from '@/hooks/useAuth';
+import { JobPosition } from '@/models/user';
 import { BaseTableQueryParams } from '@/types';
 
 const TemplatePage = () => {
@@ -31,6 +33,8 @@ const TemplatePage = () => {
   const [currentSelectDeleteItem, setCurrentSelectDeleteItem] = React.useState<
     number | null
   >(null);
+  const auth = useAuth();
+  const { user } = auth.authState;
 
   const { mutate: createTemplate } = useCreateTempalteDoc({
     onSuccess: () => {
@@ -107,16 +111,18 @@ const TemplatePage = () => {
               }}
             >
               <PageTitle label="Văn bản mẫu" />
-              <Box>
-                <Button
-                  fullWidth
-                  variant="contained"
-                  startIcon={<AddIcon />}
-                  onClick={handleOpenCreate}
-                >
-                  Tạo văn bản mẫu mới
-                </Button>
-              </Box>
+              {user && user?.jobPositionID === JobPosition.VAN_THU && (
+                <Box>
+                  <Button
+                    fullWidth
+                    variant="contained"
+                    startIcon={<AddIcon />}
+                    onClick={handleOpenCreate}
+                  >
+                    Tạo văn bản mẫu mới
+                  </Button>
+                </Box>
+              )}
             </Box>
             <Box
               sx={{
