@@ -11,7 +11,12 @@ import { Resolver, useForm } from 'react-hook-form';
 
 import { UploadFile } from '@/models';
 
-import { CustomButton, FieldTitle, InputField } from '../common';
+import {
+  CustomButton,
+  FieldTitle,
+  InputField,
+  MultilineTextField
+} from '../common';
 import { WrappedDragDropFile } from '../common/form-control/drag-drop-file';
 import { createTemplateSchema } from './validations';
 
@@ -22,17 +27,19 @@ const fileAccpetType: Accept = {
 export interface CreateTemplateDialogProps {
   mode?: 'create';
   isOpen: boolean;
-  onSubmit: () => void;
+  onSubmit: (createPayload: TemplateCreate) => void;
   onClose: () => void;
 }
 
-type TemplateCreate = {
+export type TemplateCreate = {
   name: string;
   file: UploadFile | undefined;
+  description: string;
 };
 
 const CreateTemplateDialog: React.FC<CreateTemplateDialogProps> = ({
   isOpen,
+  onSubmit,
   onClose,
   mode = 'create'
 }) => {
@@ -47,11 +54,9 @@ const CreateTemplateDialog: React.FC<CreateTemplateDialogProps> = ({
   });
 
   const handleSubmit = () => {
-    console.log('values', form.getValues());
-    // const { file } = form.getValues();
-    // if (file && file.fileObj) {
-    //   onSubmit(file.fileObj);
-    // }
+    onSubmit(form.getValues());
+    form.reset();
+    onClose();
   };
 
   return (
@@ -75,7 +80,15 @@ const CreateTemplateDialog: React.FC<CreateTemplateDialogProps> = ({
             isRequired={true}
             sx={{ fontWeight: 400 }}
           />
-          <InputField form={form} name="name" label="" />
+          <InputField form={form} name="name" />
+        </Box>
+        <Box component="div" sx={{ width: '100%', mb: 3 }}>
+          <FieldTitle
+            title="Nội dung"
+            isRequired={true}
+            sx={{ fontWeight: 400 }}
+          />
+          <MultilineTextField form={form} name="description" minRows={4} />
         </Box>
         <Box component="div" sx={{ width: '100%', mb: 3 }}>
           <FieldTitle

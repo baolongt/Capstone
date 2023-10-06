@@ -1,13 +1,16 @@
 import AddIcon from '@mui/icons-material/Add';
 import { Box, Button } from '@mui/material';
 import { debounce } from 'lodash';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { toast } from 'react-toastify';
 
-import { useListTemplate } from '@/apis';
+import { useCreateTempalteDoc, useListTemplate } from '@/apis';
 import { InputSearch, Loading } from '@/components/common';
 import PageHeader from '@/components/common/page-header';
 import PageTitle from '@/components/common/page-title';
-import CreateTemplateDialog from '@/components/dialogs/create-template-dialog';
+import CreateTemplateDialog, {
+  TemplateCreate
+} from '@/components/dialogs/create-template-dialog';
 import { TemplateDocTable } from '@/components/template-document';
 import { DEBOUND_SEARCH_TIME, DEFAULT_PAGE_WIDTH } from '@/constants';
 import { BaseTableQueryParams } from '@/types';
@@ -20,6 +23,15 @@ const TemplatePage = () => {
   });
   const [openCreate, setOpenCreate] = React.useState(false);
 
+  const { mutate: createTemplate } = useCreateTempalteDoc({
+    onSuccess: () => {
+      toast.success('Tạo văn bản mẫu thành công');
+    },
+    onError: () => {
+      toast.error('Tạo văn bản mẫu thất bại');
+    }
+  });
+
   const handleChangePage = (page: number) => {
     setQueryParams((prev) => ({ ...prev, page }));
   };
@@ -29,15 +41,9 @@ const TemplatePage = () => {
 
   const debouncedSearch = debounce(handleChangeSearch, DEBOUND_SEARCH_TIME);
 
-  const { data: response, isLoading } = useListTemplate({
-    queryParams
-  });
-  if (isLoading) {
-    return <Loading />;
-  }
-
-  const handleSubmit = () => {
-    console.log('submit');
+  const handleSubmit = (payload: TemplateCreate) => {
+    console.log('submit', payload);
+    createTemplate(payload);
   };
 
   const handleOpenCreate = () => {
@@ -47,6 +53,17 @@ const TemplatePage = () => {
   const handleCloseCreate = () => {
     setOpenCreate(false);
   };
+
+  const { data: response, isLoading } = useListTemplate({
+    queryParams
+  });
+  useEffect(() => {
+    console.log('queryParams', queryParams);
+  }, [queryParams]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   if (response) {
     const { data, metadata } = response;

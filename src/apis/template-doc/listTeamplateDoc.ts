@@ -15,11 +15,12 @@ export const listTemplate = async ({
 }: {
   queryParams: BaseTableQueryParams;
 }): Promise<ListTemplateResponse> => {
-  const { page, size } = queryParams;
+  const { page, size, search } = queryParams;
 
   const params = {
     PageNumber: page,
-    PageSize: size
+    PageSize: size,
+    ...(search && search != '' ? { SearchString: search } : {})
   };
 
   const response: ListTemplateResponse = await axiosInstance.get(
@@ -38,7 +39,7 @@ export const useListTemplate = ({
   queryParams: BaseTableQueryParams;
 }) => {
   return useQuery<ListTemplateResponse, Error>({
-    queryKey: [api.TEMPLATE],
+    queryKey: [api.TEMPLATE, queryParams],
     queryFn: () => listTemplate({ queryParams }),
     keepPreviousData: true
   });

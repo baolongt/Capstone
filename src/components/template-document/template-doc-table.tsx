@@ -25,12 +25,17 @@ export const TemplateDocTable: React.FC<TemplateTableProps> = ({
 }) => {
   const columns = [
     columnHelper.accessor('name', {
-      header: 'Name',
+      header: 'Tên',
+      cell: (row) => row.renderValue(),
+      size: 300
+    }),
+    columnHelper.accessor('description', {
+      header: ' Nội dung',
       cell: (row) => row.renderValue(),
       size: 300
     }),
     columnHelper.accessor('createdAt', {
-      header: 'Created At',
+      header: 'Ngày tạo',
       cell: (row) => moment(row.getValue()).format('DD/MM/YYYY'),
       size: 100
     }),
