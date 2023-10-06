@@ -4,13 +4,18 @@ import { debounce } from 'lodash';
 import React, { useEffect } from 'react';
 import { toast } from 'react-toastify';
 
-import { useCreateTempalteDoc, useListTemplate } from '@/apis';
+import {
+  useCreateTempalteDoc,
+  useDeleteTemplateDoc,
+  useListTemplate
+} from '@/apis';
 import { InputSearch, Loading } from '@/components/common';
 import PageHeader from '@/components/common/page-header';
 import PageTitle from '@/components/common/page-title';
 import CreateTemplateDialog, {
   TemplateCreate
 } from '@/components/dialogs/create-template-dialog';
+import DeleteDialog from '@/components/dialogs/delete-dialog';
 import { TemplateDocTable } from '@/components/template-document';
 import { DEBOUND_SEARCH_TIME, DEFAULT_PAGE_WIDTH } from '@/constants';
 import { BaseTableQueryParams } from '@/types';
@@ -22,6 +27,10 @@ const TemplatePage = () => {
     search: ''
   });
   const [openCreate, setOpenCreate] = React.useState(false);
+  const [openDelete, setOpenDelete] = React.useState(false);
+  const [currentSelectDeleteItem, setCurrentSelectDeleteItem] = React.useState<
+    number | null
+  >(null);
 
   const { mutate: createTemplate } = useCreateTempalteDoc({
     onSuccess: () => {
@@ -29,6 +38,15 @@ const TemplatePage = () => {
     },
     onError: () => {
       toast.error('Tạo văn bản mẫu thất bại');
+    }
+  });
+
+  const { mutate: deleteTemplate } = useDeleteTemplateDoc({
+    onSuccess: () => {
+      toast.success('Xoá văn bản mẫu thành công');
+    },
+    onError: () => {
+      toast.error('Xoá văn bản mẫu thất bại');
     }
   });
 
@@ -42,7 +60,6 @@ const TemplatePage = () => {
   const debouncedSearch = debounce(handleChangeSearch, DEBOUND_SEARCH_TIME);
 
   const handleSubmit = (payload: TemplateCreate) => {
-    console.log('submit', payload);
     createTemplate(payload);
   };
 
@@ -52,6 +69,18 @@ const TemplatePage = () => {
 
   const handleCloseCreate = () => {
     setOpenCreate(false);
+  };
+
+  const handleOpenDelete = (id: number) => {
+    setCurrentSelectDeleteItem(id);
+    setOpenDelete(true);
+  };
+
+  const handleConfirmDelete = () => {
+    if (currentSelectDeleteItem) {
+      deleteTemplate(currentSelectDeleteItem);
+      setOpenDelete(false);
+    }
   };
 
   const { data: response, isLoading } = useListTemplate({
@@ -117,6 +146,7 @@ const TemplatePage = () => {
               data={data}
               handleChangePage={handleChangePage}
               sx={{ minHeight: '30vh' }}
+              handleDelete={handleOpenDelete}
             />
           </Box>
         </Box>
@@ -124,6 +154,12 @@ const TemplatePage = () => {
           isOpen={openCreate}
           onSubmit={handleSubmit}
           onClose={handleCloseCreate}
+        />
+        <DeleteDialog
+          isOpen={openDelete}
+          message="Bạn có chắc chắn muốn xoá văn bản mẫu này?"
+          onClose={() => setOpenDelete(false)}
+          onConfirm={handleConfirmDelete}
         />
       </>
     );

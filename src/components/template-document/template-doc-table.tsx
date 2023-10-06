@@ -1,3 +1,4 @@
+import DeleteIcon from '@mui/icons-material/Delete';
 import DownloadIcon from '@mui/icons-material/Download';
 import { IconButton, Link, SxProps, Tooltip } from '@mui/material';
 import { createColumnHelper } from '@tanstack/react-table';
@@ -15,13 +16,15 @@ export type TemplateTableProps = {
   metadata?: Metadata;
   handleChangePage?: (page: number) => void;
   sx?: SxProps;
+  handleDelete?: (id: number) => void;
 };
 
 export const TemplateDocTable: React.FC<TemplateTableProps> = ({
   data,
   metadata,
   handleChangePage,
-  sx
+  sx,
+  handleDelete
 }) => {
   const columns = [
     columnHelper.accessor('name', {
@@ -55,7 +58,23 @@ export const TemplateDocTable: React.FC<TemplateTableProps> = ({
           </Tooltip>
         );
       },
-      size: 100
+      size: 20
+    }),
+    columnHelper.accessor('id', {
+      header: '',
+      cell: (row) => {
+        return (
+          <Tooltip title="Xoá">
+            <IconButton
+              sx={{ color: 'inherit' }}
+              onClick={() => handleDelete?.(row.getValue())}
+            >
+              <DeleteIcon />
+            </IconButton>
+          </Tooltip>
+        );
+      },
+      size: 20
     })
   ];
 
