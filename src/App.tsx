@@ -20,6 +20,7 @@ import CreateOutgoingDocumentPage from './pages/outgoing-document-management/cre
 import OutgoingDocumentDetail from './pages/outgoing-document-management/detail';
 import EditOutgoingDocumentPage from './pages/outgoing-document-management/edit';
 import TemplatePage from './pages/template';
+import TestPdfViwer from './pages/test/pdf-viewer';
 import UserManagement from './pages/user-management';
 
 const App = () => {
@@ -29,6 +30,9 @@ const App = () => {
   return (
     <Routes>
       <Route path={'/login'} element={<Login />} />
+      <Route path={'/test-pdf-viewer'}>
+        <Route index element={<TestPdfViwer />} />
+      </Route>
       <Route path={'/'} element={<DashboardLayout />}>
         {user && user.roleID === Role.OFFICER ? (
           <Route path={'/dashboard'} element={<Dashboard />} />
