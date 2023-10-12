@@ -19,6 +19,7 @@ import OutgoingDocumentManagement from './pages/outgoing-document-management';
 import CreateOutgoingDocumentPage from './pages/outgoing-document-management/create';
 import OutgoingDocumentDetail from './pages/outgoing-document-management/detail';
 import EditOutgoingDocumentPage from './pages/outgoing-document-management/edit';
+import Profile from './pages/profile';
 import TemplatePage from './pages/template';
 import UserManagement from './pages/user-management';
 
@@ -71,6 +72,9 @@ const App = () => {
           </Route>
           <Route path={'/template'}>
             <Route index element={<TemplatePage />} />
+          </Route>
+          <Route path={'/profile'}>
+            <Route index element={<Profile />} />
           </Route>
         </Route>
       </Route>
