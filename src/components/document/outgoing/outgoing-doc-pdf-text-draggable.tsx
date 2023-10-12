@@ -67,8 +67,21 @@ const DraggableText = ({
         <TextField
           inputRef={inputRef}
           value={text}
-          placeholder="Text"
-          sx={{ border: '1px solid black', padding: '5px' }}
+          disabled={true}
+          sx={{
+            '& .MuiInputBase-input': {
+              color: 'inherit'
+            },
+            '& .MuiInput-underline:before': {
+              borderBottomColor: 'inherit'
+            },
+            '& .MuiInput-underline:after': {
+              borderBottomColor: 'inherit'
+            },
+            '& .MuiInput-underline:hover:not(.Mui-disabled):before': {
+              borderBottomColor: 'inherit'
+            }
+          }}
           onChange={handleInputChange}
         />
       </Box>
