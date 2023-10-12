@@ -17,6 +17,7 @@ import {
   DetailDescription,
   DetailTimeline
 } from '@/components/document';
+import { OutgoingDocumentStatus } from '@/constants';
 import useAuth from '@/hooks/useAuth';
 import { Attachment } from '@/models';
 
@@ -89,34 +90,44 @@ const OutgoingDocumentDetail = () => {
               label="Thêm vào sổ công việc"
               onClick={handleOpenAddDocToFile}
             />
-            {newestStatus === 5 && (
+            {newestStatus === OutgoingDocumentStatus.CHO_CHINH_SUA && (
               <CustomButton
                 label="Chỉnh sửa"
                 onClick={() => navigate('edit')}
               />
             )}
 
-            {/* // TODO: ban hành vản bản */}
-            {newestStatus === 4 && <CustomButton label="Ban hành văn bản" />}
-            {newestStatus === 0 && (
-              <CustomButton
-                label="Chuyển tiếp"
-                onClick={() => handleOpenModal('forward')}
-              />
-            )}
-            {newestStatus != undefined && [1, 2, 3].includes(newestStatus) && (
+            {newestStatus === OutgoingDocumentStatus.DANG_XU_LY && (
               <>
+                <CustomButton
+                  label="Chỉnh sửa"
+                  onClick={() => navigate('edit')}
+                />
                 <CustomButton
                   label="Chuyển tiếp"
                   onClick={() => handleOpenModal('forward')}
                 />
-                <CustomButton
-                  label="Trả lại"
-                  variant="outlined"
-                  onClick={() => handleOpenModal('send-back')}
-                />
               </>
             )}
+            {newestStatus != undefined &&
+              [
+                OutgoingDocumentStatus.CHO_TRUONG_PHONG_DUYET,
+                OutgoingDocumentStatus.CHO_LANH_DAO_DUYET,
+                OutgoingDocumentStatus.CHO_VAN_THU_LAY_SO
+              ].includes(newestStatus) && (
+                <>
+                  <CustomButton
+                    label="Chuyển tiếp"
+                    onClick={() => handleOpenModal('forward')}
+                  />
+                  <CustomButton
+                    label="Trả lại"
+                    variant="outlined"
+                    onClick={() => handleOpenModal('send-back')}
+                  />
+                </>
+              )}
+            {}
           </Stack>
         </PageHeader>
         <Box

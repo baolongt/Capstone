@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import { useForwardDocument } from '@/apis/outgoingDocument/forwardDocument';
+import { OutgoingDocumentStatus } from '@/constants';
 import { validation } from '@/models';
 
 import { ForwardForm, WithoutHandlerForwardForm } from '../document';
@@ -77,7 +78,8 @@ export const ForwardDocumentDialog: React.FC<ForwardDocumentDialogProps> = (
       </DialogTitle>
 
       <DialogContent>
-        {newestStatus === 2 ? (
+        {newestStatus === OutgoingDocumentStatus.CHO_TRUONG_PHONG_DUYET ||
+        newestStatus === OutgoingDocumentStatus.CHO_VAN_THU_LAY_SO ? (
           <ForwardForm form={form} />
         ) : (
           <WithoutHandlerForwardForm form={form} />
