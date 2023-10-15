@@ -18,6 +18,7 @@ import {
   DetailTimeline
 } from '@/components/document';
 import { OutgoingDocumentStatus } from '@/constants';
+import useAuth from '@/hooks/useAuth';
 import { Attachment } from '@/models';
 
 const OutgoingDocumentDetail = () => {
