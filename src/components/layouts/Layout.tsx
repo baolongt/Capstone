@@ -35,11 +35,11 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = () => {
             config: {
               xs: {
                 position: 'sticky',
-                height: 56
+                height: 66
               },
               md: {
                 position: 'sticky',
-                height: 56
+                height: 66
               }
             }
           },
