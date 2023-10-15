@@ -117,9 +117,22 @@ const OutgoingDocumentDetail = () => {
             {newestStatus != undefined &&
               [
                 OutgoingDocumentStatus.CHO_TRUONG_PHONG_DUYET,
-                OutgoingDocumentStatus.CHO_LANH_DAO_DUYET,
-                OutgoingDocumentStatus.CHO_VAN_THU_LAY_SO
+                OutgoingDocumentStatus.CHO_LANH_DAO_DUYET
               ].includes(newestStatus) && (
+                <>
+                  <CustomButton
+                    label="Chuyển tiếp"
+                    onClick={() => handleOpenModal('forward')}
+                  />
+                  <CustomButton
+                    label="Trả lại"
+                    variant="outlined"
+                    onClick={() => handleOpenModal('send-back')}
+                  />
+                </>
+              )}
+            {newestStatus != undefined &&
+              OutgoingDocumentStatus.CHO_VAN_THU_LAY_SO === newestStatus && (
                 <>
                   {!data.outgoingPublishInfo ? (
                     <>
