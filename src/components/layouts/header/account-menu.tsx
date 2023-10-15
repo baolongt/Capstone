@@ -26,6 +26,7 @@ const AccountMenu = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const goToProfile = () => navigate('profile');
   const user = auth.authState.user?.name;
 
   const { mutate: logout } = useLogout({
@@ -100,7 +101,7 @@ const AccountMenu = () => {
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
         onClose={handleClose}
       >
-        <MenuItem>
+        <MenuItem onClick={() => goToProfile()}>
           <Avatar /> Thông tin tài khoản
         </MenuItem>
         <MenuItem onClick={() => logout()}>
