@@ -55,7 +55,6 @@ const EditOutgoingDocumentPage = () => {
   const { getValues } = form;
 
   const handleSave = () => {
-    console.log('save', getValues());
     editDocument({
       id: id || '',
       editObj: getValues()
@@ -64,8 +63,6 @@ const EditOutgoingDocumentPage = () => {
 
   React.useEffect(() => {
     if (data) {
-      console.log(data);
-      console.log('reset', convertDetailToEditForm(data));
       form.reset(convertDetailToEditForm(data), { keepDirty: false });
     }
   }, [data, form]);

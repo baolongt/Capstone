@@ -212,8 +212,6 @@ export const WrappedDragDropFile: React.FC<WrappedDragDropFileProps> = ({
         control={control}
         name={name}
         render={({ field: { onChange, value }, fieldState }: any) => {
-          console.log('files line 138', value);
-
           return (
             <DragDropFile
               value={value}

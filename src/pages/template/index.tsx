@@ -90,9 +90,6 @@ const TemplatePage = () => {
   const { data: response, isLoading } = useListTemplate({
     queryParams
   });
-  useEffect(() => {
-    console.log('queryParams', queryParams);
-  }, [queryParams]);
 
   if (isLoading) {
     return <Loading />;

@@ -99,13 +99,6 @@ const PDFViewer = ({
                   if (!position) return;
                   const { originalHeight, originalWidth } = pageDetails;
                   const scale = originalWidth / documentRef.current.clientWidth;
-                  console.log({
-                    originalWidth,
-                    originalHeight,
-                    clientW: documentRef.current.clientWidth,
-                    scale
-                  });
-
                   const y =
                     documentRef.current.clientHeight -
                     (position.y +
@@ -122,20 +115,6 @@ const PDFViewer = ({
                     (y * originalHeight) / documentRef.current.clientHeight;
                   const newX =
                     (x * originalWidth) / documentRef.current.clientWidth;
-                  console.log('test', {
-                    Px: position.x,
-                    Py: position.y,
-                    Poffx: position.offsetX,
-                    Poffy: position.offsetY,
-                    x,
-                    y,
-                    clientHeight: documentRef.current.clientHeight,
-                    clientWidth: documentRef.current.clientWidth,
-                    originalHeight,
-                    originalWidth,
-                    newX,
-                    newY
-                  });
                   const pdfDoc = await PDFDocument.load(
                     pdf as string | ArrayBuffer | Uint8Array
                   );

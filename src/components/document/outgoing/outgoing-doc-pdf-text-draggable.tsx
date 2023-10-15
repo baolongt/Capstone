@@ -45,10 +45,6 @@ const DraggableText = ({
         bottom: parentRef.current.offsetHeight
       }}
       onStop={onEnd}
-      onDrag={(event, data) => {
-        console.log('onDrag event:', event);
-        console.log('onDrag data:', data);
-      }}
     >
       <Box
         style={{
