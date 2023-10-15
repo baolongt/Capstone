@@ -211,7 +211,6 @@ const BaseTable: React.FC<BaseTableProps<any>> = (props) => {
                     key={cell.id}
                     style={{ height: '52px', padding: '0px 4px' }}
                     onClick={() => {
-                      console.log('cell', cell);
                       handleCellClick?.(cell.row.original);
                     }}
                   >

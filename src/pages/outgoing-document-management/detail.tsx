@@ -33,7 +33,6 @@ const OutgoingDocumentDetail = () => {
   const [openAddDocToFile, setOpenAddDocToFile] = React.useState(false);
   const newestStatus = data?.processHistory?.[0].status;
   const navigate = useNavigate();
-  const user = useAuth();
 
   if (isLoading) {
     return <Loading />;
@@ -68,8 +67,12 @@ const OutgoingDocumentDetail = () => {
     setDocPreview(true);
   };
 
+  const handleAddNumber = async (attachmentId: string, url: string) => {
+    navigate(`add-number?attachmentId=${attachmentId}&url=${url}`);
+  };
+
   const signAttachment = async (attachmentId: string) => {
-    await send(attachmentId);
+    send(attachmentId);
   };
 
   return (
@@ -139,6 +142,7 @@ const OutgoingDocumentDetail = () => {
             attachments={data.attachments as Attachment[]}
             watchAttachment={watchAttachment}
             signAttachment={signAttachment}
+            addNumber={handleAddNumber}
             sx={{ mt: 2 }}
           />
           <DetailTimeline sx={{ mt: 2 }} processHistory={data.processHistory} />

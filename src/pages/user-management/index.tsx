@@ -108,6 +108,7 @@ const UserManagement = () => {
     setIsUpdateDepartmentAndPositionDialogOpen(false);
     setCurrentUserId(null);
   };
+
   const handleSubmitUpdateDP = (data: {
     userId: number;
     jobPositionId: number;

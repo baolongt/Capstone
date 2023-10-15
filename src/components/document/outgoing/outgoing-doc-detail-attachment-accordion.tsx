@@ -21,12 +21,13 @@ export type DetailAttachmentAccordionProps = {
   sx?: SxProps;
   watchAttachment: (id: string) => void;
   signAttachment: (id: string) => void;
+  addNumber?: (id: string, url: string) => void;
 };
 
 export const DetailAttachmentAccordion: React.FC<
   DetailAttachmentAccordionProps
 > = (props) => {
-  const { attachments, watchAttachment, signAttachment, sx } = props;
+  const { attachments, watchAttachment, signAttachment, addNumber, sx } = props;
   const theme = useTheme();
 
   const attachmentCards = attachments.map((att, idx) => (
@@ -39,6 +40,7 @@ export const DetailAttachmentAccordion: React.FC<
         attachment={att}
         watchAttachment={watchAttachment}
         signAttachment={signAttachment}
+        addNumber={addNumber}
       />
     </Box>
   ));
