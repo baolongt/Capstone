@@ -20,7 +20,7 @@ const DraggableText = ({
   initialText,
   parentRef
 }: DraggableTextProps) => {
-  const [text, setText] = useState('');
+  const [text, setText] = useState(initialText);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -36,22 +36,27 @@ const DraggableText = ({
     onCancel();
   };
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setText(event.target.value);
-  };
-
   return (
     <Draggable
       bounds={{
         left: 0,
-        top: 0,
+        top: -30,
         right: parentRef.current.offsetWidth,
         bottom: parentRef.current.offsetHeight
       }}
       onStop={onEnd}
+      onDrag={(event, data) => {
+        console.log('onDrag event:', event);
+        console.log('onDrag data:', data);
+      }}
     >
-      <Box sx={{ position: 'absolute', zIndex: 100 }}>
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+      <Box
+        style={{
+          cursor: 'move'
+        }}
+        sx={{ position: 'absolute', zIndex: 100 }}
+      >
+        <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
           <Button
             variant="contained"
             color="success"
@@ -64,26 +69,27 @@ const DraggableText = ({
             <FaTimes />
           </Button>
         </Box>
-        <TextField
-          inputRef={inputRef}
-          value={text}
-          disabled={true}
+        <Box
           sx={{
-            '& .MuiInputBase-input': {
-              color: 'inherit'
-            },
-            '& .MuiInput-underline:before': {
-              borderBottomColor: 'inherit'
-            },
-            '& .MuiInput-underline:after': {
-              borderBottomColor: 'inherit'
-            },
-            '& .MuiInput-underline:hover:not(.Mui-disabled):before': {
-              borderBottomColor: 'inherit'
-            }
+            display: 'inline-flex',
+            alignItems: 'center',
+            borderRadius: 4,
+            border: '1px solid #ced4da',
+            padding: '0.375rem 0.75rem',
+            fontSize: '1rem',
+            lineHeight: 1.5,
+            color: '#495057',
+            backgroundColor: '#fff',
+            boxShadow: 'inset 0 1px 1px rgb(0 0 0 / 8%), 0 0 0 transparent',
+            transition:
+              'border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out',
+            cursor: 'move',
+            position: 'absolute',
+            zIndex: 100
           }}
-          onChange={handleInputChange}
-        />
+        >
+          {text}
+        </Box>
       </Box>
     </Draggable>
   );

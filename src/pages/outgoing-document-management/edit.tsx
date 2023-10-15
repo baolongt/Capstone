@@ -2,7 +2,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, Paper } from '@mui/material';
 import * as React from 'react';
 import { useForm, UseFormReturn } from 'react-hook-form';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import { useEditDocument } from '@/apis/outgoingDocument/editDocument';
@@ -20,6 +20,7 @@ const EditOutgoingDocumentPage = () => {
   const [docPreviewData, setDocPreviewData] = React.useState<{ uri: string }[]>(
     []
   );
+  const navigate = useNavigate();
 
   const handleClosePeview = () => {
     setDocPreview(false);
@@ -35,6 +36,7 @@ const EditOutgoingDocumentPage = () => {
   const { mutate: editDocument } = useEditDocument({
     onSuccess: () => {
       toast.success('Chỉnh sửa văn bản đi thành công');
+      navigate('/outgoing-documents');
     },
     onError: () => {
       toast.error('Chỉnh sửa văn bản đi thất bại');

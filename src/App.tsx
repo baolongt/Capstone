@@ -16,11 +16,11 @@ import FileManagement from './pages/file-management';
 import FileDetail from './pages/file-management/detail';
 import IncomingDocumentManagement from './pages/incoming-document-management';
 import OutgoingDocumentManagement from './pages/outgoing-document-management';
+import AddNumberPage from './pages/outgoing-document-management/add-number';
 import CreateOutgoingDocumentPage from './pages/outgoing-document-management/create';
 import OutgoingDocumentDetail from './pages/outgoing-document-management/detail';
 import EditOutgoingDocumentPage from './pages/outgoing-document-management/edit';
 import TemplatePage from './pages/template';
-import TestPdfViwer from './pages/test/pdf-viewer';
 import UserManagement from './pages/user-management';
 
 const App = () => {
@@ -30,9 +30,6 @@ const App = () => {
   return (
     <Routes>
       <Route path={'/login'} element={<Login />} />
-      <Route path={'/test-pdf-viewer'}>
-        <Route index element={<TestPdfViwer />} />
-      </Route>
       <Route path={'/'} element={<DashboardLayout />}>
         {user && user.roleID === Role.OFFICER ? (
           <Route path={'/dashboard'} element={<Dashboard />} />
@@ -65,6 +62,7 @@ const App = () => {
             <Route path=":id">
               <Route index element={<OutgoingDocumentDetail />} />
               <Route path="edit" element={<EditOutgoingDocumentPage />} />
+              <Route path="add-number" element={<AddNumberPage />} />
             </Route>
           </Route>
           <Route path={'/incoming-documents'}>

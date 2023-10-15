@@ -15,17 +15,24 @@ import {
 import React from 'react';
 import { FaFileExcel, FaFilePdf, FaFileWord } from 'react-icons/fa';
 
+import useAuth from '@/hooks/useAuth';
 import { Attachment } from '@/models';
+import { JobPosition } from '@/models/user';
 
 export type AttachmentCardProps = {
   attachment: Attachment;
   watchAttachment?: (id: string) => void;
   signAttachment?: (id: string) => void;
+  addNumber?: (id: string, url: string) => void;
   isUploaded?: boolean;
 };
 
 export const AttachmentCard: React.FC<AttachmentCardProps> = (props) => {
-  const { attachment, watchAttachment, signAttachment, isUploaded } = props;
+  const { attachment, watchAttachment, signAttachment, addNumber, isUploaded } =
+    props;
+  const {
+    authState: { user }
+  } = useAuth();
   const size = parseInt(attachment.size);
   const getAttachmentIcon = () => {
     if (attachment.mimeType.startsWith('image/')) {
@@ -93,7 +100,19 @@ export const AttachmentCard: React.FC<AttachmentCardProps> = (props) => {
             )}
           </Box>
         </Stack>
-        {attachment.needSigned && (
+        {attachment.mimeType === 'application/pdf' &&
+          user?.jobPositionID &&
+          user.jobPositionID === JobPosition.VAN_THU && (
+            <Tooltip title="Đánh số văn bản">
+              <IconButton
+                color="primary"
+                onClick={() => addNumber?.(attachment.name, attachment.url)}
+              >
+                <DrawIcon />
+              </IconButton>
+            </Tooltip>
+          )}
+        {attachment.needSigned && user?.departmentId === 1 && (
           <Tooltip title="Ký số">
             <IconButton
               color={'success'}

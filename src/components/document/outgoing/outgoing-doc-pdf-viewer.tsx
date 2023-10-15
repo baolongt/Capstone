@@ -6,7 +6,7 @@ import { PDFDocument } from 'pdf-lib';
 import { useEffect, useRef, useState } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 
-import { blobToURL } from '@/utils';
+import { blobToBase64, blobToURL } from '@/utils';
 
 import PdfPagination from './outgoing-doc-pdf-pagination';
 import DraggableText from './outgoing-doc-pdf-text-draggable';
@@ -14,11 +14,15 @@ import DraggableText from './outgoing-doc-pdf-text-draggable';
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 const PDFViewer = ({
+  saveFile,
+  goBack,
   initUrl,
   initText
 }: {
   initUrl: string;
   initText: string;
+  saveFile: (payload: string) => void;
+  goBack: () => void;
 }) => {
   const [pdf, setPdf] = useState<string | ArrayBuffer | null>();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -49,11 +53,18 @@ const PDFViewer = ({
           pt: 5
         }}
       >
-        <IconButton aria-label="Quay lại">
+        <IconButton aria-label="Quay lại" onClick={goBack}>
           <ArrowBackIcon />
         </IconButton>
-        <Button variant="contained" onClick={() => setTextInputVisible(true)}>
+        <Button
+          sx={{ mr: 1 }}
+          variant="contained"
+          onClick={() => setTextInputVisible(true)}
+        >
           Đánh số
+        </Button>
+        <Button variant="contained" onClick={() => saveFile(pdf as string)}>
+          Lưu file
         </Button>
       </Box>
       <Box
@@ -88,7 +99,6 @@ const PDFViewer = ({
                   if (!position) return;
                   const { originalHeight, originalWidth } = pageDetails;
                   const scale = originalWidth / documentRef.current.clientWidth;
-                  console.log(documentRef);
                   console.log({
                     originalWidth,
                     originalHeight,
@@ -101,20 +111,31 @@ const PDFViewer = ({
                     (position.y +
                       12 * scale -
                       position.offsetY -
-                      documentRef.current.offsetTop) -
-                    700;
+                      documentRef.current.offsetTop);
                   const x =
                     position.x -
                     position.offsetX -
-                    documentRef.current.offsetLeft +
-                    15;
-
+                    documentRef.current.offsetLeft -
+                    10;
                   // new XY in relation to actual document size
                   const newY =
                     (y * originalHeight) / documentRef.current.clientHeight;
                   const newX =
                     (x * originalWidth) / documentRef.current.clientWidth;
-
+                  console.log('test', {
+                    Px: position.x,
+                    Py: position.y,
+                    Poffx: position.offsetX,
+                    Poffy: position.offsetY,
+                    x,
+                    y,
+                    clientHeight: documentRef.current.clientHeight,
+                    clientWidth: documentRef.current.clientWidth,
+                    originalHeight,
+                    originalWidth,
+                    newX,
+                    newY
+                  });
                   const pdfDoc = await PDFDocument.load(
                     pdf as string | ArrayBuffer | Uint8Array
                   );
@@ -151,6 +172,7 @@ const PDFViewer = ({
                   width={800}
                   height={1200}
                   pageNumber={pageNum + 1}
+                  renderAnnotationLayer={false}
                   onLoadSuccess={(data) => {
                     setPageDetails(data);
                   }}

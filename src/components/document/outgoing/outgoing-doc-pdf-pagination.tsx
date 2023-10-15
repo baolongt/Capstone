@@ -25,7 +25,8 @@ const PdfPagination = ({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 2
+        marginTop: 2,
+        mb: 2
       }}
     >
       <Button
