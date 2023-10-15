@@ -28,6 +28,7 @@ export interface OutgoingDocument {
   documentTypeName: string;
   createdDate: string;
   updatedDate: string;
+  outgoingPublishInfo?: OutgoingPublishInfo;
 }
 
 export interface ProcessHisstory {
@@ -38,6 +39,17 @@ export interface ProcessHisstory {
   status: number;
   note: string;
   handlerName?: string;
+}
+
+export interface OutgoingPublishInfo {
+  documentId: number;
+  publishNumber: number;
+  documentNotation: string;
+  pageNumber: number;
+  description: string;
+  contactIds: number[];
+  priority: number;
+  dueDate: string;
 }
 
 export interface CreateOutgoingDocument {

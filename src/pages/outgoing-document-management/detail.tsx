@@ -1,4 +1,4 @@
-import { Box, Paper, Stack } from '@mui/material';
+import { Box, Paper, Stack, Tooltip } from '@mui/material';
 import * as React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -12,6 +12,7 @@ import {
   AddDocToFileDialog,
   ForwardDocumentDialog
 } from '@/components/dialogs';
+import { AddPublishInfoDialog } from '@/components/dialogs/add-publish-info-dialog';
 import {
   DetailAttachmentAccordion,
   DetailDescription,
@@ -25,6 +26,7 @@ const OutgoingDocumentDetail = () => {
   const { id } = useParams<{ id: string }>();
   const { data, isLoading } = useGetOneDocument(id ? parseInt(id) : -1);
   const [openModal, setOpenModal] = React.useState(false);
+  const [openPublish, setOpenPublish] = React.useState(false);
   const [docPreview, setDocPreview] = React.useState(false);
   const [docPreviewData, setDocPreviewData] = React.useState<{ uri: string }[]>(
     []
@@ -119,10 +121,25 @@ const OutgoingDocumentDetail = () => {
                 OutgoingDocumentStatus.CHO_VAN_THU_LAY_SO
               ].includes(newestStatus) && (
                 <>
-                  <CustomButton
-                    label="Chuyển tiếp"
-                    onClick={() => handleOpenModal('forward')}
-                  />
+                  {!data.outgoingPublishInfo ? (
+                    <>
+                      <Tooltip title="Phải chọn người nhận trước khi chuyển tiếp">
+                        <span>
+                          <CustomButton disabled label="Chuyển tiếp" />
+                        </span>
+                      </Tooltip>
+                      <CustomButton
+                        label="Chọn người nhận"
+                        onClick={() => setOpenPublish(true)}
+                      />
+                    </>
+                  ) : (
+                    <CustomButton
+                      label="Chuyển tiếp"
+                      onClick={() => handleOpenModal('forward')}
+                    />
+                  )}
+
                   <CustomButton
                     label="Trả lại"
                     variant="outlined"
@@ -130,7 +147,6 @@ const OutgoingDocumentDetail = () => {
                   />
                 </>
               )}
-            {}
           </Stack>
         </PageHeader>
         <Box
@@ -163,6 +179,10 @@ const OutgoingDocumentDetail = () => {
       <AddDocToFileDialog
         isOpen={openAddDocToFile}
         onClose={handleCloseAddDocToFile}
+      />
+      <AddPublishInfoDialog
+        isOpen={openPublish}
+        onClose={() => setOpenPublish(false)}
       />
     </>
   );

@@ -21,3 +21,18 @@ export const statusOptions: SelectOption[] = [
     value: 'active'
   }
 ];
+
+export const priorityOptions: SelectOption[] = [
+  {
+    title: 'Thường',
+    value: 1
+  },
+  {
+    title: 'Hoả tốc',
+    value: 2
+  },
+  {
+    title: 'Khẩn cấp',
+    value: 3
+  }
+];
