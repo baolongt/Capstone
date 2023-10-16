@@ -35,13 +35,13 @@ interface AddPublishInfoDialogProps {
 }
 
 interface PublishInfoPayload {
-  documentId: number;
-  publishNumber: number;
-  documentNotation: string;
-  description: string;
-  contactIds: number[];
+  outgoingDocumentId: number;
+  outgoingNumber: number;
+  outgoingNotation: string;
+  contactListIds: number[];
   priority: number;
   dueDate: Date;
+  issuedAmount: number;
 }
 
 export const AddPublishInfoDialog: React.FC<AddPublishInfoDialogProps> = ({
@@ -51,11 +51,10 @@ export const AddPublishInfoDialog: React.FC<AddPublishInfoDialogProps> = ({
   const { id } = useParams<{ id: string }>();
   const form = useForm<PublishInfoPayload>({
     defaultValues: {
-      documentId: 0,
-      publishNumber: 0,
-      documentNotation: '',
-      description: '',
-      contactIds: [],
+      outgoingDocumentId: 0,
+      outgoingNumber: 0,
+      outgoingNotation: '',
+      contactListIds: [],
       priority: 0
     },
     resolver: yupResolver(addPublishInfoSchema) as Resolver<
@@ -64,7 +63,7 @@ export const AddPublishInfoDialog: React.FC<AddPublishInfoDialogProps> = ({
     >
   });
 
-  const { handleSubmit, reset } = form;
+  const { handleSubmit, reset, getValues, formState } = form;
   const { mutate: addPublishInfoMutate } = useAddPublishInfo({
     onSuccess: () => {
       toast.success('Thêm thông tin thành công');
@@ -88,23 +87,23 @@ export const AddPublishInfoDialog: React.FC<AddPublishInfoDialogProps> = ({
     form.reset();
   };
 
-  const onSubmit = async (data: PublishInfoPayload) => {
+  const onSubmit = async (payload: PublishInfoPayload) => {
+    console.log('payload', payload);
     await refetch();
     addPublishInfoMutate({
-      ...data,
-      documentId: data.documentId || -1,
-      publishNumber: publishNumber || -1,
-      pageNumber: 0,
-      dueDate: data.dueDate.toISOString()
+      ...payload,
+      outgoingDocumentId: payload.outgoingDocumentId || -1,
+      outgoingNumber: publishNumber || -1,
+      dueDate: payload.dueDate.toISOString()
     });
   };
 
   useEffect(() => {
     reset(
       {
-        documentId: id ? parseInt(id) : 0,
-        publishNumber: 0,
-        documentNotation: '',
+        outgoingDocumentId: id ? parseInt(id) : 0,
+        outgoingNumber: 0,
+        outgoingNotation: '',
         dueDate: new Date()
       },
       {
@@ -137,7 +136,16 @@ export const AddPublishInfoDialog: React.FC<AddPublishInfoDialogProps> = ({
             <InputField
               form={form}
               placeholder="Nhập ký hiệu"
-              name="documentNotation"
+              name="outgoingNotation"
+              label=""
+            />
+          </Box>
+          <Box component="div">
+            <FieldTitle title="Số bản phát hành" isRequired={true} />
+            <InputField
+              form={form}
+              placeholder="Nhập số bản phát hành"
+              name="issuedAmount"
               label=""
             />
           </Box>
@@ -174,20 +182,10 @@ export const AddPublishInfoDialog: React.FC<AddPublishInfoDialogProps> = ({
                   : []
               }
               form={form}
-              name="contactIds"
+              name="contactListIds"
               onSearchChange={(textSearch) => {
                 console.log(textSearch);
               }}
-            />
-          </Box>
-          <Box component="div">
-            <FieldTitle title="Chú thích" isRequired={true} />
-            <MultilineTextField
-              form={form}
-              placeholder="Nhập chú thích"
-              name="description"
-              label=""
-              minRows={4}
             />
           </Box>
         </Stack>
