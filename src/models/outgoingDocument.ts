@@ -42,14 +42,13 @@ export interface ProcessHisstory {
 }
 
 export interface OutgoingPublishInfo {
-  documentId: number;
-  publishNumber: number;
-  documentNotation: string;
-  pageNumber: number;
-  description: string;
-  contactIds: number[];
+  outgoingDocumentId: number;
+  outgoingNumber: number;
+  outgoingNotation: string;
   priority: number;
+  issuedAmount: number;
   dueDate: string;
+  contactListIds: number[];
 }
 
 export interface CreateOutgoingDocument {

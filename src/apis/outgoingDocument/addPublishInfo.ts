@@ -7,7 +7,8 @@ import { axiosInstance } from '@/utils';
 export const addPublishInfo = async (
   payload: outgoingDocument.OutgoingPublishInfo
 ) => {
-  const url = 'api/OutgoingDocument/publish-document';
+  const url = 'api/OutgoingDocument/create-publish-info';
+  console.log('call', url);
   const response = await axiosInstance.post(url, payload);
   return response.data;
 };
