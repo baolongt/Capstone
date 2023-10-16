@@ -196,10 +196,6 @@ export const AddPublishInfoDialog: React.FC<AddPublishInfoDialogProps> = ({
           label="Thêm mới"
           type="submit"
           form="add-publish-info-form"
-          onClick={() => {
-            console.log(getValues());
-            console.log(formState.errors);
-          }}
         />
       </DialogActions>
     </Dialog>
