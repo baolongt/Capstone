@@ -4,6 +4,7 @@ export * as common from './common';
 export * as contact from './contact';
 export * as department from './department';
 export * as file from './file';
+export * as incomingDocument from './incomingDocument';
 export * as notification from './notification';
 export * as outgoingDocument from './outgoingDocument';
 export * as role from './role';

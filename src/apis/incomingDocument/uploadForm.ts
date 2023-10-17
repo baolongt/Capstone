@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { api } from '@/constants';
 import { common, UploadFile } from '@/models';
-import { CreateType } from '@/models/validation/outgoingDocument';
+import { CreateType } from '@/models/validation/incomingDocument';
 import { axiosInstance } from '@/utils';
 
 type AttachmentType = {
@@ -10,29 +10,22 @@ type AttachmentType = {
   url: string;
   needSigned: boolean;
 };
-export interface IncomingPublishInfo {
-  incomingNotation: string;
-  publishDate: Date;
-  dueDate: Date;
-  priority: number;
-}
 
-type OutGoingDocumentUploadFormType = {
-  processDeadline: string;
+type IncomingDocumentUploadFormType = {
   epitomize: string;
   documentField: string;
   documentTypeId: number;
   note: string;
+  processDeadline: string;
   attachments: AttachmentType[];
-  incomingPublishInfo: IncomingPublishInfo;
 };
 
 type AttachmentTypeResponse = AttachmentType & {
   id: number;
 };
 
-type OutGoingDocumentUploadFormTypeResponse = {
-  data: Omit<OutGoingDocumentUploadFormType, 'attachments'> & {
+type IncomingDocumentUploadFormTypeResponse = {
+  data: Omit<IncomingDocumentUploadFormType, 'attachments'> & {
     id: number;
     createdBy: number | null;
     createdDate: string;
@@ -52,10 +45,10 @@ type UploadFileResponse = {
   data: NameAndUrlFile[];
 };
 
-const convertToOutGoingDocumentUploadFormType = (
+const convertToIncomingDocumentUploadFormType = (
   createObj: CreateType
-): OutGoingDocumentUploadFormType => {
-  const outGoingDocumentUploadFormType: OutGoingDocumentUploadFormType = {
+): IncomingDocumentUploadFormType => {
+  const inComingDocumentUploadFormType: IncomingDocumentUploadFormType = {
     epitomize: createObj.epitomize,
     documentField: String(createObj.documentField),
     documentTypeId: createObj.documentTypeId,
@@ -68,16 +61,10 @@ const convertToOutGoingDocumentUploadFormType = (
         needSigned: file.needSigned,
         size: file.fileObj?.size,
         mimeType: file.fileObj?.type
-      })) ?? [],
-    incomingPublishInfo: {
-      incomingNotation: createObj.incomingPublishInfo.incomingNotation,
-      publishDate: createObj.incomingPublishInfo.publishDate,
-      dueDate: createObj.incomingPublishInfo.dueDate,
-      priority: createObj.incomingPublishInfo.priority
-    }
+      })) ?? []
   };
 
-  return outGoingDocumentUploadFormType;
+  return inComingDocumentUploadFormType;
 };
 
 export const uploadFile = async (
@@ -106,8 +93,8 @@ export const uploadFile = async (
 
 export const uploadForm = async (
   formData: CreateType
-): Promise<OutGoingDocumentUploadFormTypeResponse> => {
-  const url = 'api/OutgoingDocument';
+): Promise<IncomingDocumentUploadFormTypeResponse> => {
+  const url = 'api/IncomingDocument';
 
   const { files: formFiles } = formData;
 
@@ -119,12 +106,12 @@ export const uploadForm = async (
     formFiles[idx].setNameAndUrl(uploadedFile[idx].name, uploadedFile[idx].url);
   }
 
-  const payload = convertToOutGoingDocumentUploadFormType(formData);
+  const payload = convertToIncomingDocumentUploadFormType(formData);
 
   return await axiosInstance.post(url, payload);
 };
 
-export const useUploadForm = ({
+export const useUploadIncomingForm = ({
   onSuccess,
   onError
 }: common.useMutationParams) => {

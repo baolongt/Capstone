@@ -2,8 +2,6 @@ import * as yup from 'yup';
 
 import { UploadFile } from '@/models';
 
-import { IncomingPublishInfo } from '../incomingDocument';
-
 export const createSchema = yup
   .object()
   .shape({
@@ -15,7 +13,7 @@ export const createSchema = yup
       .nonNullable(),
     documentField: yup.number().required('Lĩnh vực văn bản là bắt buộc'),
     documentTypeId: yup.number().required('Loại văn bản là bắt buộc'),
-    status: yup.number().required('Trạng thái là bắt buộc'),
+    // status: yup.number().required('Trạng thái là bắt buộc'),
     processDeadline: yup.string().required('Hạn xử lý là bắt buộc'),
     note: yup
       .string()
@@ -32,13 +30,12 @@ export const createSchema = yup
 
 export type CreateType = {
   files?: UploadFile[] | undefined;
-  status: number;
+  //   isRepliedDocument: boolean;
   epitomize: string;
   documentField: number;
   documentTypeId: number;
   processDeadline: string;
   note: string;
-  incomingPublishInfo: IncomingPublishInfo;
 };
 
 export const editSchema = yup.object().shape({

@@ -4,7 +4,7 @@ import { UploadFile } from './uploadFile';
 
 export interface IncomingDocument {
   id: number;
-  epitomize: string;
+  epitomize: string; //
   archivedBookName: string;
   incomingDocumentNumber: number;
   documentNotation: string;
@@ -12,9 +12,9 @@ export interface IncomingDocument {
   receiver: string;
   lastSignedBy: string;
   createdByDepartment: string;
-  createdBy: string;
-  documentField: string;
-  documentType: string;
+  createdByName: string;
+  documentField: string; //
+  documentTypeName: string;
   directingDescription: string;
   processDeadline: Date;
   isRepliedDocument: boolean;
@@ -31,6 +31,7 @@ export interface CreateIncomingDocument {
   status: number;
   note: string;
   files: UploadFile[];
+  incomingPublishInfo: IncomingPublishInfo;
 }
 
 export const documentFieldOptions: Array<SelectOption> = [
@@ -176,3 +177,10 @@ export const statusOptions: Array<SelectOption> = [
     title: 'Đã xử lý'
   }
 ];
+
+export interface IncomingPublishInfo {
+  incomingNotation: string;
+  publishDate: Date;
+  dueDate: Date;
+  priority: number;
+}
