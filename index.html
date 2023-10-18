@@ -32,16 +32,9 @@
 
       async function sendToSignalR(id) {
         if (simpleHubProxy != null) {
-          simpleHubProxy.server.send({
-            llx: 100,
-            lly: 100,
-            urx: 100,
-            ury: 250,
-            searchText: '',
-            FileType: 'PDF',
-            Token: 'xxxx',
-            FileID: id
-          });
+          simpleHubProxy.server.send(JSON.stringify({
+            
+          }));
         } else {
           console.log('simpleHubProxy is null');
         }
