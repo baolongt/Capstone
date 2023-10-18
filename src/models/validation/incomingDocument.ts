@@ -24,18 +24,25 @@ export const createSchema = yup
     files: yup
       .array()
       .required('Yêu cầu file đính kèm')
-      .min(1, 'Yêu cầu file đính kèm')
+      .min(1, 'Yêu cầu file đính kèm'),
+    incomingNotation: yup.string().required('Số hiệu là bắt buộc').trim(),
+    // publishDate: yup.string().required('Hạn xử lý là bắt buộc'),
+    // dueDate: yup.string().required('Hạn xử lý là bắt buộc'),
+    priority: yup.number().required('Độ ưu tiên là bắt buộc')
   })
   .required();
 
 export type CreateType = {
-  files?: UploadFile[] | undefined;
-  //   isRepliedDocument: boolean;
   epitomize: string;
   documentField: number;
   documentTypeId: number;
   processDeadline: string;
   note: string;
+  files?: UploadFile[] | undefined;
+  incomingNotation: string;
+  // dueDate: string;
+  priority: number;
+  // isRepliedDocument: boolean;
 };
 
 export const editSchema = yup.object().shape({

@@ -16,6 +16,8 @@ import FileManagement from './pages/file-management';
 import FileDetail from './pages/file-management/detail';
 import IncomingDocumentManagement from './pages/incoming-document-management';
 import CreateIncomingDocumentPage from './pages/incoming-document-management/create';
+import IncomingDocumentDetail from './pages/incoming-document-management/detail';
+import EditIncomingDocumentPage from './pages/incoming-document-management/edit';
 import OutgoingDocumentManagement from './pages/outgoing-document-management';
 import AddNumberPage from './pages/outgoing-document-management/add-number';
 import CreateOutgoingDocumentPage from './pages/outgoing-document-management/create';
@@ -70,6 +72,10 @@ const App = () => {
           <Route path={'/incoming-documents'}>
             <Route index element={<IncomingDocumentManagement />} />
             <Route path="create" element={<CreateIncomingDocumentPage />} />
+            <Route path=":id">
+              <Route index element={<IncomingDocumentDetail />} />
+              <Route path="edit" element={<EditIncomingDocumentPage />} />
+            </Route>
           </Route>
           <Route path={'/contact-list'}>
             <Route index element={<ContactList />} />

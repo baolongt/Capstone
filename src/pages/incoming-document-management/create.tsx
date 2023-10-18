@@ -31,10 +31,11 @@ const CreateIncomingDocumentPage: React.FC = () => {
       epitomize: '',
       documentField: 1,
       documentTypeId: 1,
-      // status: 1,
-      note: '',
       processDeadline: '',
-      files: [] as UploadFile[]
+      note: '',
+      files: [] as UploadFile[],
+      incomingNotation: '',
+      priority: 1
     },
     resolver: yupResolver(validation.incomingDocument.createSchema)
   }) as UseFormReturn<
@@ -58,9 +59,6 @@ const CreateIncomingDocumentPage: React.FC = () => {
       <PageHeader>
         <Box>
           <PageTitle label="thêm văn bản đến" />
-          <Link href="#">
-            <RouterLink to="/template">Mẫu văn bản</RouterLink>
-          </Link>
         </Box>
       </PageHeader>
       <Box

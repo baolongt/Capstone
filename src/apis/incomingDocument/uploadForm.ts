@@ -1,7 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import dayjs from 'dayjs';
 
-import { api } from '@/constants';
+import { api, TIMEZONE } from '@/constants';
 import { common, UploadFile } from '@/models';
+import { IncomingPublishInfo } from '@/models/incomingDocument';
 import { CreateType } from '@/models/validation/incomingDocument';
 import { axiosInstance } from '@/utils';
 
@@ -15,9 +17,11 @@ type IncomingDocumentUploadFormType = {
   epitomize: string;
   documentField: string;
   documentTypeId: number;
+  isRepliedDocument: boolean;
   note: string;
   processDeadline: string;
   attachments: AttachmentType[];
+  incomingPublishInfo: IncomingPublishInfo;
 };
 
 type AttachmentTypeResponse = AttachmentType & {
@@ -53,6 +57,7 @@ const convertToIncomingDocumentUploadFormType = (
     documentField: String(createObj.documentField),
     documentTypeId: createObj.documentTypeId,
     note: createObj.note,
+    isRepliedDocument: false,
     processDeadline: createObj.processDeadline,
     attachments:
       createObj.files?.map((file) => ({
@@ -61,7 +66,13 @@ const convertToIncomingDocumentUploadFormType = (
         needSigned: file.needSigned,
         size: file.fileObj?.size,
         mimeType: file.fileObj?.type
-      })) ?? []
+      })) ?? [],
+    incomingPublishInfo: {
+      incomingNotation: createObj.incomingNotation,
+      publishDate: dayjs.tz(new Date(), TIMEZONE).format(),
+      dueDate: createObj.processDeadline,
+      priority: createObj.priority
+    }
   };
 
   return inComingDocumentUploadFormType;
@@ -119,7 +130,7 @@ export const useUploadIncomingForm = ({
   return useMutation({
     mutationFn: (payload: CreateType) => uploadForm(payload),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [api.DEPARTMENT] });
+      queryClient.invalidateQueries({ queryKey: [api.INCOMING_DOCUMENT] });
       onSuccess?.();
     },
     onError: () => {

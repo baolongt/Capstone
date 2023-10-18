@@ -29,7 +29,8 @@ const fileAccpetType: Accept = {
   'application/pdf': ['.pdf']
 };
 
-const { documentFieldOptions, documentTypeOptionsMap } = incomingDocument;
+const { documentFieldOptions, documentTypeOptionsMap, priorityOptions } =
+  incomingDocument;
 
 type createDocumentFormProps = {
   form: UseFormReturn<
@@ -89,6 +90,15 @@ const CreateInComingDocumentForm: React.FC<createDocumentFormProps> = ({
           </Typography>
           <InputField label="" form={form} name="epitomize" />
         </Grid>
+        <Grid item xs={12}>
+          <Typography style={{ marginBottom: '5px' }} fontWeight="bold">
+            Số hiệu văn bản
+            <Box component="span" color="error.main">
+              *
+            </Box>
+          </Typography>
+          <InputField label="" form={form} name="incomingNotation" />
+        </Grid>
         <Grid item xs={6}>
           <Typography style={{ marginBottom: '5px' }} fontWeight="bold">
             Lĩnh vực văn bản
@@ -116,6 +126,15 @@ const CreateInComingDocumentForm: React.FC<createDocumentFormProps> = ({
             form={form}
             name="documentTypeId"
           />
+        </Grid>
+        <Grid item xs={6}>
+          <Typography style={{ marginBottom: '5px' }} fontWeight="bold">
+            Độ ưu tiên
+            <Box component="span" color="error.main">
+              *
+            </Box>
+          </Typography>
+          <SelectField data={priorityOptions} form={form} name="priority" />
         </Grid>
         <Grid item xs={6}>
           <Typography style={{ marginBottom: '5px' }} fontWeight="bold">
