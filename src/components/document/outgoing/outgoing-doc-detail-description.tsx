@@ -2,11 +2,11 @@ import { Box, Grid, SxProps, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 import { FC } from 'react';
 
-import { outgoingDocument } from '@/models';
+import { incomingDocument, outgoingDocument } from '@/models';
 
 export type DetailDescriptionProps = {
   sx?: SxProps;
-  data: outgoingDocument.OutgoingDocument;
+  data: outgoingDocument.OutgoingDocument | incomingDocument.IncomingDocument;
 };
 
 export const DetailDescription: FC<DetailDescriptionProps> = (props) => {

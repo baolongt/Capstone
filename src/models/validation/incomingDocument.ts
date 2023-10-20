@@ -2,8 +2,6 @@ import * as yup from 'yup';
 
 import { UploadFile } from '@/models';
 
-import { IncomingPublishInfo } from '../incomingDocument';
-
 export const createSchema = yup
   .object()
   .shape({
@@ -15,7 +13,7 @@ export const createSchema = yup
       .nonNullable(),
     documentField: yup.number().required('Lĩnh vực văn bản là bắt buộc'),
     documentTypeId: yup.number().required('Loại văn bản là bắt buộc'),
-    status: yup.number().required('Trạng thái là bắt buộc'),
+    // status: yup.number().required('Trạng thái là bắt buộc'),
     processDeadline: yup.string().required('Hạn xử lý là bắt buộc'),
     note: yup
       .string()
@@ -26,19 +24,25 @@ export const createSchema = yup
     files: yup
       .array()
       .required('Yêu cầu file đính kèm')
-      .min(1, 'Yêu cầu file đính kèm')
+      .min(1, 'Yêu cầu file đính kèm'),
+    incomingNotation: yup.string().required('Số hiệu là bắt buộc').trim(),
+    // publishDate: yup.string().required('Hạn xử lý là bắt buộc'),
+    // dueDate: yup.string().required('Hạn xử lý là bắt buộc'),
+    priority: yup.number().required('Độ ưu tiên là bắt buộc')
   })
   .required();
 
 export type CreateType = {
-  files?: UploadFile[] | undefined;
-  status: number;
   epitomize: string;
   documentField: number;
   documentTypeId: number;
   processDeadline: string;
   note: string;
-  incomingPublishInfo: IncomingPublishInfo;
+  files?: UploadFile[] | undefined;
+  incomingNotation: string;
+  // dueDate: string;
+  priority: number;
+  // isRepliedDocument: boolean;
 };
 
 export const editSchema = yup.object().shape({

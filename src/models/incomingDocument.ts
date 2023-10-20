@@ -1,10 +1,12 @@
 import { SelectOption } from '@/types';
 
+import { Attachment } from './attachment';
+import { ProcessHisstory } from './outgoingDocument';
 import { UploadFile } from './uploadFile';
 
 export interface IncomingDocument {
   id: number;
-  epitomize: string;
+  epitomize: string; //
   archivedBookName: string;
   incomingDocumentNumber: number;
   documentNotation: string;
@@ -12,15 +14,17 @@ export interface IncomingDocument {
   receiver: string;
   lastSignedBy: string;
   createdByDepartment: string;
-  createdBy: string;
+  createdByName: string;
   documentField: string;
-  documentType: string;
+  documentTypeId: string;
+  documentTypeName: string;
   directingDescription: string;
-  processDeadline: Date;
+  processDeadline: string;
   isRepliedDocument: boolean;
   note: string;
   status: string;
-  attachments: UploadFile[];
+  attachments: UploadFile[] | Attachment[];
+  processHistory: ProcessHisstory[];
 }
 
 export interface CreateIncomingDocument {
@@ -31,7 +35,36 @@ export interface CreateIncomingDocument {
   status: number;
   note: string;
   files: UploadFile[];
+  incomingPublishInfo: IncomingPublishInfo;
 }
+
+export interface EditOutgoingDocument {
+  epitomize: string;
+  documentNotation: string;
+  documentField: number;
+  documentTypeId: number;
+  isRepliedDocument: boolean;
+  status: string;
+  note: string;
+  files: UploadFile[] | Attachment[];
+  processDeadline: string;
+}
+
+export const convertDetailToEditForm = (
+  detail: IncomingDocument
+): EditOutgoingDocument => {
+  return {
+    epitomize: detail.epitomize,
+    documentNotation: detail.documentNotation || '',
+    documentField: parseInt(detail.documentField),
+    documentTypeId: parseInt(detail.documentTypeId),
+    isRepliedDocument: detail.isRepliedDocument,
+    status: detail.status,
+    files: detail.attachments,
+    processDeadline: detail.processDeadline,
+    note: ''
+  };
+};
 
 export const documentFieldOptions: Array<SelectOption> = [
   {
@@ -41,6 +74,20 @@ export const documentFieldOptions: Array<SelectOption> = [
   {
     value: 2,
     title: 'Văn bản chuyên ngành'
+  }
+];
+export const priorityOptions: Array<SelectOption> = [
+  {
+    value: 1,
+    title: 'Thường'
+  },
+  {
+    value: 2,
+    title: 'Hỏa tốc'
+  },
+  {
+    value: 3,
+    title: 'Khẩn'
   }
 ];
 
@@ -176,3 +223,10 @@ export const statusOptions: Array<SelectOption> = [
     title: 'Đã xử lý'
   }
 ];
+
+export interface IncomingPublishInfo {
+  incomingNotation: string;
+  publishDate: string;
+  dueDate: string;
+  priority: number;
+}

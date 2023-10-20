@@ -5,24 +5,24 @@ import { useForm, UseFormReturn } from 'react-hook-form';
 import { Link as RouterLink } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-import { useUploadForm } from '@/apis/outgoingDocument';
+import { useUploadIncomingForm } from '@/apis/incomingDocument/uploadForm';
 import PageHeader from '@/components/common/page-header';
 import PageTitle from '@/components/common/page-title';
-import CreateDocumentForm from '@/components/document/outgoing/outgoing-doc-create-form';
+import CreateInComingDocumentForm from '@/components/document/incoming/incoming-doc-create-form';
 import { DEFAULT_PAGE_WIDTH } from '@/constants';
 import { UploadFile, validation } from '@/models';
 
-const CreateOutgoingDocumentPage: React.FC = () => {
+const CreateIncomingDocumentPage: React.FC = () => {
   const {
     mutate: uploadForm,
     isLoading,
     isSuccess
-  } = useUploadForm({
+  } = useUploadIncomingForm({
     onSuccess: () => {
-      toast.success('Tạo mới văn bản đi thành công');
+      toast.success('Tạo mới văn bản đến thành công');
     },
     onError: () => {
-      toast.error('Tạo mới văn bản đi thất bại');
+      toast.error('Tạo mới văn bản đến thất bại');
     }
   });
 
@@ -31,14 +31,15 @@ const CreateOutgoingDocumentPage: React.FC = () => {
       epitomize: '',
       documentField: 1,
       documentTypeId: 1,
-      status: 1,
-      note: '',
       processDeadline: '',
-      files: [] as UploadFile[]
+      note: '',
+      files: [] as UploadFile[],
+      incomingNotation: '',
+      priority: 1
     },
-    resolver: yupResolver(validation.outgoingDocument.createSchema)
-  }) as unknown as UseFormReturn<
-    validation.outgoingDocument.CreateType,
+    resolver: yupResolver(validation.incomingDocument.createSchema)
+  }) as UseFormReturn<
+    validation.incomingDocument.CreateType,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     any
   >;
@@ -57,17 +58,14 @@ const CreateOutgoingDocumentPage: React.FC = () => {
     <Box>
       <PageHeader>
         <Box>
-          <PageTitle label="đăng ký văn bản đi" />
-          <Link href="#">
-            <RouterLink to="/template">Mẫu văn bản</RouterLink>
-          </Link>
+          <PageTitle label="thêm văn bản đến" />
         </Box>
       </PageHeader>
       <Box
         sx={{ mx: 'auto', width: DEFAULT_PAGE_WIDTH, pr: 4, pb: 2 }}
         component={Paper}
       >
-        <CreateDocumentForm
+        <CreateInComingDocumentForm
           isSubmitForm={isLoading}
           handleSubmitForm={handleSubmitForm}
           form={form}
@@ -78,4 +76,4 @@ const CreateOutgoingDocumentPage: React.FC = () => {
   );
 };
 
-export default CreateOutgoingDocumentPage;
+export default CreateIncomingDocumentPage;
