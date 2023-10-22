@@ -30,6 +30,7 @@ export const ForwardDocumentDialog: React.FC<ForwardDocumentDialogProps> = (
   const { isOpen, onClose, mode, id, newestStatus = -1 } = props;
   const navigate = useNavigate();
   const { mutate: forwardDocument, isLoading } = useForwardDocument({
+    id: id,
     onSuccess: () => {
       toast.success('Chuyển văn bản đi thành công');
     },
