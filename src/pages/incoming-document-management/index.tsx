@@ -5,6 +5,7 @@ import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 
 import { useListDocuments } from '@/apis';
+import { useListIncomingDocuments } from '@/apis/incomingDocument/listDocuments';
 import {
   DateRange,
   DateRangePickerInput,
@@ -13,6 +14,7 @@ import {
 import PageHeader from '@/components/common/page-header';
 import PageTitle from '@/components/common/page-title';
 import { OutgoingDocumentTable } from '@/components/document';
+import { IncomingDocumentTable } from '@/components/document/incoming/incoming-doc-table';
 import { DEBOUND_SEARCH_TIME, DEFAULT_PAGE_WIDTH } from '@/constants';
 import { BaseTableQueryParams } from '@/types';
 
@@ -36,7 +38,7 @@ const IncomingDocumentManagement = () => {
 
   const debouncedSearch = debounce(handleChangeSearch, DEBOUND_SEARCH_TIME);
 
-  const { data: response, isLoading } = useListDocuments({
+  const { data: response, isLoading } = useListIncomingDocuments({
     queryParams
   });
   if (isLoading) {
@@ -93,7 +95,7 @@ const IncomingDocumentManagement = () => {
             width: DEFAULT_PAGE_WIDTH
           }}
         >
-          <OutgoingDocumentTable
+          <IncomingDocumentTable
             metadata={metadata}
             data={data}
             handleChangePage={handleChangePage}
