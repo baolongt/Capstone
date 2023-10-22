@@ -54,29 +54,6 @@
         }
       }
 
-      async function sendRawToSignalR(id) {
-        if (simpleHubProxy != null) {
-          try {
-            const res = await simpleHubProxy.server.send(
-              {
-                llx: 100,
-                lly: 100,
-                urx: 100,
-                ury: 250,
-                searchText: '',
-                FileType: 'PDF',
-                Token: 'xxxx',
-                FileID: id
-              }
-            );
-            console.log(res);
-          } catch (err) {
-            console.error(err);
-          }
-        } else {
-          console.log('simpleHubProxy is null');
-        }
-      }
     </script>
   </body>
 </html>
