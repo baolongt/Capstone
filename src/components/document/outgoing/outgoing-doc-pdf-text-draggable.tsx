@@ -1,6 +1,6 @@
-import { Box, Button, TextField } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
-import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
+import Draggable from 'react-draggable';
 import { FaCheck, FaTimes } from 'react-icons/fa';
 
 type DraggableTextProps = {

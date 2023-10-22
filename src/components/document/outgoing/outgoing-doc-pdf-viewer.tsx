@@ -6,7 +6,7 @@ import { PDFDocument } from 'pdf-lib';
 import { useEffect, useRef, useState } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 
-import { blobToBase64, blobToURL } from '@/utils';
+import { blobToURL } from '@/utils';
 
 import PdfPagination from './outgoing-doc-pdf-pagination';
 import DraggableText from './outgoing-doc-pdf-text-draggable';
