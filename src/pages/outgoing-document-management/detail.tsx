@@ -10,7 +10,8 @@ import PageHeader from '@/components/common/page-header';
 import PageTitle from '@/components/common/page-title';
 import {
   AddDocToFileDialog,
-  ForwardDocumentDialog
+  ForwardDocumentDialog,
+  PublishConfirmDialog
 } from '@/components/dialogs';
 import { AddPublishInfoDialog } from '@/components/dialogs/add-publish-info-dialog';
 import {
@@ -19,7 +20,6 @@ import {
   DetailTimeline
 } from '@/components/document';
 import { OutgoingDocumentStatus } from '@/constants';
-import useAuth from '@/hooks/useAuth';
 import { Attachment } from '@/models';
 
 const OutgoingDocumentDetail = () => {
@@ -27,6 +27,7 @@ const OutgoingDocumentDetail = () => {
   const { data, isLoading } = useGetOneDocument(id ? parseInt(id) : -1);
   const [openModal, setOpenModal] = React.useState(false);
   const [openPublish, setOpenPublish] = React.useState(false);
+  const [openConfirmPublish, setOpenConfirmPublish] = React.useState(false);
   const [docPreview, setDocPreview] = React.useState(false);
   const [docPreviewData, setDocPreviewData] = React.useState<{ uri: string }[]>(
     []
@@ -152,11 +153,21 @@ const OutgoingDocumentDetail = () => {
                       onClick={() => handleOpenModal('forward')}
                     />
                   )}
-
                   <CustomButton
                     label="Trả lại"
                     variant="outlined"
                     onClick={() => handleOpenModal('send-back')}
+                  />
+                </>
+              )}
+            {newestStatus != undefined &&
+              [OutgoingDocumentStatus.CHO_LANH_DAO_KY].includes(
+                newestStatus
+              ) && (
+                <>
+                  <CustomButton
+                    label="Phát hành"
+                    onClick={() => setOpenConfirmPublish(true)}
                   />
                 </>
               )}
@@ -197,6 +208,13 @@ const OutgoingDocumentDetail = () => {
         isOpen={openPublish}
         onClose={() => setOpenPublish(false)}
       />
+      {data.outgoingPublishInfo && (
+        <PublishConfirmDialog
+          isOpen={openConfirmPublish}
+          publishInfo={data.outgoingPublishInfo}
+          onClose={() => setOpenConfirmPublish(false)}
+        />
+      )}
     </>
   );
 };

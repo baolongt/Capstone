@@ -1,7 +1,7 @@
 import AddIcon from '@mui/icons-material/Add';
 import { Box, Button } from '@mui/material';
 import { debounce } from 'lodash';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { toast } from 'react-toastify';
 
 import {

@@ -17,7 +17,7 @@ export interface IncomingPublishInfo {
   priority: number;
 }
 
-type OutGoingDocumentUploadFormType = {
+type IncomingDocumentUploadFormType = {
   processDeadline: string;
   epitomize: string;
   documentField: string;
@@ -32,7 +32,7 @@ type AttachmentTypeResponse = AttachmentType & {
 };
 
 type OutGoingDocumentUploadFormTypeResponse = {
-  data: Omit<OutGoingDocumentUploadFormType, 'attachments'> & {
+  data: Omit<IncomingDocumentUploadFormType, 'attachments'> & {
     id: number;
     createdBy: number | null;
     createdDate: string;
@@ -54,8 +54,8 @@ type UploadFileResponse = {
 
 const convertToOutGoingDocumentUploadFormType = (
   createObj: CreateType
-): OutGoingDocumentUploadFormType => {
-  const outGoingDocumentUploadFormType: OutGoingDocumentUploadFormType = {
+): IncomingDocumentUploadFormType => {
+  const outGoingDocumentUploadFormType: IncomingDocumentUploadFormType = {
     epitomize: createObj.epitomize,
     documentField: String(createObj.documentField),
     documentTypeId: createObj.documentTypeId,
@@ -71,8 +71,8 @@ const convertToOutGoingDocumentUploadFormType = (
       })) ?? [],
     incomingPublishInfo: {
       incomingNotation: createObj.incomingPublishInfo.incomingNotation,
-      publishDate: createObj.incomingPublishInfo.publishDate,
-      dueDate: createObj.incomingPublishInfo.dueDate,
+      publishDate: new Date(createObj.incomingPublishInfo.publishDate),
+      dueDate: new Date(createObj.incomingPublishInfo.dueDate),
       priority: createObj.incomingPublishInfo.priority
     }
   };

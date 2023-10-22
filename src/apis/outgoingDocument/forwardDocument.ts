@@ -9,6 +9,8 @@ export const forwarđocument = async (
 ) => {
   const url = '/api/OutgoingDocument/change-status';
 
+  console.log('payload', payload);
+
   if (payload.newStatus === OutgoingDocumentStatus.DANG_XU_LY) {
     console.error(
       'ERROR',
@@ -21,8 +23,7 @@ export const forwarđocument = async (
   }
 
   if (
-    (payload.newStatus - 1 === OutgoingDocumentStatus.CHO_LANH_DAO_KY ||
-      payload.newStatus - 1 === OutgoingDocumentStatus.CHO_VAN_THU_LAY_SO) &&
+    payload.newStatus - 1 === OutgoingDocumentStatus.CHO_VAN_THU_LAY_SO &&
     payload.newHandlerId === -1
   ) {
     console.error(

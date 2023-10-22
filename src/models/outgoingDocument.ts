@@ -48,7 +48,15 @@ export interface OutgoingPublishInfo {
   priority: number;
   issuedAmount: number;
   dueDate: string;
-  contactListIds: number[];
+  contactLists: ContactList[];
+}
+
+export interface ContactList {
+  id: number;
+  name: string;
+  organCode: string;
+  email: string;
+  phone: string;
 }
 
 export interface CreateOutgoingDocument {

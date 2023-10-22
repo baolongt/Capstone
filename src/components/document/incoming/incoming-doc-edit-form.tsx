@@ -12,7 +12,7 @@ import {
   SelectField,
   WrappedDragDropFileBox
 } from '@/components/common';
-import { incomingDocument, outgoingDocument } from '@/models';
+import { incomingDocument } from '@/models';
 import {
   documentFieldOptions,
   documentTypeOptionsMap
