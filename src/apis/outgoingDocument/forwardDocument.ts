@@ -48,16 +48,17 @@ export const forwarđocument = async (
 };
 
 export const useForwardDocument = ({
+  id,
   onSuccess,
   onError
-}: common.useMutationParams) => {
+}: common.useMutationParams & { id: number }) => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: (payload: outgoingDocument.ForwardOutgoingDocument) =>
       forwarđocument(payload),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [api.OUTGOING_DOCUMENT] });
+      queryClient.invalidateQueries({ queryKey: [api.OUTGOING_DOCUMENT, id] });
       onSuccess?.();
     },
     onError: (error) => {
