@@ -1,4 +1,4 @@
-import { Box, Paper, Stack, Tooltip } from '@mui/material';
+import { Box, Divider, Paper, Stack, Tooltip, Typography } from '@mui/material';
 import * as React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -17,10 +17,12 @@ import { AddPublishInfoDialog } from '@/components/dialogs/add-publish-info-dial
 import {
   DetailAttachmentAccordion,
   DetailDescription,
-  DetailTimeline
+  DetailTimeline,
+  PublishInfo
 } from '@/components/document';
 import { OutgoingDocumentStatus } from '@/constants';
 import { Attachment } from '@/models';
+import { OutgoingPublishInfo } from '@/models/outgoingDocument';
 
 const OutgoingDocumentDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -178,6 +180,17 @@ const OutgoingDocumentDetail = () => {
           component={Paper}
         >
           <DetailDescription sx={{ width: '100%' }} data={data} />
+          {newestStatus === OutgoingDocumentStatus.DA_PHAT_HANH && (
+            <>
+              <Divider sx={{ my: 2 }} />
+              <Typography variant="h6" sx={{ my: 2 }}>
+                Thông tin phát hành
+              </Typography>
+              <PublishInfo
+                data={data.outgoingPublishInfo as OutgoingPublishInfo}
+              />
+            </>
+          )}
           <DetailAttachmentAccordion
             attachments={data.attachments as Attachment[]}
             watchAttachment={watchAttachment}
