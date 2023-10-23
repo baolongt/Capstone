@@ -83,6 +83,9 @@ export const DetailTimeline: React.FC<DetailTimelineProps> = (props) => {
               case 5:
                 title = `Trả lại cho ${history.handlerName}`;
                 break;
+              case 6:
+                title = `Văn bản đã phát hành`;
+                break;
             }
           }
 

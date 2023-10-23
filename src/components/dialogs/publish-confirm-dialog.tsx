@@ -1,5 +1,7 @@
 import { LoadingButton } from '@mui/lab';
 import {
+  Box,
+  Chip,
   Dialog,
   DialogActions,
   DialogContent,
@@ -18,27 +20,8 @@ import { OutgoingPublishInfo } from '@/models/outgoingDocument';
 
 import { CustomButton } from '../common';
 
-interface OutgoingDocumentInfo {
-  id: number;
-  outgoingNumber: number;
-  outgoingNotation: string;
-  publishDate: string;
-  dueDate: string;
-  priority: number;
-  issuedAmount: number;
-  publishStatus: number;
-  contactLists: ContactList[];
-}
-
-interface ContactList {
-  id: number;
-  name: string;
-  organCode: string;
-  email: string;
-  phone: string;
-}
 interface PublishConfirmDialogProps {
-  publishInfo: OutgoingDocumentInfo;
+  publishInfo: OutgoingPublishInfo;
   isOpen: boolean;
   onClose: () => void;
 }
@@ -49,7 +32,7 @@ export const PublishConfirmDialog = ({
   isOpen
 }: PublishConfirmDialogProps) => {
   const {
-    id,
+    outgoingDocumentId,
     outgoingNumber,
     outgoingNotation,
     priority,
@@ -59,7 +42,7 @@ export const PublishConfirmDialog = ({
   const navigate = useNavigate();
 
   const { mutate: forwardDocument, isLoading } = useForwardDocument({
-    id: id,
+    id: outgoingDocumentId,
     onSuccess: () => {
       toast.success('Phát hành văn bản thành công');
     },
@@ -70,7 +53,7 @@ export const PublishConfirmDialog = ({
   });
   const form = useForm({
     defaultValues: {
-      documentId: id,
+      documentId: outgoingDocumentId,
       newStatus: 6,
       newHandlerId: -1,
       newNote: ''
@@ -98,15 +81,34 @@ export const PublishConfirmDialog = ({
       <DialogTitle>Thông tin phát hành</DialogTitle>
       <DialogContent>
         <Stack spacing={2}>
-          <Typography>Ký hiệu văn bản: {outgoingNumber}</Typography>
-          <Typography>Số bản phát hành: {outgoingNotation}</Typography>
-          <Typography>Độ ưu tiên: {priority}</Typography>
-          <Typography>
-            Hạn xử lý: {dayjs(dueDate).format('DD-MM-YYYY')}
-          </Typography>
-          <Typography>
-            Liên hệ: {contactLists.map((cl) => cl.email).join(',')}
-          </Typography>
+          <Box sx={{ '& > *': { mb: 1 } }}>
+            <Typography>
+              <span style={{ fontWeight: 'bold' }}>Ký hiệu văn bản:</span>{' '}
+              {outgoingNumber}
+            </Typography>
+            <Typography>
+              <span style={{ fontWeight: 'bold' }}>Số bản phát hành:</span>{' '}
+              {outgoingNotation}
+            </Typography>
+            <Typography>
+              <span style={{ fontWeight: 'bold' }}>Độ ưu tiên:</span> {priority}
+            </Typography>
+            <Typography>
+              <span style={{ fontWeight: 'bold' }}>Hạn xử lý:</span>{' '}
+              {dayjs(dueDate).format('DD-MM-YYYY')}
+            </Typography>
+            <Typography sx={{ maxHeight: '200px', overflowY: 'scroll' }}>
+              <span style={{ fontWeight: 'bold' }}>Liên hệ:</span>
+            </Typography>
+            {contactLists.map((cl) => (
+              <Chip
+                key={cl.id}
+                label={cl.name}
+                variant="outlined"
+                sx={{ mr: 1 }}
+              />
+            ))}
+          </Box>
         </Stack>
       </DialogContent>
       <DialogActions>
