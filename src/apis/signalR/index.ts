@@ -5,9 +5,11 @@ export async function send(id: string) {
 }
 
 export async function connect() {
-  return await window.connect();
+  const res = await window.connect();
+  console.log('res', res);
+  return res;
 }
 
 export async function setUserName(name) {
-  return await window.setUserName(name);
+  await window.setUserName(name);
 }
