@@ -12,8 +12,8 @@ type AttachmentType = {
 };
 export interface IncomingPublishInfo {
   incomingNotation: string;
-  publishDate: Date;
-  dueDate: Date;
+  publishDate: string;
+  dueDate: string;
   priority: number;
 }
 
@@ -71,8 +71,8 @@ const convertToOutGoingDocumentUploadFormType = (
       })) ?? [],
     incomingPublishInfo: {
       incomingNotation: createObj.incomingPublishInfo.incomingNotation,
-      publishDate: new Date(createObj.incomingPublishInfo.publishDate),
-      dueDate: new Date(createObj.incomingPublishInfo.dueDate),
+      publishDate: createObj.incomingPublishInfo.publishDate,
+      dueDate: createObj.incomingPublishInfo.dueDate,
       priority: createObj.incomingPublishInfo.priority
     }
   };
