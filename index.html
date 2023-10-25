@@ -24,15 +24,18 @@
 
         simpleHubProxy = $.connection.simpleHub;
 
+        let res;
+
         await $.connection.hub.start().done(function () {
           console.log('Connected');
-          return true
+          res= true
         }).fail(
           function () {
             console.log('Could not Connect!');
-            return false
+            res = false
           }
         );
+        return res
       }
 
       async function sendToSignalR(id) {
