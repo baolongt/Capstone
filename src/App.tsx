@@ -25,6 +25,7 @@ import OutgoingDocumentDetail from './pages/outgoing-document-management/detail'
 import EditOutgoingDocumentPage from './pages/outgoing-document-management/edit';
 import Profile from './pages/profile';
 import TemplatePage from './pages/template';
+import TestPage from './pages/test';
 import UserManagement from './pages/user-management';
 
 const App = () => {
@@ -33,6 +34,7 @@ const App = () => {
   } = useAuth();
   return (
     <Routes>
+      <Route path="/test" element={<TestPage />} />
       <Route path={'/login'} element={<Login />} />
       <Route path={'/'} element={<DashboardLayout />}>
         {user && user.roleID === Role.OFFICER ? (

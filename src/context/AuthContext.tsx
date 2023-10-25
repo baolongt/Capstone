@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { DEFAULT_SESSION_TIMEOUT } from '@/constants';
 import { auth } from '@/models';
@@ -25,10 +25,13 @@ export const AuthContext = createContext<AuthContextType>({
   }
 });
 
+const WHITELIST_PATH = ['/test'];
+
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   children
 }) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [authState, setAuthState] = useState<AuthState>(() => {
     const timeout = localStorage.getItem('sessionTimeout');
     if (new Date().getTime() < Number(timeout)) {
@@ -56,9 +59,15 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       );
     } else {
       localStorage.clear();
-      navigate('/login');
+      console.log('location.pathname', location.pathname);
+      if (
+        location.pathname !== '/login' &&
+        WHITELIST_PATH.includes(location.pathname)
+      ) {
+        navigate(location.pathname);
+      } else navigate('/login');
     }
-  }, [authState, navigate]);
+  }, [authState, location.pathname, navigate]);
 
   return (
     <AuthContext.Provider value={{ authState, setAuthState }}>
