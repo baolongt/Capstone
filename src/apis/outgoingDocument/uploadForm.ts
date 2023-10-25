@@ -17,14 +17,13 @@ export interface IncomingPublishInfo {
   priority: number;
 }
 
-type IncomingDocumentUploadFormType = {
+type OutgoingDocumentUploadFormType = {
   processDeadline: string;
   epitomize: string;
   documentField: string;
   documentTypeId: number;
   note: string;
   attachments: AttachmentType[];
-  incomingPublishInfo: IncomingPublishInfo;
 };
 
 type AttachmentTypeResponse = AttachmentType & {
@@ -32,7 +31,7 @@ type AttachmentTypeResponse = AttachmentType & {
 };
 
 type OutGoingDocumentUploadFormTypeResponse = {
-  data: Omit<IncomingDocumentUploadFormType, 'attachments'> & {
+  data: Omit<OutgoingDocumentUploadFormType, 'attachments'> & {
     id: number;
     createdBy: number | null;
     createdDate: string;
@@ -54,8 +53,8 @@ type UploadFileResponse = {
 
 const convertToOutGoingDocumentUploadFormType = (
   createObj: CreateType
-): IncomingDocumentUploadFormType => {
-  const outGoingDocumentUploadFormType: IncomingDocumentUploadFormType = {
+): OutgoingDocumentUploadFormType => {
+  const outGoingDocumentUploadFormType: OutgoingDocumentUploadFormType = {
     epitomize: createObj.epitomize,
     documentField: String(createObj.documentField),
     documentTypeId: createObj.documentTypeId,
@@ -68,13 +67,7 @@ const convertToOutGoingDocumentUploadFormType = (
         needSigned: file.needSigned,
         size: file.fileObj?.size,
         mimeType: file.fileObj?.type
-      })) ?? [],
-    incomingPublishInfo: {
-      incomingNotation: createObj.incomingPublishInfo.incomingNotation,
-      publishDate: new Date(createObj.incomingPublishInfo.publishDate),
-      dueDate: new Date(createObj.incomingPublishInfo.dueDate),
-      priority: createObj.incomingPublishInfo.priority
-    }
+      })) ?? []
   };
 
   return outGoingDocumentUploadFormType;
@@ -120,6 +113,8 @@ export const uploadForm = async (
   }
 
   const payload = convertToOutGoingDocumentUploadFormType(formData);
+
+  console.log('payload', { payload });
 
   return await axiosInstance.post(url, payload);
 };
