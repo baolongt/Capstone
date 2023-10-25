@@ -12,8 +12,8 @@ type AttachmentType = {
 };
 export interface IncomingPublishInfo {
   incomingNotation: string;
-  publishDate: Date;
-  dueDate: Date;
+  publishDate: string;
+  dueDate: string;
   priority: number;
 }
 
