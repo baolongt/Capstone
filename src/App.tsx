@@ -25,7 +25,6 @@ import OutgoingDocumentDetail from './pages/outgoing-document-management/detail'
 import EditOutgoingDocumentPage from './pages/outgoing-document-management/edit';
 import Profile from './pages/profile';
 import TemplatePage from './pages/template';
-import { TestPage } from './pages/test';
 import UserManagement from './pages/user-management';
 
 const App = () => {
@@ -57,7 +56,6 @@ const App = () => {
         {/* OFFICER pages */}
 
         <Route element={<RequireAuth role={Role.OFFICER} />}>
-          <Route path="/test" element={<TestPage />} />
           <Route path={'/files'}>
             <Route index element={<FileManagement />} />
             <Route path=":id" element={<FileDetail />} />

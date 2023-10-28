@@ -7,4 +7,3 @@ export * from './loading';
 export * from './page-header';
 export * from './page-title';
 export { InputSearch, type InputSearchProps } from './search';
-export * from './treeview-select';
