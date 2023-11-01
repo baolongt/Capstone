@@ -1,66 +1,69 @@
 import { SelectOption } from '@/types';
 
 import { Attachment } from './attachment';
-import { ProcessHisstory } from './outgoingDocument';
 import { UploadFile } from './uploadFile';
 
-export interface IncomingDocument {
+export interface ProcessHisstory {
   id: number;
-  epitomize: string; //
-  archivedBookName: string;
-  incomingDocumentNumber: number;
-  documentNotation: string;
-  publishDate: Date;
-  receiver: string;
-  lastSignedBy: string;
-  createdByDepartment: string;
-  createdByName: string;
-  documentField: string;
-  documentTypeId: string;
-  documentTypeName: string;
-  directingDescription: string;
-  processDeadline: string;
-  isRepliedDocument: boolean;
-  note: string;
-  status: string;
-  attachments: UploadFile[] | Attachment[];
-  processHistory: ProcessHisstory[];
-  incomingPublishInfo: IncomingPublishInfo;
-}
-
-export interface CreateIncomingDocument {
-  epitomize: string;
-  documentField: number;
-  documentTypeId: number;
-  isRepliedDocument: boolean;
+  handlerName?: string;
   status: number;
   note: string;
-  files: UploadFile[];
-  incomingPublishInfo: IncomingPublishInfo;
+  createdAt: string;
+  outgoingDocumentId: string;
+  handlerId: string;
+}
+export interface InternalPublishInfo {
+  internalNotation: string;
+  publishDate: string;
+  dueDate: string;
+  priority: number;
+}
+export interface InternalDocument {
+  id: number;
+  epitomize: string;
+  documentField: string;
+  createdDate: Date;
+  documentTypeId: number;
+  documentTypeName: string;
+  createdByName: string;
+  isRepliedDocument: boolean;
+  note: string;
+  processDeadline: string;
+  attachments: UploadFile[] | Attachment[];
+  internalPublishInfo: InternalPublishInfo;
+  processHistory: ProcessHisstory[];
+}
+export interface CreateInternalDocument {
+  epitomize: string;
+  documentField: string;
+  documentTypeId: number;
+  isRepliedDocument: boolean;
+  note: string;
+  processDeadline: string;
+  attachments: UploadFile[] | Attachment[];
+  internalPublishInfo: InternalPublishInfo;
 }
 
-export interface EditOutgoingDocument {
+export interface EditInternalDocument {
   epitomize: string;
   documentNotation: string;
   documentField: number;
   documentTypeId: number;
   isRepliedDocument: boolean;
-  status: string;
   note: string;
   files: UploadFile[] | Attachment[];
   processDeadline: string;
 }
 
 export const convertDetailToEditForm = (
-  detail: IncomingDocument
-): EditOutgoingDocument => {
+  detail: InternalDocument
+): EditInternalDocument => {
   return {
     epitomize: detail.epitomize,
-    documentNotation: detail.documentNotation || '',
+    documentNotation: detail.internalPublishInfo.internalNotation || '',
     documentField: parseInt(detail.documentField),
-    documentTypeId: parseInt(detail.documentTypeId),
+    documentTypeId: parseInt(String(detail.documentTypeId)),
     isRepliedDocument: detail.isRepliedDocument,
-    status: detail.status,
     files: detail.attachments,
     processDeadline: detail.processDeadline,
     note: ''
@@ -224,10 +227,3 @@ export const statusOptions: Array<SelectOption> = [
     title: 'Đã xử lý'
   }
 ];
-
-export interface IncomingPublishInfo {
-  incomingNotation: string;
-  publishDate: string;
-  dueDate: string;
-  priority: number;
-}

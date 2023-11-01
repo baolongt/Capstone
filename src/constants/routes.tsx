@@ -59,6 +59,11 @@ export const officerPaths: Path[] = [
     icon: <FolderIcon />
   },
   {
+    label: 'Văn bản nội bộ',
+    path: '/internal-documents',
+    icon: <FolderIcon />
+  },
+  {
     label: 'Sổ công việc',
     path: '/files',
     icon: <LibraryBooksIcon />
@@ -85,6 +90,7 @@ export const pathDict: PathDict = {
   departments: 'Quản lí phòng ban',
   'outgoing-documents': 'Văn bản đi',
   'incoming-documents': 'Văn bản đến',
+  'internal-documents': 'Văn bản nội bộ',
   files: 'Sổ công việc',
   'contact-list': 'Danh sách liên lạc',
   create: 'Tạo mới',
