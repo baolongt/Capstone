@@ -14,6 +14,7 @@ import {
   PublishConfirmDialog
 } from '@/components/dialogs';
 import { AddPublishInfoDialog } from '@/components/dialogs/add-publish-info-dialog';
+import { ShareListDialog } from '@/components/dialogs/share-list-dialog';
 import {
   DetailAttachmentAccordion,
   DetailDescription,
@@ -36,6 +37,7 @@ const OutgoingDocumentDetail = () => {
   );
   const [mode, setMode] = React.useState<'forward' | 'send-back'>('forward');
   const [openAddDocToFile, setOpenAddDocToFile] = React.useState(false);
+  const [openShareList, setOpenShareList] = React.useState(false);
   const newestStatus = data?.processHistory?.[0].status;
   const navigate = useNavigate();
 
@@ -97,6 +99,10 @@ const OutgoingDocumentDetail = () => {
             <CustomButton
               label="Thêm vào sổ công việc"
               onClick={handleOpenAddDocToFile}
+            />
+            <CustomButton
+              label="Chia sẻ"
+              onClick={() => setOpenShareList(true)}
             />
             {newestStatus === OutgoingDocumentStatus.CHO_CHINH_SUA && (
               <CustomButton
@@ -220,6 +226,10 @@ const OutgoingDocumentDetail = () => {
       <AddPublishInfoDialog
         isOpen={openPublish}
         onClose={() => setOpenPublish(false)}
+      />
+      <ShareListDialog
+        isOpen={openShareList}
+        onClose={() => setOpenShareList(false)}
       />
       {data.outgoingPublishInfo && (
         <PublishConfirmDialog

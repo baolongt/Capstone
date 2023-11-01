@@ -266,3 +266,13 @@ export const statusOptions: Array<SelectOption> = [
     title: 'Đã xử lý'
   }
 ];
+
+export type ShareList = {
+  departmentId: number;
+  departmentName: string;
+  users: {
+    userId: number;
+    userName: string;
+    userEmail: string;
+  }[];
+}[];

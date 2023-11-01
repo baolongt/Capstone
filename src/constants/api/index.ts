@@ -9,6 +9,7 @@ export const OUTGOING_DOCUMENT_STATUS_DASHBORD =
   'dashboard/status-outgoing-document';
 export const LEADER = 'leaders';
 export const TEMPLATE = 'templates';
-
+export const SHARE_LIST = 'share-lists';
+export const UNSHARE_LIST = 'unshare-lists';
 export const OUTGOING_DOCUMENT_PUBLISH_NUMBER =
   'outgoing-document-publish-number';

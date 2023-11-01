@@ -1,12 +1,14 @@
-import { TreeItem } from '@mui/lab';
+import { TreeItem, treeItemClasses } from '@mui/lab';
 import TreeView from '@mui/lab/TreeView';
-import { Checkbox } from '@mui/material';
+import { alpha, Checkbox, useTheme } from '@mui/material';
 import _ from 'lodash';
 import { useEffect, useState } from 'react';
 
 type TreeViewSelectProps = {
   data: Item[];
   // onChange: (items: Item[]) => void;
+  initData?: Item[];
+  onChange: (data: { items: Item[]; children: ItemChild[] }) => void;
 };
 
 export interface ItemChild {
@@ -17,19 +19,23 @@ export interface ItemChild {
 export interface Item {
   id: string;
   name: string;
-  children: ItemChild[];
+  children: Array<ItemChild>;
 }
 
-export const TreeViewSelect = ({ data }: TreeViewSelectProps) => {
+export const TreeViewSelect = ({
+  data,
+  initData,
+  onChange
+}: TreeViewSelectProps) => {
   const [items, setItems] = useState<{
     [key: string]: Item;
   }>({});
   const [children, setChildren] = useState<{
     [key: string]: ItemChild;
   }>({});
+  const theme = useTheme();
 
   const handleSelectItem = (item: Item) => {
-    console.debug('debug ', { item });
     // if item is selected, first remove it to items and remove its children from children state
     if (items[item.id] !== null && items[item.id] !== undefined) {
       const newItems = _.omit(items, [item.id]);
@@ -37,7 +43,7 @@ export const TreeViewSelect = ({ data }: TreeViewSelectProps) => {
 
       const newChildren = _.omit(
         children,
-        item.children?.map((child) => child.id)
+        item.children?.map((child) => child.id) || []
       );
       setChildren(newChildren);
     }
@@ -89,29 +95,72 @@ export const TreeViewSelect = ({ data }: TreeViewSelectProps) => {
       return item.children?.every((child) => !!children[child.id]);
     };
 
+    const itemsToBeAdd: {
+      [key: string]: Item;
+    } = {};
+    const itemsToBeRemove: {
+      [key: string]: Item;
+    }[] = [];
     data.forEach((item) => {
       if (isAllChildrenSelected(item)) {
-        setItems({
-          ...items,
+        itemsToBeAdd[item.id] = item;
+      } else if (items[item.id]) {
+        itemsToBeRemove.push({
           [item.id]: item
         });
-      } else if (items[item.id]) {
-        console.log('update new items');
-        const newItems = _.omit(items, [item.id]);
-        setItems(newItems);
       }
     });
+
+    const newItems = _.omit(
+      items,
+      itemsToBeRemove.map((item) => Object.keys(item)[0]) || []
+    );
+    setItems({
+      ...newItems,
+      ...itemsToBeAdd
+    });
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [children, data]);
 
-  // useEffect(() => {
-  //   onChange(Object.values(items));
-  // }, [items, children]);
+  useEffect(() => {
+    if (initData) {
+      console.log({ initData }, 'initData ');
+      const initItems = initData.reduce((acc, item) => {
+        return {
+          ...acc,
+          [item.id]: item
+        };
+      }, {});
+      const children = initData.map((item) => item.children).flat();
+      const initChildren = children.reduce((acc, child) => {
+        return {
+          ...acc,
+          [child.id]: child
+        };
+      }, {});
+      setChildren(initChildren);
+      setItems(initItems);
+    }
+  }, []);
+
+  useEffect(() => {
+    onChange({
+      items: Object.values(items),
+      children: Object.values(children)
+    });
+  }, [children, items]);
 
   const renderTree = (data: Item) => {
     return (
       <TreeItem
         key={data.id}
+        sx={{
+          width: '100%',
+          [`& .${treeItemClasses.group}`]: {
+            borderLeft: `1px dashed ${alpha(theme.palette.text.primary, 0.4)}`
+          }
+        }}
         icon={
           <Checkbox
             // checked only if all children are selected
@@ -120,8 +169,10 @@ export const TreeViewSelect = ({ data }: TreeViewSelectProps) => {
             onClick={(e) => e.stopPropagation()}
           />
         }
-        nodeId={data.id}
-        label={data.name}
+        nodeId={'item-' + data.id}
+        label={
+          data.name + (data.children.length ? ` (${data.children.length})` : '')
+        }
       >
         {data.children?.map((child) => (
           <TreeItem
@@ -135,7 +186,7 @@ export const TreeViewSelect = ({ data }: TreeViewSelectProps) => {
                 onClick={(e) => e.stopPropagation()}
               />
             }
-            nodeId={child.id}
+            nodeId={'child-' + child.id}
             label={child.name}
           />
         ))}
@@ -149,6 +200,7 @@ export const TreeViewSelect = ({ data }: TreeViewSelectProps) => {
       defaultCollapseIcon={<Checkbox />}
       defaultExpandIcon={<Checkbox />}
       sx={{ height: 240, flexGrow: 1, maxWidth: 400 }}
+      defaultExpanded={data.map((item) => 'item-' + item.id)}
     >
       {data.map((node) => renderTree(node))}
     </TreeView>
