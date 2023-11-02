@@ -92,13 +92,13 @@ const IncomingDocumentDetail = () => {
               label="Thêm vào sổ công việc"
               onClick={handleOpenAddDocToFile}
             />
+
             {newestStatus === OutgoingDocumentStatus.CHO_CHINH_SUA && (
               <CustomButton
                 label="Chỉnh sửa"
                 onClick={() => navigate('edit')}
               />
             )}
-
             {newestStatus === OutgoingDocumentStatus.DANG_XU_LY && (
               <>
                 <CustomButton
