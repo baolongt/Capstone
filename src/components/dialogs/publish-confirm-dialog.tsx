@@ -21,28 +21,24 @@ import { OutgoingPublishInfo } from '@/models/outgoingDocument';
 import { CustomButton } from '../common';
 
 interface PublishConfirmDialogProps {
+  id: number;
   publishInfo: OutgoingPublishInfo;
   isOpen: boolean;
   onClose: () => void;
 }
 
 export const PublishConfirmDialog = ({
+  id,
   publishInfo,
   onClose,
   isOpen
 }: PublishConfirmDialogProps) => {
-  const {
-    outgoingDocumentId,
-    outgoingNumber,
-    outgoingNotation,
-    priority,
-    dueDate,
-    contactLists
-  } = publishInfo;
+  const { outgoingNumber, outgoingNotation, priority, dueDate, contactLists } =
+    publishInfo;
   const navigate = useNavigate();
 
   const { mutate: forwardDocument, isLoading } = useForwardDocument({
-    id: outgoingDocumentId,
+    id: id,
     onSuccess: () => {
       toast.success('Phát hành văn bản thành công');
     },
@@ -53,7 +49,7 @@ export const PublishConfirmDialog = ({
   });
   const form = useForm({
     defaultValues: {
-      documentId: outgoingDocumentId,
+      documentId: id,
       newStatus: 6,
       newHandlerId: -1,
       newNote: ''
