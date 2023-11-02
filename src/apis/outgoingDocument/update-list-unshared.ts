@@ -21,11 +21,11 @@ export const useUpdateListUnShared = (id: number) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationKey: [api.UNSHARE_LIST, id],
+    mutationKey: [api.SHARE_LIST, id],
     mutationFn: (payload: { userids: number[] }) =>
       updateListUnShared(id, payload),
     onSuccess: () => {
-      queryClient.invalidateQueries([api.UNSHARE_LIST, id]);
+      queryClient.invalidateQueries([api.SHARE_LIST, id]);
     }
   });
 };

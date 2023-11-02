@@ -3,10 +3,8 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogTitle,
-  Stack
+  DialogTitle
 } from '@mui/material';
-import { useQueryClient } from '@tanstack/react-query';
 import _ from 'lodash';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -14,8 +12,6 @@ import { toast } from 'react-toastify';
 
 import { useUpdateListShared, useUpdateListUnShared } from '@/apis';
 import { useListShared } from '@/apis/outgoingDocument/list-shared';
-import { useListUnshared } from '@/apis/outgoingDocument/list-unshared';
-import { api } from '@/constants';
 import { ShareList } from '@/models/outgoingDocument';
 
 import {
@@ -77,24 +73,32 @@ export const ShareListDialog: React.FC<ShareListDialogProps> = ({
   onClose
 }) => {
   const { id } = useParams<{ id: string }>();
-  const { data: listShared, isLoading: slLoading } = useListShared(Number(id));
-  const { data: listUnshared, isLoading: ulLoading } = useListUnshared(
-    Number(id)
-  );
+  const {
+    data: listShared,
+    isLoading: slLoading,
+    refetch: refreshListShared
+  } = useListShared(Number(id));
   const [data, setData] = useState<Item[]>([]);
+  const [initValue, setInitValue] = useState<Item[]>([]);
   const [selectedItems, setSelectedItems] = useState<{
     items: Item[];
     children: ItemChild[];
-  }>();
+  }>({
+    items: [],
+    children: []
+  });
   const [isDirty, setIsDirty] = useState(false);
-  const queryClient = useQueryClient();
 
   useEffect(() => {
-    if (listShared && listUnshared) {
-      const uniqle = getUniq([...listShared, ...listUnshared]);
-      setData(convertToTreeData(uniqle));
+    if (listShared) {
+      setData(
+        convertToTreeData(
+          getUniq([...listShared.listShared, ...listShared.listUnshared])
+        )
+      );
+      setInitValue(convertToTreeData(listShared.listShared));
     }
-  }, [listShared, listUnshared, slLoading, ulLoading]);
+  }, [listShared]);
 
   const handleOnChange = (data: { items: Item[]; children: ItemChild[] }) => {
     setSelectedItems(data);
@@ -115,7 +119,9 @@ export const ShareListDialog: React.FC<ShareListDialogProps> = ({
     const selectedUsers =
       selectedItems?.children.map((c) => Number(c.id)) || [];
     const listSharedUsers =
-      listShared?.map((ls) => ls.users.map((u) => u.userId)).flat() || [];
+      listShared?.listShared
+        .map((ls) => ls.users.map((u) => u.userId))
+        .flat() || [];
 
     const listNewUsers = _.difference(selectedUsers, listSharedUsers);
     const listRemoveUsers = _.difference(listSharedUsers, selectedUsers);
@@ -135,13 +141,16 @@ export const ShareListDialog: React.FC<ShareListDialogProps> = ({
         })
       ]);
       toast.success('Chia sẻ thành công');
-
-      queryClient.invalidateQueries([api.SHARE_LIST, Number(id)]);
-      queryClient.invalidateQueries([api.UNSHARE_LIST, Number(id)]);
+      await refreshListShared();
+      setSelectedItems({
+        items: [],
+        children: []
+      });
     } catch (e) {
       console.log(e);
       toast.error('Chia sẻ thất bại');
     }
+    onClose();
   };
 
   useEffect(() => {
@@ -151,7 +160,9 @@ export const ShareListDialog: React.FC<ShareListDialogProps> = ({
     const selectedUsers =
       selectedItems?.children.map((c) => Number(c.id)) || [];
     const listSharedUsers =
-      listShared?.map((ls) => ls.users.map((u) => u.userId)).flat() || [];
+      listShared?.listShared
+        .map((ls) => ls.users.map((u) => u.userId))
+        .flat() || [];
     if (!_.isEqual(selectedUsers, listSharedUsers)) {
       setIsDirty(false);
     } else {
@@ -172,14 +183,13 @@ export const ShareListDialog: React.FC<ShareListDialogProps> = ({
     >
       <DialogTitle fontWeight={600}>Danh sách chia sẻ</DialogTitle>
       <DialogContent>
-        {slLoading && ulLoading ? (
+        {slLoading ? (
           <Loading />
         ) : (
-          listShared &&
-          listUnshared && (
+          listShared && (
             <TreeViewSelect
               data={data}
-              initData={convertToTreeData(listShared)}
+              initData={initValue}
               onChange={handleOnChange}
             />
           )

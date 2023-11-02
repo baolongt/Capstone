@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { api } from '@/constants';
 import { axiosInstance } from '@/utils';
 
-type ListDocumentsResponse = {
+type sharedDepartment = {
   departmentId: number;
   departmentName: string;
   users: {
@@ -11,14 +11,18 @@ type ListDocumentsResponse = {
     userName: string;
     userEmail: string;
   }[];
-}[];
+};
+type ListDocumentsResponse = {
+  listShared: sharedDepartment[];
+  listUnshared: sharedDepartment[];
+};
 
 const listShared = async (id: number) => {
   const response: ListDocumentsResponse = await axiosInstance.get(
     `/api/OutgoingDocument/getSharedUserDepartment/${id}`
   );
 
-  return Array.isArray(response) ? response : [];
+  return response;
 };
 
 export const useListShared = (id: number) => {
