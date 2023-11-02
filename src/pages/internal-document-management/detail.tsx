@@ -3,7 +3,7 @@ import * as React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { send } from '@/apis';
-import { useGetOneDocument } from '@/apis/incomingDocument/getOneDocument';
+import { useGetOneDocument } from '@/apis/internalDocument/getOneDocument';
 import { CustomButton, Loading } from '@/components/common';
 import AppDocViewer from '@/components/common/document-viewer';
 import PageHeader from '@/components/common/page-header';
@@ -12,15 +12,15 @@ import {
   AddDocToFileDialog,
   ForwardDocumentDialog
 } from '@/components/dialogs';
+import { DetailAttachmentAccordion } from '@/components/document';
 import {
-  DetailAttachmentAccordion,
   DetailDescription,
   DetailTimeline
-} from '@/components/document';
+} from '@/components/document/internal';
 import { OutgoingDocumentStatus } from '@/constants';
 import { Attachment } from '@/models';
 
-const IncomingDocumentDetail = () => {
+const InternalDocumentDetail = () => {
   const { id } = useParams<{ id: string }>();
   const { data, isLoading } = useGetOneDocument(id ? parseInt(id) : -1);
   const [openModal, setOpenModal] = React.useState(false);
@@ -136,14 +136,7 @@ const IncomingDocumentDetail = () => {
           sx={{ mx: 'auto', width: '1080px', mt: 3, px: 2, minHeight: '80vh' }}
           component={Paper}
         >
-          {/* <DetailDescription sx={{ width: '100%' }} data={{
-            epitomize: data.epitomize,
-            documentNotation: data.incomingPublishInfo.incomingNotation,
-            documentField: data.documentField,
-            documentTypeName: data.documentTypeName,
-            createdByName: data.createdByName,
-            publishDate:  data.publishDate,
-          }} /> */}
+          <DetailDescription data={data} sx={{ width: '100%' }} />
           <DetailAttachmentAccordion
             attachments={data.attachments as Attachment[]}
             watchAttachment={watchAttachment}
@@ -174,4 +167,4 @@ const IncomingDocumentDetail = () => {
   );
 };
 
-export default IncomingDocumentDetail;
+export default InternalDocumentDetail;

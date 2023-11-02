@@ -1,8 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import dayjs from 'dayjs';
 
-import { api } from '@/constants';
+import { api, TIMEZONE } from '@/constants';
 import { common, UploadFile } from '@/models';
-import { CreateType } from '@/models/validation/outgoingDocument';
+import { InternalPublishInfo } from '@/models/internalDocument';
+import { CreateType } from '@/models/validation/internalDocument';
 import { axiosInstance } from '@/utils';
 
 type AttachmentType = {
@@ -10,28 +12,24 @@ type AttachmentType = {
   url: string;
   needSigned: boolean;
 };
-export interface IncomingPublishInfo {
-  incomingNotation: string;
-  publishDate: string;
-  dueDate: string;
-  priority: number;
-}
 
-type OutgoingDocumentUploadFormType = {
-  processDeadline: string;
+type InternalDocumentUploadFormType = {
   epitomize: string;
   documentField: string;
   documentTypeId: number;
+  isRepliedDocument: boolean;
   note: string;
+  processDeadline: string;
   attachments: AttachmentType[];
+  internalPublishInfo: InternalPublishInfo;
 };
 
 type AttachmentTypeResponse = AttachmentType & {
   id: number;
 };
 
-type OutGoingDocumentUploadFormTypeResponse = {
-  data: Omit<OutgoingDocumentUploadFormType, 'attachments'> & {
+type InternalDocumentUploadFormTypeResponse = {
+  data: Omit<InternalDocumentUploadFormType, 'attachments'> & {
     id: number;
     createdBy: number | null;
     createdDate: string;
@@ -51,14 +49,15 @@ type UploadFileResponse = {
   data: NameAndUrlFile[];
 };
 
-const convertToOutGoingDocumentUploadFormType = (
+const convertToInternalDocumentUploadFormType = (
   createObj: CreateType
-): OutgoingDocumentUploadFormType => {
-  const outGoingDocumentUploadFormType: OutgoingDocumentUploadFormType = {
+): InternalDocumentUploadFormType => {
+  const internalDocumentUploadFormType: InternalDocumentUploadFormType = {
     epitomize: createObj.epitomize,
     documentField: String(createObj.documentField),
     documentTypeId: createObj.documentTypeId,
     note: createObj.note,
+    isRepliedDocument: false,
     processDeadline: createObj.processDeadline,
     attachments:
       createObj.files?.map((file) => ({
@@ -67,10 +66,16 @@ const convertToOutGoingDocumentUploadFormType = (
         needSigned: file.needSigned,
         size: file.fileObj?.size,
         mimeType: file.fileObj?.type
-      })) ?? []
+      })) ?? [],
+    internalPublishInfo: {
+      internalNotation: createObj.internalNotation,
+      publishDate: dayjs.tz(new Date(), TIMEZONE).format(),
+      dueDate: createObj.processDeadline,
+      priority: createObj.priority
+    }
   };
 
-  return outGoingDocumentUploadFormType;
+  return internalDocumentUploadFormType;
 };
 
 export const uploadFile = async (
@@ -99,8 +104,8 @@ export const uploadFile = async (
 
 export const uploadForm = async (
   formData: CreateType
-): Promise<OutGoingDocumentUploadFormTypeResponse> => {
-  const url = 'api/OutgoingDocument';
+): Promise<InternalDocumentUploadFormTypeResponse> => {
+  const url = 'api/InternalDocument';
 
   const { files: formFiles } = formData;
 
@@ -112,14 +117,12 @@ export const uploadForm = async (
     formFiles[idx].setNameAndUrl(uploadedFile[idx].name, uploadedFile[idx].url);
   }
 
-  const payload = convertToOutGoingDocumentUploadFormType(formData);
-
-  console.log('payload', { payload });
+  const payload = convertToInternalDocumentUploadFormType(formData);
 
   return await axiosInstance.post(url, payload);
 };
 
-export const useUploadForm = ({
+export const useUploadInternalForm = ({
   onSuccess,
   onError
 }: common.useMutationParams) => {
@@ -127,7 +130,7 @@ export const useUploadForm = ({
   return useMutation({
     mutationFn: (payload: CreateType) => uploadForm(payload),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [api.DEPARTMENT] });
+      queryClient.invalidateQueries({ queryKey: [api.INTERNAL_DOCUMENT] });
       onSuccess?.();
     },
     onError: () => {

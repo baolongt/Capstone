@@ -18,6 +18,10 @@ import IncomingDocumentManagement from './pages/incoming-document-management';
 import CreateIncomingDocumentPage from './pages/incoming-document-management/create';
 import IncomingDocumentDetail from './pages/incoming-document-management/detail';
 import EditIncomingDocumentPage from './pages/incoming-document-management/edit';
+import InternalDocumentManagement from './pages/internal-document-management';
+import CreateInternalDocumentPage from './pages/internal-document-management/create';
+import InternalDocumentDetail from './pages/internal-document-management/detail';
+import EditInternalDocumentPage from './pages/internal-document-management/edit';
 import OutgoingDocumentManagement from './pages/outgoing-document-management';
 import AddNumberPage from './pages/outgoing-document-management/add-number';
 import CreateOutgoingDocumentPage from './pages/outgoing-document-management/create';
@@ -58,6 +62,7 @@ const App = () => {
         {/* OFFICER pages */}
 
         <Route element={<RequireAuth role={Role.OFFICER} />}>
+          <Route path="/test" element={<TestPage />} />
           <Route path={'/files'}>
             <Route index element={<FileManagement />} />
             <Route path=":id" element={<FileDetail />} />
@@ -77,6 +82,14 @@ const App = () => {
             <Route path=":id">
               <Route index element={<IncomingDocumentDetail />} />
               <Route path="edit" element={<EditIncomingDocumentPage />} />
+            </Route>
+          </Route>
+          <Route path={'/internal-documents'}>
+            <Route index element={<InternalDocumentManagement />} />
+            <Route path="create" element={<CreateInternalDocumentPage />} />
+            <Route path=":id">
+              <Route index element={<InternalDocumentDetail />} />
+              <Route path="edit" element={<EditInternalDocumentPage />} />
             </Route>
           </Route>
           <Route path={'/contact-list'}>

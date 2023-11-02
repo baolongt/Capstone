@@ -2,7 +2,7 @@ import { Box, Chip, Grid, SxProps, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 import { FC } from 'react';
 
-import { ContactList, OutgoingPublishInfo } from '@/models/outgoingDocument';
+import { OutgoingPublishInfo } from '@/models/outgoingDocument';
 
 export type PublishInfoProps = {
   sx?: SxProps;
