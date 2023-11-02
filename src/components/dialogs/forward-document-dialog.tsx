@@ -54,7 +54,16 @@ export const ForwardDocumentDialog: React.FC<ForwardDocumentDialogProps> = (
   }
 
   const onSubmit = () => {
-    forwardDocument(getValues());
+    if (newestStatus === OutgoingDocumentStatus.CHO_LANH_DAO_KY) {
+      forwardDocument({
+        documentId: id,
+        newStatus: 6,
+        newHandlerId: -1,
+        newNote: ''
+      });
+    } else {
+      forwardDocument(getValues());
+    }
     handleClose();
     navigate('/outgoing-documents');
   };

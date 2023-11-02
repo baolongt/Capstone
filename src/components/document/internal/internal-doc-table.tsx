@@ -2,7 +2,7 @@ import { SxProps } from '@mui/material';
 import { createColumnHelper } from '@tanstack/react-table';
 import moment from 'moment';
 import * as React from 'react';
-import { Link as useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import BaseTable from '@/components/common/base-table';
 import { internalDocument } from '@/models';

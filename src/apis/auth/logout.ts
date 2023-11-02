@@ -18,7 +18,7 @@ export const useLogout = ({ onSuccess, onError }: common.useMutationParams) => {
   return useMutation({
     mutationFn: () => logout(),
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ['logout'] });
+      queryClient.invalidateQueries();
       onSuccess?.(data);
     },
     onError: () => {

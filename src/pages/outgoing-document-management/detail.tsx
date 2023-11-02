@@ -233,6 +233,7 @@ const OutgoingDocumentDetail = () => {
       />
       {data.outgoingPublishInfo && (
         <PublishConfirmDialog
+          id={parseInt(id ? id : '-1')}
           isOpen={openConfirmPublish}
           publishInfo={data.outgoingPublishInfo}
           onClose={() => setOpenConfirmPublish(false)}
