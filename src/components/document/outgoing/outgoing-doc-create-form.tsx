@@ -1,9 +1,10 @@
 import LoadingButton from '@mui/lab/LoadingButton';
-import { Box, Grid, Stack, SxProps, Typography } from '@mui/material';
+import { Box, Grid, Link, Stack, SxProps, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
 import { Accept } from 'react-dropzone';
 import { UseFormReturn } from 'react-hook-form';
+import { Link as RouterLink } from 'react-router-dom';
 
 import {
   DatePickerField,
@@ -124,6 +125,7 @@ const CreateDocumentForm: React.FC<createDocumentFormProps> = ({
               *
             </Box>
           </Typography>
+
           <DatePickerField
             form={form}
             name="processDeadline"
@@ -141,11 +143,16 @@ const CreateDocumentForm: React.FC<createDocumentFormProps> = ({
         </Grid>
         <Grid item xs={12}>
           <Typography style={{ marginBottom: '5px' }} fontWeight="bold">
-            File đính kèm
+            File đính kèm{' '}
             <Box component="span" color="error.main">
               *
             </Box>
           </Typography>
+          <Link href="#">
+            <RouterLink to="/template">
+              <Typography variant="body2">Mẫu văn bản</Typography>
+            </RouterLink>
+          </Link>
           <WrappedDragDropFileBox
             fileAccpetType={fileAccpetType}
             form={form}

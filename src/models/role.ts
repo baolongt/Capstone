@@ -37,7 +37,7 @@ export const jobPositionOptions: SelectOption[] = [
   }
 ];
 
-enum Role {
-  ADMIN = 2,
-  USER = 1
-}
+// enum Role {
+//   ADMIN = 2,
+//   USER = 1
+// }

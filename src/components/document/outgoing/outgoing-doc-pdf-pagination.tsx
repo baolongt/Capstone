@@ -30,7 +30,7 @@ const PdfPagination = ({
       }}
     >
       <Button
-        variant="contained"
+        variant="outlined"
         disabled={currentPage === 0}
         onClick={handlePrevClick}
       >
@@ -40,7 +40,7 @@ const PdfPagination = ({
         currentPage + 1
       } / ${totalPages}`}</Typography>
       <Button
-        variant="contained"
+        variant="outlined"
         disabled={currentPage === totalPages - 1}
         onClick={handleNextClick}
       >

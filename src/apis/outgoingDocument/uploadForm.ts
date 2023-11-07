@@ -30,7 +30,7 @@ type AttachmentTypeResponse = AttachmentType & {
   id: number;
 };
 
-type OutGoingDocumentUploadFormTypeResponse = {
+export type OutGoingDocumentUploadFormTypeResponse = {
   data: Omit<OutgoingDocumentUploadFormType, 'attachments'> & {
     id: number;
     createdBy: number | null;
@@ -98,7 +98,8 @@ export const uploadFile = async (
 };
 
 export const uploadForm = async (
-  formData: CreateType
+  formData: CreateType,
+  callback?: (newEntity: OutGoingDocumentUploadFormTypeResponse) => void
 ): Promise<OutGoingDocumentUploadFormTypeResponse> => {
   const url = 'api/OutgoingDocument';
 
@@ -114,18 +115,24 @@ export const uploadForm = async (
 
   const payload = convertToOutGoingDocumentUploadFormType(formData);
 
-  console.log('payload', { payload });
-
-  return await axiosInstance.post(url, payload);
+  const res: OutGoingDocumentUploadFormTypeResponse = await axiosInstance.post(
+    url,
+    payload
+  );
+  callback?.(res);
+  return res;
 };
 
 export const useUploadForm = ({
   onSuccess,
-  onError
-}: common.useMutationParams) => {
+  onError,
+  callback
+}: common.useMutationParams & {
+  callback?: (newEntity: OutGoingDocumentUploadFormTypeResponse) => void;
+}) => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (payload: CreateType) => uploadForm(payload),
+    mutationFn: (payload: CreateType) => uploadForm(payload, callback),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [api.DEPARTMENT] });
       onSuccess?.();

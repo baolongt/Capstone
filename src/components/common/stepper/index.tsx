@@ -1,3 +1,4 @@
+import { SxProps } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
@@ -9,23 +10,18 @@ type BaseVerticalStepperProps = {
   steps: {
     label: string;
   }[];
+  sx?: SxProps;
 };
 
-const SmallCircularProgress = () => {
-  return <CircularProgress size="1.3rem" />;
-};
-
-const BaseVerticalStepper: React.FC<BaseVerticalStepperProps> = (props) => {
-  const { activeStep, steps } = props;
+const BaseStepper: React.FC<BaseVerticalStepperProps> = (props) => {
+  const { activeStep, steps, sx } = props;
   return (
-    <Stepper activeStep={activeStep} orientation="vertical">
+    <Stepper alternativeLabel sx={sx} activeStep={activeStep}>
       {steps.map((step, index) => {
         if (index === activeStep) {
           return (
             <Step key={step.label}>
-              <StepLabel StepIconComponent={SmallCircularProgress}>
-                {step.label}
-              </StepLabel>
+              <StepLabel>{step.label}</StepLabel>
             </Step>
           );
         } else {
@@ -40,4 +36,4 @@ const BaseVerticalStepper: React.FC<BaseVerticalStepperProps> = (props) => {
   );
 };
 
-export default BaseVerticalStepper;
+export default BaseStepper;

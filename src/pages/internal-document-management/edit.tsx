@@ -11,7 +11,7 @@ import AppDocViewer from '@/components/common/document-viewer';
 import PageHeader from '@/components/common/page-header';
 import PageTitle from '@/components/common/page-title';
 import EditForm from '@/components/document/internal/internal-doc-edit-form';
-import { internalDocument, outgoingDocument, validation } from '@/models';
+import { internalDocument, validation } from '@/models';
 import { convertDetailToEditForm } from '@/models/internalDocument';
 
 const EditInternalDocumentPage = () => {

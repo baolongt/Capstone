@@ -1,13 +1,11 @@
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import { IconButton, SxProps, Tooltip } from '@mui/material';
+import { SxProps } from '@mui/material';
 import { createColumnHelper } from '@tanstack/react-table';
 import moment from 'moment';
 import * as React from 'react';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import BaseTable from '@/components/common/base-table';
-import { incomingDocument, outgoingDocument } from '@/models';
-import { DocumentStatusDict } from '@/models/outgoingDocument';
+import { incomingDocument } from '@/models';
 import { Metadata } from '@/types';
 
 const columnHelper = createColumnHelper<incomingDocument.IncomingDocument>();
