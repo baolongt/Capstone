@@ -1,18 +1,21 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Box, Link, Paper } from '@mui/material';
+import { Box, Paper } from '@mui/material';
 import React, { useEffect } from 'react';
 import { useForm, UseFormReturn } from 'react-hook-form';
-import { Link as RouterLink } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import { useUploadForm } from '@/apis/outgoingDocument';
-import PageHeader from '@/components/common/page-header';
-import PageTitle from '@/components/common/page-title';
 import CreateDocumentForm from '@/components/document/outgoing/outgoing-doc-create-form';
 import { DEFAULT_PAGE_WIDTH } from '@/constants';
 import { UploadFile, validation } from '@/models';
 
-const CreateOutgoingDocumentPage: React.FC = () => {
+const CreateOutgoingDocumentPage = ({
+  handleNextStep,
+  setNewDocId
+}: {
+  handleNextStep?: () => void;
+  setNewDocId?: React.Dispatch<React.SetStateAction<number | undefined>>;
+}) => {
   const {
     mutate: uploadForm,
     isLoading,
@@ -20,9 +23,15 @@ const CreateOutgoingDocumentPage: React.FC = () => {
   } = useUploadForm({
     onSuccess: () => {
       toast.success('Tạo mới văn bản đi thành công');
+      handleNextStep?.();
     },
     onError: () => {
       toast.error('Tạo mới văn bản đi thất bại');
+    },
+    callback: (data) => {
+      if (data) {
+        setNewDocId?.(data.data.id);
+      }
     }
   });
 
@@ -55,14 +64,6 @@ const CreateOutgoingDocumentPage: React.FC = () => {
 
   return (
     <Box>
-      <PageHeader>
-        <Box>
-          <PageTitle label="đăng ký văn bản đi" />
-          <Link href="#">
-            <RouterLink to="/template">Mẫu văn bản</RouterLink>
-          </Link>
-        </Box>
-      </PageHeader>
       <Box
         sx={{ mx: 'auto', width: DEFAULT_PAGE_WIDTH, pr: 4, pb: 2 }}
         component={Paper}

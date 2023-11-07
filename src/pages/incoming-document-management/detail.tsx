@@ -14,7 +14,6 @@ import {
 } from '@/components/dialogs';
 import {
   DetailAttachmentAccordion,
-  DetailDescription,
   DetailTimeline
 } from '@/components/document';
 import { OutgoingDocumentStatus } from '@/constants';

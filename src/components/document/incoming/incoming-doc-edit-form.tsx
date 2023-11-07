@@ -75,7 +75,7 @@ const EditForm: React.FC<EditFormProps> = ({
   }, [documentField, setValue]);
 
   const handleFormSubmit = (data: any) => {
-    console.log('submit');
+    console.log('submit', data);
   };
   if (data) {
     console.log('edit data', data);

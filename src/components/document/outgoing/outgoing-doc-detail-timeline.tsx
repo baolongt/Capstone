@@ -1,3 +1,4 @@
+import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import Timeline from '@mui/lab/Timeline';
 import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineContent from '@mui/lab/TimelineContent';
@@ -28,7 +29,9 @@ const BaseTimelineItem: React.FC<BaseTimelineItemProps> = (props) => {
         {time}
       </TimelineOppositeContent>
       <TimelineSeparator>
-        <TimelineDot variant="outlined" color="primary" />
+        <TimelineDot color="success">
+          <CheckRoundedIcon />
+        </TimelineDot>
         {!isLast && <TimelineConnector />}
       </TimelineSeparator>
       <TimelineContent>

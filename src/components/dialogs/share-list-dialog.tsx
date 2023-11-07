@@ -104,16 +104,10 @@ export const ShareListDialog: React.FC<ShareListDialogProps> = ({
     setSelectedItems(data);
   };
 
-  const {
-    mutate: updateListShared,
-    isLoading: updateSharedLoading,
-    isSuccess: updateSharedSuccess
-  } = useUpdateListShared(Number(id));
-  const {
-    mutate: updateListUnshared,
-    isLoading: updateUnshareLoading,
-    isSuccess: updateUnshareSuccess
-  } = useUpdateListUnShared(Number(id));
+  const { mutate: updateListShared, isLoading: updateSharedLoading } =
+    useUpdateListShared(Number(id));
+  const { mutate: updateListUnshared, isLoading: updateUnshareLoading } =
+    useUpdateListUnShared(Number(id));
 
   const handleShare = async () => {
     const selectedUsers =

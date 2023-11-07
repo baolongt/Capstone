@@ -16,6 +16,7 @@ interface Props {
   filterSelectedOptions?: boolean;
   disablePortal?: boolean;
   onSearchChange: (textSearch: string) => void;
+  isOptionEqualToValue?: (option: SelectOption, value: SelectOption) => boolean;
 }
 
 export default function AutocompleteInput(props: Props) {
@@ -25,6 +26,7 @@ export default function AutocompleteInput(props: Props) {
     form,
     multiple,
     filterSelectedOptions,
+    isOptionEqualToValue,
     onSearchChange,
     disablePortal = false,
     sx,
@@ -52,6 +54,7 @@ export default function AutocompleteInput(props: Props) {
             options={data}
             multiple={multiple}
             filterSelectedOptions={filterSelectedOptions}
+            isOptionEqualToValue={isOptionEqualToValue}
             renderInput={(params) => (
               <TextField
                 onChange={(event) => onSearchChange(event.target.value)}
