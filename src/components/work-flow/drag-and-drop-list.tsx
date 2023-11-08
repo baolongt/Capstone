@@ -16,7 +16,7 @@ import React, { useEffect } from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 
 import { user, workFlow } from '@/models';
-import { convertActionToString } from '@/models/work-flow';
+import { ActionOptions, convertActionToString } from '@/models/work-flow';
 
 type DragAndDropListProps = {
   users: user.User[];
@@ -87,7 +87,7 @@ const ListItem = ({
             disablePortal
             size="small"
             value={item.action}
-            options={[workFlow.Action.CONSIDER, workFlow.Action.SIGN]}
+            options={ActionOptions}
             getOptionLabel={(option) => convertActionToString(option)}
             sx={{ width: 300 }}
             renderInput={(params) => <TextField {...params} label="Vai trò" />}
