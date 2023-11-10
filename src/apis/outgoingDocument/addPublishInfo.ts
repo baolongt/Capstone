@@ -16,7 +16,6 @@ export type addPublishInfoPayload = {
 
 export const addPublishInfo = async (payload: addPublishInfoPayload) => {
   const url = 'api/OutgoingDocument/create-publish-info';
-  console.log('call', url);
   const response = await axiosInstance.post(url, payload);
   return response.data;
 };

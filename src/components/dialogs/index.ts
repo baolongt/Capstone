@@ -7,6 +7,7 @@ export * from './create-outgoing-document-dialog';
 export * from './create-template-dialog';
 export * from './forward-document-dialog';
 export * from './import-file-dialog';
+export * from './outgoing-doc';
 export * from './publish-confirm-dialog';
 export * from './remove-doc-from-file-dialog';
 export * from './update-user-department-and-position';

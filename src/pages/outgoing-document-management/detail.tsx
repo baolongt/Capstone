@@ -1,19 +1,26 @@
-import { Box, Divider, Paper, Stack, Tooltip, Typography } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
+import {
+  Box,
+  Divider,
+  Paper,
+  Stack,
+  Typography,
+  useTheme
+} from '@mui/material';
 import * as React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { send } from '@/apis';
 import { useGetOneDocument } from '@/apis/outgoingDocument/getOneDocument';
+import { useGetWorkFlows, WorkFlowDocType } from '@/apis/work-flow';
 import { CustomButton, Loading } from '@/components/common';
 import AppDocViewer from '@/components/common/document-viewer';
 import PageHeader from '@/components/common/page-header';
 import PageTitle from '@/components/common/page-title';
 import {
   AddDocToFileDialog,
-  ForwardDocumentDialog,
-  PublishConfirmDialog
+  WorkflowDiagramDialog
 } from '@/components/dialogs';
-import { AddPublishInfoDialog } from '@/components/dialogs/add-publish-info-dialog';
 import { ShareListDialog } from '@/components/dialogs/share-list-dialog';
 import {
   DetailAttachmentAccordion,
@@ -26,18 +33,20 @@ import { Attachment } from '@/models';
 import { OutgoingPublishInfo } from '@/models/outgoingDocument';
 
 const OutgoingDocumentDetail = () => {
+  const theme = useTheme();
   const { id } = useParams<{ id: string }>();
   const { data, isLoading } = useGetOneDocument(id ? parseInt(id) : -1);
-  const [openModal, setOpenModal] = React.useState(false);
-  const [openPublish, setOpenPublish] = React.useState(false);
-  const [openConfirmPublish, setOpenConfirmPublish] = React.useState(false);
+  const { data: workflow, isLoading: isLoadingWorkflow } = useGetWorkFlows({
+    docId: id ? parseInt(id) : -1,
+    docType: WorkFlowDocType.OUTGOING
+  });
   const [docPreview, setDocPreview] = React.useState(false);
   const [docPreviewData, setDocPreviewData] = React.useState<{ uri: string }[]>(
     []
   );
-  const [mode, setMode] = React.useState<'forward' | 'send-back'>('forward');
   const [openAddDocToFile, setOpenAddDocToFile] = React.useState(false);
   const [openShareList, setOpenShareList] = React.useState(false);
+  const [openWorkflowDiagram, setOpenWorkflowDiagram] = React.useState(false);
   const newestStatus = data?.processHistory?.[0].status;
   const navigate = useNavigate();
 
@@ -47,15 +56,6 @@ const OutgoingDocumentDetail = () => {
   if (!data) {
     return <div>Not found</div>;
   }
-
-  const handleOpenModal = (mode: 'forward' | 'send-back') => {
-    setMode(mode);
-    setOpenModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setOpenModal(false);
-  };
 
   const handleOpenAddDocToFile = () => {
     setOpenAddDocToFile(true);
@@ -111,74 +111,16 @@ const OutgoingDocumentDetail = () => {
               />
             )}
 
-            {newestStatus === OutgoingDocumentStatus.DANG_XU_LY && (
-              <>
-                <CustomButton
-                  label="Chỉnh sửa"
-                  onClick={() => navigate('edit')}
-                />
-                <CustomButton
-                  label="Chuyển tiếp"
-                  onClick={() => handleOpenModal('forward')}
-                />
-              </>
-            )}
-            {newestStatus != undefined &&
-              [
-                OutgoingDocumentStatus.CHO_TRUONG_PHONG_DUYET,
-                OutgoingDocumentStatus.CHO_LANH_DAO_DUYET
-              ].includes(newestStatus) && (
-                <>
-                  <CustomButton
-                    label="Chuyển tiếp"
-                    onClick={() => handleOpenModal('forward')}
-                  />
-                  <CustomButton
-                    label="Trả lại"
-                    variant="outlined"
-                    onClick={() => handleOpenModal('send-back')}
-                  />
-                </>
-              )}
-            {newestStatus != undefined &&
-              OutgoingDocumentStatus.CHO_VAN_THU_LAY_SO === newestStatus && (
-                <>
-                  {!data.outgoingPublishInfo ? (
-                    <>
-                      <Tooltip title="Phải chọn người nhận trước khi chuyển tiếp">
-                        <span>
-                          <CustomButton disabled label="Chuyển tiếp" />
-                        </span>
-                      </Tooltip>
-                      <CustomButton
-                        label="Chọn người nhận"
-                        onClick={() => setOpenPublish(true)}
-                      />
-                    </>
-                  ) : (
-                    <CustomButton
-                      label="Chuyển tiếp"
-                      onClick={() => handleOpenModal('forward')}
-                    />
-                  )}
-                  <CustomButton
-                    label="Trả lại"
-                    variant="outlined"
-                    onClick={() => handleOpenModal('send-back')}
-                  />
-                </>
-              )}
-            {newestStatus != undefined &&
-              [OutgoingDocumentStatus.CHO_LANH_DAO_KY].includes(
-                newestStatus
-              ) && (
-                <>
-                  <CustomButton
-                    label="Phát hành"
-                    onClick={() => setOpenConfirmPublish(true)}
-                  />
-                </>
-              )}
+            <LoadingButton
+              variant="contained"
+              loading={isLoadingWorkflow}
+              onClick={() => setOpenWorkflowDiagram(true)}
+            >
+              Xem quy trình
+            </LoadingButton>
+            <LoadingButton variant="outlined" loading={isLoadingWorkflow}>
+              Chuyển tiếp
+            </LoadingButton>
           </Stack>
         </PageHeader>
         <Box
@@ -186,10 +128,13 @@ const OutgoingDocumentDetail = () => {
           component={Paper}
         >
           <DetailDescription sx={{ width: '100%' }} data={data} />
-          {newestStatus === OutgoingDocumentStatus.DA_PHAT_HANH && (
+          {data.outgoingPublishInfo && (
             <>
               <Divider sx={{ my: 2 }} />
-              <Typography variant="h6" sx={{ my: 2 }}>
+              <Typography
+                variant="h6"
+                sx={{ color: theme.palette.secondary.dark, mb: 2 }}
+              >
                 Thông tin phát hành
               </Typography>
               <PublishInfo
@@ -204,16 +149,10 @@ const OutgoingDocumentDetail = () => {
             addNumber={handleAddNumber}
             sx={{ mt: 2 }}
           />
+
           <DetailTimeline sx={{ mt: 2 }} processHistory={data.processHistory} />
         </Box>
       </Box>
-      <ForwardDocumentDialog
-        mode={mode}
-        isOpen={openModal}
-        id={parseInt(id ? id : '-1')}
-        newestStatus={newestStatus}
-        onClose={handleCloseModal}
-      />
       <AppDocViewer
         docs={docPreviewData}
         open={docPreview}
@@ -223,22 +162,18 @@ const OutgoingDocumentDetail = () => {
         isOpen={openAddDocToFile}
         onClose={handleCloseAddDocToFile}
       />
-      <AddPublishInfoDialog
-        isOpen={openPublish}
-        onClose={() => setOpenPublish(false)}
-      />
+      {workflow && workflow?.steps && (
+        <WorkflowDiagramDialog
+          steps={workflow.steps}
+          isOpen={openWorkflowDiagram}
+          onClose={() => setOpenWorkflowDiagram(false)}
+        />
+      )}
+
       <ShareListDialog
         isOpen={openShareList}
         onClose={() => setOpenShareList(false)}
       />
-      {data.outgoingPublishInfo && (
-        <PublishConfirmDialog
-          id={parseInt(id ? id : '-1')}
-          isOpen={openConfirmPublish}
-          publishInfo={data.outgoingPublishInfo}
-          onClose={() => setOpenConfirmPublish(false)}
-        />
-      )}
     </>
   );
 };

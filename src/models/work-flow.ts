@@ -11,6 +11,13 @@ export enum Action {
   PREPARE_EMAIL
 }
 
+export const WorkFlowActionDict: Record<Action, string> = {
+  [Action.CONSIDER]: 'Xem xét',
+  [Action.SIGN]: 'Ký duyệt',
+  [Action.ADD_NUMNER]: 'Thêm số',
+  [Action.PREPARE_EMAIL]: 'Chuẩn bị email'
+};
+
 export const ActionOptions = [
   Action.SIGN,
   Action.CONSIDER,
