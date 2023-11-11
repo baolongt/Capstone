@@ -38,10 +38,6 @@ const DepartmentManagement = () => {
     console.log('update', departmentId);
   };
 
-  const handleOpenDeleteDialog = (departmentId: number) => {
-    console.log('delete', departmentId);
-  };
-
   if (isLoading) {
     return <div>Loading...</div>;
   }

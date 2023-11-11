@@ -4,21 +4,20 @@ import { api } from '@/constants';
 import { common } from '@/models';
 import { axiosInstance } from '@/utils';
 
-import { WorkFlowDocType, WorkFlowStatus } from '.';
+import { WorkFlowDocType } from '.';
 
-type ChangeStatusPayload = {
+type RestartStatusPayload = {
   id: number | string;
-  status: WorkFlowStatus;
   docType: WorkFlowDocType;
 };
 
-const changeStatus = async ({ id, status, docType }: ChangeStatusPayload) => {
-  const url = `/api/workflows/change-status/${id}?docType=${docType}&&status=${status}`;
+const restartStauts = async ({ id, docType }: RestartStatusPayload) => {
+  const url = `/api/workflows/restart/document/doc-type/${docType}/${id}}`;
   const res = axiosInstance.put(url);
   return res;
 };
 
-export const useChangeStatus = ({
+export const useRestartStatus = ({
   onSuccess,
   onError,
   id,
@@ -31,7 +30,7 @@ export const useChangeStatus = ({
   const docId = id;
   const docType = type;
   return useMutation({
-    mutationFn: (payload: ChangeStatusPayload) => changeStatus(payload),
+    mutationFn: (payload: RestartStatusPayload) => restartStauts(payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [api.OUTGOING_DOCUMENT, id] });
       queryClient.invalidateQueries({

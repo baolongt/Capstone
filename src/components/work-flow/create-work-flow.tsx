@@ -1,6 +1,5 @@
 import { Box, Paper } from '@mui/material';
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import { useListUsers } from '@/apis';
@@ -40,6 +39,7 @@ export const CreateWorkFlow = ({
     });
 
   const handleCreate = (steps: workFlow.StepCreate[]) => {
+    console.log('docId', docId);
     if (docId) {
       createWorkflow({
         docId,

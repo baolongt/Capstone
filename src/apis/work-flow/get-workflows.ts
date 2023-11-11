@@ -38,7 +38,7 @@ const getWorkFlows = async ({ docId, docType }: GetWorkFlowsPayload) => {
 
 export const useGetWorkFlows = ({ docId, docType }: GetWorkFlowsPayload) => {
   return useQuery<GetWorkFlowsResponse, Error>({
-    queryKey: [api.TEMPLATE, docId],
+    queryKey: [api.WORKFLOW, docId],
     queryFn: () => getWorkFlows({ docId, docType }),
     keepPreviousData: true
   });

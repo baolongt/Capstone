@@ -125,8 +125,7 @@ function DragAndDropList({
   users = [],
   initData,
   sx,
-  handleCreate,
-  isCreating
+  handleCreate
 }: DragAndDropListProps) {
   const [items, setItems] = React.useState<workFlow.StepCreate[]>([]);
   const handleDragEnd = (result: { destination: any; source?: any }) => {
@@ -163,6 +162,7 @@ function DragAndDropList({
   useEffect(() => {
     if (!initData) return;
     setItems(initData);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleDeleteItem = (id: number) => {

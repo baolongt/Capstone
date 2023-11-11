@@ -28,6 +28,7 @@ export interface OutgoingDocument {
   documentTypeName: string;
   createdDate: string;
   updatedDate: string;
+  registrationStatus: number;
   outgoingPublishInfo?: OutgoingPublishInfo;
 }
 

@@ -30,7 +30,6 @@ const convertStepsToFlowChart = (steps: Step[]) => {
   const nodes: Node[] = [];
   const edges: Edge[] = [];
   steps.forEach((step, index) => {
-    console.log('step', step);
     const node: Node = {
       id: step.id.toString(),
       type: 'default',
@@ -62,20 +61,22 @@ const convertStepsToFlowChart = (steps: Step[]) => {
   });
 
   // add start node
+  const startId = 'start-node-' + new Date().getTime();
   nodes.unshift({
-    id: 'start-node',
+    id: startId,
     type: 'default',
     data: {
       label: 'Khởi tạo'
     },
     position: { x: 0, y: 0 },
+    draggable: false,
     style: {
       backgroundColor: '#bdbdbd'
     }
   });
   edges.unshift({
-    id: 'start-edge',
-    source: 'start-node',
+    id: steps[0].id + '-' + startId,
+    source: startId,
     target: steps[0].id.toString(),
     type: 'default',
     animated: true,
@@ -85,9 +86,11 @@ const convertStepsToFlowChart = (steps: Step[]) => {
     }
   });
   // add end node
+  const endId = 'end-node-' + new Date().getTime();
   nodes.push({
-    id: 'end-node',
+    id: endId,
     type: 'default',
+    draggable: false,
     data: {
       label: 'Kết thúc'
     },
@@ -96,10 +99,10 @@ const convertStepsToFlowChart = (steps: Step[]) => {
       backgroundColor: '#bdbdbd'
     }
   });
-  edges.unshift({
-    id: 'end-edge',
+  edges.push({
+    id: steps[steps.length - 1].id.toString() + '-' + endId,
     source: steps[steps.length - 1].id.toString(),
-    target: 'end-node',
+    target: endId,
     type: 'default',
     animated: true,
     label: 'Phát hành',
@@ -114,9 +117,10 @@ const convertStepsToFlowChart = (steps: Step[]) => {
 };
 
 const StatusColorAnnotation = () => {
+  const keys = Object.keys(StatusColor);
   return (
     <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-      {Object.entries(StatusColor).map(([status, color]) => (
+      {keys.map((key) => (
         <Box
           key={status}
           sx={{
@@ -130,11 +134,13 @@ const StatusColorAnnotation = () => {
             sx={{
               width: '20px',
               height: '20px',
-              backgroundColor: color,
+              backgroundColor: StatusColor[key as unknown as Status],
               marginRight: '10px'
             }}
           />
-          <Typography variant="body1">{StatusLabel[status]}</Typography>
+          <Typography variant="body1">
+            {StatusLabel[key as unknown as Status]}
+          </Typography>
         </Box>
       ))}
     </Box>

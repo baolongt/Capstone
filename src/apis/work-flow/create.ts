@@ -34,7 +34,7 @@ export const useCreateWorkflow = ({
   return useMutation({
     mutationFn: (payload: Workflow) => createWorkflow(payload),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [api.OUTGOING_DOCUMENT] });
+      queryClient.invalidateQueries({ queryKey: [api.WORKFLOW] });
       onSuccess?.();
     },
     onError: () => {
