@@ -12,7 +12,7 @@ import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import { useListFiles } from '@/apis';
-import { useAddDocToFile } from '@/apis/file/addDocToFile';
+import { DocTypeEnum, useAddDocToFile } from '@/apis/file/addDocToFile';
 import { file } from '@/models';
 import { BaseTableQueryParams } from '@/types';
 
@@ -24,11 +24,13 @@ export type AddDocToFileProps = {
   isOpen: boolean;
   onClose: () => void;
   defaultValues?: file.File[];
+  docType: DocTypeEnum;
 };
 
 export const AddDocToFileDialog: React.FC<AddDocToFileProps> = ({
   isOpen,
-  onClose
+  onClose,
+  docType
 }) => {
   const [queryParams, setQueryParams] = React.useState<BaseTableQueryParams>({
     page: 1,
@@ -75,7 +77,8 @@ export const AddDocToFileDialog: React.FC<AddDocToFileProps> = ({
     if (outGoingDocumentId && fileId) {
       return addDocToFile({
         outGoingDocumentId,
-        fileId
+        fileId,
+        docType
       });
     }
   };

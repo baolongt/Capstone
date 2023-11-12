@@ -1,13 +1,14 @@
-import { Box, Grid, Paper, Typography } from '@mui/material';
+import { Box, Button, Grid, Paper, Typography } from '@mui/material';
 import moment from 'moment';
-import React from 'react';
+import React, { Dispatch, SetStateAction, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { useGetFileById } from '@/apis';
+import { Loading } from '@/components/common';
 import PageHeader from '@/components/common/page-header';
 import PageTitle from '@/components/common/page-title';
 import RemoveDocFromFileDialog from '@/components/dialogs/remove-doc-from-file-dialog';
-import { FileDetailOutgoingDocumentTable } from '@/components/file';
+import { FileDetailDocsTable } from '@/components/file';
 
 const labelFontWeight = 600;
 const GridItem = (props: { label: string; value: string }) => {
@@ -21,11 +22,62 @@ const GridItem = (props: { label: string; value: string }) => {
   );
 };
 
+const DocButtonFilter = ({
+  docType,
+  setDocType
+}: {
+  docType: 'incoming' | 'outgoing' | 'internal';
+  setDocType: Dispatch<SetStateAction<'incoming' | 'outgoing' | 'internal'>>;
+}) => {
+  return (
+    <Box sx={{ mb: 1 }}>
+      <Button
+        variant={docType === 'outgoing' ? 'contained' : 'text'}
+        onClick={() => {
+          setDocType('outgoing');
+        }}
+      >
+        Văn bản đến
+      </Button>
+      <Button
+        variant={docType === 'incoming' ? 'contained' : 'text'}
+        onClick={() => {
+          setDocType('incoming');
+        }}
+      >
+        Văn bản đến
+      </Button>
+      <Button
+        variant={docType === 'internal' ? 'contained' : 'text'}
+        onClick={() => {
+          setDocType('internal');
+        }}
+      >
+        Văn bản đi
+      </Button>
+    </Box>
+  );
+};
+
 const FileDetail = () => {
   const { id } = useParams<{ id: string }>();
   const [openRemoveDoc, setOpenRemoveDoc] = React.useState(false);
+  const [docType, setDocType] = React.useState<
+    'incoming' | 'outgoing' | 'internal'
+  >('outgoing');
   const [selectedDoc, setSelectedDoc] = React.useState<number>();
-  const { data: file, isLoading } = useGetFileById(Number(id));
+  const {
+    data: file,
+    isLoading,
+    refetch
+  } = useGetFileById({
+    id: Number(id),
+    docType: docType
+  });
+
+  useEffect(() => {
+    refetch();
+  }, [docType]);
 
   const handleOpenRemoveDoc = (docId: number) => {
     setSelectedDoc(docId);
@@ -36,13 +88,13 @@ const FileDetail = () => {
     setOpenRemoveDoc(false);
   };
 
-  if (isLoading) return <>Loading...</>;
+  if (isLoading) return <Loading />;
   if (file) {
     return (
       <>
         <PageHeader>
           <Box>
-            <PageTitle label="   Sổ văn bản" />
+            <PageTitle label="Sổ văn bản" />
           </Box>
         </PageHeader>
         <Box
@@ -76,12 +128,15 @@ const FileDetail = () => {
           <Typography variant="h6" sx={{ my: 2, fontWeight: 'bold' }}>
             Văn bản
           </Typography>
-          <FileDetailOutgoingDocumentTable
+          <DocButtonFilter setDocType={setDocType} docType={docType} />
+          <FileDetailDocsTable
+            docType={docType}
             handleOpenRemoveDoc={handleOpenRemoveDoc}
-            data={file?.outgoingDocuments}
+            data={file?.docs}
           />
         </Box>
         <RemoveDocFromFileDialog
+          docType={docType}
           isOpen={openRemoveDoc}
           fileId={Number(id) || -1}
           outGoingDocumentId={selectedDoc || -1}

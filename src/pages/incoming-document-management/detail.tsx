@@ -3,6 +3,7 @@ import * as React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { send } from '@/apis';
+import { DocTypeEnum } from '@/apis/file/addDocToFile';
 import { useGetOneDocument } from '@/apis/incomingDocument/getOneDocument';
 import { CustomButton, Loading } from '@/components/common';
 import AppDocViewer from '@/components/common/document-viewer';
@@ -14,6 +15,7 @@ import {
 } from '@/components/dialogs';
 import {
   DetailAttachmentAccordion,
+  DetailDescription,
   DetailTimeline
 } from '@/components/document';
 import { OutgoingDocumentStatus } from '@/constants';
@@ -135,14 +137,16 @@ const IncomingDocumentDetail = () => {
           sx={{ mx: 'auto', width: '1080px', mt: 3, px: 2, minHeight: '80vh' }}
           component={Paper}
         >
-          {/* <DetailDescription sx={{ width: '100%' }} data={{
-            epitomize: data.epitomize,
-            documentNotation: data.incomingPublishInfo.incomingNotation,
-            documentField: data.documentField,
-            documentTypeName: data.documentTypeName,
-            createdByName: data.createdByName,
-            publishDate:  data.publishDate,
-          }} /> */}
+          <DetailDescription
+            sx={{ width: '100%' }}
+            data={{
+              epitomize: data.epitomize,
+              documentNotation: data.incomingPublishInfo.incomingNotation,
+              documentField: data.documentField,
+              documentTypeName: data.documentTypeName,
+              createdByName: data.createdByName
+            }}
+          />
           <DetailAttachmentAccordion
             attachments={data.attachments as Attachment[]}
             watchAttachment={watchAttachment}
@@ -167,6 +171,7 @@ const IncomingDocumentDetail = () => {
       />
       <AddDocToFileDialog
         isOpen={openAddDocToFile}
+        docType={DocTypeEnum.INCOMING}
         onClose={handleCloseAddDocToFile}
       />
     </>

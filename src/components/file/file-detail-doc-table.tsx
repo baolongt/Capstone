@@ -4,24 +4,36 @@ import { createColumnHelper } from '@tanstack/react-table';
 import moment from 'moment';
 import * as React from 'react';
 
-import BaseTable from '@/components/common/base-table';
-import { outgoingDocument } from '@/models';
+import { incomingDocument, internalDocument, outgoingDocument } from '@/models';
 import { DocumentStatusDict } from '@/models/outgoingDocument';
 import { Metadata } from '@/types';
 
+import { FileDetailIncomingDocumentTable } from './file-detail-incoming-table';
+import { FileDetailInternalDocumentTable } from './file-detail-internal-table';
+import { FileDetailOutgoingDocumentTable } from './file-detail-outgoing-table';
+
 const columnHelper = createColumnHelper<outgoingDocument.OutgoingDocument>();
 
-export type FileDetailOutgoingDocumentTableProps = {
-  data: outgoingDocument.OutgoingDocument[];
+export type FileDetailDocsTableProps = {
+  data:
+    | outgoingDocument.OutgoingDocument[]
+    | incomingDocument.IncomingDocument[]
+    | internalDocument.InternalDocument[];
+  docType: 'outgoing' | 'incoming' | 'internal';
   metadata?: Metadata;
   handleChangePage?: (page: number) => void;
   sx?: SxProps;
   handleOpenRemoveDoc: (docId: number) => void;
 };
 
-export const FileDetailOutgoingDocumentTable: React.FC<
-  FileDetailOutgoingDocumentTableProps
-> = ({ data, metadata, handleChangePage, handleOpenRemoveDoc, sx }) => {
+export const FileDetailDocsTable: React.FC<FileDetailDocsTableProps> = ({
+  data,
+  metadata,
+  handleChangePage,
+  handleOpenRemoveDoc,
+  sx,
+  docType
+}) => {
   const columns = [
     columnHelper.accessor('epitomize', {
       header: 'Trích yếu',
@@ -65,18 +77,44 @@ export const FileDetailOutgoingDocumentTable: React.FC<
       )
     })
   ];
-  if (data) {
-    return (
-      <BaseTable
-        data={data}
-        metadata={metadata}
-        handleChangePage={handleChangePage}
-        columns={columns}
-        sx={{
-          width: '100%',
-          ...sx
-        }}
-      />
-    );
+  if (!data) return <>Không có dữ liệu</>;
+
+  switch (docType) {
+    case 'outgoing':
+      return (
+        <FileDetailOutgoingDocumentTable
+          data={data as outgoingDocument.OutgoingDocument[]}
+          metadata={metadata}
+          handleChangePage={handleChangePage}
+          handleOpenRemoveDoc={handleOpenRemoveDoc}
+          sx={{
+            ...sx
+          }}
+        />
+      );
+    case 'incoming':
+      return (
+        <FileDetailIncomingDocumentTable
+          data={data as incomingDocument.IncomingDocument[]}
+          metadata={metadata}
+          handleChangePage={handleChangePage}
+          handleOpenRemoveDoc={handleOpenRemoveDoc}
+          sx={{
+            ...sx
+          }}
+        />
+      );
+    case 'internal':
+      return (
+        <FileDetailInternalDocumentTable
+          data={data as internalDocument.InternalDocument[]}
+          metadata={metadata}
+          handleChangePage={handleChangePage}
+          handleOpenRemoveDoc={handleOpenRemoveDoc}
+          sx={{
+            ...sx
+          }}
+        />
+      );
   }
 };

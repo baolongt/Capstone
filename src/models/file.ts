@@ -1,4 +1,4 @@
-import { outgoingDocument } from '.';
+import { incomingDocument, internalDocument, outgoingDocument } from '.';
 
 export type UpdatePayload = Pick<
   File,
@@ -24,7 +24,10 @@ export class File {
   docTotal: number;
   description: string;
   status: 'active' | 'inactive';
-  outgoingDocuments: outgoingDocument.OutgoingDocument[];
+  docs:
+    | outgoingDocument.OutgoingDocument[]
+    | incomingDocument.IncomingDocument[]
+    | internalDocument.InternalDocument[];
 
   constructor({
     id,
@@ -40,7 +43,7 @@ export class File {
     description,
     status,
     creator,
-    outgoingDocuments
+    docs
   }: {
     id: number;
     organCode: string;
@@ -55,7 +58,10 @@ export class File {
     description: string;
     status: 'active' | 'inactive';
     creator: string;
-    outgoingDocuments: outgoingDocument.OutgoingDocument[];
+    docs:
+      | outgoingDocument.OutgoingDocument[]
+      | incomingDocument.IncomingDocument[]
+      | internalDocument.InternalDocument[];
   }) {
     this.id = id;
     this.organCode = organCode;
@@ -70,7 +76,7 @@ export class File {
     this.description = description;
     this.status = status;
     this.creator = creator;
-    this.outgoingDocuments = outgoingDocuments;
+    this.docs = docs;
   }
 
   getprop(propName: keyof File): string | null {

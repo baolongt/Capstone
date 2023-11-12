@@ -203,6 +203,17 @@ const BaseTable: React.FC<BaseTableProps<any>> = (props) => {
           ))}
         </TableHead>
         <TableBody>
+          {getRowModel().rows.length === 0 && (
+            <TableRow style={{ height: '52px' }}>
+              <TableCell
+                colSpan={columns.length}
+                align="center"
+                sx={{ color: theme.palette.text.disabled }}
+              >
+                Không có dữ liệu
+              </TableCell>
+            </TableRow>
+          )}
           {getRowModel().rows.map((row) => (
             <TableRow key={row.id} style={{ height: '50px' }}>
               {row.getVisibleCells().map((cell) => {

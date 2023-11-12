@@ -11,6 +11,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import { send } from '@/apis';
+import { DocTypeEnum } from '@/apis/file/addDocToFile';
 import { useGetOneDocument } from '@/apis/outgoingDocument/getOneDocument';
 import {
   useChangeStatus,
@@ -204,6 +205,7 @@ const OutgoingDocumentDetail = () => {
         handleClose={handleClosePeview}
       />
       <AddDocToFileDialog
+        docType={DocTypeEnum.OUTGOING}
         isOpen={openAddDocToFile}
         onClose={handleCloseAddDocToFile}
       />

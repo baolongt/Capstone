@@ -10,13 +10,25 @@ export type GetFileByIdResponse = {
   metadata?: Metadata;
 };
 
-export const getFileById = async (id: number) => {
-  const url = `/api/files/${id}`;
+export const getFileById = async ({
+  id,
+  docType = 'outgoing'
+}: {
+  id: number;
+  docType: 'outgoing' | 'incoming' | 'internal';
+}) => {
+  const url = `/api/files/${id}?docType=${docType}`;
   const response: GetFileByIdResponse = await axiosInstance.get(url);
 
   return response.data;
 };
 
-export const useGetFileById = (id: number) => {
-  return useQuery([api.FILE, id], () => getFileById(id));
+export const useGetFileById = ({
+  id,
+  docType
+}: {
+  id: number;
+  docType: 'outgoing' | 'incoming' | 'internal';
+}) => {
+  return useQuery([api.FILE, id], () => getFileById({ id, docType }));
 };

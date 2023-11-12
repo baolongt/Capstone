@@ -9,6 +9,7 @@ import {
 } from '@mui/material';
 import { toast } from 'react-toastify';
 
+import { DocTypeEnum } from '@/apis/file/addDocToFile';
 import { useRemoveDocFromFile } from '@/apis/file/removeDocFromFile';
 
 interface RemoveDocFromFileDialogProps {
@@ -16,13 +17,15 @@ interface RemoveDocFromFileDialogProps {
   onClose: () => void;
   outGoingDocumentId: number;
   fileId: number;
+  docType: 'incoming' | 'outgoing' | 'internal';
 }
 
 const RemoveDocFromFileDialog = ({
   isOpen,
   onClose,
   outGoingDocumentId,
-  fileId
+  fileId,
+  docType
 }: RemoveDocFromFileDialogProps) => {
   const { mutate: removeDocFromFile } = useRemoveDocFromFile({
     onSuccess: () => {
@@ -39,7 +42,8 @@ const RemoveDocFromFileDialog = ({
     if (outGoingDocumentId && fileId) {
       return removeDocFromFile({
         outGoingDocumentId,
-        fileId
+        fileId,
+        docType
       });
     }
   };
