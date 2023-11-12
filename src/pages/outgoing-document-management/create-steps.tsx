@@ -28,7 +28,6 @@ const StepPage = ({
   const navigate = useNavigate();
   const [newDocId, setNewDocId] = useState<number>();
   useEffect(() => {
-    console.log('set doc Id', docId);
     if (docId) {
       setNewDocId(Number(docId));
     }
@@ -47,7 +46,6 @@ const StepPage = ({
     3: (
       <CreatePublishInfo
         handleNextStep={() => {
-          console.log('finish');
           navigate('/outgoing-documents');
         }}
         docId={newDocId}

@@ -32,7 +32,7 @@ export const PublishInfo: FC<PublishInfoProps> = (props) => {
         </Grid>
         <Grid item xs={6} sx={detailStyle}>
           <Typography variant="subtitle1" sx={{ fontWeight: labelFontWeight }}>
-            Ngày hết hạn: {'  '}
+            Hạn xử lý: {'  '}
             <Typography component="span">
               {dayjs(dueDate).format('DD/MM/YYYY')}
             </Typography>

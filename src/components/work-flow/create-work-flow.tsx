@@ -39,7 +39,6 @@ export const CreateWorkFlow = ({
     });
 
   const handleCreate = (steps: workFlow.StepCreate[]) => {
-    console.log('docId', docId);
     if (docId) {
       createWorkflow({
         docId,
@@ -52,10 +51,6 @@ export const CreateWorkFlow = ({
       });
     }
   };
-
-  useEffect(() => {
-    console.log('docId', docId);
-  }, [docId]);
 
   return isLoading ? (
     <Loading />

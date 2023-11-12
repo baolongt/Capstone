@@ -6,3 +6,4 @@ export * from './outgoing-doc-forward-without-handler-form';
 export * from './outgoing-doc-pdf-viewer';
 export * from './outgoing-doc-publish-info';
 export * from './outgoing-doc-table';
+export * from './outgoing-doc-workflow-buttons-handle';

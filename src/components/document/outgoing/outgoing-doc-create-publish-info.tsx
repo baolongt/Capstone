@@ -73,12 +73,6 @@ export const CreatePublishInfo = ({
 
   const onSubmit = async (payload: PublishInfoPayload) => {
     await refetch();
-    console.log('test', {
-      ...payload,
-      outgoingDocumentId: docId || -1,
-      outgoingNumber: publishNumber || -1,
-      dueDate: payload.dueDate.toISOString()
-    });
     addPublishInfoMutate({
       ...payload,
       outgoingDocumentId: docId || -1,

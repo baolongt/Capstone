@@ -111,8 +111,6 @@ const convertStepsToFlowChart = (steps: Step[]) => {
     }
   });
 
-  console.log('nodes', nodes);
-  console.log('edges', edges);
   return { nodes, edges };
 };
 
@@ -163,7 +161,6 @@ export const WorkflowDiagramDialog = ({
 
   useEffect(() => {
     const { nodes, edges } = convertStepsToFlowChart(steps);
-    console.debug('debug', nodes, edges);
     setNodes(nodes);
     setEdges(edges);
   }, [steps]);

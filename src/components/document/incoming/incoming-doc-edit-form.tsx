@@ -78,7 +78,6 @@ const EditForm: React.FC<EditFormProps> = ({
     console.log('submit', data);
   };
   if (data) {
-    console.log('edit data', data);
     return (
       <Stack>
         <Grid

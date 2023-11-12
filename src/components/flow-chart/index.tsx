@@ -74,8 +74,6 @@ const FlowChart = ({
       initialNodes,
       initialEdges
     );
-    console.log(layoutedNodes, layoutedEdges);
-
     setNodes([...layoutedNodes]);
     setEdges([...layoutedEdges]);
   }, [initialNodes, initialEdges]);
