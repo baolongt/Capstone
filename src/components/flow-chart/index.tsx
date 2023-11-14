@@ -109,10 +109,6 @@ const FlowChart = ({
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
       >
-        <Panel position="top-right">
-          <Button onClick={() => onLayout('TB')}>Xem dọc</Button>
-          <Button onClick={() => onLayout('LR')}>Xem ngang</Button>
-        </Panel>
         <Controls />
       </ReactFlow>
     </Box>

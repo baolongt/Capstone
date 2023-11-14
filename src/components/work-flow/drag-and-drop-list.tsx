@@ -15,6 +15,7 @@ import {
 import React, { useEffect } from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 
+import { useGetOutgoingExampleWorkflow } from '@/apis/work-flow/get-outgoing-doc-example';
 import { user, workFlow } from '@/models';
 import { ActionOptions, convertActionToString } from '@/models/work-flow';
 
@@ -128,6 +129,7 @@ function DragAndDropList({
   handleCreate
 }: DragAndDropListProps) {
   const [items, setItems] = React.useState<workFlow.StepCreate[]>([]);
+  const { data, isLoading } = useGetOutgoingExampleWorkflow();
   const handleDragEnd = (result: { destination: any; source?: any }) => {
     if (!result.destination) return;
 
@@ -217,6 +219,25 @@ function DragAndDropList({
                 <Typography sx={{ color: '#000' }} variant="h5">
                   Chưa có trình tự xử lý
                 </Typography>
+                <Button
+                  sx={{ mt: 2, mr: 1 }}
+                  size="small"
+                  variant="outlined"
+                  color="primary"
+                  onClick={() => {
+                    if (data) {
+                      const newItems = data.map((step) => ({
+                        id: step.stepNumber,
+                        handlerId: step.handlerId,
+                        action: step.action
+                      }));
+
+                      setItems(newItems);
+                    }
+                  }}
+                >
+                  Trình xử lý mẫu
+                </Button>
               </Box>
             )}
             {items.map((item, index) => {

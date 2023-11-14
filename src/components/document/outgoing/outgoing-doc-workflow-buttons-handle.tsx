@@ -1,12 +1,24 @@
 import { LoadingButton } from '@mui/lab';
 
+import useAuth from '@/hooks/useAuth';
 import { workFlow } from '@/models';
 
-const getLastestPendingStep = (steps: workFlow.Step[] = []) => {
+const isHandleCurrentStep = ({
+  steps,
+  userId
+}: {
+  steps: workFlow.Step[];
+  userId: number;
+}) => {
   const lastestPendingStep = steps.find(
     (step) => step.status === workFlow.Status.PENDING
   );
-  return lastestPendingStep;
+  if (!lastestPendingStep) return null;
+
+  return {
+    isHandle: lastestPendingStep.handlerId === userId,
+    action: lastestPendingStep.action
+  };
 };
 
 const isHaveRejectedStep = (steps: workFlow.Step[] = []) => {
@@ -41,8 +53,13 @@ export const WorkFlowButtonsHandle = ({
   handleRejecStep,
   steps
 }: WorkFlowButtonsHandleProps) => {
-  const currentStep = getLastestPendingStep(steps);
   const isNotRejected = !isHaveRejectedStep(steps);
+  const {
+    authState: { user }
+  } = useAuth();
+  if (!user) return null;
+
+  const currentStep = isHandleCurrentStep({ steps, userId: user.id });
 
   return (
     <>
@@ -54,7 +71,7 @@ export const WorkFlowButtonsHandle = ({
       >
         Xem quy trình
       </LoadingButton>
-      {currentStep && isNotRejected && (
+      {currentStep && currentStep.isHandle && isNotRejected && (
         <>
           <LoadingButton
             variant="outlined"

@@ -159,7 +159,14 @@ const CreateDocumentForm: React.FC<createDocumentFormProps> = ({
             name="files"
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid
+          item
+          xs={12}
+          sx={{
+            display: 'flex',
+            justifyContent: 'center'
+          }}
+        >
           <LoadingButton
             variant="contained"
             color="primary"

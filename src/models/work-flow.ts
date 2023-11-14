@@ -1,7 +1,8 @@
 export enum Status {
   PENDING = 1,
   APPROVED = 2,
-  REJECTED = 3
+  REJECTED = 3,
+  NOT_START = 4
 }
 
 export enum Action {

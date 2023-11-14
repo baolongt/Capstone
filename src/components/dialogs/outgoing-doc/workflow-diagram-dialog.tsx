@@ -17,21 +17,24 @@ import { Status, WorkFlowActionDict } from '@/models/work-flow';
 const StatusColor: Record<Status, string> = {
   1: '#ffe082',
   2: '#a5d6a7',
-  3: '#ef9a9a'
+  3: '#ef9a9a',
+  4: '#fff'
 };
 
 const StatusLabel: Record<Status, string> = {
   1: 'Chờ xử lý',
   2: 'Đã hoàn thành',
-  3: 'Từ chối'
+  3: 'Từ chối',
+  [Status.NOT_START]: ''
 };
 
 const convertStepsToFlowChart = (steps: Step[]) => {
   const nodes: Node[] = [];
   const edges: Edge[] = [];
+  const seed = '-' + new Date().getTime();
   steps.forEach((step, index) => {
     const node: Node = {
-      id: step.id.toString(),
+      id: step.id.toString() + seed,
       type: 'default',
       data: {
         label: step.handlerName
@@ -46,9 +49,9 @@ const convertStepsToFlowChart = (steps: Step[]) => {
 
     if (index > 0) {
       const edge: Edge = {
-        id: `${step.id}-${steps[index - 1].id}`,
-        source: steps[index - 1].id.toString(),
-        target: step.id.toString(),
+        id: `${step.id}-${steps[index - 1].id}` + seed,
+        source: steps[index - 1].id.toString() + seed,
+        target: step.id.toString() + seed,
         type: 'default',
         animated: true,
         label: WorkFlowActionDict[steps[index - 1].action],
@@ -61,7 +64,7 @@ const convertStepsToFlowChart = (steps: Step[]) => {
   });
 
   // add start node
-  const startId = 'start-node-' + new Date().getTime();
+  const startId = 'start-node-' + seed;
   nodes.unshift({
     id: startId,
     type: 'default',
@@ -75,9 +78,9 @@ const convertStepsToFlowChart = (steps: Step[]) => {
     }
   });
   edges.unshift({
-    id: steps[0].id + '-' + startId,
+    id: steps[0].id + seed + '-' + startId,
     source: startId,
-    target: steps[0].id.toString(),
+    target: steps[0].id.toString() + seed,
     type: 'default',
     animated: true,
     label: 'Bắt đầu',
@@ -86,7 +89,7 @@ const convertStepsToFlowChart = (steps: Step[]) => {
     }
   });
   // add end node
-  const endId = 'end-node-' + new Date().getTime();
+  const endId = 'end-node-' + seed;
   nodes.push({
     id: endId,
     type: 'default',
@@ -101,7 +104,7 @@ const convertStepsToFlowChart = (steps: Step[]) => {
   });
   edges.push({
     id: steps[steps.length - 1].id.toString() + '-' + endId,
-    source: steps[steps.length - 1].id.toString(),
+    source: steps[steps.length - 1].id.toString() + seed,
     target: endId,
     type: 'default',
     animated: true,
@@ -161,6 +164,7 @@ export const WorkflowDiagramDialog = ({
 
   useEffect(() => {
     const { nodes, edges } = convertStepsToFlowChart(steps);
+    console.log(nodes, edges);
     setNodes(nodes);
     setEdges(edges);
   }, [steps]);
