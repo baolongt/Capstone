@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Paper, Typography } from '@mui/material';
+import { Box, Button, Divider, Grid, Paper, Typography } from '@mui/material';
 import moment from 'moment';
 import React, { Dispatch, SetStateAction, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
@@ -9,6 +9,7 @@ import PageHeader from '@/components/common/page-header';
 import PageTitle from '@/components/common/page-title';
 import RemoveDocFromFileDialog from '@/components/dialogs/remove-doc-from-file-dialog';
 import { FileDetailDocsTable } from '@/components/file';
+import { BaseTableQueryParams } from '@/types';
 
 const labelFontWeight = 600;
 const GridItem = (props: { label: string; value: string }) => {
@@ -61,6 +62,11 @@ const DocButtonFilter = ({
 
 const FileDetail = () => {
   const { id } = useParams<{ id: string }>();
+  const [queryParams, setQueryParams] = React.useState<BaseTableQueryParams>({
+    page: 1,
+    size: 1,
+    search: ''
+  });
   const [openRemoveDoc, setOpenRemoveDoc] = React.useState(false);
   const [docType, setDocType] = React.useState<
     'incoming' | 'outgoing' | 'internal'
@@ -72,12 +78,17 @@ const FileDetail = () => {
     refetch
   } = useGetFileById({
     id: Number(id),
-    docType: docType
+    docType: docType,
+    queryParams
   });
 
   useEffect(() => {
     refetch();
-  }, [docType]);
+  }, [docType, refetch]);
+
+  const handleChangePage = (page: number) => {
+    setQueryParams((prev) => ({ ...prev, page }));
+  };
 
   const handleOpenRemoveDoc = (docId: number) => {
     setSelectedDoc(docId);
@@ -102,19 +113,22 @@ const FileDetail = () => {
           component={Paper}
         >
           <Grid container spacing={2}>
-            <GridItem label="Tiêu đề sổ" value={file?.title} />
-            <GridItem label="Số và kí hiệu" value={file?.fileNotation} />
-            <GridItem label="Năm tạo sổ" value={file?.fileCreatedYear} />
-            <GridItem label="Người tạo" value={file?.creator} />
+            <GridItem label="Tiêu đề sổ" value={file.data?.title} />
+            <GridItem label="Số và kí hiệu" value={file.data?.fileNotation} />
+            <GridItem label="Năm tạo sổ" value={file.data?.fileCreatedYear} />
+            <GridItem label="Người tạo" value={file.data?.creator} />
             <GridItem
               label="Ngày áp dụng"
-              value={moment(file?.startDate).format('DD/MM/YYYY')}
+              value={moment(file.data?.startDate).format('DD/MM/YYYY')}
             />
             <GridItem
               label="Ngày đóng sổ"
-              value={moment(file?.endDate).format('DD/MM/YYYY')}
+              value={moment(file.data?.endDate).format('DD/MM/YYYY')}
             />
-            <GridItem label="Tổng số văn bản" value={String(file?.docTotal)} />
+            <GridItem
+              label="Tổng số văn bản"
+              value={String(file.data?.docTotal)}
+            />
             <Grid item xs={12}>
               <Typography
                 variant="subtitle1"
@@ -122,17 +136,23 @@ const FileDetail = () => {
               >
                 Mô tả: {'  '}
               </Typography>
-              <Typography component="span">{file?.description}</Typography>
+              <Typography component="span">{file.data?.description}</Typography>
             </Grid>
           </Grid>
+          <Divider sx={{ my: 2 }} />
           <Typography variant="h6" sx={{ my: 2, fontWeight: 'bold' }}>
             Văn bản
           </Typography>
           <DocButtonFilter setDocType={setDocType} docType={docType} />
           <FileDetailDocsTable
+            handleChangePage={handleChangePage}
             docType={docType}
             handleOpenRemoveDoc={handleOpenRemoveDoc}
-            data={file?.docs}
+            data={file.data.docs}
+            metadata={file.metadata}
+            sx={{
+              minHeight: '10vh'
+            }}
           />
         </Box>
         <RemoveDocFromFileDialog

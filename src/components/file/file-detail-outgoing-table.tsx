@@ -73,7 +73,9 @@ export const FileDetailOutgoingDocumentTable: React.FC<
         data={data}
         metadata={metadata}
         handleChangePage={handleChangePage}
+        showPagination={true}
         columns={columns}
+        isNotFilled={true}
         handleCellClick={(cell) => {
           navigate(`/outgoing-documents/${cell.id}`);
         }}

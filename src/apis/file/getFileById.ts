@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import { api } from '@/constants';
 import { file } from '@/models';
-import { Metadata } from '@/types';
+import { BaseTableQueryParams, Metadata } from '@/types';
 import { axiosInstance } from '@/utils';
 
 export type GetFileByIdResponse = {
@@ -12,23 +12,41 @@ export type GetFileByIdResponse = {
 
 export const getFileById = async ({
   id,
-  docType = 'outgoing'
+  docType = 'outgoing',
+  queryParams
 }: {
   id: number;
   docType: 'outgoing' | 'incoming' | 'internal';
+  queryParams: BaseTableQueryParams;
 }) => {
-  const url = `/api/files/${id}?docType=${docType}`;
-  const response: GetFileByIdResponse = await axiosInstance.get(url);
+  const url = `/api/files/${id}`;
 
-  return response.data;
+  const { page, size, search } = queryParams;
+
+  const params = {
+    docType: docType,
+    PageNumber: page,
+    PageSize: size,
+    ...(search && search != '' ? { SearchString: search } : {})
+  };
+
+  const response: GetFileByIdResponse = await axiosInstance.get(url, {
+    params
+  });
+
+  return response;
 };
 
 export const useGetFileById = ({
   id,
-  docType
+  docType,
+  queryParams
 }: {
   id: number;
   docType: 'outgoing' | 'incoming' | 'internal';
+  queryParams: BaseTableQueryParams;
 }) => {
-  return useQuery([api.FILE, id], () => getFileById({ id, docType }));
+  return useQuery([api.FILE, id, queryParams], () =>
+    getFileById({ id, docType, queryParams })
+  );
 };

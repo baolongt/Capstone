@@ -1,4 +1,4 @@
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -62,7 +62,7 @@ const CreateStepsPage = () => {
   const queryParams = new URLSearchParams(location.search);
   const step = queryParams.get('step');
   const docId = queryParams.get('id');
-  const [steps, setSteps] = useState<any[]>(createSteps);
+  const [steps] = useState<any[]>(createSteps);
 
   const handleNextStep = () => {
     setActiveStep(activeStep + 1);
@@ -72,7 +72,7 @@ const CreateStepsPage = () => {
     if (step && docId) {
       setActiveStep(Number(step) - 1);
     }
-  }, [step]);
+  }, [docId, step]);
 
   return (
     <>
@@ -85,20 +85,6 @@ const CreateStepsPage = () => {
             docId={docId}
           />
         }
-      </Box>
-      <Box sx={{ px: 25, display: 'flex', justifyContent: 'space-between' }}>
-        <Button
-          disabled={activeStep === 0}
-          onClick={() => setActiveStep(activeStep - 1)}
-        >
-          Quay lại
-        </Button>
-        <Button
-          disabled={activeStep === steps.length}
-          onClick={() => setActiveStep(activeStep + 1)}
-        >
-          Tiếp theo
-        </Button>
       </Box>
     </>
   );

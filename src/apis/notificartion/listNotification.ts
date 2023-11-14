@@ -59,6 +59,7 @@ export const useListNotifications = ({
       if (firstPage.metadata.isFirstPage) {
         return undefined;
       }
-    }
+    },
+    refetchInterval: 1000 * 10 //15 sec
   });
 };

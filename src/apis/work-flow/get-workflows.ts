@@ -28,7 +28,7 @@ export type GetWorkFlowsResponse = {
 };
 
 const getWorkFlows = async ({ docId, docType }: GetWorkFlowsPayload) => {
-  const url = `/api/workflows/get-by-doc/${docId}/${docType}`;
+  const url = `/api/workflows/get-by-doc/doc-type/${docType}/${docId}`;
   const res: {
     data: GetWorkFlowsResponse;
   } = await axiosInstance.get(url);

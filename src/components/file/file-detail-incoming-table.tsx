@@ -81,6 +81,7 @@ export const FileDetailIncomingDocumentTable: React.FC<
           width: '100%',
           ...sx
         }}
+        isNotFilled={true}
       />
     );
   }

@@ -77,6 +77,7 @@ export const FileDetailInternalDocumentTable: React.FC<
         handleCellClick={(cell) => {
           navigate(`/internal-documents/${cell.id}`);
         }}
+        isNotFilled={true}
         sx={{
           width: '100%',
           ...sx

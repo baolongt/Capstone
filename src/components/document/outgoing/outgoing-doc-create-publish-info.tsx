@@ -48,7 +48,7 @@ export const CreatePublishInfo = ({
     >
   });
 
-  const { handleSubmit, getValues } = form;
+  const { handleSubmit } = form;
   const { mutate: addPublishInfoMutate } = useAddPublishInfo({
     onSuccess: () => {
       toast.success('Thêm thông tin thành công');
