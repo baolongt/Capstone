@@ -2,7 +2,7 @@ import.meta.env.VITE_API_URL;
 
 export const HEADER_HEIGHT = '66px';
 export const SIDEBAR_WIDTH = '200px';
-export const API_URL = process.env.VITE_API_URL;
+export const API_URL = 'https://localhost:5001/';
 export const FOOTER_HEIGHT = '68px';
 export const FOOTER_HEADER_HEIGHT = '130px';
 export const DEBOUND_SEARCH_TIME = 500;
