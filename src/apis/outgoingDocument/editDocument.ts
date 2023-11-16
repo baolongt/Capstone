@@ -15,9 +15,18 @@ const convertToEditAttachmentPayload = async (
   const needUploadFile = <UploadFile[]>(
     objects.filter((file) => file instanceof UploadFile)
   );
-  const uploadedAttachment = <Attachment[]>(
+  let uploadedAttachment = <Attachment[]>(
     objects.filter((file) => file instanceof Attachment)
   );
+  uploadedAttachment = uploadedAttachment.map((file) => {
+    return new Attachment({
+      name: file.name,
+      url: file.url,
+      needSigned: file.needSigned,
+      size: file.size,
+      mimeType: file.mimeType
+    });
+  });
 
   const uploadedFiles = await uploadFile(needUploadFile as UploadFile[]);
 
@@ -38,19 +47,12 @@ export const editDocument = async (
   id: string,
   editObj: EditType
 ): Promise<void> => {
-  const {
-    epitomize,
-    documentField,
-    documentTypeId,
-    files,
-    processDeadline,
-    note
-  } = editObj;
+  const { epitomize, documentField, documentTypeId, files, processDeadline } =
+    editObj;
   const data = {
     epitomize,
     documentField: documentField.toString(),
     documentTypeId,
-    note,
     attachments: await convertToEditAttachmentPayload(files),
     processDeadline
   };

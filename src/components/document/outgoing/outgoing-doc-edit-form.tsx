@@ -8,7 +8,6 @@ import {
   CustomButton,
   DatePickerField,
   InputField,
-  MultilineTextField,
   SelectField,
   WrappedDragDropFileBox
 } from '@/components/common';
@@ -146,12 +145,6 @@ const EditForm: React.FC<EditFormProps> = ({
               watchAttachment={watchAttachment}
               signAttachment={signAttachment}
             />
-          </Grid>
-          <Grid item xs={12}>
-            <Typography style={{ marginBottom: '5px' }} fontWeight="bold">
-              Ghi chú
-            </Typography>
-            <MultilineTextField form={form} name="note" minRows={4} />
           </Grid>
           <Grid item xs={12}>
             <Stack direction="row" spacing={1}>

@@ -66,7 +66,6 @@ export interface CreateOutgoingDocument {
   documentTypeId: number;
   isRepliedDocument: boolean;
   status: number;
-  note: string;
   files: UploadFile[];
 }
 
@@ -77,7 +76,6 @@ export interface EditOutgoingDocument {
   documentTypeId: number;
   isRepliedDocument: boolean;
   status: string;
-  note: string;
   files: UploadFile[] | Attachment[];
   processDeadline: string;
 }
@@ -93,8 +91,7 @@ export const convertDetailToEditForm = (
     isRepliedDocument: detail.isRepliedDocument,
     status: detail.status,
     files: detail.attachments,
-    processDeadline: detail.processDeadline,
-    note: ''
+    processDeadline: detail.processDeadline
   };
 };
 
