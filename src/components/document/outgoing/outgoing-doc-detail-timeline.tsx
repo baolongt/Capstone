@@ -21,8 +21,17 @@ type BaseTimelineItemProps = {
   isLast?: boolean;
 };
 
+const translations: Record<string, string> = {
+  Consider: 'duyệt',
+  Sign: 'ký',
+  Accepted: 'Đã xử lý',
+  Rejected: 'Từ chối'
+};
+
 const BaseTimelineItem: React.FC<BaseTimelineItemProps> = (props) => {
   const { time, title, subTitle, isLast } = props;
+  const [, status] = subTitle.split(', ');
+
   return (
     <TimelineItem>
       <TimelineOppositeContent color="textSecondary">
@@ -36,7 +45,7 @@ const BaseTimelineItem: React.FC<BaseTimelineItemProps> = (props) => {
       </TimelineSeparator>
       <TimelineContent>
         <Typography variant="h6">{title}</Typography>
-        <Typography variant="subtitle1">{subTitle}</Typography>
+        <Typography variant="subtitle1">{translations[status]}</Typography>
       </TimelineContent>
     </TimelineItem>
   );
@@ -73,23 +82,8 @@ export const DetailTimeline: React.FC<DetailTimelineProps> = (props) => {
           if (islLast) {
             title = `${history.handlerName} tạo văn bản`;
           } else {
-            switch (history.status) {
-              case 0:
-                title = `${history.handlerName} chỉnh sửa văn bản`;
-                break;
-              case 1:
-              case 2:
-              case 3:
-              case 4:
-                title = `Chuyển cho ${history.handlerName}`;
-                break;
-              case 5:
-                title = `Trả lại cho ${history.handlerName}`;
-                break;
-              case 6:
-                title = `Văn bản đã phát hành`;
-                break;
-            }
+            const [action] = history.note.split(', ');
+            title = `${history.handlerName} ${translations[action]}`;
           }
 
           return (

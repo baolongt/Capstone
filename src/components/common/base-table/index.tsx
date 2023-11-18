@@ -118,6 +118,7 @@ export type BaseTableProps<T> = {
   showPagination?: boolean;
   metadata?: Metadata;
   handleChangePage?: (page: number) => void;
+  isNotFilled?: boolean;
 } & TableProps;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -129,7 +130,8 @@ const BaseTable: React.FC<BaseTableProps<any>> = (props) => {
     showPagination = true,
     metadata,
     handleChangePage,
-    handleCellClick
+    handleCellClick,
+    isNotFilled = false
   } = props;
   const theme = useTheme();
 
@@ -202,7 +204,18 @@ const BaseTable: React.FC<BaseTableProps<any>> = (props) => {
             </TableRow>
           ))}
         </TableHead>
-        <TableBody>
+        <TableBody sx={{ height: '10vh' }}>
+          {getRowModel().rows.length === 0 && (
+            <TableRow style={{ height: '52px' }}>
+              <TableCell
+                colSpan={columns.length}
+                align="center"
+                sx={{ color: theme.palette.text.disabled }}
+              >
+                Không có dữ liệu
+              </TableCell>
+            </TableRow>
+          )}
           {getRowModel().rows.map((row) => (
             <TableRow key={row.id} style={{ height: '50px' }}>
               {row.getVisibleCells().map((cell) => {
@@ -221,6 +234,7 @@ const BaseTable: React.FC<BaseTableProps<any>> = (props) => {
             </TableRow>
           ))}
           {showPagination &&
+            !isNotFilled &&
             metadata &&
             !metadata.hasNextPage &&
             data.length < metadata.pageSize &&

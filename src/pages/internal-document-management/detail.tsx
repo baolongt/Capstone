@@ -3,6 +3,7 @@ import * as React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { send } from '@/apis';
+import { DocTypeEnum } from '@/apis/file/addDocToFile';
 import { useGetOneDocument } from '@/apis/internalDocument/getOneDocument';
 import { CustomButton, Loading } from '@/components/common';
 import AppDocViewer from '@/components/common/document-viewer';
@@ -160,6 +161,7 @@ const InternalDocumentDetail = () => {
         handleClose={handleClosePeview}
       />
       <AddDocToFileDialog
+        docType={DocTypeEnum.INTERNAL}
         isOpen={openAddDocToFile}
         onClose={handleCloseAddDocToFile}
       />

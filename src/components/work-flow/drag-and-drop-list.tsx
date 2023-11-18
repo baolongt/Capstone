@@ -15,8 +15,9 @@ import {
 import React, { useEffect } from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 
+import { useGetOutgoingExampleWorkflow } from '@/apis/work-flow/get-outgoing-doc-example';
 import { user, workFlow } from '@/models';
-import { convertActionToString } from '@/models/work-flow';
+import { ActionOptions, convertActionToString } from '@/models/work-flow';
 
 type DragAndDropListProps = {
   users: user.User[];
@@ -87,7 +88,7 @@ const ListItem = ({
             disablePortal
             size="small"
             value={item.action}
-            options={[workFlow.Action.CONSIDER, workFlow.Action.SIGN]}
+            options={ActionOptions}
             getOptionLabel={(option) => convertActionToString(option)}
             sx={{ width: 300 }}
             renderInput={(params) => <TextField {...params} label="Vai trò" />}
@@ -125,10 +126,10 @@ function DragAndDropList({
   users = [],
   initData,
   sx,
-  handleCreate,
-  isCreating
+  handleCreate
 }: DragAndDropListProps) {
   const [items, setItems] = React.useState<workFlow.StepCreate[]>([]);
+  const { data, isLoading } = useGetOutgoingExampleWorkflow();
   const handleDragEnd = (result: { destination: any; source?: any }) => {
     if (!result.destination) return;
 
@@ -163,7 +164,7 @@ function DragAndDropList({
   useEffect(() => {
     if (!initData) return;
     setItems(initData);
-  }, []);
+  }, [initData]);
 
   const handleDeleteItem = (id: number) => {
     const newItems = items.filter((item) => item.id !== id);
@@ -217,6 +218,25 @@ function DragAndDropList({
                 <Typography sx={{ color: '#000' }} variant="h5">
                   Chưa có trình tự xử lý
                 </Typography>
+                <Button
+                  sx={{ mt: 2, mr: 1 }}
+                  size="small"
+                  variant="outlined"
+                  color="primary"
+                  onClick={() => {
+                    if (data) {
+                      const newItems = data.map((step) => ({
+                        id: step.stepNumber,
+                        handlerId: step.handlerId,
+                        action: step.action
+                      }));
+
+                      setItems(newItems);
+                    }
+                  }}
+                >
+                  Trình xử lý mẫu
+                </Button>
               </Box>
             )}
             {items.map((item, index) => {

@@ -19,6 +19,16 @@ import useAuth from '@/hooks/useAuth';
 import { Attachment } from '@/models';
 import { JobPosition } from '@/models/user';
 
+const downloadFile = async (url: string) => {
+  const response = await fetch(url);
+  const blob = await response.blob();
+  const blobUrl = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = blobUrl;
+  link.download = url.split('/').pop() || 'file';
+  link.click();
+};
+
 export type AttachmentCardProps = {
   attachment: Attachment;
   watchAttachment?: (id: string) => void;
@@ -134,9 +144,9 @@ export const AttachmentCard: React.FC<AttachmentCardProps> = (props) => {
         <Tooltip title="Tải xuống">
           <Link
             sx={{ color: 'inherit' }}
-            href={attachment.url}
             underline="none"
             component={IconButton}
+            onClick={() => downloadFile(attachment.url)}
           >
             <DownloadIcon />
           </Link>

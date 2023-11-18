@@ -1,10 +1,7 @@
 import { Box, Paper } from '@mui/material';
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-import { useListUsers } from '@/apis';
-import { useCreateWorkflow } from '@/apis/work-flow';
+import { useCreateWorkflow, useListHandlers } from '@/apis/work-flow';
 import { DEFAULT_PAGE_WIDTH } from '@/constants';
 import { workFlow } from '@/models';
 import { DocumentTypeCreate } from '@/models/work-flow';
@@ -20,13 +17,8 @@ export const CreateWorkFlow = ({
   docId,
   handleNextStep
 }: CreateWorkFlowProps) => {
-  const { data, isLoading } = useListUsers({
-    queryParams: {
-      page: 1,
-      size: 10_000
-    }
-  });
-  const users = data?.data || [];
+  const { data, isLoading } = useListHandlers();
+  const users = data || [];
 
   const { mutate: createWorkflow, isLoading: isCreatingWorkflow } =
     useCreateWorkflow({
@@ -52,10 +44,6 @@ export const CreateWorkFlow = ({
       });
     }
   };
-
-  useEffect(() => {
-    console.log('docId', docId);
-  }, [docId]);
 
   return isLoading ? (
     <Loading />

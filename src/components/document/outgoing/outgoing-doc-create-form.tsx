@@ -9,7 +9,6 @@ import { Link as RouterLink } from 'react-router-dom';
 import {
   DatePickerField,
   InputField,
-  MultilineTextField,
   SelectField,
   WrappedDragDropFileBox
 } from '@/components/common';
@@ -134,15 +133,6 @@ const CreateDocumentForm: React.FC<createDocumentFormProps> = ({
         </Grid>
         <Grid item xs={12}>
           <Typography style={{ marginBottom: '5px' }} fontWeight="bold">
-            Ghi chú
-            <Box component="span" color="error.main">
-              *
-            </Box>
-          </Typography>
-          <MultilineTextField form={form} name="note" minRows={4} />
-        </Grid>
-        <Grid item xs={12}>
-          <Typography style={{ marginBottom: '5px' }} fontWeight="bold">
             File đính kèm{' '}
             <Box component="span" color="error.main">
               *
@@ -159,7 +149,14 @@ const CreateDocumentForm: React.FC<createDocumentFormProps> = ({
             name="files"
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid
+          item
+          xs={12}
+          sx={{
+            display: 'flex',
+            justifyContent: 'center'
+          }}
+        >
           <LoadingButton
             variant="contained"
             color="primary"

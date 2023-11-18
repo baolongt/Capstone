@@ -22,7 +22,6 @@ type OutgoingDocumentUploadFormType = {
   epitomize: string;
   documentField: string;
   documentTypeId: number;
-  note: string;
   attachments: AttachmentType[];
 };
 
@@ -58,7 +57,6 @@ const convertToOutGoingDocumentUploadFormType = (
     epitomize: createObj.epitomize,
     documentField: String(createObj.documentField),
     documentTypeId: createObj.documentTypeId,
-    note: createObj.note,
     processDeadline: createObj.processDeadline,
     attachments:
       createObj.files?.map((file) => ({

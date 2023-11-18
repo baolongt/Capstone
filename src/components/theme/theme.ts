@@ -1,4 +1,4 @@
-import { grey, indigo, red } from '@mui/material/colors';
+import { green, grey, indigo, red } from '@mui/material/colors';
 import { createTheme } from '@mui/material/styles';
 
 //MuiTableFooter-root
@@ -18,11 +18,17 @@ const theme = createTheme({
     },
     error: {
       main: red.A400
+    },
+    success: {
+      main: green[300]
     }
   },
   typography: {
     fontFamily: '"Montserrat", sans-serif',
-    fontSize: 14
+    fontSize: 14,
+    button: {
+      textTransform: 'none'
+    }
   },
   components: {
     MuiCssBaseline: {

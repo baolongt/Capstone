@@ -12,7 +12,6 @@ import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
-import { useListUsers } from '@/apis';
 import { useCreateDepartment, useUpdateDepartment } from '@/apis/department';
 import { CustomButton, InputField } from '@/components/common';
 import { department } from '@/models';

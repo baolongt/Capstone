@@ -76,7 +76,7 @@ const EditOutgoingDocumentPage = () => {
       <Box>
         <PageHeader>
           <Box>
-            <PageTitle label="Chỉnh sửa" />
+            <PageTitle label="Chỉnh sửa thông tin văn bản" />
           </Box>
         </PageHeader>
         <Box

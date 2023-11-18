@@ -38,19 +38,12 @@ export const editDocument = async (
   id: string,
   editObj: EditType
 ): Promise<void> => {
-  const {
-    epitomize,
-    documentField,
-    documentTypeId,
-    files,
-    processDeadline,
-    note
-  } = editObj;
+  const { epitomize, documentField, documentTypeId, files, processDeadline } =
+    editObj;
   const data = {
     epitomize,
     documentField: documentField.toString(),
     documentTypeId,
-    note,
     attachments: await convertToEditAttachmentPayload(files),
     processDeadline
   };

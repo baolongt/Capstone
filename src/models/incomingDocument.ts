@@ -26,6 +26,7 @@ export interface IncomingDocument {
   attachments: UploadFile[] | Attachment[];
   processHistory: ProcessHisstory[];
   incomingPublishInfo: IncomingPublishInfo;
+  createdDate: string;
 }
 
 export interface CreateIncomingDocument {

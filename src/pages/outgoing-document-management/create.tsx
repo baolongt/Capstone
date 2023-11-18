@@ -41,7 +41,6 @@ const CreateOutgoingDocumentPage = ({
       documentField: 1,
       documentTypeId: 1,
       status: 1,
-      note: '',
       processDeadline: '',
       files: [] as UploadFile[]
     },

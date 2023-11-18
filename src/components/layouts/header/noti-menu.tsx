@@ -3,6 +3,7 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import {
   Box,
   IconButton,
+  Link,
   Menu,
   MenuItem,
   Tooltip,
@@ -10,6 +11,7 @@ import {
 } from '@mui/material';
 import dayjs from 'dayjs';
 import React, { useEffect } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 
 import { useListNotifications } from '@/apis';
 import { notification } from '@/models';
@@ -19,8 +21,30 @@ type NotiItemProps = {
   onClick?: () => void;
 };
 
+const NotiTitle = ({ title }: { title: string }) => {
+  if (!title.includes('<a')) {
+    return <Typography sx={{ fontWeight: 'bold' }}>{title}</Typography>;
+  }
+  const titleParts = title.match(/<a (.*?)href=“([^”]*)”>([^<]*)<\/a>(.*)/);
+  const linkText = titleParts ? titleParts[3] : '';
+  const href = titleParts ? titleParts[2] : '';
+  const text = titleParts ? titleParts[4] : '';
+
+  return (
+    <>
+      <Typography sx={{ fontWeight: 'bold' }}>
+        <Link underline="hover">
+          <RouterLink to={`${href}`}>{linkText}</RouterLink>{' '}
+        </Link>
+        {text}
+      </Typography>
+    </>
+  );
+};
+
 const NotiItem: React.FC<NotiItemProps> = ({ notification, onClick }) => {
   const { title, description, createdDate } = notification;
+
   return (
     <MenuItem onClick={onClick}>
       <Box
@@ -32,7 +56,7 @@ const NotiItem: React.FC<NotiItemProps> = ({ notification, onClick }) => {
           p: 1
         }}
       >
-        <Typography sx={{ fontWeight: 'bold' }}>{title}</Typography>
+        <NotiTitle title={title} />
         <Typography variant="caption">
           {dayjs(createdDate).format('HH:mm DD/MM')}
         </Typography>

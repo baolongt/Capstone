@@ -1,6 +1,6 @@
 import DocViewer, { DocViewerRenderers } from '@cyntler/react-doc-viewer';
 import CloseIcon from '@mui/icons-material/Close';
-import { Backdrop, Box, Button, Paper } from '@mui/material';
+import { Backdrop, Box, Button, IconButton, Paper } from '@mui/material';
 import React from 'react';
 
 type AppDocViewerProps = {
@@ -30,13 +30,9 @@ const AppDocViewer: React.FC<AppDocViewerProps> = ({
           sx={{ height: '90vh', width: '90vw', mx: 'auto' }}
         >
           <Box sx={{ display: 'flex', p: 2, borderBottom: '1px dashed grey' }}>
-            <Button
-              variant="contained"
-              startIcon={<CloseIcon />}
-              onClick={handleClose}
-            >
-              Đóng
-            </Button>
+            <IconButton onClick={handleClose}>
+              <CloseIcon />
+            </IconButton>
           </Box>
 
           <DocViewer

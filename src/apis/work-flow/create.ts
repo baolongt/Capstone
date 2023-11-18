@@ -5,7 +5,7 @@ import { common } from '@/models';
 import { DocumentTypeCreate } from '@/models/work-flow';
 import { axiosInstance } from '@/utils';
 
-type Step = {
+export type CreateStep = {
   handlerId: number;
   action: number;
   stepNumber: number;
@@ -14,7 +14,7 @@ type Step = {
 export type Workflow = {
   docId: number;
   docType: DocumentTypeCreate.OUTGOING;
-  steps: Step[];
+  steps: CreateStep[];
 };
 
 const createWorkflow = async (payload: Workflow) => {
@@ -34,7 +34,7 @@ export const useCreateWorkflow = ({
   return useMutation({
     mutationFn: (payload: Workflow) => createWorkflow(payload),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [api.OUTGOING_DOCUMENT] });
+      queryClient.invalidateQueries({ queryKey: [api.WORKFLOW] });
       onSuccess?.();
     },
     onError: () => {
