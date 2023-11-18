@@ -1,4 +1,5 @@
 export * from './editDocument';
+export * from './editPublishInfo';
 export * from './getPublishNumber';
 export * from './listDocument';
 export * from './update-list-shared';

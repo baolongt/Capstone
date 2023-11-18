@@ -164,8 +164,7 @@ function DragAndDropList({
   useEffect(() => {
     if (!initData) return;
     setItems(initData);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [initData]);
 
   const handleDeleteItem = (id: number) => {
     const newItems = items.filter((item) => item.id !== id);

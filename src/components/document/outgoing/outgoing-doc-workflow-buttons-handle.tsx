@@ -3,6 +3,8 @@ import { LoadingButton } from '@mui/lab';
 import useAuth from '@/hooks/useAuth';
 import { workFlow } from '@/models';
 
+import EditButtonGroup from './outgoing-doc-detail-edit-button-group';
+
 const isHandleCurrentStep = ({
   steps,
   userId
@@ -71,6 +73,7 @@ export const WorkFlowButtonsHandle = ({
       >
         Xem quy trình
       </LoadingButton>
+      <EditButtonGroup />
       {currentStep && currentStep.isHandle && isNotRejected && (
         <>
           <LoadingButton

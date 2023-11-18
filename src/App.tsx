@@ -27,6 +27,8 @@ import AddNumberPage from './pages/outgoing-document-management/add-number';
 import CreateStepsPage from './pages/outgoing-document-management/create-steps';
 import OutgoingDocumentDetail from './pages/outgoing-document-management/detail';
 import EditOutgoingDocumentPage from './pages/outgoing-document-management/edit';
+import OutgoingEditPublishInfoPage from './pages/outgoing-document-management/edit-publish-info';
+import OutgoingDocEditWorkFlowPage from './pages/outgoing-document-management/edit-workflow';
 import Profile from './pages/profile';
 import TemplatePage from './pages/template';
 import UserManagement from './pages/user-management';
@@ -70,6 +72,14 @@ const App = () => {
             <Route path=":id">
               <Route index element={<OutgoingDocumentDetail />} />
               <Route path="edit" element={<EditOutgoingDocumentPage />} />
+              <Route
+                path="edit-workflow"
+                element={<OutgoingDocEditWorkFlowPage />}
+              />
+              <Route
+                path="edit-publish-info"
+                element={<OutgoingEditPublishInfoPage />}
+              />
               <Route path="add-number" element={<AddNumberPage />} />
             </Route>
           </Route>

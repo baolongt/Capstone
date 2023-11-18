@@ -94,5 +94,8 @@ export const pathDict: PathDict = {
   files: 'Sổ công việc',
   'contact-list': 'Danh sách liên lạc',
   create: 'Tạo mới',
-  edit: 'Chỉnh sửa'
+  edit: 'Chỉnh sửa',
+  'edit-workflow': 'Chỉnh sửa trình tự xử lý',
+  'edit-publish-info': 'Chỉnh sửa thông tin phát hành',
+  template: 'Văn bản mẫu'
 };

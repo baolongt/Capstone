@@ -108,8 +108,6 @@ const OutgoingDocumentDetail = () => {
     send(attachmentId);
   };
 
-  console.log('workflow', workflow);
-
   const handleChangeStatus = () => {
     if (id) {
       changeStatus({
