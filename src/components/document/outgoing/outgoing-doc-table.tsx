@@ -45,9 +45,9 @@ export const OutgoingDocumentTable: React.FC<OutgoingDocumentTableProps> = ({
       cell: (row) => row.renderValue(),
       size: 100
     }),
-    columnHelper.accessor('processHistory', {
+    columnHelper.accessor('documentStatus', {
       header: 'Trạng thái',
-      cell: (row) => DocumentStatusDict.get(row.getValue()[0]?.status ?? 0),
+      cell: (row) => DocumentStatusDict.get(row.getValue()),
       size: 100
     }),
     columnHelper.accessor('createdDate', {

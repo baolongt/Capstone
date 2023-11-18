@@ -13,6 +13,7 @@ export interface OutgoingDocument {
   receiver: string;
   lastSignedBy: string;
   createdByDepartment: string;
+  documentStatus: number;
   createdBy: string;
   documentField: string;
   documentType: string;
@@ -106,13 +107,9 @@ export enum DocumentStatus {
 }
 
 export const DocumentStatusDict = new Map<number, string>([
-  [0, 'Chưa chuyển'],
   [1, 'Đang xử lý'],
-  [2, 'Đang xử lý'],
-  [3, 'Đang xử lý'],
-  [4, 'Chờ ban hành'],
-  [5, 'Chờ chỉnh sửa'],
-  [6, 'Vản bản đã ban hành']
+  [2, 'Đang chỉnh sửa'],
+  [3, 'Đã phát hành']
 ]);
 
 export interface ForwardOutgoingDocument {

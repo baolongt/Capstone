@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 import BaseTable from '@/components/common/base-table';
 import { internalDocument } from '@/models';
+import { InternalDocumentStatusDict } from '@/models/internalDocument';
 import { Metadata } from '@/types';
 
 const columnHelper = createColumnHelper<internalDocument.InternalDocument>();
@@ -44,9 +45,9 @@ export const InternalDocumentTable: React.FC<InternalDocumentTableProps> = ({
       cell: (row) => row.renderValue(),
       size: 100
     }),
-    columnHelper.accessor('isRepliedDocument', {
+    columnHelper.accessor('documentStatus', {
       header: 'Trạng thái',
-      cell: (row) => (row.getValue() ? 'Đã xử lý' : 'Đang xử lí'),
+      cell: (row) => InternalDocumentStatusDict[row.getValue()],
       size: 100
     }),
     columnHelper.accessor('createdDate', {

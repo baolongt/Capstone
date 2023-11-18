@@ -26,6 +26,7 @@ type DragAndDropListProps = {
   handleCreate: (steps: workFlow.StepCreate[]) => void;
   isCreating: boolean;
   docType: workFlow.DocumentTypeCreate;
+  isCreatingWorkflow: boolean;
 };
 
 type ListItemProps = {
@@ -130,7 +131,8 @@ function DragAndDropList({
   initData,
   sx,
   handleCreate,
-  docType
+  docType,
+  isCreatingWorkflow
 }: DragAndDropListProps) {
   const [items, setItems] = React.useState<workFlow.StepCreate[]>([]);
   const { data } = useGetExampleWorkflow({
@@ -281,6 +283,7 @@ function DragAndDropList({
             size="small"
             variant="contained"
             color="primary"
+            loading={isCreatingWorkflow}
             onClick={() => handleCreate(items)}
           >
             Tạo
