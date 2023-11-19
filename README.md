@@ -8,10 +8,10 @@
 | ------------------ | ---------------- | -------- | ------- | --------------- |
 | dummyAdmin         | email@gmail.com  | password | 2       | 1               |
 | dummyOfficier      | emailChuyenvien@gmail.com | password | 1       | 1               |
-| dummyTruongPhong   | emailTruongPhong@gmail.com | password | 1       | 2               |
+| dummyTruongPhong   | emailTruongphong@gmail.com | password | 1       | 2               |
 | dummyVanthu        | emailVanthu@gmail.com | password | 1       | 3               |
 | dummyChanhVanPhong | email4@gmail.com | password | 1       | 4               |
-| dummyLanhDao       | emailLanhDao@gmail.com | password | 1       | 6               |
+| dummyLanhDao       | emailLanhdao@gmail.com | password | 1       | 6               |
 
 ## Last update 12/09/2023
 
