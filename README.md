@@ -7,11 +7,11 @@
 | Name               | Email            | Paswpord | Role ID | Job Position ID |
 | ------------------ | ---------------- | -------- | ------- | --------------- |
 | dummyAdmin         | email@gmail.com  | password | 2       | 1               |
-| dummyOfficier      | email1@gmail.com | password | 1       | 1               |
-| dummyTruongPhong   | email2@gmail.com | password | 1       | 2               |
-| dummyVanthu        | email3@gmail.com | password | 1       | 3               |
+| dummyOfficier      | emailChuyenvien@gmail.com | password | 1       | 1               |
+| dummyTruongPhong   | emailTruongPhong@gmail.com | password | 1       | 2               |
+| dummyVanthu        | emailVanthu@gmail.com | password | 1       | 3               |
 | dummyChanhVanPhong | email4@gmail.com | password | 1       | 4               |
-| dummyLanhDao       | email5@gmail.com | password | 1       | 6               |
+| dummyLanhDao       | emailLanhDao@gmail.com | password | 1       | 6               |
 
 ## Last update 12/09/2023
 
