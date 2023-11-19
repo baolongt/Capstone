@@ -11,7 +11,7 @@ type listStatusOutgoingDocumentResponse = {
 
 export const listStatusOutgoingDocument = async ({ from, to }: DateRange) => {
   const response: listStatusOutgoingDocumentResponse = await axiosInstance.get(
-    `/outgoingdocument?from=${from}&to=${to}`
+    `/api/dashboard/count-status/outgoing-document?from=${from}&to=${to}`
   );
 
   return response.data;

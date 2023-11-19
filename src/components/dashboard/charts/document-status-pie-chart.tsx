@@ -58,8 +58,12 @@ export const DocumentStatusPieChart: React.FC<DocumentStatusChartProps> = ({
                 series={[
                   {
                     data,
-                    highlightScope: { faded: 'global', highlighted: 'item' },
-                    faded: { innerRadius: 80, additionalRadius: -30 },
+                    innerRadius: 90,
+                    outerRadius: 100,
+                    paddingAngle: 1,
+                    cornerRadius: 5,
+                    startAngle: -90,
+                    endAngle: 180,
                     cx: 140
                   }
                 ]}
