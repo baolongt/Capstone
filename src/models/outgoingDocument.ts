@@ -30,6 +30,7 @@ export interface OutgoingDocument {
   updatedDate: string;
   registrationStatus: number;
   outgoingPublishInfo?: OutgoingPublishInfo;
+  createdById: number;
 }
 
 export interface ProcessHisstory {

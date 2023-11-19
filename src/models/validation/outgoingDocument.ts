@@ -56,6 +56,17 @@ export const forwardSchema = yup.object().shape({
   newHandlerId: yup.number().required(),
   newNote: yup.string().required()
 });
+
+export const prepareEmailSchema = yup.object().shape({
+  emailTemplate: yup
+    .string()
+    .required('Nội dung email là bắt buộc')
+    .notOneOf(['<p><br></p>'], 'Nội dung email là bắt buộc'),
+  emailSubject: yup.string().required('Tiêu đề email là bắt buộc')
+});
+
+export type PrepareEmailType = yup.InferType<typeof prepareEmailSchema>;
+
 export type ForwardType = yup.InferType<typeof forwardSchema>;
 
 export type EditType = yup.InferType<typeof editSchema>;

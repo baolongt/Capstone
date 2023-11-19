@@ -1,5 +1,4 @@
 import { Box, Button } from '@mui/material';
-import { PDFPage } from 'pdf-lib';
 import { useEffect, useRef, useState } from 'react';
 import Draggable from 'react-draggable';
 import { FaCheck, FaTimes } from 'react-icons/fa';
@@ -10,11 +9,13 @@ type DraggableTextProps = {
   onEnd: React.Dispatch<any>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   parentRef: React.MutableRefObject<any>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   docRef: React.MutableRefObject<any>;
   onSet: (text: string) => void;
   onCancel: () => void;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const CalBoundRightAndBottom = (docRef: React.MutableRefObject<any>) => {
   const style = window.getComputedStyle(docRef.current);
   const paddingTop = parseFloat(style.paddingTop);
@@ -36,7 +37,6 @@ const DraggableText = ({
   onSet,
   onCancel,
   initialText,
-  parentRef,
   docRef
 }: DraggableTextProps) => {
   const [text, setText] = useState(initialText);

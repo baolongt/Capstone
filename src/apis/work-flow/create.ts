@@ -28,12 +28,16 @@ const createWorkflow = async (payload: Workflow) => {
 
 export const useCreateWorkflow = ({
   onSuccess,
-  onError
-}: common.useMutationParams) => {
+  onError,
+  id
+}: common.useMutationParams & {
+  id: number;
+}) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (payload: Workflow) => createWorkflow(payload),
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [api.OUTGOING_DOCUMENT, id] });
       queryClient.invalidateQueries({ queryKey: [api.WORKFLOW] });
       onSuccess?.();
     },

@@ -1,4 +1,5 @@
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
+import DoDisturbAltRoundedIcon from '@mui/icons-material/DoDisturbAltRounded';
 import Timeline from '@mui/lab/Timeline';
 import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineContent from '@mui/lab/TimelineContent';
@@ -28,6 +29,29 @@ const translations: Record<string, string> = {
   Rejected: 'Từ chối'
 };
 
+const renderStatusIcon = (status: string) => {
+  switch (status) {
+    case 'Accepted':
+      return (
+        <TimelineDot color="success">
+          <CheckRoundedIcon />
+        </TimelineDot>
+      );
+    case 'Rejected':
+      return (
+        <TimelineDot color="error" sx={{ color: '#fff' }}>
+          <DoDisturbAltRoundedIcon />
+        </TimelineDot>
+      );
+    default:
+      return (
+        <TimelineDot color="success">
+          <CheckRoundedIcon />
+        </TimelineDot>
+      );
+  }
+};
+
 const BaseTimelineItem: React.FC<BaseTimelineItemProps> = (props) => {
   const { time, title, subTitle, isLast } = props;
   const [, status] = subTitle.split(', ');
@@ -38,9 +62,7 @@ const BaseTimelineItem: React.FC<BaseTimelineItemProps> = (props) => {
         {time}
       </TimelineOppositeContent>
       <TimelineSeparator>
-        <TimelineDot color="success">
-          <CheckRoundedIcon />
-        </TimelineDot>
+        {renderStatusIcon(status)}
         {!isLast && <TimelineConnector />}
       </TimelineSeparator>
       <TimelineContent>

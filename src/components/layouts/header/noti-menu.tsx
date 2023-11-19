@@ -10,12 +10,17 @@ import {
   Typography
 } from '@mui/material';
 import dayjs from 'dayjs';
+import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
 import React, { useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 
 import { useListNotifications } from '@/apis';
+import { TIMEZONE } from '@/constants';
 import { notification } from '@/models';
 
+dayjs.extend(utc);
+dayjs.extend(timezone);
 type NotiItemProps = {
   notification: notification.Notification;
   onClick?: () => void;
@@ -58,7 +63,7 @@ const NotiItem: React.FC<NotiItemProps> = ({ notification, onClick }) => {
       >
         <NotiTitle title={title} />
         <Typography variant="caption">
-          {dayjs(createdDate).format('HH:mm DD/MM')}
+          {dayjs.utc(createdDate).tz(TIMEZONE).format('HH:mm DD/MM')}
         </Typography>
         <Typography>{description}</Typography>
       </Box>

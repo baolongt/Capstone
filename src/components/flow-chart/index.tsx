@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import 'reactflow/dist/style.css';
 
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 import dagre from 'dagre';
 import React, { useCallback, useEffect } from 'react';
 import ReactFlow, {
@@ -9,7 +9,6 @@ import ReactFlow, {
   Controls,
   Edge,
   Node,
-  Panel,
   Position,
   useEdgesState,
   useNodesState

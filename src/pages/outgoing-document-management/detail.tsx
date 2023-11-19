@@ -1,9 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import PostAddIcon from '@mui/icons-material/PostAdd';
 import {
   Box,
   Divider,
+  IconButton,
   Paper,
   Stack,
+  Tooltip,
   Typography,
   useTheme
 } from '@mui/material';
@@ -20,6 +24,7 @@ import {
   WorkFlowDocType,
   WorkFlowStatus
 } from '@/apis/work-flow';
+import { useRestartStatus } from '@/apis/work-flow/restart';
 import { CustomButton, Loading } from '@/components/common';
 import AppDocViewer from '@/components/common/document-viewer';
 import PageHeader from '@/components/common/page-header';
@@ -62,6 +67,16 @@ const OutgoingDocumentDetail = () => {
     },
     onError: () => {
       toast.error('Chuyển thất bại');
+    },
+    type: WorkFlowDocType.OUTGOING
+  });
+  const { mutate: restartStep } = useRestartStatus({
+    id: id ? parseInt(id) : -1,
+    onSuccess: () => {
+      toast.success('Bắt đầu lại quy trình thành công');
+    },
+    onError: () => {
+      toast.error('Bắt đầu lại quy trình thất bại');
     },
     type: WorkFlowDocType.OUTGOING
   });
@@ -128,6 +143,15 @@ const OutgoingDocumentDetail = () => {
     }
   };
 
+  const handleRestartStep = () => {
+    if (id) {
+      restartStep({
+        id: id,
+        docType: WorkFlowDocType.OUTGOING
+      });
+    }
+  };
+
   return (
     <>
       <Box>
@@ -142,16 +166,17 @@ const OutgoingDocumentDetail = () => {
               mt: 1
             }}
           >
-            <CustomButton
-              label="Thêm vào sổ công việc"
-              onClick={handleOpenAddDocToFile}
-            />
-            <CustomButton
-              label="Chia sẻ"
-              variant="outlined"
-              color="info"
-              onClick={() => setOpenShareList(true)}
-            />
+            <Tooltip title="Thêm vào sổ công việc">
+              <IconButton color="info" onClick={handleOpenAddDocToFile}>
+                <PostAddIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Chia sẻ">
+              <IconButton color="info" onClick={() => setOpenShareList(true)}>
+                <PersonAddIcon />
+              </IconButton>
+            </Tooltip>
+            {/* <CustomButton label="Chia sẻ" variant="outlined" /> */}
             {/* {newestStatus === OutgoingDocumentStatus.CHO_CHINH_SUA && (
               <CustomButton
                 label="Chỉnh sửa"
@@ -161,11 +186,13 @@ const OutgoingDocumentDetail = () => {
 
             {workflow && (
               <WorkFlowButtonsHandle
+                createdById={data.createdById}
                 steps={workflow.steps}
                 isLoadingWorkflow={isLoadingWorkflow}
                 setOpenWorkflowDiagram={setOpenWorkflowDiagram}
                 handleChangeStatus={handleChangeStatus}
                 handleRejecStep={handleRejecStep}
+                handleRestartStep={handleRestartStep}
               />
             )}
           </Stack>

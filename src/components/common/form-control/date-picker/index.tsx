@@ -51,7 +51,7 @@ export const DatePickerField: React.FC<DatePickerFieldProps> = (props) => {
               }
             }}
             onChange={(value, _) => {
-              field.onChange(dayjs.tz(value, TIMEZONE).format());
+              field.onChange(dayjs.utc(value).tz(TIMEZONE).format());
             }}
           />
         </LocalizationProvider>

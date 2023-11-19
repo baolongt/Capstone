@@ -29,6 +29,7 @@ import OutgoingDocumentDetail from './pages/outgoing-document-management/detail'
 import EditOutgoingDocumentPage from './pages/outgoing-document-management/edit';
 import OutgoingEditPublishInfoPage from './pages/outgoing-document-management/edit-publish-info';
 import OutgoingDocEditWorkFlowPage from './pages/outgoing-document-management/edit-workflow';
+import PrepareEmailPage from './pages/outgoing-document-management/prepare-email';
 import Profile from './pages/profile';
 import TemplatePage from './pages/template';
 import UserManagement from './pages/user-management';
@@ -71,6 +72,7 @@ const App = () => {
             <Route path="create" element={<CreateStepsPage />} />
             <Route path=":id">
               <Route index element={<OutgoingDocumentDetail />} />
+              <Route path="prepare-email" element={<PrepareEmailPage />} />
               <Route path="edit" element={<EditOutgoingDocumentPage />} />
               <Route
                 path="edit-workflow"

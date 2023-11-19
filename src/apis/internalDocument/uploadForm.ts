@@ -69,7 +69,7 @@ const convertToInternalDocumentUploadFormType = (
       })) ?? [],
     internalPublishInfo: {
       internalNotation: createObj.internalNotation,
-      publishDate: dayjs.tz(new Date(), TIMEZONE).format(),
+      publishDate: dayjs.utc(new Date()).tz(TIMEZONE).format(),
       dueDate: createObj.processDeadline,
       priority: createObj.priority
     }

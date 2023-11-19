@@ -56,7 +56,8 @@ export const CreatePublishInfo = ({
     },
     onError: () => {
       toast.error('Thêm thông tin thất bại');
-    }
+    },
+    id: docId ?? -1
   });
 
   const { data: publishNumber, refetch } = useGetPublishNumber();

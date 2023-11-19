@@ -129,7 +129,7 @@ function DragAndDropList({
   handleCreate
 }: DragAndDropListProps) {
   const [items, setItems] = React.useState<workFlow.StepCreate[]>([]);
-  const { data, isLoading } = useGetOutgoingExampleWorkflow();
+  const { data } = useGetOutgoingExampleWorkflow();
   const handleDragEnd = (result: { destination: any; source?: any }) => {
     if (!result.destination) return;
 
