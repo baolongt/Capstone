@@ -75,7 +75,6 @@ export const EditPublishInfo = ({ docId }: EditPublishInfoProps) => {
       outgoingNumber: publishNumber || -1,
       dueDate: payload.dueDate.toISOString()
     });
-    handleNextStep();
   };
 
   return (
