@@ -48,7 +48,7 @@ const DocButtonFilter = ({
           setDocType('outgoing');
         }}
       >
-        Văn bản đến
+        Văn bản đi
       </Button>
       <Button
         variant={docType === 'incoming' ? 'contained' : 'text'}
@@ -64,7 +64,7 @@ const DocButtonFilter = ({
           setDocType('internal');
         }}
       >
-        Văn bản đi
+        Văn bản nội bộ
       </Button>
     </Box>
   );
