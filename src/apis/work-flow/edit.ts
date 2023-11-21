@@ -17,7 +17,7 @@ export type WorkFlowEditPayload = {
 };
 
 const editWorkflow = async (payload: WorkFlowEditPayload) => {
-  const url = '/api/workflows/edit';
+  const url = '/api/workflows/update';
   const res = axiosInstance.put(url, payload);
 
   return res;

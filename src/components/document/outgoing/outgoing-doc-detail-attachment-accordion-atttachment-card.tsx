@@ -17,7 +17,6 @@ import { FaFileExcel, FaFilePdf, FaFileWord } from 'react-icons/fa';
 
 import useAuth from '@/hooks/useAuth';
 import { Attachment } from '@/models';
-import { JobPosition } from '@/models/user';
 
 const downloadFile = async (url: string) => {
   const response = await fetch(url);
@@ -92,14 +91,6 @@ export const AttachmentCard: React.FC<AttachmentCardProps> = (props) => {
                 ? `${(size / 1000000).toFixed(2)} MB`
                 : `${(size / 1000).toFixed(2)} KB`}
             </Typography>
-            {attachment.needSigned && (
-              <Chip
-                label="Cần ký số"
-                color="primary"
-                size="small"
-                sx={{ ml: 2 }}
-              />
-            )}
             {isUploaded && (
               <Chip
                 label="Đã được tải lên"
@@ -110,18 +101,16 @@ export const AttachmentCard: React.FC<AttachmentCardProps> = (props) => {
             )}
           </Box>
         </Stack>
-        {attachment.mimeType === 'application/pdf' &&
-          user?.jobPositionID &&
-          user.jobPositionID === JobPosition.VAN_THU && (
-            <Tooltip title="Đánh số văn bản">
-              <IconButton
-                color="primary"
-                onClick={() => addNumber?.(attachment.name, attachment.url)}
-              >
-                <DrawIcon />
-              </IconButton>
-            </Tooltip>
-          )}
+        {attachment.mimeType === 'application/pdf' && (
+          <Tooltip title="Đánh số văn bản">
+            <IconButton
+              color="primary"
+              onClick={() => addNumber?.(attachment.name, attachment.url)}
+            >
+              <DrawIcon />
+            </IconButton>
+          </Tooltip>
+        )}
         {attachment.needSigned && user?.departmentId === 1 && (
           <Tooltip title="Ký số">
             <IconButton

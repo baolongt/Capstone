@@ -1,4 +1,5 @@
-import { Box, Button, Menu, MenuItem } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import { Box, IconButton, Menu, MenuItem, Tooltip } from '@mui/material';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -14,16 +15,18 @@ const EditButtonGroup = () => {
   };
   return (
     <Box>
-      <Button
-        id="basic-button"
-        aria-controls={open ? 'basic-menu' : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
-        variant="contained"
-        onClick={handleClick}
-      >
-        Chỉnh sửa
-      </Button>
+      <Tooltip title="Chỉnh sửa">
+        <IconButton
+          color="info"
+          id="basic-button"
+          aria-controls={open ? 'basic-menu' : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? 'true' : undefined}
+          onClick={handleClick}
+        >
+          <EditIcon />
+        </IconButton>
+      </Tooltip>
       <Menu
         id="basic-menu"
         anchorEl={anchorEl}

@@ -70,7 +70,8 @@ export const AddPublishInfoDialog: React.FC<AddPublishInfoDialogProps> = ({
     },
     onError: () => {
       toast.error('Thêm thông tin thất bại');
-    }
+    },
+    id: Number(id)
   });
 
   const { data: publishNumber, refetch } = useGetPublishNumber();

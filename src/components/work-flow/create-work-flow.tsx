@@ -28,7 +28,8 @@ export const CreateWorkFlow = ({
       },
       onError: () => {
         toast.error('Tạo trình tự xử lý thất bại');
-      }
+      },
+      id: docId ?? -1
     });
 
   const handleCreate = (steps: workFlow.StepCreate[]) => {

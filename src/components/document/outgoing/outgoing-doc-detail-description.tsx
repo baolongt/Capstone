@@ -2,6 +2,7 @@ import { Box, Grid, SxProps, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 import { FC } from 'react';
 
+import { TIMEZONE } from '@/constants';
 import { incomingDocument, outgoingDocument } from '@/models';
 
 // interface InputData {
@@ -28,7 +29,7 @@ export const DetailDescription: FC<DetailDescriptionProps> = (props) => {
     documentField,
     documentTypeName,
     createdByName,
-    publishDate
+    createdDate
   } = document;
   const detailStyle = { py: 1, px: 1 };
   const labelFontWeight = 600;
@@ -70,7 +71,7 @@ export const DetailDescription: FC<DetailDescriptionProps> = (props) => {
           <Typography variant="subtitle1" sx={{ fontWeight: labelFontWeight }}>
             Ngày tạo: {'  '}
             <Typography component="span">
-              {dayjs(publishDate).format('DD/MM/YYYY')}
+              {dayjs.utc(createdDate).tz(TIMEZONE).format('DD/MM/YYYY')}
             </Typography>
           </Typography>
         </Grid>

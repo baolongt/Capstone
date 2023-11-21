@@ -1,4 +1,5 @@
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
+import DoDisturbAltRoundedIcon from '@mui/icons-material/DoDisturbAltRounded';
 import Timeline from '@mui/lab/Timeline';
 import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineContent from '@mui/lab/TimelineContent';
@@ -8,10 +9,11 @@ import TimelineOppositeContent, {
   timelineOppositeContentClasses
 } from '@mui/lab/TimelineOppositeContent';
 import TimelineSeparator from '@mui/lab/TimelineSeparator';
-import { Box, SxProps, Typography } from '@mui/material';
+import { Box, Paper, SxProps, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 import React from 'react';
 
+import { TIMEZONE } from '@/constants';
 import { ProcessHisstory } from '@/models/outgoingDocument';
 
 type BaseTimelineItemProps = {
@@ -24,8 +26,32 @@ type BaseTimelineItemProps = {
 const translations: Record<string, string> = {
   Consider: 'duyệt',
   Sign: 'ký',
+  AddNumber: 'thêm số',
   Accepted: 'Đã xử lý',
   Rejected: 'Từ chối'
+};
+
+const renderStatusIcon = (status: string) => {
+  switch (status) {
+    case 'Accepted':
+      return (
+        <TimelineDot color="success">
+          <CheckRoundedIcon />
+        </TimelineDot>
+      );
+    case 'Rejected':
+      return (
+        <TimelineDot color="error" sx={{ color: '#fff' }}>
+          <DoDisturbAltRoundedIcon />
+        </TimelineDot>
+      );
+    default:
+      return (
+        <TimelineDot color="success">
+          <CheckRoundedIcon />
+        </TimelineDot>
+      );
+  }
 };
 
 const BaseTimelineItem: React.FC<BaseTimelineItemProps> = (props) => {
@@ -38,9 +64,7 @@ const BaseTimelineItem: React.FC<BaseTimelineItemProps> = (props) => {
         {time}
       </TimelineOppositeContent>
       <TimelineSeparator>
-        <TimelineDot color="success">
-          <CheckRoundedIcon />
-        </TimelineDot>
+        {renderStatusIcon(status)}
         {!isLast && <TimelineConnector />}
       </TimelineSeparator>
       <TimelineContent>
@@ -64,7 +88,7 @@ export const DetailTimeline: React.FC<DetailTimelineProps> = (props) => {
   }
 
   return (
-    <Box sx={sx}>
+    <Box sx={sx} component={Paper} elevation={2}>
       <Timeline
         sx={{
           [`& .${timelineOppositeContentClasses.root}`]: {
@@ -89,7 +113,10 @@ export const DetailTimeline: React.FC<DetailTimelineProps> = (props) => {
           return (
             <BaseTimelineItem
               key={idx}
-              time={dayjs(history.createdAt).format('HH:mm DD/MM/YYYY')}
+              time={dayjs
+                .utc(history.createdAt)
+                .tz(TIMEZONE)
+                .format('HH:mm DD/MM/YYYY')}
               title={title}
               subTitle={history.note}
               isLast={islLast}

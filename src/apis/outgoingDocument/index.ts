@@ -1,3 +1,4 @@
+export * from './add-email-template';
 export * from './editDocument';
 export * from './editPublishInfo';
 export * from './getPublishNumber';

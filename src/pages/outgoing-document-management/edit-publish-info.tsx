@@ -1,6 +1,8 @@
 import { Box, Paper } from '@mui/material';
 import { useParams } from 'react-router-dom';
 
+import { useGetOneDocument } from '@/apis/incomingDocument/getOneDocument';
+import { Loading } from '@/components/common';
 import PageHeader from '@/components/common/page-header';
 import PageTitle from '@/components/common/page-title';
 import { EditPublishInfo } from '@/components/document/outgoing/outgoing-doc-edit-publish-info';

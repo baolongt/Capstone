@@ -1,6 +1,7 @@
 export * from './date-picker';
 export { WrappedDragDropFileBox } from './drag-and-drop-box';
 export { DragDropFile } from './drag-drop-file';
+export * from './email-editor';
 export { InputField, type InputFieldProps } from './input-field';
 export {
   MultilineTextField,

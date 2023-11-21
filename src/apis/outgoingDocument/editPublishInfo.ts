@@ -14,9 +14,15 @@ export type editPublishInfoPayload = {
   contactListIds: number[];
 };
 
-export const editPublishInfo = async (payload: editPublishInfoPayload) => {
-  const url = 'api/OutgoingDocument/edit-publish-info';
-  const response = await axiosInstance.post(url, payload);
+export const editPublishInfo = async ({
+  outgoingDocumentId,
+  ...rest
+}: editPublishInfoPayload) => {
+  const url = `api/OutgoingDocument/update-publish-info/${outgoingDocumentId}`;
+  const response = await axiosInstance.put(url, {
+    ...rest,
+    outgoingDocumentId: outgoingDocumentId
+  });
   return response.data;
 };
 

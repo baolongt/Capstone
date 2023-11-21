@@ -1,8 +1,4 @@
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
   Box,
   Paper,
   Stack,
@@ -45,33 +41,16 @@ export const DetailAttachmentAccordion: React.FC<
     </Box>
   ));
   return (
-    <Accordion component={Paper} elevation={3}>
-      <AccordionSummary
-        expandIcon={<ExpandMoreIcon />}
-        aria-controls="panel1a-content"
-        id="panel1a-header"
-        sx={sx}
-      >
-        <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
-          Tệp đính kèm {'  '}
-          <Typography component="span">{attachments.length} tệp</Typography>
-        </Typography>
-      </AccordionSummary>
-      <AccordionDetails>
-        <Box
-          component="div"
-          sx={{
-            minHeight: '250px',
-            maxHeight: '250px',
-            marginRight: '10px',
-            overflowY: 'scroll'
-          }}
-        >
-          <Stack sx={{ px: 1 }} spacing={3}>
-            {attachmentCards}
-          </Stack>
-        </Box>
-      </AccordionDetails>
-    </Accordion>
+    <Box component={Paper} elevation={2} sx={sx}>
+      <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 1 }}>
+        Tệp đính kèm {'  '}
+        <Typography component="span">{attachments.length} tệp</Typography>
+      </Typography>
+      <Box component="div" sx={{}}>
+        <Stack sx={{ px: 1 }} spacing={3}>
+          {attachmentCards}
+        </Stack>
+      </Box>
+    </Box>
   );
 };
