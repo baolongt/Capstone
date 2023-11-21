@@ -104,7 +104,7 @@ const FlowChart = ({
         connectionLineType={ConnectionLineType.SmoothStep}
         defaultViewport={{ x: 0, y: 0, zoom: 0.1 }}
         nodeTypes={nodeTypes}
-        edgeTypes={edgeTypes}
+        //edgeTypes={edgeTypes}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
       >

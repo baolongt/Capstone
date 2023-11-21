@@ -8,7 +8,6 @@ const CircleNode = ({ data, id }: NodeProps) => {
         borderRadius: '50%',
         height: '60px',
         width: '60px',
-        backgroundColor: '#02a9ea',
         border: '1px solid black',
         textAlign: 'center'
       }}

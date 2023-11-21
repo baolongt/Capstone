@@ -25,7 +25,7 @@ const StatusColor: Record<Status, string> = {
 
 const StatusLabel: Record<Status, string> = {
   1: 'Chờ xử lý',
-  2: 'Đã hoàn thành',
+  2: 'Hoàn thành',
   3: 'Từ chối',
   [Status.NOT_START]: ''
 };
@@ -116,9 +116,14 @@ const convertStepsToNodesAndEdges = (steps: Step[]) => {
               convertedNodes[index - 1].step?.deadline
             )
           }
-        : {}),
+        : {
+            style: {
+              stroke: StatusColor[2]
+            }
+          }),
       markerEnd: {
-        type: MarkerType.ArrowClosed
+        type: MarkerType.ArrowClosed,
+        ...(convertedNodes[index - 1].step ? {} : { color: StatusColor[2] })
       },
       focusable: true
     });
@@ -132,9 +137,12 @@ const convertStepsToNodesAndEdges = (steps: Step[]) => {
         targetHandle: node.failNodeId + '.right',
         type: 'bezier',
         animated: true,
-        label: 'Từ chối xử lý',
+        style: {
+          stroke: StatusColor[3]
+        },
         markerEnd: {
-          type: MarkerType.ArrowClosed
+          type: MarkerType.ArrowClosed,
+          color: StatusColor[3]
         }
       });
     }

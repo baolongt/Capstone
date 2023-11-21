@@ -18,7 +18,6 @@ const RhombusNode = ({ id }: NodeProps) => {
           display: 'block',
           position: 'absolute',
           transform: 'rotate(45deg)',
-          backgroundColor: '#a600ff',
           top: '-10px',
           left: '5px',
           padding: '0px',
