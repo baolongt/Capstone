@@ -1,4 +1,5 @@
 import { Logout } from '@mui/icons-material';
+import PasswordIcon from '@mui/icons-material/Password';
 import {
   Avatar,
   Box,
@@ -28,6 +29,7 @@ const AccountMenu = () => {
     setAnchorEl(null);
   };
   const goToProfile = () => navigate('profile');
+  const goToChangePassword = () => navigate('change-password');
   const user = auth.authState.user?.name;
 
   const { mutate: logout } = useLogout({
@@ -107,6 +109,9 @@ const AccountMenu = () => {
       >
         <MenuItem onClick={() => goToProfile()}>
           <Avatar /> Thông tin tài khoản
+        </MenuItem>
+        <MenuItem onClick={() => goToChangePassword()}>
+          <PasswordIcon sx={{ mr: 2 }} fontSize="small" /> Đổi mật khẩu
         </MenuItem>
         <MenuItem onClick={() => logout()}>
           <ListItemIcon>

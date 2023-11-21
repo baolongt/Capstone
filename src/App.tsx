@@ -35,6 +35,7 @@ import OutgoingEditPublishInfoPage from './pages/outgoing-document-management/ed
 import OutgoingDocEditWorkFlowPage from './pages/outgoing-document-management/edit-workflow';
 import PrepareEmailPage from './pages/outgoing-document-management/prepare-email';
 import Profile from './pages/profile';
+import ChangePasswordPage from './pages/profile/change-password';
 import TemplatePage from './pages/template';
 import TestPage from './pages/test';
 import UserManagement from './pages/user-management';
@@ -61,9 +62,14 @@ const App = () => {
           />
         )}
         {user && (
-          <Route path={'/profile'}>
-            <Route index element={<Profile />} />
-          </Route>
+          <>
+            <Route path={'/profile'}>
+              <Route index element={<Profile />} />
+            </Route>
+            <Route path={'/change-password'}>
+              <Route index element={<ChangePasswordPage />} />
+            </Route>
+          </>
         )}
 
         {/* ADMIN pages */}

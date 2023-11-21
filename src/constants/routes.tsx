@@ -105,5 +105,6 @@ export const pathDict: PathDict = {
   'edit-workflow': 'Chỉnh sửa trình tự xử lý',
   'edit-publish-info': 'Chỉnh sửa thông tin phát hành',
   template: 'Văn bản mẫu',
-  'doc-types': 'Loại văn bản'
+  'doc-types': 'Loại văn bản',
+  'change-password': 'Đổi mật khẩu'
 };
