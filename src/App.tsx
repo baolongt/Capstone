@@ -58,14 +58,17 @@ const App = () => {
             }
           />
         )}
+        {user && (
+          <Route path={'/profile'}>
+            <Route index element={<Profile />} />
+          </Route>
+        )}
+
         {/* ADMIN pages */}
         <Route element={<RequireAuth role={Role.ADMIN} />}>
           <Route path={'/users'} element={<UserManagement />} />
           <Route path={'/departments'} element={<DepartmentManagement />} />
           <Route path={'/doc-types'} element={<DocumentTypeManagement />} />
-          <Route path={'/profile'}>
-            <Route index element={<Profile />} />
-          </Route>
         </Route>
 
         {/* OFFICER pages */}
@@ -114,9 +117,6 @@ const App = () => {
           </Route>
           <Route path={'/template'}>
             <Route index element={<TemplatePage />} />
-          </Route>
-          <Route path={'/profile'}>
-            <Route index element={<Profile />} />
           </Route>
         </Route>
       </Route>

@@ -59,10 +59,9 @@ export const DocumentStatusPieChart: React.FC<DocumentStatusChartProps> = ({
                   {
                     data,
                     innerRadius: 90,
-                    outerRadius: 100,
                     paddingAngle: 1,
                     cornerRadius: 5,
-                    startAngle: -90,
+                    startAngle: -180,
                     endAngle: 180,
                     cx: 140
                   }

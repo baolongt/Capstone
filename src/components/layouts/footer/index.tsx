@@ -13,11 +13,8 @@ const Footer: FC = (): ReactElement => {
       }}
     >
       <Container maxWidth="lg">
-        <Typography color="black" variant="h6">
-          Capstone project
-        </Typography>
         <Typography color="textSecondary" variant="body2">
-          {`${new Date().getFullYear()} | FPT University`}
+          {`${new Date().getFullYear()} | Document Management System`}
         </Typography>
       </Container>
     </Box>

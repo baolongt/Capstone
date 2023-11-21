@@ -69,7 +69,9 @@ export const DateRangePickerInput: React.FC<DateRangePickerInputProps> = (
   };
 
   React.useEffect(() => {
-    onChange?.(dateRange);
+    if (dateRange) {
+      onChange?.(dateRange);
+    }
   }, [dateRange]);
 
   return (
