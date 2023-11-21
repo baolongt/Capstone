@@ -1,3 +1,5 @@
+import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
+import DoDisturbAltRoundedIcon from '@mui/icons-material/DoDisturbAltRounded';
 import Timeline from '@mui/lab/Timeline';
 import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineContent from '@mui/lab/TimelineContent';
@@ -7,11 +9,12 @@ import TimelineOppositeContent, {
   timelineOppositeContentClasses
 } from '@mui/lab/TimelineOppositeContent';
 import TimelineSeparator from '@mui/lab/TimelineSeparator';
-import { Box, SxProps, Typography } from '@mui/material';
+import { Box, Paper, SxProps, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 import React from 'react';
 
-import { ProcessHisstory } from '@/models/internalDocument';
+import { TIMEZONE } from '@/constants';
+import { ProcessHisstory } from '@/models/outgoingDocument';
 
 type BaseTimelineItemProps = {
   time: string;
@@ -20,20 +23,53 @@ type BaseTimelineItemProps = {
   isLast?: boolean;
 };
 
+const translations: Record<string, string> = {
+  Consider: 'duyệt',
+  Sign: 'ký',
+  AddNumber: 'thêm số',
+  Accepted: 'Đã xử lý',
+  Rejected: 'Từ chối'
+};
+
+const renderStatusIcon = (status: string) => {
+  switch (status) {
+    case 'Accepted':
+      return (
+        <TimelineDot color="success">
+          <CheckRoundedIcon />
+        </TimelineDot>
+      );
+    case 'Rejected':
+      return (
+        <TimelineDot color="error" sx={{ color: '#fff' }}>
+          <DoDisturbAltRoundedIcon />
+        </TimelineDot>
+      );
+    default:
+      return (
+        <TimelineDot color="success">
+          <CheckRoundedIcon />
+        </TimelineDot>
+      );
+  }
+};
+
 const BaseTimelineItem: React.FC<BaseTimelineItemProps> = (props) => {
   const { time, title, subTitle, isLast } = props;
+  const [, status] = subTitle.split(', ');
+
   return (
     <TimelineItem>
       <TimelineOppositeContent color="textSecondary">
         {time}
       </TimelineOppositeContent>
       <TimelineSeparator>
-        <TimelineDot variant="outlined" color="primary" />
+        {renderStatusIcon(status)}
         {!isLast && <TimelineConnector />}
       </TimelineSeparator>
       <TimelineContent>
         <Typography variant="h6">{title}</Typography>
-        <Typography variant="subtitle1">{subTitle}</Typography>
+        <Typography variant="subtitle1">{translations[status]}</Typography>
       </TimelineContent>
     </TimelineItem>
   );
@@ -52,7 +88,7 @@ export const DetailTimeline: React.FC<DetailTimelineProps> = (props) => {
   }
 
   return (
-    <Box sx={sx}>
+    <Box sx={sx} component={Paper} elevation={2}>
       <Timeline
         sx={{
           [`& .${timelineOppositeContentClasses.root}`]: {
@@ -70,29 +106,17 @@ export const DetailTimeline: React.FC<DetailTimelineProps> = (props) => {
           if (islLast) {
             title = `${history.handlerName} tạo văn bản`;
           } else {
-            switch (history.status) {
-              case 0:
-                title = `${history.handlerName} chỉnh sửa văn bản`;
-                break;
-              case 1:
-              case 2:
-              case 3:
-              case 4:
-                title = `Chuyển cho ${history.handlerName}`;
-                break;
-              case 5:
-                title = `Trả lại cho ${history.handlerName}`;
-                break;
-              case 6:
-                title = `Văn bản đã phát hành`;
-                break;
-            }
+            const [action] = history.note.split(', ');
+            title = `${history.handlerName} ${translations[action]}`;
           }
 
           return (
             <BaseTimelineItem
               key={idx}
-              time={dayjs(history.createdAt).format('HH:mm DD/MM/YYYY')}
+              time={dayjs
+                .utc(history.createdAt)
+                .tz(TIMEZONE)
+                .format('HH:mm DD/MM/YYYY')}
               title={title}
               subTitle={history.note}
               isLast={islLast}
