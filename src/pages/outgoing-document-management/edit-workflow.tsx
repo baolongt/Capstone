@@ -33,7 +33,12 @@ const OutgoingDocEditWorkFlowPage = () => {
           }}
           component={Paper}
         >
-          <EditWorkFlow docId={Number(id)} initWorkflow={workflow?.steps} />;
+          <EditWorkFlow
+            workflowId={workflow?.id}
+            docId={Number(id)}
+            initWorkflow={workflow?.steps}
+          />
+          ;
         </Box>
       </Box>
     </>

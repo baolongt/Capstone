@@ -13,7 +13,7 @@ type RestartStatusPayload = {
 
 const restartStauts = async ({ id, docType }: RestartStatusPayload) => {
   const url = `/api/workflows/restart/document/doc-type/${docType}/${id}`;
-  const res = axiosInstance.post(url);
+  const res = await axiosInstance.post(url);
   return res;
 };
 

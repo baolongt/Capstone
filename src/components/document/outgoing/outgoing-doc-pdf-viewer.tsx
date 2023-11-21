@@ -2,7 +2,7 @@
 import 'react-pdf/dist/esm/Page/TextLayer.css';
 
 import { LoadingButton } from '@mui/lab';
-import { Box, Button, IconButton } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { PDFDocument } from 'pdf-lib';
 import { useEffect, useRef, useState } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
