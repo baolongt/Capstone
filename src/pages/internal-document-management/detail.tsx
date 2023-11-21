@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import {
   Box,
@@ -9,6 +10,9 @@ import {
   Typography,
   useTheme
 } from '@mui/material';
+=======
+import { Box, Paper, Stack } from '@mui/material';
+>>>>>>> parent of cb508ba (add create steps and workflow (#86) (#94))
 import * as React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -21,16 +25,13 @@ import PageHeader from '@/components/common/page-header';
 import PageTitle from '@/components/common/page-title';
 import { AddDocToFileDialog } from '@/components/dialogs';
 import { DetailAttachmentAccordion } from '@/components/document';
-import DocComment from '@/components/document/comment';
 import {
   DetailDescription,
   DetailTimeline
 } from '@/components/document/internal';
 import { Attachment } from '@/models';
-import { DocumentType } from '@/models/comment';
 
 const InternalDocumentDetail = () => {
-  const theme = useTheme();
   const { id } = useParams<{ id: string }>();
   const { data, isLoading } = useGetOneDocument(id ? parseInt(id) : -1);
   const [docPreview, setDocPreview] = React.useState(false);
@@ -105,44 +106,14 @@ const InternalDocumentDetail = () => {
           component={Paper}
         >
           <DetailDescription data={data} sx={{ width: '100%' }} />
-          <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-            <DetailTimeline
-              sx={{
-                p: 2,
-                mt: 2,
-                overflow: 'auto',
-                maxHeight: '40vh',
-                width: '45%',
-                py: 3
-              }}
-              processHistory={data.processHistory}
-            />
-            <DetailAttachmentAccordion
-              attachments={data.attachments as Attachment[]}
-              watchAttachment={watchAttachment}
-              signAttachment={signAttachment}
-              addNumber={handleAddNumber}
-              sx={{
-                p: 2,
-                mt: 2,
-                overflow: 'auto',
-                maxHeight: '40vh',
-                width: '50%'
-              }}
-            />
-          </Box>
-          <Divider sx={{ my: 2 }} />
-          <Typography
-            variant="h6"
-            sx={{ color: theme.palette.secondary.dark, mb: 2 }}
-          >
-            Bình luận
-          </Typography>
-          <DocComment
-            sx={{ width: '100%', mb: 3 }}
-            docId={Number(id)}
-            documentType={DocumentType.INTERNAL}
+          <DetailAttachmentAccordion
+            attachments={data.attachments as Attachment[]}
+            watchAttachment={watchAttachment}
+            signAttachment={signAttachment}
+            addNumber={handleAddNumber}
+            sx={{ mt: 2 }}
           />
+          <DetailTimeline sx={{ mt: 2 }} processHistory={data.processHistory} />
         </Box>
       </Box>
       <AppDocViewer
