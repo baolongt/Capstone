@@ -77,16 +77,16 @@ const FlowChart = ({
     setEdges([...layoutedEdges]);
   }, [initialNodes, initialEdges]);
 
-  const onLayout = useCallback(
-    (direction: 'TB' | 'LR') => {
-      const { nodes: layoutedNodes, edges: layoutedEdges } =
-        getLayoutedElements(nodes, edges, direction);
+  // const onLayout = useCallback(
+  //   (direction: 'TB' | 'LR') => {
+  //     const { nodes: layoutedNodes, edges: layoutedEdges } =
+  //       getLayoutedElements(nodes, edges, direction);
 
-      setNodes([...layoutedNodes]);
-      setEdges([...layoutedEdges]);
-    },
-    [nodes, edges]
-  );
+  //     setNodes([...layoutedNodes]);
+  //     setEdges([...layoutedEdges]);
+  //   },
+  //   [nodes, edges]
+  // );
 
   if (nodes.length === 0 && edges.length === 0) {
     return <>Không có dữ liệu</>;

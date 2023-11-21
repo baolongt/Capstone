@@ -17,6 +17,7 @@ interface Props {
   disablePortal?: boolean;
   onSearchChange: (textSearch: string) => void;
   isOptionEqualToValue?: (option: SelectOption, value: SelectOption) => boolean;
+  defaultValue?: SelectOption[];
 }
 
 export default function AutocompleteInput(props: Props) {
@@ -30,6 +31,7 @@ export default function AutocompleteInput(props: Props) {
     onSearchChange,
     disablePortal = false,
     sx,
+    defaultValue,
     ...resProps
   } = props;
   const { control } = form;
@@ -42,6 +44,7 @@ export default function AutocompleteInput(props: Props) {
         <>
           <Autocomplete
             autoHighlight
+            defaultValue={defaultValue}
             disablePortal={disablePortal}
             getOptionLabel={(option: SelectOption) => option.title ?? ''}
             sx={{

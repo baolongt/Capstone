@@ -9,10 +9,11 @@ import TimelineOppositeContent, {
   timelineOppositeContentClasses
 } from '@mui/lab/TimelineOppositeContent';
 import TimelineSeparator from '@mui/lab/TimelineSeparator';
-import { Box, SxProps, Typography } from '@mui/material';
+import { Box, Paper, SxProps, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 import React from 'react';
 
+import { TIMEZONE } from '@/constants';
 import { ProcessHisstory } from '@/models/outgoingDocument';
 
 type BaseTimelineItemProps = {
@@ -25,6 +26,7 @@ type BaseTimelineItemProps = {
 const translations: Record<string, string> = {
   Consider: 'duyệt',
   Sign: 'ký',
+  AddNumber: 'thêm số',
   Accepted: 'Đã xử lý',
   Rejected: 'Từ chối'
 };
@@ -86,7 +88,7 @@ export const DetailTimeline: React.FC<DetailTimelineProps> = (props) => {
   }
 
   return (
-    <Box sx={sx}>
+    <Box sx={sx} component={Paper} elevation={2}>
       <Timeline
         sx={{
           [`& .${timelineOppositeContentClasses.root}`]: {
@@ -111,7 +113,10 @@ export const DetailTimeline: React.FC<DetailTimelineProps> = (props) => {
           return (
             <BaseTimelineItem
               key={idx}
-              time={dayjs(history.createdAt).format('HH:mm DD/MM/YYYY')}
+              time={dayjs
+                .utc(history.createdAt)
+                .tz(TIMEZONE)
+                .format('HH:mm DD/MM/YYYY')}
               title={title}
               subTitle={history.note}
               isLast={islLast}

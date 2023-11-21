@@ -25,7 +25,7 @@ import {
   WorkFlowStatus
 } from '@/apis/work-flow';
 import { useRestartStatus } from '@/apis/work-flow/restart';
-import { CustomButton, Loading } from '@/components/common';
+import { Loading } from '@/components/common';
 import AppDocViewer from '@/components/common/document-viewer';
 import PageHeader from '@/components/common/page-header';
 import PageTitle from '@/components/common/page-title';
@@ -198,7 +198,7 @@ const OutgoingDocumentDetail = () => {
           </Stack>
         </PageHeader>
         <Box
-          sx={{ mx: 'auto', width: '1080px', mt: 3, px: 2, minHeight: '80vh' }}
+          sx={{ mx: 'auto', width: '1080px', mt: 3, px: 2, minHeight: '90vh' }}
           component={Paper}
         >
           <DetailDescription sx={{ width: '100%' }} data={data} />
@@ -216,15 +216,33 @@ const OutgoingDocumentDetail = () => {
               />
             </>
           )}
-          <DetailAttachmentAccordion
-            attachments={data.attachments as Attachment[]}
-            watchAttachment={watchAttachment}
-            signAttachment={signAttachment}
-            addNumber={handleAddNumber}
-            sx={{ mt: 2 }}
-          />
 
-          <DetailTimeline sx={{ mt: 2 }} processHistory={data.processHistory} />
+          <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+            <DetailTimeline
+              sx={{
+                p: 2,
+                mt: 2,
+                overflow: 'auto',
+                maxHeight: '40vh',
+                width: '45%',
+                py: 3
+              }}
+              processHistory={data.processHistory}
+            />
+            <DetailAttachmentAccordion
+              attachments={data.attachments as Attachment[]}
+              watchAttachment={watchAttachment}
+              signAttachment={signAttachment}
+              addNumber={handleAddNumber}
+              sx={{
+                p: 2,
+                mt: 2,
+                overflow: 'auto',
+                maxHeight: '40vh',
+                width: '50%'
+              }}
+            />
+          </Box>
         </Box>
       </Box>
       <AppDocViewer

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import 'react-pdf/dist/esm/Page/TextLayer.css';
 
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { LoadingButton } from '@mui/lab';
 import { Box, Button, IconButton } from '@mui/material';
 import { PDFDocument } from 'pdf-lib';
 import { useEffect, useRef, useState } from 'react';
@@ -15,14 +15,14 @@ import DraggableText from './outgoing-doc-pdf-text-draggable';
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 const PDFViewer = ({
   saveFile,
-  goBack,
   initUrl,
-  initText
+  initText,
+  isUploadingFile
 }: {
   initUrl: string;
   initText: string;
   saveFile: (payload: string) => void;
-  goBack: () => void;
+  isUploadingFile: boolean;
 }) => {
   const [pdf, setPdf] = useState<string | ArrayBuffer | null>();
 
@@ -56,9 +56,6 @@ const PDFViewer = ({
           pt: 5
         }}
       >
-        <IconButton aria-label="Quay lại" onClick={goBack}>
-          <ArrowBackIcon />
-        </IconButton>
         <Button
           sx={{ mr: 1 }}
           variant="contained"
@@ -66,9 +63,13 @@ const PDFViewer = ({
         >
           Đánh số
         </Button>
-        <Button variant="contained" onClick={() => saveFile(pdf as string)}>
+        <LoadingButton
+          variant="contained"
+          loading={isUploadingFile}
+          onClick={() => saveFile(pdf as string)}
+        >
           Lưu file
-        </Button>
+        </LoadingButton>
       </Box>
       <Box
         sx={{

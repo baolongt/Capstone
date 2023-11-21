@@ -21,16 +21,17 @@ const AddNumberPage = () => {
     navigate(`/outgoing-documents/${id}`);
   };
 
-  const { mutate: uploadFile } = useUploadSignedDocument({
-    onSuccess: () => {
-      toast.success('Lưu thành công');
-      handleGoBack();
-    },
-    onError: () => {
-      toast.success('Lưu thất bại');
-    },
-    fileId: (attachmentId as string) ?? ''
-  });
+  const { mutate: uploadFile, isLoading: isUploadingFile } =
+    useUploadSignedDocument({
+      onSuccess: () => {
+        toast.success('Lưu thành công');
+        handleGoBack();
+      },
+      onError: () => {
+        toast.success('Lưu thất bại');
+      },
+      fileId: (attachmentId as string) ?? ''
+    });
 
   const handleSaveFile = (payload: string) => {
     const base64data = payload.split(',')[1];
@@ -51,7 +52,7 @@ const AddNumberPage = () => {
 
   return (
     <PDFViewer
-      goBack={handleGoBack}
+      isUploadingFile={isUploadingFile}
       saveFile={handleSaveFile}
       initText={String(data)}
       initUrl={(url as string) ?? ''}

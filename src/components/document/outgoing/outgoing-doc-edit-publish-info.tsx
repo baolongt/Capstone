@@ -1,16 +1,21 @@
 import { yupResolver } from '@hookform/resolvers/yup';
+import { LoadingButton } from '@mui/lab';
 import { Box, Paper, Stack, Typography } from '@mui/material';
 import dayjs from 'dayjs';
+import _ from 'lodash';
+import { useEffect } from 'react';
 import { Resolver, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
 import { useEditPublishInfo, useGetPublishNumber } from '@/apis';
 import { useListContacts } from '@/apis/contact';
+import { useGetOneDocument } from '@/apis/outgoingDocument/getOneDocument';
 import {
   CustomButton,
   DatePickerField,
   FieldTitle,
   InputField,
+  Loading,
   SelectField
 } from '@/components/common';
 import AutocompleteInput from '@/components/common/form-control/autocomplete';
@@ -32,28 +37,58 @@ interface PublishInfoPayload {
 }
 
 export const EditPublishInfo = ({ docId }: EditPublishInfoProps) => {
+  const { data, isLoading } = useGetOneDocument(docId ? docId : -1);
+
   const form = useForm<PublishInfoPayload>({
-    defaultValues: {
-      outgoingDocumentId: 0,
-      outgoingNumber: 0,
-      outgoingNotation: ''
-    },
+    defaultValues: {},
     resolver: yupResolver(addPublishInfoSchema) as Resolver<
       PublishInfoPayload,
       any
     >
   });
 
-  const { handleSubmit } = form;
-  const { mutate: updatePublishInfoMutate } = useEditPublishInfo({
-    onSuccess: () => {
-      toast.success('Cập nhật thông tin thành công');
-      handleClose();
-    },
-    onError: () => {
-      toast.error('Cập nhật thông tin thất bại');
+  useEffect(() => {
+    if (data && data.outgoingPublishInfo) {
+      console.log({
+        outgoingDocumentId: data.id,
+        outgoingNumber: data.outgoingPublishInfo.outgoingNumber,
+        outgoingNotation: data.outgoingPublishInfo.outgoingNotation,
+        contactListIds: data.outgoingPublishInfo.contactLists.map(
+          (cl) => cl.id
+        ),
+        priority: data.outgoingPublishInfo.priority,
+        dueDate: dayjs(data.outgoingPublishInfo.dueDate).toDate()
+      });
+      form.reset(
+        {
+          outgoingDocumentId: data.id,
+          outgoingNumber: data.outgoingPublishInfo.outgoingNumber,
+          outgoingNotation: data.outgoingPublishInfo.outgoingNotation,
+          contactListIds: data.outgoingPublishInfo.contactLists.map(
+            (cl) => cl.id
+          ),
+          priority: data.outgoingPublishInfo.priority,
+          dueDate: dayjs(data.outgoingPublishInfo.dueDate).toDate(),
+          issuedAmount: data.outgoingPublishInfo.issuedAmount
+        },
+        {
+          keepDirty: false
+        }
+      );
     }
-  });
+  }, [data]);
+
+  const { handleSubmit } = form;
+  const { mutate: updatePublishInfoMutate, isLoading: isSubmiting } =
+    useEditPublishInfo({
+      onSuccess: () => {
+        toast.success('Cập nhật thông tin thành công');
+        handleClose();
+      },
+      onError: () => {
+        toast.error('Cập nhật thông tin thất bại');
+      }
+    });
 
   const { data: publishNumber, refetch } = useGetPublishNumber();
   const { data: contacts } = useListContacts({
@@ -77,8 +112,16 @@ export const EditPublishInfo = ({ docId }: EditPublishInfoProps) => {
     });
   };
 
+  const defaultValue = _.intersectionBy(
+    data?.outgoingPublishInfo?.contactLists || [],
+    contacts?.data || [],
+    'id'
+  );
+
+  if (isLoading) return <Loading />;
+
   return (
-    <Box sx={{ mx: 'auto', width: DEFAULT_PAGE_WIDTH, p: 2 }} component={Paper}>
+    <Box>
       <Typography variant="h6" fontWeight={600}>
         Thêm thông tin phát hành
       </Typography>
@@ -130,6 +173,10 @@ export const EditPublishInfo = ({ docId }: EditPublishInfoProps) => {
         <Box component="div">
           <FieldTitle title="Liên hệ" isRequired={true} />
           <AutocompleteInput
+            defaultValue={defaultValue.map((cl) => ({
+              title: cl.name,
+              value: cl.id
+            }))}
             multiple={true}
             data={
               contacts
@@ -150,11 +197,14 @@ export const EditPublishInfo = ({ docId }: EditPublishInfoProps) => {
       </Stack>
 
       <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
-        <CustomButton
+        <LoadingButton
+          loading={isSubmiting}
+          variant="contained"
           type="submit"
-          label="Thêm mới"
           form="add-publish-info-form"
-        />
+        >
+          Lưu
+        </LoadingButton>
       </Box>
     </Box>
   );
