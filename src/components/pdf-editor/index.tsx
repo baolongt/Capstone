@@ -13,16 +13,17 @@ const PDFEditor = ({ attachmentId, url }: PDFEditorProps) => {
     // navigate(`/outgoing-documents/${id}`);
   };
 
-  const { mutate: uploadFile } = useUploadSignedDocument({
-    onSuccess: () => {
-      toast.success('Lưu thành công');
-      handleGoBack();
-    },
-    onError: () => {
-      toast.success('Lưu thất bại');
-    },
-    fileId: (attachmentId as string) ?? ''
-  });
+  const { mutate: uploadFile, isLoading: isUploadingFile } =
+    useUploadSignedDocument({
+      onSuccess: () => {
+        toast.success('Lưu thành công');
+        handleGoBack();
+      },
+      onError: () => {
+        toast.success('Lưu thất bại');
+      },
+      fileId: (attachmentId as string) ?? ''
+    });
 
   const handleSaveFile = (payload: string) => {
     const base64data = payload.split(',')[1];
@@ -35,7 +36,7 @@ const PDFEditor = ({ attachmentId, url }: PDFEditorProps) => {
 
   return (
     <PDFViewer
-      goBack={handleGoBack}
+      isUploadingFile={isUploadingFile}
       saveFile={handleSaveFile}
       initText={String('1')}
       initUrl={(url as string) ?? ''}

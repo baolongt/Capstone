@@ -21,7 +21,7 @@ const createWorkflow = async (payload: Workflow) => {
   const url = '/api/workflows';
 
   console.log('payload create flow', payload);
-  const res = axiosInstance.post(url, payload);
+  const res = await axiosInstance.post(url, payload);
 
   return res;
 };
