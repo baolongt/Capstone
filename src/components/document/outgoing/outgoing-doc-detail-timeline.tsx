@@ -31,6 +31,7 @@ const translations: Record<string, string> = {
   Restart: 'bắt đầu lại quy trình',
   Withdraw: 'thu hồi văn bản',
   Sign: 'ký',
+  PrepareEmail: 'chuẩn bị email',
   AddNumber: 'thêm số',
   Accepted: 'Đã xử lý',
   Rejected: 'Từ chối'

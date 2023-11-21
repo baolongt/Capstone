@@ -10,7 +10,8 @@ const DefaultHeader = () => {
       sx={{
         display: 'flex',
         alignItems: 'flex-start',
-        flexDirection: 'row'
+        flexDirection: 'row',
+        width: '300px'
       }}
     >
       <NotiMenu />

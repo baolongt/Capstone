@@ -6,7 +6,8 @@ import {
   ListItemIcon,
   Menu,
   MenuItem,
-  Tooltip
+  Tooltip,
+  Typography
 } from '@mui/material';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -50,7 +51,7 @@ const AccountMenu = () => {
 
   return (
     <>
-      <Box>
+      <Box sx={{ display: 'flex' }}>
         <Tooltip title="Thông tin">
           <IconButton
             size="small"
@@ -66,6 +67,9 @@ const AccountMenu = () => {
             </Avatar>
           </IconButton>
         </Tooltip>
+        <Typography variant="body1" sx={{ ml: 1, mt: 1 }}>
+          {user}
+        </Typography>
       </Box>
       <Menu
         anchorEl={anchorEl}
