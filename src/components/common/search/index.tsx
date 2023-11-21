@@ -7,7 +7,6 @@ export interface InputSearchProps {
   size?: 'small' | 'medium';
   onTextChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   sx?: SxProps;
-
   value?: string;
 }
 

@@ -6,7 +6,7 @@ export const languageOptions: SelectOption[] = [
     value: 'vi'
   },
   {
-    title: 'English',
+    title: 'Tiếng Anh',
     value: 'en'
   }
 ];

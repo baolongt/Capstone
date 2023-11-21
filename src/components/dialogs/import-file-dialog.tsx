@@ -47,6 +47,7 @@ export const ImportFileDialog = (props: ImportFileDialogProps) => {
     const { file } = form.getValues();
     if (file && file.fileObj) {
       onSubmit(file.fileObj);
+      form.reset();
     }
   };
   return (

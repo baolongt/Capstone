@@ -97,6 +97,8 @@ const FileDetail = () => {
     refetch();
   }, [docType, refetch]);
 
+  useEffect(() => {}, []);
+
   const handleChangePage = (page: number) => {
     setQueryParams((prev) => ({ ...prev, page }));
   };
@@ -164,7 +166,7 @@ const FileDetail = () => {
           <Box sx={{ mb: 3 }}>
             <InputSearch
               placeholder="Tìm kiếm..."
-              // value={queryParams.search}
+              value={queryParams.search}
               onTextChange={debouncedSearch}
             />
           </Box>

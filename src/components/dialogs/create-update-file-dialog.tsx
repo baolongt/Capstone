@@ -123,7 +123,7 @@ export const CreateUpdateFileDialog = (props: CreateUpdateFileDialogProps) => {
               label=""
             />
           </Box>
-          <Box component="div" mt={2} width={'50%'}>
+          <Box component="div" width={'50%'}>
             <FieldTitle title="Ngôn ngữ" />
             <SelectField
               form={form}
