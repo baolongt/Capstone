@@ -83,6 +83,7 @@ export const EditWorkFlow = ({
           pt: 1,
           px: 1
         }}
+        isCreatingWorkflow={isUpdatingWorkflow}
         users={users}
         handleCreate={handleUpdate}
         isCreating={isUpdatingWorkflow}

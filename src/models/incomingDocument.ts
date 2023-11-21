@@ -4,6 +4,12 @@ import { Attachment } from './attachment';
 import { ProcessHisstory } from './outgoingDocument';
 import { UploadFile } from './uploadFile';
 
+export const IncomingDocumentStatusDict: Record<number, string> = {
+  1: 'Đang xử lý',
+  2: 'Đang chỉnh sửa',
+  3: 'Đã xử lý'
+};
+
 export interface IncomingDocument {
   id: number;
   epitomize: string; //
@@ -13,6 +19,7 @@ export interface IncomingDocument {
   publishDate: Date;
   receiver: string;
   lastSignedBy: string;
+  documentStatus: number;
   createdByDepartment: string;
   createdByName: string;
   documentField: string;

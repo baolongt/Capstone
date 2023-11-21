@@ -3,6 +3,12 @@ import { SelectOption } from '@/types';
 import { Attachment } from './attachment';
 import { UploadFile } from './uploadFile';
 
+export const InternalDocumentStatusDict: Record<number, string> = {
+  1: 'Đang xử lý',
+  2: 'Đang chỉnh sửa',
+  3: 'Đã xử lý'
+};
+
 export interface ProcessHisstory {
   id: number;
   handlerName?: string;
@@ -25,6 +31,7 @@ export interface InternalDocument {
   createdDate: Date;
   documentTypeId: number;
   documentTypeName: string;
+  documentStatus: number;
   createdByName: string;
   isRepliedDocument: boolean;
   note: string;

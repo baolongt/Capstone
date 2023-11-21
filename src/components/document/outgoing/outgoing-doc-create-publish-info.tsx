@@ -111,6 +111,7 @@ export const CreatePublishInfo = ({
             placeholder="Nhập số bản phát hành"
             name="issuedAmount"
             label=""
+            type="number"
           />
         </Box>
         <Box component="div">

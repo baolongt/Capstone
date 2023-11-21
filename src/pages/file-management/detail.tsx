@@ -1,14 +1,24 @@
-import { Box, Button, Divider, Grid, Paper, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Divider,
+  Grid,
+  Paper,
+  Typography,
+  useTheme
+} from '@mui/material';
+import { debounce } from 'lodash';
 import moment from 'moment';
 import React, { Dispatch, SetStateAction, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { useGetFileById } from '@/apis';
-import { Loading } from '@/components/common';
+import { InputSearch, Loading } from '@/components/common';
 import PageHeader from '@/components/common/page-header';
 import PageTitle from '@/components/common/page-title';
 import RemoveDocFromFileDialog from '@/components/dialogs/remove-doc-from-file-dialog';
 import { FileDetailDocsTable } from '@/components/file';
+import { DEBOUND_SEARCH_TIME } from '@/constants';
 import { BaseTableQueryParams } from '@/types';
 
 const labelFontWeight = 600;
@@ -61,6 +71,7 @@ const DocButtonFilter = ({
 };
 
 const FileDetail = () => {
+  const theme = useTheme();
   const { id } = useParams<{ id: string }>();
   const [queryParams, setQueryParams] = React.useState<BaseTableQueryParams>({
     page: 1,
@@ -98,6 +109,10 @@ const FileDetail = () => {
   const handleCloseRemoveDoc = () => {
     setOpenRemoveDoc(false);
   };
+  const handleChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    return setQueryParams({ ...queryParams, search: e.target.value });
+  };
+  const debouncedSearch = debounce(handleChangeSearch, DEBOUND_SEARCH_TIME);
 
   if (isLoading) return <Loading />;
   if (file) {
@@ -140,9 +155,20 @@ const FileDetail = () => {
             </Grid>
           </Grid>
           <Divider sx={{ my: 2 }} />
-          <Typography variant="h6" sx={{ my: 2, fontWeight: 'bold' }}>
+          <Typography
+            variant="h6"
+            sx={{ color: theme.palette.secondary.dark, mb: 2 }}
+          >
             Văn bản
           </Typography>
+          <Box sx={{ mb: 3 }}>
+            <InputSearch
+              placeholder="Tìm kiếm..."
+              // value={queryParams.search}
+              onTextChange={debouncedSearch}
+            />
+          </Box>
+
           <DocButtonFilter setDocType={setDocType} docType={docType} />
           <FileDetailDocsTable
             handleChangePage={handleChangePage}

@@ -73,6 +73,7 @@ export const CreateWorkFlow = ({
         }}
         users={users}
         handleCreate={handleCreate}
+        isCreatingWorkflow={isCreatingWorkflow}
         isCreating={isCreatingWorkflow}
         docType={docType}
       />
