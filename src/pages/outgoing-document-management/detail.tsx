@@ -243,6 +243,7 @@ const OutgoingDocumentDetail = () => {
               }}
             />
           </Box>
+          <Divider sx={{ my: 2 }} />
         </Box>
       </Box>
       <AppDocViewer
