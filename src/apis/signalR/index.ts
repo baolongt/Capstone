@@ -13,3 +13,8 @@ export async function connect() {
 export async function setUserName(name) {
   await window.setUserName(name);
 }
+
+export function isConnect(): boolean {
+  const res = window.isConnect();
+  return res;
+}

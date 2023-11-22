@@ -3,7 +3,7 @@ import { Box, Button, Grid, Input, Typography } from '@mui/material';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 
-import { connect, send, setUserName, uploadFile } from '@/apis';
+import { connect, isConnect, send, setUserName, uploadFile } from '@/apis';
 import { UploadFile } from '@/models';
 
 const TestPage = () => {
@@ -42,6 +42,10 @@ const TestPage = () => {
     }
   };
 
+  const checkConnect = () => {
+    return isConnect();
+  };
+
   return (
     <Box sx={{ p: 2 }}>
       {!selectedFile || !fileUrl ? (
@@ -64,9 +68,16 @@ const TestPage = () => {
         </Grid>
       ) : (
         <>
-          <Button variant="contained" onClick={handleDigitalSign}>
-            Ký số
-          </Button>
+          {checkConnect() ? (
+            <Button variant="contained" onClick={() => connect()}>
+              Kết nối chữ ký số
+            </Button>
+          ) : (
+            <Button variant="contained" onClick={handleDigitalSign}>
+              Ký số
+            </Button>
+          )}
+
           <DocViewer
             style={{
               width: '100%',

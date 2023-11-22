@@ -33,6 +33,7 @@ import OutgoingDocEditWorkFlowPage from './pages/outgoing-document-management/ed
 import PrepareEmailPage from './pages/outgoing-document-management/prepare-email';
 import Profile from './pages/profile';
 import TemplatePage from './pages/template';
+import TestPage from './pages/test';
 import UserManagement from './pages/user-management';
 
 const App = () => {
@@ -42,6 +43,7 @@ const App = () => {
   return (
     <Routes>
       <Route path={'/login'} element={<Login />} />
+      <Route path={'/test'} element={<TestPage />} />
       <Route path={'/'} element={<DashboardLayout />}>
         {user && user.roleID === Role.OFFICER ? (
           <Route path={'/dashboard'} element={<Dashboard />} />
