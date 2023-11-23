@@ -41,7 +41,9 @@ import {
   PublishInfo,
   WorkFlowButtonsHandle
 } from '@/components/document';
+import OutgoingDocComment from '@/components/document/outgoing/outgoing-doc-detail-comment';
 import { Attachment } from '@/models';
+import { DocumentType } from '@/models/comment';
 import { OutgoingPublishInfo } from '@/models/outgoingDocument';
 
 const OutgoingDocumentDetail = () => {
@@ -198,7 +200,14 @@ const OutgoingDocumentDetail = () => {
           </Stack>
         </PageHeader>
         <Box
-          sx={{ mx: 'auto', width: '1080px', mt: 3, px: 2, minHeight: '90vh' }}
+          sx={{
+            mx: 'auto',
+            width: '1080px',
+            mt: 3,
+            px: 2,
+            pb: 3,
+            minHeight: '90vh'
+          }}
           component={Paper}
         >
           <DetailDescription sx={{ width: '100%' }} data={data} />
@@ -243,6 +252,19 @@ const OutgoingDocumentDetail = () => {
               }}
             />
           </Box>
+
+          <Divider sx={{ my: 2 }} />
+          <Typography
+            variant="h6"
+            sx={{ color: theme.palette.secondary.dark, mb: 2 }}
+          >
+            Bình luận
+          </Typography>
+          <OutgoingDocComment
+            sx={{ width: '100%', mb: 3 }}
+            docId={Number(id)}
+            documentType={DocumentType.OUTGOING}
+          />
         </Box>
       </Box>
       <AppDocViewer
