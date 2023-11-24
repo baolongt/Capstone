@@ -3,19 +3,12 @@ import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import BaseStepper from '@/components/common/stepper';
-import { CreatePublishInfo } from '@/components/document/outgoing/outgoing-doc-create-publish-info';
 import { CreateWorkFlow } from '@/components/work-flow/create-work-flow';
 import { DocumentTypeCreate } from '@/models/work-flow';
 
-import CreateOutgoingDocumentPage from './create';
+import CreateInternalDocumentPage from './create';
 
-const createSteps = [
-  { label: 'Tạo văn bản' },
-  { label: 'Tạo trình tự xử lý' },
-  {
-    label: 'Thêm thông tin phát hành'
-  }
-];
+const createSteps = [{ label: 'Tạo văn bản' }, { label: 'Tạo trình tự xử lý' }];
 
 const StepPage = ({
   step,
@@ -38,24 +31,18 @@ const StepPage = ({
     [key: number]: JSX.Element;
   } = {
     1: (
-      <CreateOutgoingDocumentPage
+      <CreateInternalDocumentPage
         setNewDocId={setNewDocId}
         handleNextStep={handleNextStep}
       />
     ),
     2: (
       <CreateWorkFlow
-        docType={DocumentTypeCreate.OUTGOING}
-        handleNextStep={handleNextStep}
-        docId={newDocId}
-      />
-    ),
-    3: (
-      <CreatePublishInfo
         handleNextStep={() => {
-          navigate('/outgoing-documents');
+          navigate('/incoming-documents');
         }}
         docId={newDocId}
+        docType={DocumentTypeCreate.INCOMING}
       />
     )
   };
@@ -63,7 +50,7 @@ const StepPage = ({
   return pages[step + 1];
 };
 
-const CreateStepsPage = () => {
+const InternalCreateStepsPage = () => {
   const [activeStep, setActiveStep] = useState<number>(0);
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -97,4 +84,4 @@ const CreateStepsPage = () => {
   );
 };
 
-export default CreateStepsPage;
+export default InternalCreateStepsPage;

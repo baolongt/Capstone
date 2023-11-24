@@ -14,6 +14,7 @@ import {
 import { Box } from '@mui/system';
 import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import { useAddEmailTemplate } from '@/apis';
@@ -52,6 +53,7 @@ border: 1px solid black;
 
 const PrepareEmailPage = () => {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
 
   const form = useForm({
     defaultValues: {
@@ -65,6 +67,7 @@ const PrepareEmailPage = () => {
   const { mutate: addEmailTemplate, isLoading } = useAddEmailTemplate({
     onSuccess: () => {
       toast.success('Thêm email thành công');
+      navigate(`/outgoing-documents/${id}`);
     },
     onError: () => {
       toast.error('Thêm email thất bại');

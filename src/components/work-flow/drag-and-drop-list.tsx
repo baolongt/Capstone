@@ -15,7 +15,7 @@ import {
 import React, { useEffect } from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 
-import { useGetOutgoingExampleWorkflow } from '@/apis/work-flow/get-outgoing-doc-example';
+import { useGetExampleWorkflow } from '@/apis/work-flow/get-outgoing-doc-example';
 import { user, workFlow } from '@/models';
 import { ActionOptions, convertActionToString } from '@/models/work-flow';
 
@@ -25,6 +25,7 @@ type DragAndDropListProps = {
   sx?: SxProps;
   handleCreate: (steps: workFlow.StepCreate[]) => void;
   isCreating: boolean;
+  docType: workFlow.DocumentTypeCreate;
 };
 
 type ListItemProps = {
@@ -34,6 +35,7 @@ type ListItemProps = {
   handleDeleteItem: (id: number) => void;
   handleUpdateHandler: (id: number, handlerId: number) => void;
   handleUpdateAction: (id: number, action: workFlow.Action) => void;
+  docType: workFlow.DocumentTypeCreate;
 };
 
 const ListItem = ({
@@ -42,7 +44,8 @@ const ListItem = ({
   users,
   handleDeleteItem,
   handleUpdateHandler,
-  handleUpdateAction
+  handleUpdateAction,
+  docType
 }: ListItemProps) => {
   return (
     <Draggable draggableId={String(item.id)} index={index}>
@@ -88,7 +91,7 @@ const ListItem = ({
             disablePortal
             size="small"
             value={item.action}
-            options={ActionOptions}
+            options={ActionOptions[docType]}
             getOptionLabel={(option) => convertActionToString(option)}
             sx={{ width: 300 }}
             renderInput={(params) => <TextField {...params} label="Vai trò" />}
@@ -126,10 +129,13 @@ function DragAndDropList({
   users = [],
   initData,
   sx,
-  handleCreate
+  handleCreate,
+  docType
 }: DragAndDropListProps) {
   const [items, setItems] = React.useState<workFlow.StepCreate[]>([]);
-  const { data } = useGetOutgoingExampleWorkflow();
+  const { data } = useGetExampleWorkflow({
+    docType
+  });
   const handleDragEnd = (result: { destination: any; source?: any }) => {
     if (!result.destination) return;
 
@@ -249,6 +255,7 @@ function DragAndDropList({
                   item={item}
                   index={index}
                   users={users}
+                  docType={docType}
                 />
               );
             })}

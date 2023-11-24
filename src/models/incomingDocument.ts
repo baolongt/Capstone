@@ -27,6 +27,8 @@ export interface IncomingDocument {
   processHistory: ProcessHisstory[];
   incomingPublishInfo: IncomingPublishInfo;
   createdDate: string;
+
+  registrationStatus: number;
 }
 
 export interface CreateIncomingDocument {
