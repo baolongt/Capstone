@@ -32,6 +32,7 @@ export interface InternalDocument {
   attachments: UploadFile[] | Attachment[];
   internalPublishInfo: InternalPublishInfo;
   processHistory: ProcessHisstory[];
+  registrationStatus: number;
 }
 export interface CreateInternalDocument {
   epitomize: string;

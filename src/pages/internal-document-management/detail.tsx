@@ -33,6 +33,13 @@ const InternalDocumentDetail = () => {
   const [openAddDocToFile, setOpenAddDocToFile] = React.useState(false);
   const newestStatus = data?.processHistory?.[0].status;
   const navigate = useNavigate();
+  React.useEffect(() => {
+    if (data) {
+      if (data.registrationStatus === 1) {
+        navigate('/internal-documents/create?step=2&&id=' + data.id);
+      }
+    }
+  }, [data]);
 
   if (isLoading) {
     return <Loading />;

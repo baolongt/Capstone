@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import BaseStepper from '@/components/common/stepper';
 import { CreateWorkFlow } from '@/components/work-flow/create-work-flow';
+import { DocumentTypeCreate } from '@/models/work-flow';
 
 import CreateInternalDocumentPage from './create';
 
@@ -41,6 +42,7 @@ const StepPage = ({
           navigate('/internal-documents');
         }}
         docId={newDocId}
+        docType={DocumentTypeCreate.INTERNAL}
       />
     )
   };

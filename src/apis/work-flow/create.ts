@@ -13,7 +13,7 @@ export type CreateStep = {
 
 export type Workflow = {
   docId: number;
-  docType: DocumentTypeCreate.OUTGOING;
+  docType: DocumentTypeCreate;
   steps: CreateStep[];
 };
 
@@ -29,15 +29,29 @@ const createWorkflow = async (payload: Workflow) => {
 export const useCreateWorkflow = ({
   onSuccess,
   onError,
-  id
+  id,
+  docType
 }: common.useMutationParams & {
   id: number;
+  docType: DocumentTypeCreate;
 }) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (payload: Workflow) => createWorkflow(payload),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [api.OUTGOING_DOCUMENT, id] });
+      if (docType === DocumentTypeCreate.INCOMING) {
+        queryClient.invalidateQueries({
+          queryKey: [api.INCOMING_DOCUMENT, id]
+        });
+      } else if (docType === DocumentTypeCreate.INTERNAL) {
+        queryClient.invalidateQueries({
+          queryKey: [api.INTERNAL_DOCUMENT, id]
+        });
+      } else {
+        queryClient.invalidateQueries({
+          queryKey: [api.OUTGOING_DOCUMENT, id]
+        });
+      }
       queryClient.invalidateQueries({ queryKey: [api.WORKFLOW] });
       onSuccess?.();
     },
