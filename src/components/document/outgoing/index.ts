@@ -1,4 +1,5 @@
 export * from './outgoing-doc-detail-attachment-accordion';
+export * from './outgoing-doc-detail-comment';
 export * from './outgoing-doc-detail-description';
 export * from './outgoing-doc-detail-edit-button-group';
 export * from './outgoing-doc-detail-timeline';

@@ -62,7 +62,6 @@ const CreateDocumentForm: React.FC<createDocumentFormProps> = ({
 
   useEffect(() => {
     if (documentTypeOptionsMap[documentField].length === 0) {
-      // If documentTypeId is empty it should remove when send api
       setValue('documentTypeId', -1);
     } else {
       setValue('documentTypeId', 1);

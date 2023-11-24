@@ -12,9 +12,11 @@ import DragAndDropList from './drag-and-drop-list';
 type CreateWorkFlowProps = {
   docId?: number;
   handleNextStep: () => void;
+  docType: DocumentTypeCreate;
 };
 export const CreateWorkFlow = ({
   docId,
+  docType,
   handleNextStep
 }: CreateWorkFlowProps) => {
   const { data, isLoading } = useListHandlers();
@@ -29,14 +31,15 @@ export const CreateWorkFlow = ({
       onError: () => {
         toast.error('Tạo trình tự xử lý thất bại');
       },
-      id: docId ?? -1
+      id: docId ?? -1,
+      docType
     });
 
   const handleCreate = (steps: workFlow.StepCreate[]) => {
     if (docId) {
       createWorkflow({
         docId,
-        docType: DocumentTypeCreate.OUTGOING,
+        docType,
         steps: steps.map((step, index) => ({
           handlerId: step.handlerId,
           action: step.action,
@@ -71,6 +74,7 @@ export const CreateWorkFlow = ({
         users={users}
         handleCreate={handleCreate}
         isCreating={isCreatingWorkflow}
+        docType={docType}
       />
     </Box>
   );

@@ -12,13 +12,16 @@ export type EditStep = {
 };
 
 export type WorkFlowEditPayload = {
-  docType?: DocumentTypeCreate;
+  workflowId?: DocumentTypeCreate;
   steps: EditStep[];
 };
 
 const editWorkflow = async (payload: WorkFlowEditPayload) => {
   const url = '/api/workflows/update';
-  const res = axiosInstance.put(url, payload);
+  const res = await axiosInstance.put(url, {
+    ...payload,
+    id: payload.workflowId
+  });
 
   return res;
 };

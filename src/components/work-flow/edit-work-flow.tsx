@@ -1,5 +1,5 @@
 import { Box, Paper } from '@mui/material';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import { useEditWorkflow, useListHandlers } from '@/apis/work-flow';
@@ -13,9 +13,14 @@ import DragAndDropList from './drag-and-drop-list';
 type EditWorkFlowProps = {
   docId?: number;
   initWorkflow?: workFlow.Step[];
+  workflowId?: number;
 };
 
-export const EditWorkFlow = ({ docId, initWorkflow }: EditWorkFlowProps) => {
+export const EditWorkFlow = ({
+  workflowId,
+  docId,
+  initWorkflow
+}: EditWorkFlowProps) => {
   const { data, isLoading } = useListHandlers();
   const location = useLocation();
   const users = data || [];
@@ -44,9 +49,9 @@ export const EditWorkFlow = ({ docId, initWorkflow }: EditWorkFlowProps) => {
     });
 
   const handleUpdate = (steps: workFlow.StepCreate[]) => {
-    if (docId) {
+    if (docId && workflowId) {
       updateWorkflow({
-        docType,
+        workflowId,
         steps: steps.map((step, index) => ({
           handlerId: step.handlerId,
           action: step.action,

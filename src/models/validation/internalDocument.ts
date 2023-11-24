@@ -15,12 +15,6 @@ export const createSchema = yup
     documentTypeId: yup.number().required('Loại văn bản là bắt buộc'),
     // status: yup.number().required('Trạng thái là bắt buộc'),
     processDeadline: yup.string().required('Hạn xử lý là bắt buộc'),
-    note: yup
-      .string()
-      .required('Ghi chú là bắt buộc')
-      .trim()
-      .min(1)
-      .nonNullable(),
     files: yup
       .array()
       .required('Yêu cầu file đính kèm')
@@ -37,7 +31,6 @@ export type CreateType = {
   documentField: number;
   documentTypeId: number;
   processDeadline: string;
-  note: string;
   files?: UploadFile[] | undefined;
   internalNotation: string;
   priority: number;

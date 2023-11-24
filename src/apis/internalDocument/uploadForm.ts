@@ -18,7 +18,6 @@ type InternalDocumentUploadFormType = {
   documentField: string;
   documentTypeId: number;
   isRepliedDocument: boolean;
-  note: string;
   processDeadline: string;
   attachments: AttachmentType[];
   internalPublishInfo: InternalPublishInfo;
@@ -56,7 +55,6 @@ const convertToInternalDocumentUploadFormType = (
     epitomize: createObj.epitomize,
     documentField: String(createObj.documentField),
     documentTypeId: createObj.documentTypeId,
-    note: createObj.note,
     isRepliedDocument: false,
     processDeadline: createObj.processDeadline,
     attachments:

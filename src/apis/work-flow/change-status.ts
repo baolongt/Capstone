@@ -14,7 +14,7 @@ type ChangeStatusPayload = {
 
 const changeStatus = async ({ id, status, docType }: ChangeStatusPayload) => {
   const url = `/api/workflows/change-status/${id}?docType=${docType}&&status=${status}`;
-  const res = axiosInstance.put(url);
+  const res = await axiosInstance.put(url);
   return res;
 };
 

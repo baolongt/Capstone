@@ -20,6 +20,7 @@ import IncomingDocumentDetail from './pages/incoming-document-management/detail'
 import EditIncomingDocumentPage from './pages/incoming-document-management/edit';
 import InternalDocumentManagement from './pages/internal-document-management';
 import CreateInternalDocumentPage from './pages/internal-document-management/create';
+import InternalCreateStepsPage from './pages/internal-document-management/create-steps';
 import InternalDocumentDetail from './pages/internal-document-management/detail';
 import EditInternalDocumentPage from './pages/internal-document-management/edit';
 import OutgoingDocumentManagement from './pages/outgoing-document-management';
@@ -95,7 +96,7 @@ const App = () => {
           </Route>
           <Route path={'/internal-documents'}>
             <Route index element={<InternalDocumentManagement />} />
-            <Route path="create" element={<CreateInternalDocumentPage />} />
+            <Route path="create" element={<InternalCreateStepsPage />} />
             <Route path=":id">
               <Route index element={<InternalDocumentDetail />} />
               <Route path="edit" element={<EditInternalDocumentPage />} />
