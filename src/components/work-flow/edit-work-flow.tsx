@@ -87,6 +87,7 @@ export const EditWorkFlow = ({
         handleCreate={handleUpdate}
         isCreating={isUpdatingWorkflow}
         initData={initWorkflow}
+        docType={docType as DocumentTypeCreate}
       />
     </Box>
   );

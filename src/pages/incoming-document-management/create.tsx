@@ -11,7 +11,13 @@ import CreateInComingDocumentForm from '@/components/document/incoming/incoming-
 import { DEFAULT_PAGE_WIDTH } from '@/constants';
 import { UploadFile, validation } from '@/models';
 
-const CreateIncomingDocumentPage: React.FC = () => {
+const CreateIncomingDocumentPage = ({
+  setNewDocId,
+  handleNextStep
+}: {
+  setNewDocId?: React.Dispatch<React.SetStateAction<number | undefined>>;
+  handleNextStep?: () => void;
+}) => {
   const {
     mutate: uploadForm,
     isLoading,
@@ -19,9 +25,15 @@ const CreateIncomingDocumentPage: React.FC = () => {
   } = useUploadIncomingForm({
     onSuccess: () => {
       toast.success('Tạo mới văn bản đến thành công');
+      handleNextStep?.();
     },
     onError: () => {
       toast.error('Tạo mới văn bản đến thất bại');
+    },
+    callback: (data) => {
+      if (data) {
+        setNewDocId?.(data.data.id);
+      }
     }
   });
 

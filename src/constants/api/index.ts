@@ -8,6 +8,10 @@ export const NOTIFICATION = 'notifications';
 export const CONTACT = 'contact';
 export const OUTGOING_DOCUMENT_STATUS_DASHBORD =
   'dashboard/status-outgoing-document';
+export const INCOMING_DOCUMENT_STATUS_DASHBORD =
+  'dashboard/status-incoming-document';
+export const INTERNAL_DOCUMENT_STATUS_DASHBORD =
+  'dashboard/status-internal-document';
 export const LEADER = 'leaders';
 export const TEMPLATE = 'templates';
 export const SHARE_LIST = 'share-lists';

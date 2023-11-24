@@ -1,5 +1,6 @@
 export * from './admin';
 export * from './comment';
+export * from './dashboard';
 export * from './department';
 export * from './file';
 export * from './notificartion';
