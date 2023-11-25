@@ -122,7 +122,7 @@ const OutgoingDocumentDetail = () => {
   };
 
   const signAttachment = async (attachmentId: string) => {
-    send(attachmentId);
+    await send(attachmentId);
   };
 
   const handleChangeStatus = () => {
