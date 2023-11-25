@@ -11,7 +11,6 @@ declare global {
 }
 export async function send(id: string) {
   try {
-    await setUserName('test');
     await window.sendToSignalR(id);
   } catch (e) {
     console.log('sign error', e);
