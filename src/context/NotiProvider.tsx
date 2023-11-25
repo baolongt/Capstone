@@ -1,8 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { Typography } from '@mui/material';
+import { useQueryClient } from '@tanstack/react-query';
 import { initializeApp } from 'firebase/app';
 import { getMessaging, getToken, onMessage } from 'firebase/messaging';
 import { ReactNode, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+
+import { api } from '@/constants';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyAlCbCpbwlo9mbsVX9iqM-nAoGA6PkPH0U',
@@ -53,11 +57,18 @@ export const onMessageListener = () =>
   });
 
 const openNotification = (message: string, description: string) => {
-  toast.info(description);
+  toast.info(
+    <>
+      <Typography variant="h6">{message}</Typography>
+      <Typography variant="body1">{description}</Typography>
+    </>
+  );
 };
 
 const NotiProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [token, setToken] = useState(false);
+  const queryClient = useQueryClient();
+
   useEffect(() => {
     getFireBaseToken(setToken);
   }, []);
@@ -66,6 +77,7 @@ const NotiProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     .then((payload: any) => {
       openNotification(payload.notification.title, payload.notification.body);
       console.log(payload);
+      queryClient.invalidateQueries({ queryKey: [api.NOTIFICATION] });
     })
     .catch((err) => console.log('failed: ', err));
   return <>{children}</>;
