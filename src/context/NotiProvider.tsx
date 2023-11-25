@@ -2,8 +2,7 @@
 import { Typography } from '@mui/material';
 import { useQueryClient } from '@tanstack/react-query';
 import { initializeApp } from 'firebase/app';
-import { getMessaging, onMessage } from 'firebase/messaging';
-import { getFireBaseToken } from 'firebase-messaging-sw';
+import { getMessaging, getToken, onMessage } from 'firebase/messaging';
 import { ReactNode, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
@@ -17,6 +16,33 @@ const firebaseConfig = {
   messagingSenderId: '972493547090',
   appId: '1:972493547090:web:7274b946e241dbd5ee218b',
   measurementId: 'G-9VWGQS12J9'
+};
+
+export const getFireBaseToken = (
+  setTokenFound: React.Dispatch<React.SetStateAction<boolean>>
+) => {
+  return getToken(messaging, {
+    vapidKey:
+      'BEFD8e3e4IzHXSn6nPOtm25x6egC8ivcsEJW3H1oWxSuRFHIz6qHi9OMNa4PdUZQ5uY7CXCIpdg78M-xlZYJwLo'
+  })
+    .then((currentToken) => {
+      if (currentToken) {
+        console.log('current token for client: ', currentToken);
+        setTokenFound(true);
+        // Track the token -> client mapping, by sending to backend server
+        // show on the UI that permission is secured
+      } else {
+        console.log(
+          'No registration token available. Request permission to generate one.'
+        );
+        setTokenFound(false);
+        // shows on the UI that permission is required
+      }
+    })
+    .catch((err) => {
+      console.log('An error occurred while retrieving token. ', err);
+      // catch error while creating client token
+    });
 };
 
 initializeApp(firebaseConfig);
