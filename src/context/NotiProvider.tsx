@@ -2,12 +2,12 @@
 import { Typography } from '@mui/material';
 import { useQueryClient } from '@tanstack/react-query';
 import { initializeApp } from 'firebase/app';
-import { getMessaging, getToken, onMessage } from 'firebase/messaging';
+import { getMessaging, onMessage } from 'firebase/messaging';
+import { getFireBaseToken } from 'firebase-messaging-sw';
 import { ReactNode, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { api } from '@/constants';
-import { getFireBaseToken } from '@/firebase-messaging-sw';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyAlCbCpbwlo9mbsVX9iqM-nAoGA6PkPH0U',
