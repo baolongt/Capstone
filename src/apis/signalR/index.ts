@@ -6,12 +6,13 @@ declare global {
     connect: () => Promise<boolean>;
     setUserName: (name: string) => Promise<void>;
     isConnect: () => boolean;
+    sendToSignalR: (id: string) => Promise<void>;
   }
 }
 export async function send(id: string) {
   try {
     await setUserName('test');
-    await send(id as string);
+    await window.sendToSignalR(id);
   } catch (e) {
     console.log('sign error', e);
     toast.error('Không thể kết nối đến thiết bị ký số');
