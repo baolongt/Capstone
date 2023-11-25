@@ -18,7 +18,7 @@ const firebaseConfig = {
   measurementId: 'G-9VWGQS12J9'
 };
 
-export const getFireBaseToken = (
+export const getFireBaseToken = async (
   setTokenFound: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
   return getToken(messaging, {
@@ -82,16 +82,24 @@ const NotiProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    getFireBaseToken(setToken);
+    const init = async () => {
+      await getFireBaseToken(setToken);
+
+      onMessageListener()
+        .then((payload: any) => {
+          openNotification(
+            payload.notification.title,
+            payload.notification.body
+          );
+          console.log(payload);
+          queryClient.invalidateQueries({ queryKey: [api.NOTIFICATION] });
+        })
+        .catch((err) => console.log('failed: ', err));
+    };
+
+    init();
   }, []);
 
-  onMessageListener()
-    .then((payload: any) => {
-      openNotification(payload.notification.title, payload.notification.body);
-      console.log(payload);
-      queryClient.invalidateQueries({ queryKey: [api.NOTIFICATION] });
-    })
-    .catch((err) => console.log('failed: ', err));
   return <>{children}</>;
 };
 
