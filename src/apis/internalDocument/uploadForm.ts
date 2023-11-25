@@ -101,7 +101,8 @@ export const uploadFile = async (
 };
 
 export const uploadForm = async (
-  formData: CreateType
+  formData: CreateType,
+  callback?: (newEntity: InternalDocumentUploadFormTypeResponse) => void
 ): Promise<InternalDocumentUploadFormTypeResponse> => {
   const url = 'api/InternalDocument';
 
@@ -116,17 +117,25 @@ export const uploadForm = async (
   }
 
   const payload = convertToInternalDocumentUploadFormType(formData);
+  const res: InternalDocumentUploadFormTypeResponse = await axiosInstance.post(
+    url,
+    payload
+  );
+  callback?.(res);
 
-  return await axiosInstance.post(url, payload);
+  return res;
 };
 
 export const useUploadInternalForm = ({
   onSuccess,
-  onError
-}: common.useMutationParams) => {
+  onError,
+  callback
+}: common.useMutationParams & {
+  callback?: (newEntity: InternalDocumentUploadFormTypeResponse) => void;
+}) => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (payload: CreateType) => uploadForm(payload),
+    mutationFn: (payload: CreateType) => uploadForm(payload, callback),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [api.INTERNAL_DOCUMENT] });
       onSuccess?.();

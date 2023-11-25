@@ -28,7 +28,7 @@ type AttachmentTypeResponse = AttachmentType & {
   id: number;
 };
 
-type IncomingDocumentUploadFormTypeResponse = {
+type InternalDocumentUploadFormTypeResponse = {
   data: Omit<IncomingDocumentUploadFormType, 'attachments'> & {
     id: number;
     createdBy: number | null;
@@ -49,7 +49,7 @@ type UploadFileResponse = {
   data: NameAndUrlFile[];
 };
 
-const convertToIncomingDocumentUploadFormType = (
+const convertToInternalDocumentUploadFormType = (
   createObj: CreateType
 ): IncomingDocumentUploadFormType => {
   const inComingDocumentUploadFormType: IncomingDocumentUploadFormType = {
@@ -103,8 +103,9 @@ export const uploadFile = async (
 };
 
 export const uploadForm = async (
-  formData: CreateType
-): Promise<IncomingDocumentUploadFormTypeResponse> => {
+  formData: CreateType,
+  callback?: (newEntity: InternalDocumentUploadFormTypeResponse) => void
+): Promise<InternalDocumentUploadFormTypeResponse> => {
   const url = 'api/IncomingDocument';
 
   const { files: formFiles } = formData;
@@ -117,18 +118,26 @@ export const uploadForm = async (
     formFiles[idx].setNameAndUrl(uploadedFile[idx].name, uploadedFile[idx].url);
   }
 
-  const payload = convertToIncomingDocumentUploadFormType(formData);
+  const payload = convertToInternalDocumentUploadFormType(formData);
 
-  return await axiosInstance.post(url, payload);
+  const res: InternalDocumentUploadFormTypeResponse = await axiosInstance.post(
+    url,
+    payload
+  );
+  callback?.(res);
+  return res;
 };
 
 export const useUploadIncomingForm = ({
   onSuccess,
-  onError
-}: common.useMutationParams) => {
+  onError,
+  callback
+}: common.useMutationParams & {
+  callback?: (newEntity: InternalDocumentUploadFormTypeResponse) => void;
+}) => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (payload: CreateType) => uploadForm(payload),
+    mutationFn: (payload: CreateType) => uploadForm(payload, callback),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [api.INCOMING_DOCUMENT] });
       onSuccess?.();

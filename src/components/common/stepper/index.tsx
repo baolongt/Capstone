@@ -1,5 +1,4 @@
 import { SxProps } from '@mui/material';
-import CircularProgress from '@mui/material/CircularProgress';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Stepper from '@mui/material/Stepper';

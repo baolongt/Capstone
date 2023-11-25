@@ -27,6 +27,11 @@ const CreateInternalDocumentPage = ({
     },
     onError: () => {
       toast.error('Tạo văn bản nội bộ thất bại');
+    },
+    callback: (data) => {
+      if (data) {
+        setNewDocId?.(data.data.id);
+      }
     }
   });
 

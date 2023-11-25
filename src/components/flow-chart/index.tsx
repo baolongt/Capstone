@@ -3,7 +3,7 @@ import 'reactflow/dist/style.css';
 
 import { Box } from '@mui/material';
 import dagre from 'dagre';
-import React, { useCallback, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import ReactFlow, {
   ConnectionLineType,
   Controls,
