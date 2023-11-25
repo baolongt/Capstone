@@ -49,13 +49,23 @@ initializeApp(firebaseConfig);
 
 const firebaseApp = initializeApp(firebaseConfig);
 const messaging = getMessaging(firebaseApp);
-export const onMessageListener = () =>
-  new Promise((resolve) => {
-    onMessage(messaging, (payload) => {
-      resolve(payload);
+export const onMessageListener = () => {
+  if (
+    window.location.hostname == 'localhost' ||
+    window.location.hostname == '127.0.0.1' ||
+    window.location.protocol == 'https:'
+  ) {
+    new Promise((resolve) => {
+      onMessage(messaging, (payload) => {
+        resolve(payload);
+      });
     });
-  });
-
+  } else {
+    new Promise((resolve) => {
+      resolve('Unsopperted browser');
+    });
+  }
+};
 const openNotification = (message: string, description: string) => {
   toast.info(
     <>
