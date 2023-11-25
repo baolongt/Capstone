@@ -3,7 +3,7 @@ import { Box, Button, Grid, Input, Typography } from '@mui/material';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 
-import { connect, isConnect, send, setUserName, uploadFile } from '@/apis';
+import { connect, send, setUserName, uploadFile } from '@/apis';
 import { UploadFile } from '@/models';
 
 const TestPage = () => {
@@ -32,8 +32,14 @@ const TestPage = () => {
   };
 
   const handleDigitalSign = async () => {
-    await setUserName('test');
-    await send(fileId as string);
+    const isConnected = await connect();
+
+    if (isConnected) {
+      await setUserName('test');
+      await send(fileId as string);
+    } else {
+      toast.error('Không thể kết nối đến thiết bị ký số');
+    }
   };
 
   return (

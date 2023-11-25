@@ -24,20 +24,18 @@
 
         simpleHubProxy = $.connection.simpleHub;
 
-        $.connection.hub.start().done(function () {
+        let res;
+
+        await $.connection.hub.start().done(function () {
           console.log('Connected');
-        });
-      }
-      
-      async function isConnect() {
-        if ($.connection.hub.state === $.signalR.connectionState.connected) {
-          console.log("simpleHubProxy", simpleHubProxy);
-          console.log('app Connected');
-          return true;
-        } else {
-          console.log('app Not connected');
-          return false;
-        }
+          res= true
+        }).fail(
+          function () {
+            console.log('Could not Connect!');
+            res = false
+          }
+        );
+        return res
       }
 
       async function sendToSignalR(id) {
@@ -55,6 +53,19 @@
                 FileID: id
               })
             );
+            console.log(res);
+          } catch (err) {
+            console.error(err);
+          }
+        } else {
+          console.log('simpleHubProxy is null');
+        }
+      }
+
+      async function setUserName (name) {
+        if (simpleHubProxy != null) {
+          try {
+            const res = await simpleHubProxy.server.setUserName(name);
             console.log(res);
           } catch (err) {
             console.error(err);
