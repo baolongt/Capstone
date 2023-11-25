@@ -50,11 +50,13 @@ initializeApp(firebaseConfig);
 const firebaseApp = initializeApp(firebaseConfig);
 const messaging = getMessaging(firebaseApp);
 export const onMessageListener = () => {
+  console.log('onMessageListener');
   if (
     window.location.hostname == 'localhost' ||
     window.location.hostname == '127.0.0.1' ||
     window.location.protocol == 'https:'
   ) {
+    console.log('valid browser');
     return new Promise((resolve) => {
       onMessage(messaging, (payload) => {
         resolve(payload);
