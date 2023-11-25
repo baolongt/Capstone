@@ -11,6 +11,7 @@ import {
   Typography,
   useTheme
 } from '@mui/material';
+import { useQueryClient } from '@tanstack/react-query';
 import * as React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -42,6 +43,7 @@ import {
   WorkFlowButtonsHandle
 } from '@/components/document';
 import OutgoingDocComment from '@/components/document/outgoing/outgoing-doc-detail-comment';
+import { api } from '@/constants';
 import { Attachment } from '@/models';
 import { DocumentType } from '@/models/comment';
 import { OutgoingPublishInfo } from '@/models/outgoingDocument';
@@ -82,6 +84,7 @@ const OutgoingDocumentDetail = () => {
     },
     type: WorkFlowDocType.OUTGOING
   });
+  const queryClient = useQueryClient();
 
   React.useEffect(() => {
     if (data) {
@@ -127,6 +130,7 @@ const OutgoingDocumentDetail = () => {
     if (isConnected) {
       await setUserName('test');
       await send(attachmentId);
+      queryClient.invalidateQueries({ queryKey: [api.OUTGOING_DOCUMENT, id] });
     } else {
       toast.error('Không thể kết nối đến thiết bị ký số');
     }
