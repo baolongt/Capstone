@@ -28,7 +28,17 @@
           console.log('Connected');
         });
       }
-      connect();
+      
+      async function isConnect() {
+        if ($.connection.hub.state === $.signalR.connectionState.connected) {
+          console.log("simpleHubProxy", simpleHubProxy);
+          console.log('app Connected');
+          return true;
+        } else {
+          console.log('app Not connected');
+          return false;
+        }
+      }
 
       async function sendToSignalR(id) {
         if (simpleHubProxy != null) {
