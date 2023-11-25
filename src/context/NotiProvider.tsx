@@ -55,13 +55,13 @@ export const onMessageListener = () => {
     window.location.hostname == '127.0.0.1' ||
     window.location.protocol == 'https:'
   ) {
-    new Promise((resolve) => {
+    return new Promise((resolve) => {
       onMessage(messaging, (payload) => {
         resolve(payload);
       });
     });
   } else {
-    new Promise((resolve) => {
+    return new Promise((resolve) => {
       resolve('Unsopperted browser');
     });
   }
