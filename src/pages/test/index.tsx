@@ -32,18 +32,8 @@ const TestPage = () => {
   };
 
   const handleDigitalSign = async () => {
-    const isConnected = await connect();
-
-    if (isConnected) {
-      await setUserName('test');
-      await send(fileId as string);
-    } else {
-      toast.error('Không thể kết nối đến thiết bị ký số');
-    }
-  };
-
-  const checkConnect = () => {
-    return isConnect();
+    await setUserName('test');
+    await send(fileId as string);
   };
 
   return (
@@ -68,15 +58,12 @@ const TestPage = () => {
         </Grid>
       ) : (
         <>
-          {checkConnect() ? (
-            <Button variant="contained" onClick={() => connect()}>
-              Kết nối chữ ký số
-            </Button>
-          ) : (
-            <Button variant="contained" onClick={handleDigitalSign}>
-              Ký số
-            </Button>
-          )}
+          <Button variant="contained" onClick={() => connect()}>
+            Kết nối chữ ký số
+          </Button>
+          <Button variant="contained" onClick={handleDigitalSign}>
+            Ký số
+          </Button>
 
           <DocViewer
             style={{

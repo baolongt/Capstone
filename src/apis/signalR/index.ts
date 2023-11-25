@@ -9,11 +9,10 @@ declare global {
   }
 }
 export async function send(id: string) {
-  const isConnected = await connect();
-  if (isConnected) {
+  try {
     await setUserName('test');
     await send(id as string);
-  } else {
+  } catch (e) {
     toast.error('Không thể kết nối đến thiết bị ký số');
   }
 }

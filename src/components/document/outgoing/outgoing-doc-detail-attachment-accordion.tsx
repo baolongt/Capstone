@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import * as React from 'react';
 
-import { connect, isConnect } from '@/apis';
+import { connect } from '@/apis';
 import { Attachment } from '@/models';
 
 import { AttachmentCard } from './outgoing-doc-detail-attachment-accordion-atttachment-card';
@@ -48,11 +48,10 @@ export const DetailAttachmentAccordion: React.FC<
         Tệp đính kèm {'  '}
         <Typography component="span">{attachments.length} tệp</Typography>
       </Typography>
-      <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 1 }}>
-        {isConnect()
-          ? 'Đã kết nối tới thiết bị ký số'
-          : 'Không kết nối tới thiết bị ký số'}
-      </Typography>
+      <Typography
+        variant="subtitle1"
+        sx={{ fontWeight: 600, mb: 1 }}
+      ></Typography>
       <Button variant="contained" onClick={() => connect()}>
         Kết nối chữ ký số
       </Button>
