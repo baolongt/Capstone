@@ -22,6 +22,6 @@
       "@/*": ["src/*"]
     }
   },
-  "include": ["src", "vite.config.ts", "firebase-messaging-sw.js"],
+  "include": ["src", "vite.config.ts", "firebase-messaging-sw.ts"],
   "exclude": ["node_modules", "build", "dist"]
 }
