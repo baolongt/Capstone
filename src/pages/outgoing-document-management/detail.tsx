@@ -15,7 +15,7 @@ import * as React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-import { send } from '@/apis';
+import { connect, send, setUserName } from '@/apis';
 import { DocTypeEnum } from '@/apis/file/addDocToFile';
 import { useGetOneDocument } from '@/apis/outgoingDocument/getOneDocument';
 import {
@@ -122,7 +122,14 @@ const OutgoingDocumentDetail = () => {
   };
 
   const signAttachment = async (attachmentId: string) => {
-    await send(attachmentId);
+    const isConnected = await connect();
+
+    if (isConnected) {
+      await setUserName('test');
+      await send(attachmentId);
+    } else {
+      toast.error('Không thể kết nối đến thiết bị ký số');
+    }
   };
 
   const handleChangeStatus = () => {
