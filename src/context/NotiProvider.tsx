@@ -70,6 +70,7 @@ const NotiProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const queryClient = useQueryClient();
 
   useEffect(() => {
+    navigator.serviceWorker.getRegistrations();
     getFireBaseToken(setToken);
   }, []);
 
