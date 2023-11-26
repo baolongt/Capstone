@@ -18,11 +18,7 @@ const firebaseConfig = {
   measurementId: 'G-9VWGQS12J9'
 };
 
-initializeApp(firebaseConfig);
-
-const firebaseApp = initializeApp(firebaseConfig);
-const messaging = getMessaging(firebaseApp);
-export const getFireBaseToken = (
+export const getFireBaseToken = async (
   setTokenFound: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
   return getToken(messaging, {
@@ -49,13 +45,29 @@ export const getFireBaseToken = (
     });
 };
 
-export const onMessageListener = () =>
-  new Promise((resolve) => {
-    onMessage(messaging, (payload) => {
-      resolve(payload);
-    });
-  });
+initializeApp(firebaseConfig);
 
+const firebaseApp = initializeApp(firebaseConfig);
+const messaging = getMessaging(firebaseApp);
+export const onMessageListener = () => {
+  console.log('onMessageListener');
+  if (
+    window.location.hostname == 'localhost' ||
+    window.location.hostname == '127.0.0.1' ||
+    window.location.protocol == 'https:'
+  ) {
+    console.log('valid browser');
+    return new Promise((resolve) => {
+      onMessage(messaging, (payload) => {
+        resolve(payload);
+      });
+    });
+  } else {
+    return new Promise((resolve) => {
+      resolve('Unsopperted browser');
+    });
+  }
+};
 const openNotification = (message: string, description: string) => {
   toast.info(
     <>
@@ -70,16 +82,24 @@ const NotiProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    getFireBaseToken(setToken);
+    const init = async () => {
+      await getFireBaseToken(setToken);
+
+      onMessageListener()
+        .then((payload: any) => {
+          openNotification(
+            payload.notification.title,
+            payload.notification.body
+          );
+          console.log(payload);
+          queryClient.invalidateQueries({ queryKey: [api.NOTIFICATION] });
+        })
+        .catch((err) => console.log('failed: ', err));
+    };
+
+    init();
   }, []);
 
-  onMessageListener()
-    .then((payload: any) => {
-      openNotification(payload.notification.title, payload.notification.body);
-      console.log(payload);
-      queryClient.invalidateQueries({ queryKey: [api.NOTIFICATION] });
-    })
-    .catch((err) => console.log('failed: ', err));
   return <>{children}</>;
 };
 
