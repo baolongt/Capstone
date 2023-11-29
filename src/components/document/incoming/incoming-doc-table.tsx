@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 import BaseTable from '@/components/common/base-table';
 import { incomingDocument } from '@/models';
+import { IncomingDocumentStatusDict } from '@/models/incomingDocument';
 import { Metadata } from '@/types';
 
 const columnHelper = createColumnHelper<incomingDocument.IncomingDocument>();
@@ -44,9 +45,9 @@ export const IncomingDocumentTable: React.FC<IncomingDocumentTableProps> = ({
       cell: (row) => row.renderValue(),
       size: 100
     }),
-    columnHelper.accessor('isRepliedDocument', {
+    columnHelper.accessor('documentStatus', {
       header: 'Trạng thái',
-      cell: (row) => (row.getValue() ? 'Đã xử lý' : 'Đang xử lí'),
+      cell: (row) => IncomingDocumentStatusDict[row.getValue()],
       size: 100
     }),
     columnHelper.accessor('publishDate', {

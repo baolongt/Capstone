@@ -2,7 +2,10 @@ import * as yup from 'yup';
 
 export const schema = yup.object().shape({
   outgoingDocumentId: yup.number().required(),
-  outgoingNumber: yup.number().required(),
+  outgoingNumber: yup
+    .number()
+    .required('Số văn bản là bắt buộc')
+    .positive('Số văn bản phải là số'),
   outgoingNotation: yup.string().required('Ký hiệu văn bản là bắt buộc'),
   contactListIds: yup
     .array()
