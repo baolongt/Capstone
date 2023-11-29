@@ -1,4 +1,11 @@
-import { Box, Paper, Stack } from '@mui/material';
+import {
+  Box,
+  Divider,
+  Paper,
+  Stack,
+  Typography,
+  useTheme
+} from '@mui/material';
 import * as React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -15,20 +22,19 @@ import {
   DetailDescription,
   DetailTimeline
 } from '@/components/document';
-import { OutgoingDocumentStatus } from '@/constants';
+import DocComment from '@/components/document/comment';
 import { Attachment } from '@/models';
+import { DocumentType } from '@/models/comment';
 
 const IncomingDocumentDetail = () => {
+  const theme = useTheme();
   const { id } = useParams<{ id: string }>();
   const { data, isLoading } = useGetOneDocument(id ? parseInt(id) : -1);
-  const [openModal, setOpenModal] = React.useState(false);
   const [docPreview, setDocPreview] = React.useState(false);
   const [docPreviewData, setDocPreviewData] = React.useState<{ uri: string }[]>(
     []
   );
-  const [mode, setMode] = React.useState<'forward' | 'send-back'>('forward');
   const [openAddDocToFile, setOpenAddDocToFile] = React.useState(false);
-  const newestStatus = data?.processHistory?.[0].status;
   const navigate = useNavigate();
 
   if (isLoading) {
@@ -37,15 +43,6 @@ const IncomingDocumentDetail = () => {
   if (!data) {
     return <div>Not found</div>;
   }
-
-  const handleOpenModal = (mode: 'forward' | 'send-back') => {
-    setMode(mode);
-    setOpenModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setOpenModal(false);
-  };
 
   const handleOpenAddDocToFile = () => {
     setOpenAddDocToFile(true);
@@ -106,14 +103,44 @@ const IncomingDocumentDetail = () => {
               createdByName: data.createdByName
             }}
           />
-          <DetailAttachmentAccordion
-            attachments={data.attachments as Attachment[]}
-            watchAttachment={watchAttachment}
-            signAttachment={signAttachment}
-            addNumber={handleAddNumber}
-            sx={{ mt: 2 }}
+          <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+            <DetailAttachmentAccordion
+              attachments={data.attachments as Attachment[]}
+              watchAttachment={watchAttachment}
+              signAttachment={signAttachment}
+              addNumber={handleAddNumber}
+              sx={{
+                p: 2,
+                mt: 2,
+                overflow: 'auto',
+                maxHeight: '40vh',
+                width: '45%',
+                py: 3
+              }}
+            />
+            <DetailTimeline
+              sx={{
+                p: 2,
+                mt: 2,
+                overflow: 'auto',
+                maxHeight: '40vh',
+                width: '50%'
+              }}
+              processHistory={data.processHistory}
+            />
+          </Box>
+          <Divider sx={{ my: 2 }} />
+          <Typography
+            variant="h6"
+            sx={{ color: theme.palette.secondary.dark, mb: 2 }}
+          >
+            Bình luận
+          </Typography>
+          <DocComment
+            sx={{ width: '100%', mb: 3 }}
+            docId={Number(id)}
+            documentType={DocumentType.INCOMING}
           />
-          <DetailTimeline sx={{ mt: 2 }} processHistory={data.processHistory} />
         </Box>
       </Box>
 
