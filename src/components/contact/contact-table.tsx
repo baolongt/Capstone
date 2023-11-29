@@ -96,7 +96,9 @@ export const ContactTable: React.FC<ContactTableProps> = ({
   const handleSelectContact = (id: number, isDelete = true) => {
     const currentContact = data.find((contact) => contact.id === id);
     console.log(currentContact);
-    setCurrentContact(currentContact!);
+    if (currentContact) {
+      setCurrentContact(currentContact);
+    }
     if (isDelete) {
       setIsOpen(true);
     } else {
@@ -123,7 +125,7 @@ export const ContactTable: React.FC<ContactTableProps> = ({
         />
 
         <CreateContactDialog
-          data={currentContact!}
+          data={currentContact as contact.Contact}
           mode="update"
           isOpen={isOpenCreateDialog}
           onClose={() => {

@@ -10,6 +10,7 @@ import { ToastContainer } from 'react-toastify';
 import App from './App';
 import theme from './components/theme/theme';
 import { AuthProvider } from './context/AuthContext';
+import NotiProvider from './context/NotiProvider';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -26,23 +27,25 @@ const Root: React.FC = () => {
       <QueryClientProvider client={queryClient}>
         <HashRouter>
           <AuthProvider>
-            <App />
-            <ToastContainer
-              closeOnClick
-              pauseOnFocusLoss
-              draggable
-              pauseOnHover
-              position="top-right"
-              autoClose={3000}
-              hideProgressBar={false}
-              newestOnTop={true}
-              rtl={false}
-              style={{
-                marginTop: '56px',
-                marginBottom: '24px',
-                marginLeft: '56px'
-              }}
-            />
+            <NotiProvider>
+              <App />
+              <ToastContainer
+                closeOnClick
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                position="top-right"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={true}
+                rtl={false}
+                style={{
+                  marginTop: '56px',
+                  marginBottom: '24px',
+                  marginLeft: '56px'
+                }}
+              />
+            </NotiProvider>
           </AuthProvider>
         </HashRouter>
       </QueryClientProvider>
