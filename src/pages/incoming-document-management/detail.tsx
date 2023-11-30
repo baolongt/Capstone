@@ -9,29 +9,22 @@ import { CustomButton, Loading } from '@/components/common';
 import AppDocViewer from '@/components/common/document-viewer';
 import PageHeader from '@/components/common/page-header';
 import PageTitle from '@/components/common/page-title';
-import {
-  AddDocToFileDialog,
-  ForwardDocumentDialog
-} from '@/components/dialogs';
+import { AddDocToFileDialog } from '@/components/dialogs';
 import {
   DetailAttachmentAccordion,
   DetailDescription,
   DetailTimeline
 } from '@/components/document';
-import { OutgoingDocumentStatus } from '@/constants';
 import { Attachment } from '@/models';
 
 const IncomingDocumentDetail = () => {
   const { id } = useParams<{ id: string }>();
   const { data, isLoading } = useGetOneDocument(id ? parseInt(id) : -1);
-  const [openModal, setOpenModal] = React.useState(false);
   const [docPreview, setDocPreview] = React.useState(false);
   const [docPreviewData, setDocPreviewData] = React.useState<{ uri: string }[]>(
     []
   );
-  const [mode, setMode] = React.useState<'forward' | 'send-back'>('forward');
   const [openAddDocToFile, setOpenAddDocToFile] = React.useState(false);
-  const newestStatus = data?.processHistory?.[0].status;
   const navigate = useNavigate();
 
   if (isLoading) {
@@ -40,15 +33,6 @@ const IncomingDocumentDetail = () => {
   if (!data) {
     return <div>Not found</div>;
   }
-
-  const handleOpenModal = (mode: 'forward' | 'send-back') => {
-    setMode(mode);
-    setOpenModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setOpenModal(false);
-  };
 
   const handleOpenAddDocToFile = () => {
     setOpenAddDocToFile(true);
@@ -119,13 +103,7 @@ const IncomingDocumentDetail = () => {
           <DetailTimeline sx={{ mt: 2 }} processHistory={data.processHistory} />
         </Box>
       </Box>
-      <ForwardDocumentDialog
-        mode={mode}
-        isOpen={openModal}
-        id={parseInt(id ? id : '-1')}
-        newestStatus={newestStatus}
-        onClose={handleCloseModal}
-      />
+
       <AppDocViewer
         docs={docPreviewData}
         open={docPreview}

@@ -1,25 +1,12 @@
-<<<<<<< HEAD
 import PostAddIcon from '@mui/icons-material/PostAdd';
-import {
-  Box,
-  Divider,
-  IconButton,
-  Paper,
-  Stack,
-  Tooltip,
-  Typography,
-  useTheme
-} from '@mui/material';
-=======
-import { Box, Paper, Stack } from '@mui/material';
->>>>>>> parent of cb508ba (add create steps and workflow (#86) (#94))
+import { Box, IconButton, Paper, Stack, Tooltip } from '@mui/material';
 import * as React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { send } from '@/apis';
 import { DocTypeEnum } from '@/apis/file/addDocToFile';
 import { useGetOneDocument } from '@/apis/internalDocument/getOneDocument';
-import { CustomButton, Loading } from '@/components/common';
+import { Loading } from '@/components/common';
 import AppDocViewer from '@/components/common/document-viewer';
 import PageHeader from '@/components/common/page-header';
 import PageTitle from '@/components/common/page-title';
