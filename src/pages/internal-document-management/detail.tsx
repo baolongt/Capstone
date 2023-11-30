@@ -1,8 +1,11 @@
+import PostAddIcon from '@mui/icons-material/PostAdd';
 import {
   Box,
   Divider,
+  IconButton,
   Paper,
   Stack,
+  Tooltip,
   Typography,
   useTheme
 } from '@mui/material';
@@ -90,10 +93,11 @@ const InternalDocumentDetail = () => {
               mt: 1
             }}
           >
-            <CustomButton
-              label="Thêm vào sổ công việc"
-              onClick={handleOpenAddDocToFile}
-            />
+            <Tooltip title="Thêm vào sổ công việc">
+              <IconButton color="info" onClick={handleOpenAddDocToFile}>
+                <PostAddIcon />
+              </IconButton>
+            </Tooltip>
           </Stack>
         </PageHeader>
         <Box

@@ -190,13 +190,6 @@ const OutgoingDocumentDetail = () => {
                 <PersonAddIcon />
               </IconButton>
             </Tooltip>
-            {/* <CustomButton label="Chia sẻ" variant="outlined" /> */}
-            {/* {newestStatus === OutgoingDocumentStatus.CHO_CHINH_SUA && (
-              <CustomButton
-                label="Chỉnh sửa"
-                onClick={() => navigate('edit')}
-              />
-            )} */}
 
             {workflow && (
               <WorkFlowButtonsHandle
