@@ -7,14 +7,17 @@ export interface InputSearchProps {
   size?: 'small' | 'medium';
   onTextChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   sx?: SxProps;
+
+  value?: string;
 }
 
 export const InputSearch = (props: InputSearchProps) => {
-  const { placeholder, onTextChange, size = 'small', sx } = props;
+  const { placeholder, onTextChange, size = 'small', sx, value } = props;
   return (
     <TextField
       placeholder={placeholder}
       size={size}
+      value={value || ''}
       sx={{
         borderRadius: '2.5',
         border: 'none',

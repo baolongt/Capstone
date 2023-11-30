@@ -42,7 +42,6 @@ import {
   PublishInfo,
   WorkFlowButtonsHandle
 } from '@/components/document';
-import DocComment from '@/components/document/comment';
 import OutgoingDocComment from '@/components/document/outgoing/outgoing-doc-detail-comment';
 import { api } from '@/constants';
 import { Attachment } from '@/models';
@@ -190,13 +189,6 @@ const OutgoingDocumentDetail = () => {
                 <PersonAddIcon />
               </IconButton>
             </Tooltip>
-            {/* <CustomButton label="Chia sẻ" variant="outlined" /> */}
-            {/* {newestStatus === OutgoingDocumentStatus.CHO_CHINH_SUA && (
-              <CustomButton
-                label="Chỉnh sửa"
-                onClick={() => navigate('edit')}
-              />
-            )} */}
 
             {workflow && (
               <WorkFlowButtonsHandle
@@ -272,7 +264,7 @@ const OutgoingDocumentDetail = () => {
           >
             Bình luận
           </Typography>
-          <DocComment
+          <OutgoingDocComment
             sx={{ width: '100%', mb: 3 }}
             docId={Number(id)}
             documentType={DocumentType.OUTGOING}

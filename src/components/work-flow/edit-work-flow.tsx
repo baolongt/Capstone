@@ -89,6 +89,7 @@ export const EditWorkFlow = ({
         isCreating={isUpdatingWorkflow}
         initData={initWorkflow}
         docType={docType as DocumentTypeCreate}
+        isCreatingWorkflow={isUpdatingWorkflow}
       />
     </Box>
   );

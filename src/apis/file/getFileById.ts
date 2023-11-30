@@ -34,6 +34,10 @@ export const getFileById = async ({
     params
   });
 
+  if (response.data.docs[0] === null) {
+    response.data.docs = [];
+  }
+
   return response;
 };
 
