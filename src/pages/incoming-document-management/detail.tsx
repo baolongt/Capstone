@@ -108,6 +108,16 @@ const IncomingDocumentDetail = () => {
             }}
           />
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+            <DetailTimeline
+              sx={{
+                p: 2,
+                mt: 2,
+                overflow: 'auto',
+                maxHeight: '40vh',
+                width: '50%'
+              }}
+              processHistory={data.processHistory}
+            />
             <DetailAttachmentAccordion
               attachments={data.attachments as Attachment[]}
               watchAttachment={watchAttachment}
@@ -121,16 +131,6 @@ const IncomingDocumentDetail = () => {
                 width: '45%',
                 py: 3
               }}
-            />
-            <DetailTimeline
-              sx={{
-                p: 2,
-                mt: 2,
-                overflow: 'auto',
-                maxHeight: '40vh',
-                width: '50%'
-              }}
-              processHistory={data.processHistory}
             />
           </Box>
           <Divider sx={{ my: 2 }} />
