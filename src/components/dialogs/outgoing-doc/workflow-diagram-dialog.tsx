@@ -7,11 +7,13 @@ import {
   IconButton,
   Typography
 } from '@mui/material';
+import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import { Edge, MarkerType, Node } from 'reactflow';
 
 import { Step } from '@/apis';
 import FlowChart from '@/components/flow-chart';
+import { TIMEZONE } from '@/constants';
 import { Status, WorkFlowActionDict } from '@/models/work-flow';
 
 const StatusColor: Record<Status, string> = {
@@ -54,7 +56,14 @@ const convertStepsToFlowChart = (steps: Step[]) => {
         target: step.id.toString() + seed,
         type: 'default',
         animated: true,
-        label: WorkFlowActionDict[steps[index - 1].action],
+        label:
+          WorkFlowActionDict[steps[index - 1].action] +
+          ' - Hạn xử lý ' +
+          dayjs
+            .utc(steps[steps.length - 1].deadline)
+            .tz(TIMEZONE)
+            .format('HH:mm DD/MM/YYYY'),
+
         markerEnd: {
           type: MarkerType.ArrowClosed
         }
@@ -95,7 +104,7 @@ const convertStepsToFlowChart = (steps: Step[]) => {
     type: 'default',
     draggable: false,
     data: {
-      label: 'Kết thúc'
+      label: 'Phát hành'
     },
     position: { x: 0, y: 0 },
     style: {
@@ -108,7 +117,13 @@ const convertStepsToFlowChart = (steps: Step[]) => {
     target: endId,
     type: 'default',
     animated: true,
-    label: 'Phát hành',
+    label:
+      WorkFlowActionDict[steps[steps.length - 1].action] +
+      ' - Hạn xử lý ' +
+      dayjs
+        .utc(steps[steps.length - 1].deadline)
+        .tz(TIMEZONE)
+        .format('HH:mm DD/MM/YYYY'),
     markerEnd: {
       type: MarkerType.ArrowClosed
     }
@@ -164,7 +179,6 @@ export const WorkflowDiagramDialog = ({
 
   useEffect(() => {
     const { nodes, edges } = convertStepsToFlowChart(steps);
-    console.log(nodes, edges);
     setNodes(nodes);
     setEdges(edges);
   }, [steps]);

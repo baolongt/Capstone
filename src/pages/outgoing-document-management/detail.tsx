@@ -43,7 +43,6 @@ import {
   WorkFlowButtonsHandle
 } from '@/components/document';
 import DocComment from '@/components/document/comment';
-import OutgoingDocComment from '@/components/document/outgoing/outgoing-doc-detail-comment';
 import { api } from '@/constants';
 import { Attachment } from '@/models';
 import { DocumentType } from '@/models/comment';

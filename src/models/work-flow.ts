@@ -57,6 +57,7 @@ export type StepCreate = {
   id: number; // for drag and drop
   handlerId: number;
   action: Action;
+  deadline: string;
 };
 
 export enum DocumentTypeCreate {
