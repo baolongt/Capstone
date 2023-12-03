@@ -17,6 +17,7 @@ import React, { useEffect } from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 
 import { useGetExampleWorkflow } from '@/apis/work-flow/get-outgoing-doc-example';
+import { TIMEZONE } from '@/constants';
 import { user, workFlow } from '@/models';
 import { ActionOptions, convertActionToString } from '@/models/work-flow';
 
@@ -107,10 +108,11 @@ const ListItem = ({
             }}
           />
           <DateTimePickerInput
-            value={dayjs(item.deadline)}
+            value={dayjs(item.deadline).tz(TIMEZONE)}
             sx={{ width: 150 }}
             label="Hạn xử lý"
             onChange={(newValue: string) => {
+              console.log(dayjs(newValue).toISOString());
               return handleUpdateDeadline(
                 item.id,
                 dayjs(newValue).toISOString()
@@ -268,7 +270,8 @@ function DragAndDropList({
                       const newItems = data.map((step) => ({
                         id: step.stepNumber,
                         handlerId: step.handlerId,
-                        action: step.action
+                        action: step.action,
+                        deadline: step.deadline
                       }));
 
                       setItems(newItems);

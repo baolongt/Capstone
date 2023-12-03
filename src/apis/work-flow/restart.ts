@@ -36,6 +36,9 @@ export const useRestartStatus = ({
       queryClient.invalidateQueries({
         queryKey: [api.WORKFLOW, docId, docType]
       });
+      queryClient.invalidateQueries({
+        queryKey: [api.NOTIFICATION]
+      });
       onSuccess?.();
     },
     onError: () => {
