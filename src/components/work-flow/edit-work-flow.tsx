@@ -55,7 +55,8 @@ export const EditWorkFlow = ({
         steps: steps.map((step, index) => ({
           handlerId: step.handlerId,
           action: step.action,
-          stepNumber: index + 1
+          stepNumber: index + 1,
+          deadline: step.deadline
         }))
       });
     }

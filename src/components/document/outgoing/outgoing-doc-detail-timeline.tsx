@@ -1,5 +1,7 @@
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import DoDisturbAltRoundedIcon from '@mui/icons-material/DoDisturbAltRounded';
+import ReplayRoundedIcon from '@mui/icons-material/ReplayRounded';
+import UTurnLeftRoundedIcon from '@mui/icons-material/UTurnLeftRounded';
 import Timeline from '@mui/lab/Timeline';
 import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineContent from '@mui/lab/TimelineContent';
@@ -27,6 +29,8 @@ const translations: Record<string, string> = {
   Consider: 'duyệt',
   Sign: 'ký',
   AddNumber: 'thêm số',
+  Rollback: 'quay lại bước',
+  Restart: 'bắt đầu lại quy trình',
   Accepted: 'Đã xử lý',
   Rejected: 'Từ chối'
 };
@@ -45,6 +49,18 @@ const renderStatusIcon = (status: string) => {
           <DoDisturbAltRoundedIcon />
         </TimelineDot>
       );
+    case 'Restart':
+      return (
+        <TimelineDot color="secondary" sx={{ color: '#fff' }}>
+          <ReplayRoundedIcon />
+        </TimelineDot>
+      );
+    case 'Rollback':
+      return (
+        <TimelineDot color="warning" sx={{ color: '#fff' }}>
+          <UTurnLeftRoundedIcon />
+        </TimelineDot>
+      );
     default:
       return (
         <TimelineDot color="success">
@@ -56,21 +72,43 @@ const renderStatusIcon = (status: string) => {
 
 const BaseTimelineItem: React.FC<BaseTimelineItemProps> = (props) => {
   const { time, title, subTitle, isLast } = props;
-  const [, status] = subTitle.split(', ');
+  const [action, status] = subTitle.split(', ');
+
+  let item = <></>;
+  if (action === 'Rollback') {
+    item = (
+      <>
+        <TimelineSeparator>
+          {renderStatusIcon(action)}
+          {!isLast && <TimelineConnector />}
+        </TimelineSeparator>
+        <TimelineContent>
+          <Typography variant="h6">{title}</Typography>
+          <Typography variant="subtitle1">{status}</Typography>
+        </TimelineContent>
+      </>
+    );
+  } else {
+    item = (
+      <>
+        <TimelineSeparator>
+          {renderStatusIcon(status)}
+          {!isLast && <TimelineConnector />}
+        </TimelineSeparator>
+        <TimelineContent>
+          <Typography variant="h6">{title}</Typography>
+          <Typography variant="subtitle1">{translations[status]}</Typography>
+        </TimelineContent>
+      </>
+    );
+  }
 
   return (
     <TimelineItem>
       <TimelineOppositeContent color="textSecondary">
         {time}
       </TimelineOppositeContent>
-      <TimelineSeparator>
-        {renderStatusIcon(status)}
-        {!isLast && <TimelineConnector />}
-      </TimelineSeparator>
-      <TimelineContent>
-        <Typography variant="h6">{title}</Typography>
-        <Typography variant="subtitle1">{translations[status]}</Typography>
-      </TimelineContent>
+      {item}
     </TimelineItem>
   );
 };

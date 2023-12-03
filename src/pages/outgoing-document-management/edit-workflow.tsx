@@ -38,7 +38,6 @@ const OutgoingDocEditWorkFlowPage = () => {
             docId={Number(id)}
             initWorkflow={workflow?.steps}
           />
-          ;
         </Box>
       </Box>
     </>

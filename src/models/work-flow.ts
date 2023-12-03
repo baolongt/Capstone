@@ -51,6 +51,7 @@ export type Step = {
   handlerName: string;
   action: Action;
   status: Status;
+  deadline: string;
 };
 
 export type StepCreate = {
