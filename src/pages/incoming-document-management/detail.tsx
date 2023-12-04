@@ -114,7 +114,7 @@ const IncomingDocumentDetail = () => {
                 mt: 2,
                 overflow: 'auto',
                 maxHeight: '40vh',
-                width: '50%'
+                width: '45%'
               }}
               processHistory={data.processHistory}
             />
@@ -128,7 +128,7 @@ const IncomingDocumentDetail = () => {
                 mt: 2,
                 overflow: 'auto',
                 maxHeight: '40vh',
-                width: '45%',
+                width: '50%',
                 py: 3
               }}
             />

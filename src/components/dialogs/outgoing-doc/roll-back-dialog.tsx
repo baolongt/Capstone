@@ -36,25 +36,13 @@ const RollbackDialog = ({
   const [reason, setReason] = useState<string>('');
 
   const handleClose = () => {
-    setStepNumber(null);
+    setStepNumber(-1);
     setReason('');
     onClose();
   };
 
   return (
-    <Dialog
-      open={isOpen}
-      //   sx={{
-      //     '& .MuiDialog-paper': {
-      //       minWidth: { md: '30%', xs: '75vw' }
-      //     }
-      //   }}//   sx={{
-      //     '& .MuiDialog-paper': {
-      //       minWidth: { md: '30%', xs: '75vw' }
-      //     }
-      //   }}
-      onClose={handleClose}
-    >
+    <Dialog open={isOpen} onClose={handleClose}>
       <DialogTitle>
         <Typography variant="h5">Quay lại</Typography>
       </DialogTitle>

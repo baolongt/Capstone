@@ -20,12 +20,20 @@ export type DetailAttachmentAccordionProps = {
   watchAttachment: (id: string) => void;
   signAttachment: (id: string) => void;
   addNumber?: (id: string, url: string) => void;
+  isNeedSign?: boolean;
 };
 
 export const DetailAttachmentAccordion: React.FC<
   DetailAttachmentAccordionProps
 > = (props) => {
-  const { attachments, watchAttachment, signAttachment, addNumber, sx } = props;
+  const {
+    attachments,
+    watchAttachment,
+    signAttachment,
+    addNumber,
+    sx,
+    isNeedSign = false
+  } = props;
   const theme = useTheme();
 
   const attachmentCards = attachments.map((att, idx) => (
@@ -52,9 +60,11 @@ export const DetailAttachmentAccordion: React.FC<
         variant="subtitle1"
         sx={{ fontWeight: 600, mb: 1 }}
       ></Typography>
-      <Button variant="contained" onClick={() => connect()}>
-        Kết nối chữ ký số
-      </Button>
+      {isNeedSign && (
+        <Button variant="contained" onClick={() => connect()}>
+          Kết nối chữ ký số
+        </Button>
+      )}
       <Box component="div" sx={{}}>
         <Stack sx={{ px: 1 }} spacing={3}>
           {attachmentCards}

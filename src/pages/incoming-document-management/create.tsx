@@ -43,7 +43,6 @@ const CreateIncomingDocumentPage = ({
       documentField: 1,
       documentTypeId: 1,
       processDeadline: '',
-      note: '',
       files: [] as UploadFile[],
       incomingNotation: '',
       priority: 1
@@ -67,11 +66,6 @@ const CreateIncomingDocumentPage = ({
 
   return (
     <Box>
-      <PageHeader>
-        <Box>
-          <PageTitle label="thêm văn bản đến" />
-        </Box>
-      </PageHeader>
       <Box
         sx={{ mx: 'auto', width: DEFAULT_PAGE_WIDTH, pr: 4, pb: 2 }}
         component={Paper}

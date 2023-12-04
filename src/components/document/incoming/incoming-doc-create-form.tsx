@@ -8,7 +8,6 @@ import { UseFormReturn } from 'react-hook-form';
 import {
   DatePickerField,
   InputField,
-  MultilineTextField,
   SelectField,
   WrappedDragDropFileBox
 } from '@/components/common';
@@ -148,15 +147,6 @@ const CreateInComingDocumentForm: React.FC<createDocumentFormProps> = ({
             name="processDeadline"
             minDate={dayjs()}
           />
-        </Grid>
-        <Grid item xs={12}>
-          <Typography style={{ marginBottom: '5px' }} fontWeight="bold">
-            Ghi chú
-            <Box component="span" color="error.main">
-              *
-            </Box>
-          </Typography>
-          <MultilineTextField form={form} name="note" minRows={4} />
         </Grid>
         <Grid item xs={12}>
           <Typography style={{ marginBottom: '5px' }} fontWeight="bold">
