@@ -18,6 +18,7 @@ export type Step = {
   status: Status;
   action: Action;
   stepNumber: number;
+  deadline: string;
 };
 
 export type GetWorkFlowsResponse = {

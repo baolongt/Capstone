@@ -9,6 +9,7 @@ type Step = {
   handlerId: number;
   action: Action;
   stepNumber: number;
+  deadline: string;
 };
 type GetExampleWorkflowResponse = {
   data: {

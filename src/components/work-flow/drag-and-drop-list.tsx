@@ -12,12 +12,16 @@ import {
   TextField,
   Typography
 } from '@mui/material';
+import dayjs from 'dayjs';
 import React, { useEffect } from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 
 import { useGetExampleWorkflow } from '@/apis/work-flow/get-outgoing-doc-example';
+import { TIMEZONE } from '@/constants';
 import { user, workFlow } from '@/models';
 import { ActionOptions, convertActionToString } from '@/models/work-flow';
+
+import DateTimePickerInput from '../common/date-time-picker';
 
 type DragAndDropListProps = {
   users: user.User[];
@@ -36,6 +40,7 @@ type ListItemProps = {
   handleDeleteItem: (id: number) => void;
   handleUpdateHandler: (id: number, handlerId: number) => void;
   handleUpdateAction: (id: number, action: workFlow.Action) => void;
+  handleUpdateDeadline: (id: number, deadline: string) => void;
   docType: workFlow.DocumentTypeCreate;
 };
 
@@ -46,6 +51,7 @@ const ListItem = ({
   handleDeleteItem,
   handleUpdateHandler,
   handleUpdateAction,
+  handleUpdateDeadline,
   docType
 }: ListItemProps) => {
   return (
@@ -56,12 +62,12 @@ const ListItem = ({
           component={Paper}
           sx={{
             width: '100%',
-            py: 3,
-            height: 80,
+            height: 100,
             display: 'flex',
             // alignItems: 'center',
             justifyContent: 'space-evenly',
             mb: 1,
+            pt: 2,
             backgroundColor: '#fff'
           }}
           {...provided.draggableProps}
@@ -71,7 +77,7 @@ const ListItem = ({
             color="primary"
             variant="outlined"
             label={`${index + 1}`}
-            sx={{ mr: 1 }}
+            sx={{ mr: 1, mt: 1 }}
           />
           <Autocomplete
             disablePortal
@@ -79,7 +85,7 @@ const ListItem = ({
             options={users}
             value={users.filter((user) => user.id === item.handlerId)[0]}
             getOptionLabel={(option) => String(option.name)}
-            sx={{ width: 300, mr: 1 }}
+            sx={{ width: 200, mt: 1 }}
             renderInput={(params) => (
               <TextField {...params} label="Người xử lý" />
             )}
@@ -94,20 +100,34 @@ const ListItem = ({
             value={item.action}
             options={ActionOptions[docType]}
             getOptionLabel={(option) => convertActionToString(option)}
-            sx={{ width: 300 }}
+            sx={{ width: 200, mt: 1 }}
             renderInput={(params) => <TextField {...params} label="Vai trò" />}
             onChange={(e, newValue) => {
               if (!newValue) return;
               handleUpdateAction(item.id, newValue);
             }}
           />
-          <IconButton
-            aria-label="delete"
-            color="error"
-            onClick={() => handleDeleteItem(item.id)}
-          >
-            <DeleteIcon />
-          </IconButton>
+          <DateTimePickerInput
+            value={dayjs(item.deadline).tz(TIMEZONE)}
+            sx={{ width: 150 }}
+            label="Hạn xử lý"
+            onChange={(newValue: string) => {
+              console.log(dayjs(newValue).toISOString());
+              return handleUpdateDeadline(
+                item.id,
+                dayjs(newValue).toISOString()
+              );
+            }}
+          />
+          <Box sx={{ mt: 1 }}>
+            <IconButton
+              aria-label="delete"
+              color="error"
+              onClick={() => handleDeleteItem(item.id)}
+            >
+              <DeleteIcon />
+            </IconButton>
+          </Box>
         </Box>
       )}
     </Draggable>
@@ -159,7 +179,8 @@ function DragAndDropList({
         {
           id: items.length + 1,
           handlerId: 1,
-          action: workFlow.Action.CONSIDER
+          action: workFlow.Action.CONSIDER,
+          deadline: new Date().toISOString()
         }
       ];
     });
@@ -205,6 +226,19 @@ function DragAndDropList({
     setItems(newItems);
   };
 
+  const handleUpdateDeadline = (id: number, deadline: string) => {
+    const newItems = items.map((item) => {
+      if (item.id === id) {
+        return {
+          ...item,
+          deadline
+        };
+      }
+      return item;
+    });
+    setItems(newItems);
+  };
+
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
       <Droppable droppableId="droppable">
@@ -236,7 +270,8 @@ function DragAndDropList({
                       const newItems = data.map((step) => ({
                         id: step.stepNumber,
                         handlerId: step.handlerId,
-                        action: step.action
+                        action: step.action,
+                        deadline: step.deadline
                       }));
 
                       setItems(newItems);
@@ -254,6 +289,7 @@ function DragAndDropList({
                   handleDeleteItem={handleDeleteItem}
                   handleUpdateHandler={handleUpdateHandler}
                   handleUpdateAction={handleUpdateAction}
+                  handleUpdateDeadline={handleUpdateDeadline}
                   item={item}
                   index={index}
                   users={users}

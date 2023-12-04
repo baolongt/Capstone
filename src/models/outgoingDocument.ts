@@ -1,3 +1,4 @@
+import { OutgoingDocumentStatus } from '@/constants';
 import { SelectOption } from '@/types';
 
 import { Attachment } from './attachment';
@@ -13,7 +14,7 @@ export interface OutgoingDocument {
   receiver: string;
   lastSignedBy: string;
   createdByDepartment: string;
-  documentStatus: number;
+  documentStatus: OutgoingDocumentStatus;
   createdBy: string;
   documentField: string;
   documentType: string;
@@ -96,15 +97,6 @@ export const convertDetailToEditForm = (
     processDeadline: detail.processDeadline
   };
 };
-
-export enum DocumentStatus {
-  CHUYEN_TOI_TRUONG_PHONG = 1,
-  CHUYEN_TOI_CHANH_VAN_PHONG,
-  CHUYEN_TOI_LANH_DAO,
-  CHUYEN_TOI_VAN_THU,
-  TRA_LAI,
-  BAN_HANH_VAN_BAN
-}
 
 export const DocumentStatusDict = new Map<number, string>([
   [1, 'Đang xử lý'],

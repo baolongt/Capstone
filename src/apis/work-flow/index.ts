@@ -15,3 +15,4 @@ export * from './create';
 export * from './edit';
 export * from './get-workflows';
 export * from './list-handlers';
+export * from './roll-back';

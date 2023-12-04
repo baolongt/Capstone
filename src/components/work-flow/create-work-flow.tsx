@@ -28,8 +28,12 @@ export const CreateWorkFlow = ({
         toast.success('Tạo trình tự xử lý thành công');
         handleNextStep();
       },
-      onError: () => {
-        toast.error('Tạo trình tự xử lý thất bại');
+      onError: (error) => {
+        if (error.message) {
+          toast.error('Lỗi: ' + error.message);
+        } else {
+          toast.error('Tạo trình tự xử lý thất bại');
+        }
       },
       id: docId ?? -1,
       docType
@@ -43,7 +47,8 @@ export const CreateWorkFlow = ({
         steps: steps.map((step, index) => ({
           handlerId: step.handlerId,
           action: step.action,
-          stepNumber: index + 1
+          stepNumber: index + 1,
+          deadline: step.deadline
         }))
       });
     }

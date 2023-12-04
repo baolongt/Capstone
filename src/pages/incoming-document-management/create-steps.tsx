@@ -6,7 +6,7 @@ import BaseStepper from '@/components/common/stepper';
 import { CreateWorkFlow } from '@/components/work-flow/create-work-flow';
 import { DocumentTypeCreate } from '@/models/work-flow';
 
-import CreateInternalDocumentPage from './create';
+import CreateIncomingDocumentPage from './create';
 
 const createSteps = [{ label: 'Tạo văn bản' }, { label: 'Tạo trình tự xử lý' }];
 
@@ -31,7 +31,7 @@ const StepPage = ({
     [key: number]: JSX.Element;
   } = {
     1: (
-      <CreateInternalDocumentPage
+      <CreateIncomingDocumentPage
         setNewDocId={setNewDocId}
         handleNextStep={handleNextStep}
       />
@@ -50,7 +50,7 @@ const StepPage = ({
   return pages[step + 1];
 };
 
-const InternalCreateStepsPage = () => {
+const IncomingCreateStepsPage = () => {
   const [activeStep, setActiveStep] = useState<number>(0);
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -84,4 +84,4 @@ const InternalCreateStepsPage = () => {
   );
 };
 
-export default InternalCreateStepsPage;
+export default IncomingCreateStepsPage;

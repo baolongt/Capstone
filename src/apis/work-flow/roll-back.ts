@@ -4,21 +4,26 @@ import { api } from '@/constants';
 import { common } from '@/models';
 import { axiosInstance } from '@/utils';
 
-import { WorkFlowDocType, WorkFlowStatus } from '.';
+import { WorkFlowDocType } from '.';
 
-type ChangeStatusPayload = {
-  id: number | string;
-  status: WorkFlowStatus;
-  docType: WorkFlowDocType;
+type RollbackPayload = {
+  workflowId: number;
+  stepNumber: number;
+  reason: string;
 };
-
-const changeStatus = async ({ id, status, docType }: ChangeStatusPayload) => {
-  const url = `/api/workflows/change-status/${id}?docType=${docType}&&status=${status}`;
-  const res = await axiosInstance.put(url);
+const rollback = async ({
+  workflowId,
+  stepNumber,
+  reason
+}: RollbackPayload) => {
+  const url = `/api/workflows/rollback/${workflowId}/${stepNumber}`;
+  const res = await axiosInstance.put(url, {
+    reason
+  });
   return res;
 };
 
-export const useChangeStatus = ({
+export const useRollback = ({
   onSuccess,
   onError,
   id,
@@ -31,7 +36,7 @@ export const useChangeStatus = ({
   const docId = id;
   const docType = type;
   return useMutation({
-    mutationFn: (payload: ChangeStatusPayload) => changeStatus(payload),
+    mutationFn: rollback,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [api.OUTGOING_DOCUMENT, id] });
       queryClient.invalidateQueries({
