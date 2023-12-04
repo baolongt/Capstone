@@ -63,13 +63,22 @@ export const useCreateWorkflow = ({
         queryClient.invalidateQueries({
           queryKey: [api.INCOMING_DOCUMENT, id]
         });
+        queryClient.invalidateQueries({
+          queryKey: [api.INCOMING_DOCUMENT]
+        });
       } else if (docType === DocumentTypeCreate.INTERNAL) {
         queryClient.invalidateQueries({
           queryKey: [api.INTERNAL_DOCUMENT, id]
         });
+        queryClient.invalidateQueries({
+          queryKey: [api.INTERNAL_DOCUMENT]
+        });
       } else {
         queryClient.invalidateQueries({
           queryKey: [api.OUTGOING_DOCUMENT, id]
+        });
+        queryClient.invalidateQueries({
+          queryKey: [api.OUTGOING_DOCUMENT]
         });
       }
       queryClient.invalidateQueries({ queryKey: [api.WORKFLOW] });
