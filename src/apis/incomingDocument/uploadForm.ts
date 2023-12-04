@@ -18,7 +18,6 @@ type IncomingDocumentUploadFormType = {
   documentField: string;
   documentTypeId: number;
   isRepliedDocument: boolean;
-  note: string;
   processDeadline: string;
   attachments: AttachmentType[];
   incomingPublishInfo: IncomingPublishInfo;
@@ -49,14 +48,13 @@ type UploadFileResponse = {
   data: NameAndUrlFile[];
 };
 
-const convertToInternalDocumentUploadFormType = (
+const convertToIncomingDocumentUploadFormType = (
   createObj: CreateType
 ): IncomingDocumentUploadFormType => {
   const inComingDocumentUploadFormType: IncomingDocumentUploadFormType = {
     epitomize: createObj.epitomize,
     documentField: String(createObj.documentField),
     documentTypeId: createObj.documentTypeId,
-    note: createObj.note,
     isRepliedDocument: false,
     processDeadline: createObj.processDeadline,
     attachments:
@@ -106,7 +104,7 @@ export const uploadForm = async (
   formData: CreateType,
   callback?: (newEntity: InternalDocumentUploadFormTypeResponse) => void
 ): Promise<InternalDocumentUploadFormTypeResponse> => {
-  const url = 'api/IncomingDocument';
+  // const url = 'api/IncomingDocument';
 
   const { files: formFiles } = formData;
 
@@ -118,10 +116,10 @@ export const uploadForm = async (
     formFiles[idx].setNameAndUrl(uploadedFile[idx].name, uploadedFile[idx].url);
   }
 
-  const payload = convertToInternalDocumentUploadFormType(formData);
+  const payload = convertToIncomingDocumentUploadFormType(formData);
 
   const res: InternalDocumentUploadFormTypeResponse = await axiosInstance.post(
-    url,
+    'api/IncomingDocument',
     payload
   );
   callback?.(res);

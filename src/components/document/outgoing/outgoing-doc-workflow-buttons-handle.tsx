@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import { OutgoingDocumentStatus } from '@/constants';
 import useAuth from '@/hooks/useAuth';
 import { workFlow } from '@/models';
+import { Status } from '@/models/work-flow';
 
 import EditButtonGroup from './outgoing-doc-detail-edit-button-group';
 
@@ -199,16 +200,21 @@ export const WorkFlowButtonsHandle = ({
               <UndoIcon />
             </IconButton>
           </Tooltip>
-          <Tooltip title="Bắt đầu lại từ 1 bước">
-            <IconButton
-              color="warning"
-              onClick={() => {
-                setOpenRollbackDialog(true);
-              }}
-            >
-              <UTurnLeftOutlinedIcon />
-            </IconButton>
-          </Tooltip>
+          {steps.filter(
+            (step) =>
+              step.status !== Status.NOT_START && step.status !== Status.PENDING
+          ).length > 0 && (
+            <Tooltip title="Bắt đầu lại từ 1 bước">
+              <IconButton
+                color="warning"
+                onClick={() => {
+                  setOpenRollbackDialog(true);
+                }}
+              >
+                <UTurnLeftOutlinedIcon />
+              </IconButton>
+            </Tooltip>
+          )}
         </>
       )}
     </>
