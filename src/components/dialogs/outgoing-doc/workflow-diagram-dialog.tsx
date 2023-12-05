@@ -60,7 +60,7 @@ const convertStepsToFlowChart = (steps: Step[]) => {
           WorkFlowActionDict[steps[index - 1].action] +
           ' - Hạn xử lý ' +
           dayjs
-            .utc(steps[steps.length - 1].deadline)
+            .utc(steps[index - 1].deadline)
             .tz(TIMEZONE)
             .format('HH:mm DD/MM/YYYY'),
 
