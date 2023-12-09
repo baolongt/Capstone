@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import DeleteIcon from '@mui/icons-material/Delete';
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import UTurnLeftIcon from '@mui/icons-material/UTurnLeft';
 import { LoadingButton } from '@mui/lab';
 import {
   Autocomplete,
@@ -13,7 +15,7 @@ import {
   Typography
 } from '@mui/material';
 import dayjs from 'dayjs';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 
 import { useGetExampleWorkflow } from '@/apis/work-flow/get-outgoing-doc-example';
@@ -41,7 +43,13 @@ type ListItemProps = {
   handleUpdateHandler: (id: number, handlerId: number) => void;
   handleUpdateAction: (id: number, action: workFlow.Action) => void;
   handleUpdateDeadline: (id: number, deadline: string) => void;
+  handleUpdateFailStepNumber: (id: number, failStepNumber: number) => void;
   docType: workFlow.DocumentTypeCreate;
+  previewSteps: workFlow.StepCreate[];
+};
+
+const convertStepToItem = (step: workFlow.StepCreate) => {
+  return `${step.id}`;
 };
 
 const ListItem = ({
@@ -52,8 +60,12 @@ const ListItem = ({
   handleUpdateHandler,
   handleUpdateAction,
   handleUpdateDeadline,
-  docType
+  handleUpdateFailStepNumber,
+  docType,
+  previewSteps
 }: ListItemProps) => {
+  const [isHaveFailStep, setIsHaveFailStep] = useState<boolean>(false);
+
   return (
     <Draggable draggableId={String(item.id)} index={index}>
       {(provided) => (
@@ -64,8 +76,7 @@ const ListItem = ({
             width: '100%',
             height: 100,
             display: 'flex',
-            // alignItems: 'center',
-            justifyContent: 'space-evenly',
+            justifyContent: 'start',
             mb: 1,
             pt: 2,
             backgroundColor: '#fff'
@@ -79,54 +90,108 @@ const ListItem = ({
             label={`${index + 1}`}
             sx={{ mr: 1, mt: 1 }}
           />
-          <Autocomplete
-            disablePortal
-            size="small"
-            options={users}
-            value={users.filter((user) => user.id === item.handlerId)[0]}
-            getOptionLabel={(option) => String(option.name)}
-            sx={{ width: 200, mt: 1 }}
-            renderInput={(params) => (
-              <TextField {...params} label="Người xử lý" />
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'start',
+              backgroundColor: '#fff',
+              width: '100%'
+            }}
+          >
+            <Autocomplete
+              disablePortal
+              size="small"
+              options={users}
+              value={users.filter((user) => user.id === item.handlerId)[0]}
+              getOptionLabel={(option) => String(option.name)}
+              sx={{ width: 200, mt: 1 }}
+              renderInput={(params) => (
+                <TextField {...params} label="Người xử lý" />
+              )}
+              onChange={(e, newValue) => {
+                if (!newValue) return;
+                handleUpdateHandler(item.id, newValue.id);
+              }}
+            />
+            <Autocomplete
+              disablePortal
+              size="small"
+              value={item.action}
+              options={ActionOptions[docType]}
+              getOptionLabel={(option) => convertActionToString(option)}
+              sx={{ width: 200, mt: 1, ml: 1 }}
+              renderInput={(params) => (
+                <TextField {...params} label="Vai trò" />
+              )}
+              onChange={(e, newValue) => {
+                if (!newValue) return;
+                handleUpdateAction(item.id, newValue);
+              }}
+            />
+
+            <DateTimePickerInput
+              value={dayjs(item.deadline).tz(TIMEZONE)}
+              sx={{ ml: 1, width: 270 }}
+              label="Hạn xử lý"
+              onChange={(newValue: string) => {
+                console.log(dayjs(newValue).toISOString());
+                return handleUpdateDeadline(
+                  item.id,
+                  dayjs(newValue).toISOString()
+                );
+              }}
+            />
+
+            {index > 0 && !isHaveFailStep && (
+              <Box sx={{ mt: 1 }}>
+                <IconButton
+                  size="small"
+                  color="primary"
+                  onClick={() => setIsHaveFailStep(true)}
+                >
+                  <UTurnLeftIcon />
+                </IconButton>
+              </Box>
             )}
-            onChange={(e, newValue) => {
-              if (!newValue) return;
-              handleUpdateHandler(item.id, newValue.id);
-            }}
-          />
-          <Autocomplete
-            disablePortal
-            size="small"
-            value={item.action}
-            options={ActionOptions[docType]}
-            getOptionLabel={(option) => convertActionToString(option)}
-            sx={{ width: 200, mt: 1 }}
-            renderInput={(params) => <TextField {...params} label="Vai trò" />}
-            onChange={(e, newValue) => {
-              if (!newValue) return;
-              handleUpdateAction(item.id, newValue);
-            }}
-          />
-          <DateTimePickerInput
-            value={dayjs(item.deadline).tz(TIMEZONE)}
-            sx={{ width: 150 }}
-            label="Hạn xử lý"
-            onChange={(newValue: string) => {
-              console.log(dayjs(newValue).toISOString());
-              return handleUpdateDeadline(
-                item.id,
-                dayjs(newValue).toISOString()
-              );
-            }}
-          />
-          <Box sx={{ mt: 1 }}>
-            <IconButton
-              aria-label="delete"
-              color="error"
-              onClick={() => handleDeleteItem(item.id)}
-            >
-              <DeleteIcon />
-            </IconButton>
+
+            {isHaveFailStep && (
+              <>
+                <Autocomplete
+                  disablePortal
+                  size="small"
+                  options={previewSteps}
+                  getOptionLabel={(option) => convertStepToItem(option)}
+                  sx={{ width: 120, mt: 1, ml: 1 }}
+                  renderInput={(params) => (
+                    <TextField {...params} label="Bước quay lại" />
+                  )}
+                  onChange={(e, newValue) => {
+                    if (newValue) {
+                      handleUpdateFailStepNumber(item.id, newValue.id);
+                    }
+                  }}
+                />
+                <Box sx={{ mt: 1 }}>
+                  <IconButton
+                    size="small"
+                    color="primary"
+                    onClick={() => setIsHaveFailStep(false)}
+                  >
+                    <RemoveCircleOutlineIcon />
+                  </IconButton>
+                </Box>
+              </>
+            )}
+            <Box sx={{ mt: 1 }}>
+              <IconButton
+                size="small"
+                aria-label="delete"
+                color="error"
+                onClick={() => handleDeleteItem(item.id)}
+              >
+                <DeleteIcon />
+              </IconButton>
+            </Box>
           </Box>
         </Box>
       )}
@@ -239,6 +304,19 @@ function DragAndDropList({
     setItems(newItems);
   };
 
+  const handleUpdateFailStepNumber = (id: number, failStepNumber: number) => {
+    const newItems = items.map((item) => {
+      if (item.id === id) {
+        return {
+          ...item,
+          failStepNumber
+        };
+      }
+      return item;
+    });
+    setItems(newItems);
+  };
+
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
       <Droppable droppableId="droppable">
@@ -290,10 +368,12 @@ function DragAndDropList({
                   handleUpdateHandler={handleUpdateHandler}
                   handleUpdateAction={handleUpdateAction}
                   handleUpdateDeadline={handleUpdateDeadline}
+                  handleUpdateFailStepNumber={handleUpdateFailStepNumber}
                   item={item}
                   index={index}
                   users={users}
                   docType={docType}
+                  previewSteps={items.slice(0, index)}
                 />
               );
             })}

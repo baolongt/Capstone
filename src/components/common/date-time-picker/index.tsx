@@ -1,5 +1,5 @@
 import { DateTimePickerProps } from '@mui/lab';
-import { SxProps } from '@mui/system';
+import { Box, SxProps } from '@mui/system';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
@@ -18,13 +18,15 @@ export default function DateTimePickerInput({
   ...rest
 }: BasicDateTimePickerProps) {
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DemoContainer components={['DateTimePicker']}>
-        <DateTimePicker
-          slotProps={{ textField: { size: 'small', label: label, sx: sx } }}
-          {...rest}
-        />
-      </DemoContainer>
-    </LocalizationProvider>
+    <Box sx={sx}>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <DemoContainer components={['DateTimePicker']}>
+          <DateTimePicker
+            slotProps={{ textField: { size: 'small', label: label } }}
+            {...rest}
+          />
+        </DemoContainer>
+      </LocalizationProvider>
+    </Box>
   );
 }

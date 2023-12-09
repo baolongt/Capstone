@@ -56,9 +56,11 @@ export type Step = {
 
 export type StepCreate = {
   id: number; // for drag and drop
+  isDisabled?: boolean;
   handlerId: number;
   action: Action;
   deadline: string;
+  failStepNumber?: number | null;
 };
 
 export enum DocumentTypeCreate {

@@ -14,51 +14,48 @@ import ReactFlow, {
   useNodesState
 } from 'reactflow';
 
+import CircleNode from './circle-node';
+import RectangleNode from './rectangle-node';
+import RhombusNode from './rhombus-node';
+
 const dagreGraph = new dagre.graphlib.Graph();
 dagreGraph.setDefaultEdgeLabel(() => ({}));
 
-const nodeWidth = 172;
-const nodeHeight = 36;
-
-const getLayoutedElements = (
-  nodes: Node[],
-  edges: Edge[],
-  direction = 'TB'
-) => {
-  const isHorizontal = direction === 'LR';
-  dagreGraph.setGraph({ rankdir: direction });
-
-  nodes.forEach((node) => {
-    dagreGraph.setNode(node.id, { width: nodeWidth, height: nodeHeight });
-  });
-
-  edges.forEach((edge) => {
-    dagreGraph.setEdge(edge.source, edge.target);
-  });
-
-  dagre.layout(dagreGraph);
-
-  nodes.forEach((node) => {
-    const nodeWithPosition = dagreGraph.node(node.id);
-    node.targetPosition = isHorizontal ? Position.Left : Position.Top;
-    node.sourcePosition = isHorizontal ? Position.Right : Position.Bottom;
-
-    // We are shifting the dagre node position (anchor=center center) to the top left
-    // so it matches the React Flow node anchor point (top left).
-    node.position = {
-      x: nodeWithPosition.x - nodeWidth / 2,
-      y: nodeWithPosition.y - nodeHeight / 2
-    };
-
-    return node;
-  });
-
-  return { nodes, edges };
+const nodeTypes = {
+  circleNode: CircleNode,
+  rectangleNode: RectangleNode,
+  rhombusNode: RhombusNode
 };
 
 type FlowChartProps = {
   nodes: Node[];
   edges: Edge[];
+};
+
+const nodeWidth = 140;
+const distance = 100;
+const getLayoutedElements = (nodes: Node[], edges: Edge[]) => {
+  nodes.forEach((node, index) => {
+    if (node.data.isConditaionNode) {
+      node.position = {
+        x: nodeWidth / 2,
+        y: index * distance
+      };
+    } else if (node.data.isStatusNode) {
+      node.position = {
+        x: 55,
+        y: index * distance
+      };
+    } else {
+      node.position = {
+        x: 0,
+        y: index * distance
+      };
+    }
+    return node;
+  });
+
+  return { nodes, edges };
 };
 
 const FlowChart = ({
@@ -75,18 +72,9 @@ const FlowChart = ({
     );
     setNodes([...layoutedNodes]);
     setEdges([...layoutedEdges]);
+    // setNodes(initialNodes);
+    // setEdges(initialEdges);
   }, [initialNodes, initialEdges]);
-
-  // const onLayout = useCallback(
-  //   (direction: 'TB' | 'LR') => {
-  //     const { nodes: layoutedNodes, edges: layoutedEdges } =
-  //       getLayoutedElements(nodes, edges, direction);
-
-  //     setNodes([...layoutedNodes]);
-  //     setEdges([...layoutedEdges]);
-  //   },
-  //   [nodes, edges]
-  // );
 
   if (nodes.length === 0 && edges.length === 0) {
     return <>Không có dữ liệu</>;
@@ -105,6 +93,7 @@ const FlowChart = ({
         edges={edges}
         connectionLineType={ConnectionLineType.SmoothStep}
         defaultViewport={{ x: 0, y: 0, zoom: 0.1 }}
+        nodeTypes={nodeTypes}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
       >

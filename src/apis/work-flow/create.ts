@@ -11,6 +11,7 @@ export type CreateStep = {
   action: number;
   stepNumber: number;
   deadline: string;
+  failStepNumber?: number | null;
 };
 
 export type Workflow = {

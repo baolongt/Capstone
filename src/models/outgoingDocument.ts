@@ -114,11 +114,19 @@ export interface ForwardOutgoingDocument {
 export const documentFieldOptions: Array<SelectOption> = [
   {
     value: 1,
-    title: 'Văn bản hành chính'
+    title: 'Hành chính văn phòng'
   },
   {
     value: 2,
-    title: 'Văn bản chuyên ngành'
+    title: 'Nhân sự'
+  },
+  {
+    value: 3,
+    title: 'Hoạt động kinh doanh'
+  },
+  {
+    value: 4,
+    title: 'Tài chính, kế toán'
   }
 ];
 
@@ -126,39 +134,45 @@ export const documentTypeOptionsMap: Record<number, Array<SelectOption>> = {
   1: [
     {
       value: 1,
-      title: 'Nghị quyết (cá biệt)'
+      title: 'Công văn'
     },
     {
       value: 2,
-      title: 'Quyết định (cá biệt)'
+      title: 'Tài liệu'
     },
     {
       value: 3,
-      title: 'Chỉ thị'
+      title: 'Báo cáo'
     },
     {
       value: 4,
-      title: 'Quy chế'
-    },
+      title: 'Hồ sơ thành lập'
+    }
+  ],
+  2: [
     {
       value: 5,
-      title: 'Quy định'
+      title: 'Quyết định'
     },
     {
       value: 6,
-      title: 'Thông cáo'
+      title: 'Hồ sơ nhân viên'
     },
     {
       value: 7,
-      title: 'Thông báo'
-    },
+      title: 'Bảo hiểm xã hội'
+    }
+  ],
+  3: [
     {
       value: 8,
-      title: 'Hướng dẫn'
-    },
+      title: 'Hợp đồng'
+    }
+  ],
+  4: [
     {
       value: 9,
-      title: 'Chương trình'
+      title: 'Dự toán'
     },
     {
       value: 10,
@@ -166,82 +180,9 @@ export const documentTypeOptionsMap: Record<number, Array<SelectOption>> = {
     },
     {
       value: 11,
-      title: 'Phương án'
-    },
-    {
-      value: 12,
-      title: 'Đề án'
-    },
-    {
-      value: 13,
-      title: 'Dự án'
-    },
-    {
-      value: 14,
-      title: 'Báo cáo'
-    },
-    {
-      value: 15,
-      title: 'Biên bản'
-    },
-    {
-      value: 16,
-      title: 'Tờ trình'
-    },
-    {
-      value: 17,
-      title: 'Hợp đồng'
-    },
-    {
-      value: 18,
-      title: 'Công văn'
-    },
-    {
-      value: 19,
-      title: 'Công điện'
-    },
-    {
-      value: 20,
-      title: 'Bản ghi nhớ'
-    },
-    {
-      value: 21,
-      title: 'Bản thỏa thuận'
-    },
-    {
-      value: 22,
-      title: 'Giấy ủy quyền'
-    },
-    {
-      value: 23,
-      title: 'Giấy mời'
-    },
-    {
-      value: 24,
-      title: 'Giấy giới thiệu'
-    },
-    {
-      value: 25,
-      title: 'Giấy nghỉ phép'
-    },
-    {
-      value: 26,
-      title: 'Phiếu gửi'
-    },
-    {
-      value: 27,
-      title: 'Phiếu chuyển'
-    },
-    {
-      value: 28,
-      title: 'Phiếu báo'
-    },
-    {
-      value: 29,
-      title: 'Thư công'
+      title: 'Kiểm kê'
     }
-  ],
-  2: []
+  ]
 };
 
 export const statusOptions: Array<SelectOption> = [
