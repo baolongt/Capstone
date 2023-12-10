@@ -49,12 +49,13 @@ type ListItemProps = {
   previewSteps: workFlow.StepCreate[] | EditStep[];
 };
 
-const convertStepToItem = (step: workFlow.StepCreate | EditStep) => {
+const convertStepToItem = (step: workFlow.StepCreate | EditStep): string => {
   if ('stepNumber' in step) {
     return '' + step?.stepNumber;
   } else if ('id' in step) {
     return '' + step?.id;
   }
+  return '';
 };
 
 const ListItem = ({
@@ -164,7 +165,7 @@ const ListItem = ({
                 <Autocomplete
                   disablePortal
                   size="small"
-                  options={previewSteps}
+                  options={previewSteps as any[]}
                   getOptionLabel={(option) => convertStepToItem(option)}
                   sx={{ width: 120, mt: 1, ml: 1 }}
                   renderInput={(params) => (
