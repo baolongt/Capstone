@@ -187,13 +187,10 @@ const convertStepsToNodesAndEdges = (steps: Step[]) => {
     animated: true,
     ...(convertedNodes[convertedNodes.length - 1].step
       ? {
-          label:
-            WorkFlowActionDict[steps[steps.length - 1].action] +
-            ' - Hạn xử lý ' +
-            dayjs
-              .utc(steps[steps.length - 1].deadline)
-              .tz(TIMEZONE)
-              .format('HH:mm DD/MM/YYYY')
+          label: convertActionAndDeadlineToEdgeLabel(
+            steps[steps.length - 1].action,
+            steps[steps.length - 1].deadline
+          )
         }
       : {}),
 

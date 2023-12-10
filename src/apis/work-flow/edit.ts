@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { api } from '@/constants';
 import { common } from '@/models';
-import { DocumentTypeCreate } from '@/models/work-flow';
+import { DocumentTypeCreate, StepCreate } from '@/models/work-flow';
 import { axiosInstance } from '@/utils';
 
 export type EditStep = {

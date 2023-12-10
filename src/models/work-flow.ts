@@ -52,14 +52,13 @@ export type Step = {
   action: Action;
   status: Status;
   deadline?: string | null;
+  failStepNumber?: number | null;
 };
 
 export type StepCreate = {
   id: number; // for drag and drop
-  isDisabled?: boolean;
   handlerId: number;
   action: Action;
-  deadline?: string;
   failStepNumber?: number | null;
 };
 

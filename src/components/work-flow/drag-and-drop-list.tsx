@@ -20,7 +20,11 @@ import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { EditStep } from '@/apis';
 import { useGetExampleWorkflow } from '@/apis/work-flow/get-outgoing-doc-example';
 import { user, workFlow } from '@/models';
-import { ActionOptions, convertActionToString } from '@/models/work-flow';
+import {
+  ActionOptions,
+  convertActionToString,
+  StepCreate
+} from '@/models/work-flow';
 
 type DragAndDropListProps = {
   users: user.User[];
@@ -39,16 +43,17 @@ type ListItemProps = {
   handleDeleteItem: (id: number) => void;
   handleUpdateHandler: (id: number, handlerId: number) => void;
   handleUpdateAction: (id: number, action: workFlow.Action) => void;
-  handleUpdateFailStepNumber: (id: number, failStepNumber: number) => void;
+  handleUpdateFailStepNumber: (id: number, failStepNumber?: number) => void;
   docType: workFlow.DocumentTypeCreate;
-  previewSteps: workFlow.StepCreate[] | EditStep[];
+  previewSteps: (workFlow.StepCreate & EditStep)[];
 };
 
-const convertStepToItem = (step: workFlow.StepCreate | EditStep): string => {
-  if ('stepNumber' in step) {
-    return '' + step?.stepNumber;
-  } else if ('id' in step) {
-    return '' + step?.id;
+const convertStepToItem = (step: workFlow.StepCreate & EditStep): string => {
+  const keys = Object.keys(step);
+  if (keys.includes('stepNumber')) {
+    return '' + step.stepNumber;
+  } else if (keys.includes('id')) {
+    return '' + step.id;
   }
   return '';
 };
@@ -65,6 +70,18 @@ const ListItem = ({
   previewSteps
 }: ListItemProps) => {
   const [isHaveFailStep, setIsHaveFailStep] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (item.failStepNumber) {
+      setIsHaveFailStep(true);
+    }
+  }, [item]);
+
+  useEffect(() => {
+    if (!isHaveFailStep) {
+      handleUpdateFailStepNumber(item.id);
+    }
+  }, [isHaveFailStep]);
 
   return (
     <Draggable draggableId={String(item.id)} index={index}>
@@ -146,7 +163,8 @@ const ListItem = ({
                 <Autocomplete
                   disablePortal
                   size="small"
-                  options={previewSteps as any[]}
+                  options={previewSteps}
+                  value={previewSteps.find((s) => s.id === item.failStepNumber)}
                   getOptionLabel={(option) => convertStepToItem(option)}
                   sx={{ width: 180, mt: 1, ml: 1 }}
                   renderInput={(params) => (
@@ -278,7 +296,7 @@ function DragAndDropList({
     setItems(newItems);
   };
 
-  const handleUpdateFailStepNumber = (id: number, failStepNumber: number) => {
+  const handleUpdateFailStepNumber = (id: number, failStepNumber?: number) => {
     const newItems = items.map((item) => {
       if (item.id === id) {
         return {
@@ -346,7 +364,9 @@ function DragAndDropList({
                   index={index}
                   users={users}
                   docType={docType}
-                  previewSteps={items.slice(0, index)}
+                  previewSteps={
+                    items.slice(0, index) as (StepCreate & EditStep)[]
+                  }
                 />
               );
             })}

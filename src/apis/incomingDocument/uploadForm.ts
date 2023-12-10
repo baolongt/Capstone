@@ -113,7 +113,10 @@ export const uploadForm = async (
   const uploadedFile = await uploadFile(formFiles);
 
   for (let idx = 0; idx < uploadedFile.length; idx++) {
-    formFiles[idx].setNameAndUrl(uploadedFile[idx].name, uploadedFile[idx].url);
+    formFiles[idx].setNameUrlAndGuid(
+      uploadedFile[idx].name,
+      uploadedFile[idx].url
+    );
   }
 
   const payload = convertToIncomingDocumentUploadFormType(formData);
