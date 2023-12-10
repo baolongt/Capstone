@@ -51,7 +51,7 @@ export type Step = {
   handlerName: string;
   action: Action;
   status: Status;
-  deadline: string;
+  deadline?: string | null;
 };
 
 export type StepCreate = {
@@ -59,7 +59,7 @@ export type StepCreate = {
   isDisabled?: boolean;
   handlerId: number;
   action: Action;
-  deadline: string;
+  deadline?: string;
   failStepNumber?: number | null;
 };
 

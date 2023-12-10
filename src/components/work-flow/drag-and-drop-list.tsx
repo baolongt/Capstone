@@ -14,17 +14,13 @@ import {
   TextField,
   Typography
 } from '@mui/material';
-import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 
 import { EditStep } from '@/apis';
 import { useGetExampleWorkflow } from '@/apis/work-flow/get-outgoing-doc-example';
-import { TIMEZONE } from '@/constants';
 import { user, workFlow } from '@/models';
 import { ActionOptions, convertActionToString } from '@/models/work-flow';
-
-import DateTimePickerInput from '../common/date-time-picker';
 
 type DragAndDropListProps = {
   users: user.User[];
@@ -43,7 +39,6 @@ type ListItemProps = {
   handleDeleteItem: (id: number) => void;
   handleUpdateHandler: (id: number, handlerId: number) => void;
   handleUpdateAction: (id: number, action: workFlow.Action) => void;
-  handleUpdateDeadline: (id: number, deadline: string) => void;
   handleUpdateFailStepNumber: (id: number, failStepNumber: number) => void;
   docType: workFlow.DocumentTypeCreate;
   previewSteps: workFlow.StepCreate[] | EditStep[];
@@ -65,7 +60,6 @@ const ListItem = ({
   handleDeleteItem,
   handleUpdateHandler,
   handleUpdateAction,
-  handleUpdateDeadline,
   handleUpdateFailStepNumber,
   docType,
   previewSteps
@@ -110,7 +104,7 @@ const ListItem = ({
               options={users}
               value={users.filter((user) => user.id === item.handlerId)[0]}
               getOptionLabel={(option) => String(option.name)}
-              sx={{ width: 200, mt: 1 }}
+              sx={{ width: 250, mt: 1 }}
               renderInput={(params) => (
                 <TextField {...params} label="Người xử lý" />
               )}
@@ -135,19 +129,6 @@ const ListItem = ({
               }}
             />
 
-            <DateTimePickerInput
-              value={dayjs(item.deadline).tz(TIMEZONE)}
-              sx={{ ml: 1, width: 270 }}
-              label="Hạn xử lý"
-              onChange={(newValue: string) => {
-                console.log(dayjs(newValue).toISOString());
-                return handleUpdateDeadline(
-                  item.id,
-                  dayjs(newValue).toISOString()
-                );
-              }}
-            />
-
             {index > 0 && !isHaveFailStep && (
               <Box sx={{ mt: 1 }}>
                 <IconButton
@@ -167,7 +148,7 @@ const ListItem = ({
                   size="small"
                   options={previewSteps as any[]}
                   getOptionLabel={(option) => convertStepToItem(option)}
-                  sx={{ width: 120, mt: 1, ml: 1 }}
+                  sx={{ width: 180, mt: 1, ml: 1 }}
                   renderInput={(params) => (
                     <TextField {...params} label="Bước quay lại" />
                   )}
@@ -297,19 +278,6 @@ function DragAndDropList({
     setItems(newItems);
   };
 
-  const handleUpdateDeadline = (id: number, deadline: string) => {
-    const newItems = items.map((item) => {
-      if (item.id === id) {
-        return {
-          ...item,
-          deadline
-        };
-      }
-      return item;
-    });
-    setItems(newItems);
-  };
-
   const handleUpdateFailStepNumber = (id: number, failStepNumber: number) => {
     const newItems = items.map((item) => {
       if (item.id === id) {
@@ -373,7 +341,6 @@ function DragAndDropList({
                   handleDeleteItem={handleDeleteItem}
                   handleUpdateHandler={handleUpdateHandler}
                   handleUpdateAction={handleUpdateAction}
-                  handleUpdateDeadline={handleUpdateDeadline}
                   handleUpdateFailStepNumber={handleUpdateFailStepNumber}
                   item={item}
                   index={index}

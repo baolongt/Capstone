@@ -29,6 +29,7 @@ const translations: Record<string, string> = {
   Consider: 'duyệt',
   Sign: 'ký',
   AddNumber: 'thêm số',
+  PrepareEmail: 'chuẩn bị email',
   Rollback: 'quay lại bước',
   Restart: 'bắt đầu lại quy trình',
   Accepted: 'Đã xử lý',
@@ -83,7 +84,9 @@ const BaseTimelineItem: React.FC<BaseTimelineItemProps> = (props) => {
           {!isLast && <TimelineConnector />}
         </TimelineSeparator>
         <TimelineContent>
-          <Typography variant="h6">{title + ' ' + rollbacknum}</Typography>
+          <Typography variant="h6">
+            {'Hệ thống quay lại bước ' + rollbacknum}
+          </Typography>
           <Typography variant="subtitle1">{status}</Typography>
         </TimelineContent>
       </>

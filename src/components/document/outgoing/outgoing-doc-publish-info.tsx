@@ -40,7 +40,7 @@ export const PublishInfo: FC<PublishInfoProps> = (props) => {
         </Grid>
         <Grid item xs={6} sx={detailStyle}>
           <Typography variant="subtitle1" sx={{ fontWeight: labelFontWeight }}>
-            Danh sách liên hệ:
+            Người nhận:
           </Typography>
           {contactLists.map((cl) => (
             <Chip
