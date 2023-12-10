@@ -52,7 +52,6 @@ const EditForm: React.FC<EditFormProps> = ({
   signAttachment
 }) => {
   const {
-    handleSubmit,
     watch,
     setValue,
     formState: { isDirty }

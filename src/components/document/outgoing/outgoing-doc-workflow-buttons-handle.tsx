@@ -205,31 +205,34 @@ export const WorkFlowButtonsHandle = ({
           </Tooltip>
         </>
       )}
-      {currentStep && currentStep.isHandle && !isValidState(steps) && (
-        <>
-          {renderActionButton(currentStep.action)}
-          <Tooltip title="Trả lại">
-            <IconButton color="error" onClick={handleRejecStep}>
-              <UndoIcon />
-            </IconButton>
-          </Tooltip>
-          {steps.filter(
-            (step) =>
-              step.status !== Status.NOT_START && step.status !== Status.PENDING
-          ).length > 0 && (
-            <Tooltip title="Bắt đầu lại từ 1 bước">
-              <IconButton
-                color="warning"
-                onClick={() => {
-                  setOpenRollbackDialog(true);
-                }}
-              >
-                <UTurnLeftOutlinedIcon />
+      {currentStep &&
+        currentStep.isHandle &&
+        docStatus == OutgoingDocumentStatus.PENDING && (
+          <>
+            {renderActionButton(currentStep.action)}
+            <Tooltip title="Trả lại">
+              <IconButton color="error" onClick={handleRejecStep}>
+                <UndoIcon />
               </IconButton>
             </Tooltip>
-          )}
-        </>
-      )}
+            {steps.filter(
+              (step) =>
+                step.status !== Status.NOT_START &&
+                step.status !== Status.PENDING
+            ).length > 0 && (
+              <Tooltip title="Bắt đầu lại từ 1 bước">
+                <IconButton
+                  color="warning"
+                  onClick={() => {
+                    setOpenRollbackDialog(true);
+                  }}
+                >
+                  <UTurnLeftOutlinedIcon />
+                </IconButton>
+              </Tooltip>
+            )}
+          </>
+        )}
     </>
   );
 };

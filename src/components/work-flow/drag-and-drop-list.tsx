@@ -18,6 +18,7 @@ import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 
+import { EditStep } from '@/apis';
 import { useGetExampleWorkflow } from '@/apis/work-flow/get-outgoing-doc-example';
 import { TIMEZONE } from '@/constants';
 import { user, workFlow } from '@/models';
@@ -45,11 +46,15 @@ type ListItemProps = {
   handleUpdateDeadline: (id: number, deadline: string) => void;
   handleUpdateFailStepNumber: (id: number, failStepNumber: number) => void;
   docType: workFlow.DocumentTypeCreate;
-  previewSteps: workFlow.StepCreate[];
+  previewSteps: workFlow.StepCreate[] | EditStep[];
 };
 
-const convertStepToItem = (step: workFlow.StepCreate) => {
-  return `${step.id}`;
+const convertStepToItem = (step: workFlow.StepCreate | EditStep) => {
+  if ('stepNumber' in step) {
+    return '' + step?.stepNumber;
+  } else if ('id' in step) {
+    return '' + step?.id;
+  }
 };
 
 const ListItem = ({

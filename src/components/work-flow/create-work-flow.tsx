@@ -72,8 +72,8 @@ export const CreateWorkFlow = ({
       <TextTooltip
         title={
           <>
-            Nếu một bước không có bước quay lại thì mặc định sẽ quay trở về bước
-            khởi tạo văn bản
+            Nếu một bước không có bước quay lại thì mặc định khi từ chối xử lý
+            sẽ quay trở về bước khởi tạo văn bản
           </>
         }
       >

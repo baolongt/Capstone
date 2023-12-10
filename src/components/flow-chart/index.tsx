@@ -2,6 +2,11 @@
 import 'reactflow/dist/style.css';
 
 import { Box } from '@mui/material';
+import {
+  SmartBezierEdge,
+  SmartStepEdge,
+  SmartStraightEdge
+} from '@tisoap/react-flow-smart-edge';
 import dagre from 'dagre';
 import React, { useEffect } from 'react';
 import ReactFlow, {
@@ -9,7 +14,6 @@ import ReactFlow, {
   Controls,
   Edge,
   Node,
-  Position,
   useEdgesState,
   useNodesState
 } from 'reactflow';
@@ -25,6 +29,12 @@ const nodeTypes = {
   circleNode: CircleNode,
   rectangleNode: RectangleNode,
   rhombusNode: RhombusNode
+};
+
+const edgeTypes = {
+  bezier: SmartBezierEdge,
+  step: SmartStepEdge,
+  straight: SmartStraightEdge
 };
 
 type FlowChartProps = {
@@ -94,6 +104,7 @@ const FlowChart = ({
         connectionLineType={ConnectionLineType.SmoothStep}
         defaultViewport={{ x: 0, y: 0, zoom: 0.1 }}
         nodeTypes={nodeTypes}
+        edgeTypes={edgeTypes}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
       >

@@ -87,7 +87,6 @@ const convertStepsToNodesAndEdges = (steps: Step[]) => {
 
     if (index == 0) return;
 
-    // we treat step and condition equally
     edges.push({
       id: `${convertedNodes[index - 1].nodeId} -> ${node.nodeId}`,
       source: convertedNodes[index - 1].nodeId,
@@ -167,19 +166,28 @@ const convertStepsToNodesAndEdges = (steps: Step[]) => {
     },
     position: { x: 0, y: 0 }
   });
+
   edges.push({
-    id: steps[steps.length - 1].id.toString() + '-' + endId,
-    source: steps[steps.length - 1].id.toString() + seed,
+    id:
+      convertedNodes[convertedNodes.length - 1].nodeId.toString() +
+      '->' +
+      endId,
+    source: convertedNodes[convertedNodes.length - 1].nodeId.toString(),
     target: endId,
     type: 'straight',
     animated: true,
-    label:
-      WorkFlowActionDict[steps[steps.length - 1].action] +
-      ' - Hạn xử lý ' +
-      dayjs
-        .utc(steps[steps.length - 1].deadline)
-        .tz(TIMEZONE)
-        .format('HH:mm DD/MM/YYYY'),
+    ...(convertedNodes[convertedNodes.length - 1].step
+      ? {
+          label:
+            WorkFlowActionDict[steps[steps.length - 1].action] +
+            ' - Hạn xử lý ' +
+            dayjs
+              .utc(steps[steps.length - 1].deadline)
+              .tz(TIMEZONE)
+              .format('HH:mm DD/MM/YYYY')
+        }
+      : {}),
+
     markerEnd: {
       type: MarkerType.ArrowClosed
     }
