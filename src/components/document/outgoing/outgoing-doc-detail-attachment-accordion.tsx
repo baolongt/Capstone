@@ -21,6 +21,7 @@ export type DetailAttachmentAccordionProps = {
   signAttachment: (id: string) => void;
   addNumber?: (id: string, url: string) => void;
   isNeedSign?: boolean;
+  isNeedAddNumber?: boolean;
 };
 
 export const DetailAttachmentAccordion: React.FC<
@@ -32,7 +33,8 @@ export const DetailAttachmentAccordion: React.FC<
     signAttachment,
     addNumber,
     sx,
-    isNeedSign = false
+    isNeedSign = false,
+    isNeedAddNumber = false
   } = props;
   const theme = useTheme();
 
@@ -47,6 +49,8 @@ export const DetailAttachmentAccordion: React.FC<
         watchAttachment={watchAttachment}
         signAttachment={signAttachment}
         addNumber={addNumber}
+        isNeedAddNumber={isNeedAddNumber}
+        isNeedSign={isNeedSign}
       />
     </Box>
   ));

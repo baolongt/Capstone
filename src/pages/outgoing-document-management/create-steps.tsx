@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import BaseStepper from '@/components/common/stepper';
 import { CreatePublishInfo } from '@/components/document/outgoing/outgoing-doc-create-publish-info';
 import { CreateWorkFlow } from '@/components/work-flow/create-work-flow';
+import { DEFAULT_PAGE_WIDTH } from '@/constants';
 import { DocumentTypeCreate } from '@/models/work-flow';
 
 import CreateOutgoingDocumentPage from './create';
@@ -82,7 +83,12 @@ const CreateStepsPage = () => {
   }, [docId, step]);
 
   return (
-    <>
+    <Box
+      sx={{
+        mx: 'auto',
+        width: DEFAULT_PAGE_WIDTH
+      }}
+    >
       <BaseStepper sx={{ pt: 5 }} activeStep={activeStep} steps={steps} />
       <Box sx={{ mt: 1, maxHeight: '90vh' }}>
         {
@@ -93,7 +99,7 @@ const CreateStepsPage = () => {
           />
         }
       </Box>
-    </>
+    </Box>
   );
 };
 

@@ -52,7 +52,6 @@ const EditForm: React.FC<EditFormProps> = ({
   signAttachment
 }) => {
   const {
-    handleSubmit,
     watch,
     setValue,
     formState: { isDirty }
@@ -73,19 +72,11 @@ const EditForm: React.FC<EditFormProps> = ({
     setDocumentTypeOptions(documentTypeOptionsMap[documentField]);
   }, [documentField, setValue]);
 
-  const handleFormSubmit = (data: any) => {
-    console.log('submit');
-  };
   if (data) {
     console.log('edit data', data);
     return (
       <Stack>
-        <Grid
-          container
-          spacing={2}
-          component="form"
-          onSubmit={handleSubmit(handleFormSubmit)}
-        >
+        <Grid container spacing={2} component="form">
           <Grid item xs={12} sm={12}>
             <Typography style={{ marginBottom: '5px' }} fontWeight="bold">
               Trích yếu

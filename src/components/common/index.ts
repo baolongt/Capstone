@@ -8,4 +8,5 @@ export * from './loading';
 export * from './page-header';
 export * from './page-title';
 export { InputSearch, type InputSearchProps } from './search';
+export * from './tool-tip';
 export * from './treeview-select';

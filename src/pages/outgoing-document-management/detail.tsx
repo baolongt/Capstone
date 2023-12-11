@@ -49,7 +49,7 @@ import { api } from '@/constants';
 import { Attachment } from '@/models';
 import { DocumentType } from '@/models/comment';
 import { OutgoingPublishInfo } from '@/models/outgoingDocument';
-import { Status } from '@/models/work-flow';
+import { Action, Status } from '@/models/work-flow';
 
 const OutgoingDocumentDetail = () => {
   const theme = useTheme();
@@ -196,6 +196,28 @@ const OutgoingDocumentDetail = () => {
     }
   };
 
+  const isNeedAddNumber = () => {
+    const step = workflow?.steps.filter(
+      (step) => step.status === Status.PENDING
+    )[0];
+
+    if (!step?.action) return false;
+
+    console.log('step', step.action === Action.ADD_NUMNER);
+
+    return step.action === Action.ADD_NUMNER;
+  };
+
+  const isNeedSign = () => {
+    const step = workflow?.steps.filter(
+      (step) => step.status == Status.PENDING
+    )[0];
+
+    if (!step?.action) return false;
+
+    return step.action == Action.SIGN;
+  };
+
   return (
     <>
       <Box>
@@ -280,6 +302,8 @@ const OutgoingDocumentDetail = () => {
               watchAttachment={watchAttachment}
               signAttachment={signAttachment}
               addNumber={handleAddNumber}
+              isNeedAddNumber={isNeedAddNumber()}
+              isNeedSign={isNeedSign()}
               sx={{
                 p: 2,
                 mt: 2,

@@ -9,12 +9,12 @@ import {
 } from '@mui/material';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
-import { Edge, MarkerType, Node } from 'reactflow';
+import { Edge, MarkerType, Node, Position } from 'reactflow';
 
 import { Step } from '@/apis';
 import FlowChart from '@/components/flow-chart';
 import { TIMEZONE } from '@/constants';
-import { Status, WorkFlowActionDict } from '@/models/work-flow';
+import { Action, Status, WorkFlowActionDict } from '@/models/work-flow';
 
 const StatusColor: Record<Status, string> = {
   1: '#ffe082',
@@ -30,45 +30,104 @@ const StatusLabel: Record<Status, string> = {
   [Status.NOT_START]: ''
 };
 
-const convertStepsToFlowChart = (steps: Step[]) => {
+const convertStepsToNodesAndEdges = (steps: Step[]) => {
   const nodes: Node[] = [];
   const edges: Edge[] = [];
   const seed = '-' + new Date().getTime();
-  steps.forEach((step, index) => {
-    const node: Node = {
-      id: step.id.toString() + seed,
-      type: 'default',
+  // first convert fail step to node
+  const failStepIds = steps
+    .filter((step) => step.failStepNumber)
+    .map((step) => step.failStepNumber);
+  const stepMap = steps.reduce((acc, item) => {
+    acc.set(item.stepNumber, item);
+    return acc;
+  }, new Map<number, Step>());
+  const convertedNodes: {
+    nodeId: string;
+    type: string;
+    // if it is a step node
+    step?: Step;
+    // if it is a conditaion node
+    failNodeId?: string;
+    isFailStepHandler?: boolean;
+  }[] = [];
+
+  steps.forEach((step) => {
+    convertedNodes.push({
+      step: step,
+      nodeId: '' + step.id + seed,
+      type: 'rectangleNode',
+      ...(failStepIds.includes(step.id) ? { isFailStepHandler: true } : {})
+    });
+    if (step.failStepNumber) {
+      const failStep = stepMap.get(step.failStepNumber) as Step;
+      convertedNodes.push({
+        nodeId: '' + step.id + '-' + failStep.id + seed,
+        failNodeId: '' + failStep.id + seed,
+        type: 'rhombusNode'
+      });
+    }
+  });
+
+  convertedNodes.forEach((node, index) => {
+    nodes.push({
+      id: node.nodeId,
+      type: node.type,
       data: {
-        label: step.handlerName
+        // the conditaion node only condition node dont have step
+        label: node.step?.handlerName || '',
+        status: node.step?.status || '',
+        // for condiftion node
+        ...(node.failNodeId ? { isConditaionNode: true } : {}),
+        ...(node.isFailStepHandler ? { isFailStepHandler: true } : {})
       },
       position: { x: 0, y: 0 },
-      draggable: false,
-      style: {
-        backgroundColor: StatusColor[step.status]
-      }
-    };
-    nodes.push(node);
+      draggable: false
+    });
 
-    if (index > 0) {
-      const edge: Edge = {
-        id: `${step.id}-${steps[index - 1].id}` + seed,
-        source: steps[index - 1].id.toString() + seed,
-        target: step.id.toString() + seed,
-        type: 'default',
+    if (index == 0) return;
+
+    edges.push({
+      id: `${convertedNodes[index - 1].nodeId} -> ${node.nodeId}`,
+      source: convertedNodes[index - 1].nodeId,
+      sourceHandle: `${convertedNodes[index - 1].nodeId}.bottom`,
+      target: node.nodeId,
+      targetHandle: `${node.nodeId}.top`,
+      type: 'straight',
+      animated: true,
+      ...(convertedNodes[index - 1].step
+        ? {
+            label:
+              WorkFlowActionDict[
+                convertedNodes[index - 1].step?.action as Action
+              ] +
+              ' - Hạn xử lý ' +
+              dayjs
+                .utc(convertedNodes[index - 1].step?.deadline)
+                .tz(TIMEZONE)
+                .format('HH:mm DD/MM/YYYY')
+          }
+        : {}),
+      markerEnd: {
+        type: MarkerType.ArrowClosed
+      },
+      focusable: true
+    });
+    //fail edge
+    if (node.failNodeId) {
+      edges.push({
+        id: `${node.nodeId} -> ${node.failNodeId}`,
+        source: node.nodeId,
+        sourceHandle: '' + node.nodeId + '.right',
+        target: node.failNodeId,
+        targetHandle: node.failNodeId + '.right',
+        type: 'step',
         animated: true,
-        label:
-          WorkFlowActionDict[steps[index - 1].action] +
-          ' - Hạn xử lý ' +
-          dayjs
-            .utc(steps[steps.length - 1].deadline)
-            .tz(TIMEZONE)
-            .format('HH:mm DD/MM/YYYY'),
-
+        label: 'Từ chối xử lý',
         markerEnd: {
           type: MarkerType.ArrowClosed
         }
-      };
-      edges.push(edge);
+      });
     }
   });
 
@@ -76,22 +135,20 @@ const convertStepsToFlowChart = (steps: Step[]) => {
   const startId = 'start-node-' + seed;
   nodes.unshift({
     id: startId,
-    type: 'default',
+    type: 'circleNode',
     data: {
-      label: 'Khởi tạo'
+      label: 'Khởi tạo',
+      isStatusNode: true
     },
     position: { x: 0, y: 0 },
-    draggable: false,
-    style: {
-      backgroundColor: '#bdbdbd'
-    }
+    draggable: false
   });
   edges.unshift({
     id: steps[0].id + seed + '-' + startId,
     source: startId,
     target: steps[0].id.toString() + seed,
-    type: 'default',
     animated: true,
+    type: 'straight',
     label: 'Bắt đầu',
     markerEnd: {
       type: MarkerType.ArrowClosed
@@ -101,33 +158,42 @@ const convertStepsToFlowChart = (steps: Step[]) => {
   const endId = 'end-node-' + seed;
   nodes.push({
     id: endId,
-    type: 'default',
     draggable: false,
+    type: 'circleNode',
     data: {
-      label: 'Phát hành'
+      label: 'Phát hành',
+      isStatusNode: true
     },
-    position: { x: 0, y: 0 },
-    style: {
-      backgroundColor: '#bdbdbd'
-    }
+    position: { x: 0, y: 0 }
   });
+
   edges.push({
-    id: steps[steps.length - 1].id.toString() + '-' + endId,
-    source: steps[steps.length - 1].id.toString() + seed,
+    id:
+      convertedNodes[convertedNodes.length - 1].nodeId.toString() +
+      '->' +
+      endId,
+    source: convertedNodes[convertedNodes.length - 1].nodeId.toString(),
     target: endId,
-    type: 'default',
+    type: 'straight',
     animated: true,
-    label:
-      WorkFlowActionDict[steps[steps.length - 1].action] +
-      ' - Hạn xử lý ' +
-      dayjs
-        .utc(steps[steps.length - 1].deadline)
-        .tz(TIMEZONE)
-        .format('HH:mm DD/MM/YYYY'),
+    ...(convertedNodes[convertedNodes.length - 1].step
+      ? {
+          label:
+            WorkFlowActionDict[steps[steps.length - 1].action] +
+            ' - Hạn xử lý ' +
+            dayjs
+              .utc(steps[steps.length - 1].deadline)
+              .tz(TIMEZONE)
+              .format('HH:mm DD/MM/YYYY')
+        }
+      : {}),
+
     markerEnd: {
       type: MarkerType.ArrowClosed
     }
   });
+
+  console.log('debug', { nodes, edges });
 
   return { nodes, edges };
 };
@@ -178,7 +244,7 @@ export const WorkflowDiagramDialog = ({
   const [edges, setEdges] = useState<Edge[]>([]);
 
   useEffect(() => {
-    const { nodes, edges } = convertStepsToFlowChart(steps);
+    const { nodes, edges } = convertStepsToNodesAndEdges(steps);
     setNodes(nodes);
     setEdges(edges);
   }, [steps]);

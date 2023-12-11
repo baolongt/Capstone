@@ -1,3 +1,4 @@
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import { Box, Paper } from '@mui/material';
 import { toast } from 'react-toastify';
 
@@ -6,7 +7,7 @@ import { DEFAULT_PAGE_WIDTH } from '@/constants';
 import { workFlow } from '@/models';
 import { DocumentTypeCreate } from '@/models/work-flow';
 
-import { Loading } from '../common';
+import { Loading, TextTooltip } from '../common';
 import DragAndDropList from './drag-and-drop-list';
 
 type CreateWorkFlowProps = {
@@ -48,7 +49,8 @@ export const CreateWorkFlow = ({
           handlerId: step.handlerId,
           action: step.action,
           stepNumber: index + 1,
-          deadline: step.deadline
+          deadline: step.deadline,
+          failStepNumber: step.failStepNumber
         }))
       });
     }
@@ -67,6 +69,16 @@ export const CreateWorkFlow = ({
         width: DEFAULT_PAGE_WIDTH
       }}
     >
+      <TextTooltip
+        title={
+          <>
+            Nếu một bước không có bước quay lại thì mặc định khi từ chối xử lý
+            sẽ quay trở về bước khởi tạo văn bản
+          </>
+        }
+      >
+        <HelpOutlineIcon />
+      </TextTooltip>
       <DragAndDropList
         sx={{
           height: '80%',

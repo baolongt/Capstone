@@ -50,6 +50,7 @@ const ToolTipContent = ({ type }: { type: 'sign' | 'add-number' }) => {
   );
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const TextOnlyTooltip = styled(({ className, ...props }: any) => (
   <Tooltip {...props} componentsProps={{ tooltip: { className: className } }} />
 ))(`
@@ -78,8 +79,21 @@ const isHandleCurrentStep = ({
   };
 };
 
-const isHaveRejectedStep = (steps: workFlow.Step[] = []) => {
-  return steps.some((step) => step.status === workFlow.Status.REJECTED);
+const isValidState = (steps: workFlow.Step[] = []) => {
+  const pendingStep = steps.find(
+    (step) => step.status === workFlow.Status.PENDING
+  );
+  const rejectedStep = steps.find(
+    (step) => step.status === workFlow.Status.REJECTED
+  );
+  console.log(pendingStep, rejectedStep);
+
+  // if (pendingStep && rejectedStep) {
+  //   return ;
+  // } else {
+  // }
+
+  return true;
 };
 
 type WorkFlowButtonsHandleProps = {
@@ -105,7 +119,6 @@ export const WorkFlowButtonsHandle = ({
   docStatus
 }: WorkFlowButtonsHandleProps) => {
   const navigate = useNavigate();
-  const isNotRejected = !isHaveRejectedStep(steps);
   const {
     authState: { user }
   } = useAuth();
@@ -192,31 +205,34 @@ export const WorkFlowButtonsHandle = ({
           </Tooltip>
         </>
       )}
-      {currentStep && currentStep.isHandle && isNotRejected && (
-        <>
-          {renderActionButton(currentStep.action)}
-          <Tooltip title="Trả lại">
-            <IconButton color="error" onClick={handleRejecStep}>
-              <UndoIcon />
-            </IconButton>
-          </Tooltip>
-          {steps.filter(
-            (step) =>
-              step.status !== Status.NOT_START && step.status !== Status.PENDING
-          ).length > 0 && (
-            <Tooltip title="Bắt đầu lại từ 1 bước">
-              <IconButton
-                color="warning"
-                onClick={() => {
-                  setOpenRollbackDialog(true);
-                }}
-              >
-                <UTurnLeftOutlinedIcon />
+      {currentStep &&
+        currentStep.isHandle &&
+        docStatus == OutgoingDocumentStatus.PENDING && (
+          <>
+            {renderActionButton(currentStep.action)}
+            <Tooltip title="Trả lại">
+              <IconButton color="error" onClick={handleRejecStep}>
+                <UndoIcon />
               </IconButton>
             </Tooltip>
-          )}
-        </>
-      )}
+            {steps.filter(
+              (step) =>
+                step.status !== Status.NOT_START &&
+                step.status !== Status.PENDING
+            ).length > 0 && (
+              <Tooltip title="Bắt đầu lại từ 1 bước">
+                <IconButton
+                  color="warning"
+                  onClick={() => {
+                    setOpenRollbackDialog(true);
+                  }}
+                >
+                  <UTurnLeftOutlinedIcon />
+                </IconButton>
+              </Tooltip>
+            )}
+          </>
+        )}
     </>
   );
 };

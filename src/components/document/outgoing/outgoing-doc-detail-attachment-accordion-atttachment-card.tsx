@@ -34,11 +34,20 @@ export type AttachmentCardProps = {
   signAttachment?: (id: string) => void;
   addNumber?: (id: string, url: string) => void;
   isUploaded?: boolean;
+  isNeedSign?: boolean;
+  isNeedAddNumber?: boolean;
 };
 
 export const AttachmentCard: React.FC<AttachmentCardProps> = (props) => {
-  const { attachment, watchAttachment, signAttachment, addNumber, isUploaded } =
-    props;
+  const {
+    attachment,
+    watchAttachment,
+    signAttachment,
+    addNumber,
+    isUploaded,
+    isNeedSign,
+    isNeedAddNumber
+  } = props;
   const {
     authState: { user }
   } = useAuth();
@@ -101,7 +110,7 @@ export const AttachmentCard: React.FC<AttachmentCardProps> = (props) => {
             )}
           </Box>
         </Stack>
-        {attachment.mimeType === 'application/pdf' && (
+        {isNeedAddNumber && attachment.mimeType === 'application/pdf' && (
           <Tooltip title="Đánh số văn bản">
             <IconButton
               color="primary"
@@ -111,7 +120,7 @@ export const AttachmentCard: React.FC<AttachmentCardProps> = (props) => {
             </IconButton>
           </Tooltip>
         )}
-        {attachment.needSigned && user?.departmentId === 1 && (
+        {isNeedSign && attachment.needSigned && user?.departmentId === 1 && (
           <Tooltip title="Ký số">
             <IconButton
               color={'success'}

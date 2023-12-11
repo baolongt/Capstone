@@ -72,7 +72,7 @@ const renderStatusIcon = (status: string) => {
 
 const BaseTimelineItem: React.FC<BaseTimelineItemProps> = (props) => {
   const { time, title, subTitle, isLast } = props;
-  const [action, status] = subTitle.split(', ');
+  const [action, status, rollbacknum] = subTitle.split(', ');
 
   let item = <></>;
   if (action === 'Rollback') {
@@ -83,7 +83,7 @@ const BaseTimelineItem: React.FC<BaseTimelineItemProps> = (props) => {
           {!isLast && <TimelineConnector />}
         </TimelineSeparator>
         <TimelineContent>
-          <Typography variant="h6">{title}</Typography>
+          <Typography variant="h6">{title + ' ' + rollbacknum}</Typography>
           <Typography variant="subtitle1">{status}</Typography>
         </TimelineContent>
       </>

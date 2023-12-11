@@ -19,6 +19,7 @@ export type Step = {
   action: Action;
   stepNumber: number;
   deadline: string;
+  failStepNumber?: number | null;
 };
 
 export type GetWorkFlowsResponse = {
