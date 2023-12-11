@@ -2,7 +2,7 @@ export class Attachment {
   public readonly id?: number | string;
   public readonly name: string;
   public readonly url: string;
-  public readonly needSigned: boolean;
+  public needSigned: boolean;
   public readonly size: string;
   public readonly mimeType: string;
   public fileGuid: string;
