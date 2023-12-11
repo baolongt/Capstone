@@ -8,7 +8,7 @@ import {
   TextField,
   Typography
 } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { CustomButton } from '@/components/common';
 import { Step, WorkFlowActionDict } from '@/models/work-flow';

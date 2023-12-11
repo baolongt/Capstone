@@ -5,14 +5,12 @@ import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import ReplayIcon from '@mui/icons-material/Replay';
 import SchemaIcon from '@mui/icons-material/Schema';
 import UndoIcon from '@mui/icons-material/Undo';
-import UTurnLeftOutlinedIcon from '@mui/icons-material/UTurnLeftOutlined';
 import { Box, IconButton, styled, Tooltip, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 import { OutgoingDocumentStatus } from '@/constants';
 import useAuth from '@/hooks/useAuth';
 import { workFlow } from '@/models';
-import { Status } from '@/models/work-flow';
 
 import EditButtonGroup from './outgoing-doc-detail-edit-button-group';
 
@@ -79,27 +77,9 @@ const isHandleCurrentStep = ({
   };
 };
 
-const isValidState = (steps: workFlow.Step[] = []) => {
-  const pendingStep = steps.find(
-    (step) => step.status === workFlow.Status.PENDING
-  );
-  const rejectedStep = steps.find(
-    (step) => step.status === workFlow.Status.REJECTED
-  );
-  console.log(pendingStep, rejectedStep);
-
-  // if (pendingStep && rejectedStep) {
-  //   return ;
-  // } else {
-  // }
-
-  return true;
-};
-
 type WorkFlowButtonsHandleProps = {
   isLoadingWorkflow: boolean;
   setOpenWorkflowDiagram: React.Dispatch<React.SetStateAction<boolean>>;
-  setOpenRollbackDialog: React.Dispatch<React.SetStateAction<boolean>>;
   handleChangeStatus: () => void;
   handleRejecStep: () => void;
   handleRestartStep: () => void;
@@ -110,7 +90,6 @@ type WorkFlowButtonsHandleProps = {
 
 export const WorkFlowButtonsHandle = ({
   setOpenWorkflowDiagram,
-  setOpenRollbackDialog,
   handleChangeStatus,
   handleRejecStep,
   handleRestartStep,
@@ -215,22 +194,6 @@ export const WorkFlowButtonsHandle = ({
                 <UndoIcon />
               </IconButton>
             </Tooltip>
-            {steps.filter(
-              (step) =>
-                step.status !== Status.NOT_START &&
-                step.status !== Status.PENDING
-            ).length > 0 && (
-              <Tooltip title="Bắt đầu lại từ 1 bước">
-                <IconButton
-                  color="warning"
-                  onClick={() => {
-                    setOpenRollbackDialog(true);
-                  }}
-                >
-                  <UTurnLeftOutlinedIcon />
-                </IconButton>
-              </Tooltip>
-            )}
           </>
         )}
     </>

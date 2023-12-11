@@ -1,5 +1,4 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import dayjs from 'dayjs';
 
 import { api } from '@/constants';
 import { common } from '@/models';
@@ -10,7 +9,6 @@ export type CreateStep = {
   handlerId: number;
   action: number;
   stepNumber: number;
-  deadline: string;
   failStepNumber?: number | null;
 };
 
@@ -20,26 +18,8 @@ export type Workflow = {
   steps: CreateStep[];
 };
 
-export const isValidWorkflow = (payload: Workflow) => {
-  const { steps } = payload;
-  for (let i = 1; i < steps.length; i++) {
-    const prevStep = steps[i - 1];
-    const currStep = steps[i];
-    const prevDeadline = dayjs(prevStep.deadline);
-    const currDeadline = dayjs(currStep.deadline);
-    if (prevDeadline.isAfter(currDeadline)) {
-      return false;
-    }
-  }
-  return true;
-};
-
 const createWorkflow = async (payload: Workflow) => {
   const url = '/api/workflows';
-
-  if (!isValidWorkflow(payload)) {
-    throw new Error('Hạn xử lý phải đúng thứ tự');
-  }
 
   console.log('payload create flow', payload);
   const res = await axiosInstance.post(url, payload);

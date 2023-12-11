@@ -25,8 +25,7 @@ const fetchDocuments = async ({
     PageSize: size,
     ...(search && search != '' ? { SearchString: search } : {}),
     ...(from && from != '' ? { BeforeDate: from } : {}),
-    ...(to && to != '' ? { AfterDate: to } : {}),
-    statusFilter: -1
+    ...(to && to != '' ? { AfterDate: to } : {})
   };
 
   const response: ListDocumentsResponse = await axiosInstance.get(

@@ -149,7 +149,7 @@ const PDFViewer = ({
             >
               <Page
                 inputRef={docRef}
-                canvasBackground="transparent"
+                // canvasBackground="transparent"
                 devicePixelRatio={1}
                 width={800}
                 height={1200}

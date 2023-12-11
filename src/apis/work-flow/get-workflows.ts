@@ -18,7 +18,7 @@ export type Step = {
   status: Status;
   action: Action;
   stepNumber: number;
-  deadline: string;
+  deadline: string | null;
   failStepNumber?: number | null;
 };
 

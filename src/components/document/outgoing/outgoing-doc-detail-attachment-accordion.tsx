@@ -10,6 +10,7 @@ import {
 import * as React from 'react';
 
 import { connect } from '@/apis';
+import useAuth from '@/hooks/useAuth';
 import { Attachment } from '@/models';
 
 import { AttachmentCard } from './outgoing-doc-detail-attachment-accordion-atttachment-card';
@@ -37,6 +38,9 @@ export const DetailAttachmentAccordion: React.FC<
     isNeedAddNumber = false
   } = props;
   const theme = useTheme();
+  const {
+    authState: { user }
+  } = useAuth();
 
   const attachmentCards = attachments.map((att, idx) => (
     <Box
@@ -64,7 +68,7 @@ export const DetailAttachmentAccordion: React.FC<
         variant="subtitle1"
         sx={{ fontWeight: 600, mb: 1 }}
       ></Typography>
-      {isNeedSign && (
+      {isNeedSign && user?.departmentId === 1 && (
         <Button variant="contained" onClick={() => connect()}>
           Kết nối chữ ký số
         </Button>

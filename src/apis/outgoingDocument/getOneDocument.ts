@@ -20,7 +20,11 @@ export const getOne = async (
   return {
     ...res.data,
     attachments: res.data.attachments.map(
-      (attachment) => new Attachment(attachment as Attachment)
+      (attachment) =>
+        new Attachment({
+          id: attachment.fileGuid,
+          ...attachment
+        } as Attachment)
     )
   };
 };
