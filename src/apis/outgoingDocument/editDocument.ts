@@ -24,11 +24,13 @@ const convertToEditAttachmentPayload = async (
       url: file.url,
       needSigned: file.needSigned,
       size: file.size,
-      mimeType: file.mimeType
+      mimeType: file.mimeType,
+      fileGuid: file.fileGuid
     });
   });
 
   const uploadedFiles = await uploadFile(needUploadFile as UploadFile[]);
+  console.log('uploadedFiles', uploadedFiles);
 
   const uploadedFilesToAttchment = uploadedFiles.map((file, index) => {
     return new Attachment({
@@ -36,7 +38,8 @@ const convertToEditAttachmentPayload = async (
       url: file.url,
       needSigned: needUploadFile[index].needSigned,
       size: String(needUploadFile[index].fileObj?.size || ''),
-      mimeType: needUploadFile[index].fileObj?.type || ''
+      mimeType: needUploadFile[index].fileObj?.type || '',
+      fileGuid: file.fileGuid as string
     });
   });
 
@@ -56,6 +59,7 @@ export const editDocument = async (
     attachments: await convertToEditAttachmentPayload(files),
     processDeadline
   };
+  console.log('editDocument cal', data);
   const response = await axiosInstance.put(`api/OutgoingDocument/${id}`, data);
   return response.data;
 };

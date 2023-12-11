@@ -46,13 +46,13 @@ const DragAndDropBox: React.FC<DragAndDropBoxProps> = ({
   };
 
   const removeFile = (id: string) => {
-    const filesLeft = value.filter((file) => file.id !== id);
+    const filesLeft = value.filter((file) => file.fileGuid !== id);
     onChange(filesLeft);
   };
 
   const updateNeedSigned = (id: string) => {
     const files = value.map((file) => {
-      if (file.id === id && file instanceof UploadFile) {
+      if (file.fileGuid === id && file instanceof UploadFile) {
         file.needSigned = !file.needSigned;
       }
       return file;

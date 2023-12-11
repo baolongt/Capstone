@@ -27,7 +27,8 @@ const convertToEditAttachmentPayload = async (
       url: file.url,
       needSigned: needUploadFile[index].needSigned,
       size: String(needUploadFile[index].fileObj?.size || ''),
-      mimeType: needUploadFile[index].fileObj?.type || ''
+      mimeType: needUploadFile[index].fileObj?.type || '',
+      fileGuid: needUploadFile[index].fileGuid as string
     });
   });
 

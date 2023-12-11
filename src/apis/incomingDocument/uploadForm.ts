@@ -40,12 +40,13 @@ type InternalDocumentUploadFormTypeResponse = {
   attachments: AttachmentTypeResponse[];
 };
 
-type NameAndUrlFile = {
+type UploadedFile = {
   name: string;
   url: string;
+  fileGuid: string;
 };
 type UploadFileResponse = {
-  data: NameAndUrlFile[];
+  data: UploadedFile[];
 };
 
 const convertToIncomingDocumentUploadFormType = (
@@ -78,7 +79,7 @@ const convertToIncomingDocumentUploadFormType = (
 
 export const uploadFile = async (
   payload: UploadFile[]
-): Promise<NameAndUrlFile[]> => {
+): Promise<UploadedFile[]> => {
   const url = 'api/upload';
 
   const formData = new FormData();
@@ -115,7 +116,8 @@ export const uploadForm = async (
   for (let idx = 0; idx < uploadedFile.length; idx++) {
     formFiles[idx].setNameUrlAndGuid(
       uploadedFile[idx].name,
-      uploadedFile[idx].url
+      uploadedFile[idx].url,
+      uploadedFile[idx].fileGuid
     );
   }
 

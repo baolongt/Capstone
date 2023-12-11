@@ -59,6 +59,7 @@ const FileUploadedAccordion: React.FC<FileUploadedAccordionProps> = (props) => {
             attachment={file}
             watchAttachment={watchAttachment}
             signAttachment={signAttachment}
+            removeFile={removeFile}
           />
         )}
       </Box>

@@ -1,4 +1,5 @@
 import AttachFileIcon from '@mui/icons-material/AttachFile';
+import DeleteIcon from '@mui/icons-material/Delete';
 import DownloadIcon from '@mui/icons-material/Download';
 import DrawIcon from '@mui/icons-material/Draw';
 import ImageIcon from '@mui/icons-material/Image';
@@ -33,6 +34,7 @@ export type AttachmentCardProps = {
   watchAttachment?: (id: string) => void;
   signAttachment?: (id: string) => void;
   addNumber?: (id: string, url: string) => void;
+  removeFile?: (id: string) => void;
   isUploaded?: boolean;
   isNeedSign?: boolean;
   isNeedAddNumber?: boolean;
@@ -44,6 +46,7 @@ export const AttachmentCard: React.FC<AttachmentCardProps> = (props) => {
     watchAttachment,
     signAttachment,
     addNumber,
+    removeFile,
     isUploaded,
     isNeedSign,
     isNeedAddNumber
@@ -114,7 +117,7 @@ export const AttachmentCard: React.FC<AttachmentCardProps> = (props) => {
           <Tooltip title="Đánh số văn bản">
             <IconButton
               color="primary"
-              onClick={() => addNumber?.(attachment.name, attachment.url)}
+              onClick={() => addNumber?.(attachment.fileGuid, attachment.url)}
             >
               <DrawIcon />
             </IconButton>
@@ -124,7 +127,7 @@ export const AttachmentCard: React.FC<AttachmentCardProps> = (props) => {
           <Tooltip title="Ký số">
             <IconButton
               color={'success'}
-              onClick={() => signAttachment?.(attachment.name)}
+              onClick={() => signAttachment?.(attachment.fileGuid)}
             >
               <DrawIcon />
             </IconButton>
@@ -149,6 +152,19 @@ export const AttachmentCard: React.FC<AttachmentCardProps> = (props) => {
             <DownloadIcon />
           </Link>
         </Tooltip>
+        {removeFile && (
+          <Tooltip title="Xoá">
+            <IconButton
+              aria-label="delete"
+              color="error"
+              onClick={() => {
+                removeFile?.(attachment.fileGuid);
+              }}
+            >
+              <DeleteIcon />
+            </IconButton>
+          </Tooltip>
+        )}
       </Stack>
     </Box>
   );
