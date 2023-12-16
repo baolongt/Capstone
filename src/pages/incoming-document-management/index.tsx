@@ -1,5 +1,12 @@
 import AddIcon from '@mui/icons-material/Add';
-import { Box, Button } from '@mui/material';
+import {
+  Box,
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select
+} from '@mui/material';
 import { debounce } from 'lodash';
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
@@ -14,7 +21,7 @@ import PageHeader from '@/components/common/page-header';
 import PageTitle from '@/components/common/page-title';
 import { IncomingDocumentTable } from '@/components/document/incoming/incoming-doc-table';
 import { DEBOUND_SEARCH_TIME, DEFAULT_PAGE_WIDTH } from '@/constants';
-import { BaseTableQueryParams } from '@/types';
+import { BaseTableQueryParams, StatusFilter } from '@/types';
 
 const IncomingDocumentManagement = () => {
   const [queryParams, setQueryParams] = React.useState<BaseTableQueryParams>({
@@ -32,6 +39,10 @@ const IncomingDocumentManagement = () => {
 
   const handleDateRangeOnChange = (value: DateRange) => {
     setQueryParams({ ...queryParams, dateRange: value });
+  };
+
+  const handleStatusFilterOnChange = (value: StatusFilter) => {
+    setQueryParams({ ...queryParams, statusFilter: value });
   };
 
   const debouncedSearch = debounce(handleChangeSearch, DEBOUND_SEARCH_TIME);
@@ -77,6 +88,29 @@ const IncomingDocumentManagement = () => {
                 placeholder="Tìm kiếm..."
                 onTextChange={debouncedSearch}
               />
+            </Box>
+
+            <Box>
+              <FormControl sx={{ minWidth: 200 }} size="small">
+                <InputLabel id="status-filter-label">Trạng thái</InputLabel>
+                <Select
+                  labelId="status-filter-label"
+                  label="Trạng thái"
+                  defaultValue={0}
+                  onChange={(e) =>
+                    handleStatusFilterOnChange(e.target.value as StatusFilter)
+                  }
+                >
+                  <MenuItem value={0}>Tất cả</MenuItem>
+                  <MenuItem value={StatusFilter.PENDING}>Đang xử lý</MenuItem>
+                  <MenuItem value={StatusFilter.EDITING}>
+                    Đang chỉnh sửa
+                  </MenuItem>
+                  <MenuItem value={StatusFilter.PUBLISHED}>
+                    Đã phát hành
+                  </MenuItem>
+                </Select>
+              </FormControl>
             </Box>
 
             <Box>

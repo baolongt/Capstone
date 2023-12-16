@@ -17,7 +17,7 @@ export const InputSearch = (props: InputSearchProps) => {
     <TextField
       placeholder={placeholder}
       size={size}
-      value={value || ''}
+      //value={value || ''}
       sx={{
         borderRadius: '2.5',
         border: 'none',
