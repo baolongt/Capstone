@@ -16,7 +16,7 @@ const fetchInternalDocuments = async ({
 }: {
   queryParams: BaseTableQueryParams;
 }): Promise<ListDocumentsResponse> => {
-  const { page, size, search, dateRange } = queryParams;
+  const { page, size, search, dateRange, statusFilter } = queryParams;
   const { from, to } = dateRange || {};
 
   const params = {
@@ -24,7 +24,8 @@ const fetchInternalDocuments = async ({
     PageSize: size,
     ...(search && search != '' ? { SearchString: search } : {}),
     ...(from && from != '' ? { BeforeDate: from } : {}),
-    ...(to && to != '' ? { AfterDate: to } : {})
+    ...(to && to != '' ? { AfterDate: to } : {}),
+    ...(statusFilter ? { statusFilter: statusFilter } : {})
   };
 
   const response: ListDocumentsResponse = await axiosInstance.get(
