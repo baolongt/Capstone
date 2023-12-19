@@ -13,6 +13,7 @@ import Unauthorized from './pages/auth/Unauthorized';
 import ContactList from './pages/contact-list';
 import Dashboard from './pages/dashboard';
 import DepartmentManagement from './pages/department-management';
+import DocumentTypeManagement from './pages/doc-types-management';
 import FileManagement from './pages/file-management';
 import FileDetail from './pages/file-management/detail';
 import IncomingDocumentManagement from './pages/incoming-document-management';
@@ -61,6 +62,7 @@ const App = () => {
         <Route element={<RequireAuth role={Role.ADMIN} />}>
           <Route path={'/users'} element={<UserManagement />} />
           <Route path={'/departments'} element={<DepartmentManagement />} />
+          <Route path={'/doc-types'} element={<DocumentTypeManagement />} />
         </Route>
 
         {/* OFFICER pages */}

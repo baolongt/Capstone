@@ -22,3 +22,5 @@ export const WORKFLOW = 'workflows';
 export const WORKFLOW_EXAMPLE = 'outgoingdocumet-example';
 export const WORKFLOW_HANDLER = 'workflow-handler';
 export const COMMENT = 'comments';
+export const DOCUMENT_TYPE = 'document-types';
+export const DOCUMENT_FIELD = 'document-fields';

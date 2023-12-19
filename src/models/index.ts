@@ -3,6 +3,7 @@ export * as auth from './auth';
 export * as common from './common';
 export * as contact from './contact';
 export * as department from './department';
+export * as documentType from './doc-type';
 export * as file from './file';
 export * as incomingDocument from './incomingDocument';
 export * as internalDocument from './internalDocument';
