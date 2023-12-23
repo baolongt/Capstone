@@ -66,14 +66,15 @@ export const editDocument = async (
 
 export const useEditDocument = ({
   onSuccess,
-  onError
-}: common.useMutationParams) => {
+  onError,
+  id
+}: common.useMutationParams & { id: string }) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({ id, editObj }: { id: string; editObj: EditType }) =>
       editDocument(id, editObj),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [api.OUTGOING_DOCUMENT] });
+      queryClient.invalidateQueries({ queryKey: [api.OUTGOING_DOCUMENT, id] });
       onSuccess?.();
     },
     onError: () => {

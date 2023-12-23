@@ -40,7 +40,8 @@ const EditInternalDocumentPage = () => {
     },
     onError: () => {
       toast.error('Chỉnh sửa văn bản nội bộ thất bại');
-    }
+    },
+    id: id || ''
   });
 
   const form = useForm({

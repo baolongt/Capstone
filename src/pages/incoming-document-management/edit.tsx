@@ -10,8 +10,8 @@ import { useGetOneDocument } from '@/apis/incomingDocument/getOneDocument';
 import AppDocViewer from '@/components/common/document-viewer';
 import PageHeader from '@/components/common/page-header';
 import PageTitle from '@/components/common/page-title';
-import EditForm from '@/components/document/outgoing/outgoing-doc-edit-form';
-import { outgoingDocument, validation } from '@/models';
+import EditForm from '@/components/document/incoming/incoming-doc-edit-form';
+import { incomingDocument, validation } from '@/models';
 import { convertDetailToEditForm } from '@/models/incomingDocument';
 
 const EditIncomingDocumentPage = () => {
@@ -40,14 +40,15 @@ const EditIncomingDocumentPage = () => {
     },
     onError: () => {
       toast.error('Chỉnh sửa văn bản đi thất bại');
-    }
+    },
+    id: id || ''
   });
 
   const form = useForm({
     defaultValues: {},
     resolver: yupResolver(validation.outgoingDocument.editSchema)
   }) as unknown as UseFormReturn<
-    outgoingDocument.EditOutgoingDocument,
+    incomingDocument.EditIncomingDocument,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     any
   >;

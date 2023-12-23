@@ -28,13 +28,14 @@ export const editPublishInfo = async ({
 
 export const useEditPublishInfo = ({
   onSuccess,
-  onError
-}: common.useMutationParams) => {
+  onError,
+  id
+}: common.useMutationParams & { id: string }) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: editPublishInfo,
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: [api.OUTGOING_DOCUMENT] });
+      queryClient.invalidateQueries({ queryKey: [api.OUTGOING_DOCUMENT, id] });
       onSuccess && onSuccess(data);
     },
     onError: () => {

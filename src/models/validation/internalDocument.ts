@@ -46,6 +46,8 @@ export const editSchema = yup.object().shape({
   documentField: yup.number().required('Lĩnh vực văn bản là bắt buộc'),
   documentTypeId: yup.number().required('Loại văn bản là bắt buộc'),
   processDeadline: yup.string().required('Hạn xử lý là bắt buộc'),
+  documentNotation: yup.string().required('Ký hiêu văn bản là bắt buộc'),
+
   files: yup
     .array()
     .required('Yêu cầu file đính kèm')

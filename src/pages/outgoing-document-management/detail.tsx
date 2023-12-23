@@ -239,7 +239,17 @@ const OutgoingDocumentDetail = () => {
           }}
           component={Paper}
         >
-          <DetailDescription sx={{ width: '100%' }} data={data} />
+          <DetailDescription
+            sx={{ width: '100%' }}
+            data={{
+              epitomize: data.epitomize,
+              documentNotation:
+                data.outgoingPublishInfo?.outgoingNotation || '',
+              documentField: data.documentField,
+              documentTypeName: data.documentTypeName,
+              createdByName: data.createdByName
+            }}
+          />
           {data.outgoingPublishInfo && (
             <>
               <Divider sx={{ my: 2 }} />

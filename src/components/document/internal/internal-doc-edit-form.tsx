@@ -8,7 +8,6 @@ import {
   CustomButton,
   DatePickerField,
   InputField,
-  MultilineTextField,
   SelectField,
   WrappedDragDropFileBox
 } from '@/components/common';
@@ -53,7 +52,6 @@ const EditForm: React.FC<EditFormProps> = ({
   signAttachment
 }) => {
   const {
-    handleSubmit,
     watch,
     setValue,
     formState: { isDirty }
@@ -74,32 +72,23 @@ const EditForm: React.FC<EditFormProps> = ({
     setDocumentTypeOptions(documentTypeOptionsMap[documentField]);
   }, [documentField, setValue]);
 
-  const handleFormSubmit = (data: any) => {
-    console.log('submit');
-  };
   if (data) {
     console.log('edit data', data);
     return (
       <Stack>
-        <Grid
-          container
-          spacing={2}
-          component="form"
-          onSubmit={handleSubmit(handleFormSubmit)}
-        >
+        <Grid container spacing={2} component="form">
           <Grid item xs={12} sm={12}>
             <Typography style={{ marginBottom: '5px' }} fontWeight="bold">
               Trích yếu
             </Typography>
             <InputField form={form} label="" name="epitomize" />
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={12}>
             <Typography style={{ marginBottom: '5px' }} fontWeight="bold">
               Ký hiệu văn bản
             </Typography>
             <InputField label="" name="documentNotation" form={form} />
           </Grid>
-          <Grid item xs={12} sm={6}></Grid>
           <Grid item xs={6}>
             <Typography style={{ marginBottom: '5px' }} fontWeight="bold">
               Lĩnh vực văn bản
@@ -146,12 +135,6 @@ const EditForm: React.FC<EditFormProps> = ({
               watchAttachment={watchAttachment}
               signAttachment={signAttachment}
             />
-          </Grid>
-          <Grid item xs={12}>
-            <Typography style={{ marginBottom: '5px' }} fontWeight="bold">
-              Ghi chú
-            </Typography>
-            <MultilineTextField form={form} name="note" minRows={4} />
           </Grid>
           <Grid item xs={12}>
             <Stack direction="row" spacing={1}>

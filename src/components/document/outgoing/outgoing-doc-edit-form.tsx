@@ -83,13 +83,6 @@ const EditForm: React.FC<EditFormProps> = ({
             </Typography>
             <InputField form={form} label="" name="epitomize" />
           </Grid>
-          <Grid item xs={12} sm={6}>
-            <Typography style={{ marginBottom: '5px' }} fontWeight="bold">
-              Ký hiệu văn bản
-            </Typography>
-            <InputField label="" name="documentNotation" form={form} />
-          </Grid>
-          <Grid item xs={12} sm={6}></Grid>
           <Grid item xs={6}>
             <Typography style={{ marginBottom: '5px' }} fontWeight="bold">
               Lĩnh vực văn bản
