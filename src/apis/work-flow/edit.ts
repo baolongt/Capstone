@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { api } from '@/constants';
 import { common } from '@/models';
-import { DocumentTypeCreate, StepCreate } from '@/models/work-flow';
+import { DocumentTypeCreate } from '@/models/work-flow';
 import { axiosInstance } from '@/utils';
 
 export type EditStep = {
@@ -40,7 +40,19 @@ export const useEditWorkflow = ({
   return useMutation({
     mutationFn: (payload: WorkFlowEditPayload) => editWorkflow(payload),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [api.OUTGOING_DOCUMENT, id] });
+      if (docType === DocumentTypeCreate.OUTGOING) {
+        queryClient.invalidateQueries({
+          queryKey: [api.OUTGOING_DOCUMENT, id]
+        });
+      } else if (docType === DocumentTypeCreate.INTERNAL) {
+        queryClient.invalidateQueries({
+          queryKey: [api.INTERNAL_DOCUMENT, id]
+        });
+      } else if (docType === DocumentTypeCreate.INCOMING) {
+        queryClient.invalidateQueries({
+          queryKey: [api.INCOMING_DOCUMENT, id]
+        });
+      }
       queryClient.invalidateQueries({
         queryKey: [api.WORKFLOW, docId, docType]
       });

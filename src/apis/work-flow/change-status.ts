@@ -33,7 +33,19 @@ export const useChangeStatus = ({
   return useMutation({
     mutationFn: (payload: ChangeStatusPayload) => changeStatus(payload),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [api.OUTGOING_DOCUMENT, id] });
+      if (type === WorkFlowDocType.OUTGOING) {
+        queryClient.invalidateQueries({
+          queryKey: [api.OUTGOING_DOCUMENT, id]
+        });
+      } else if (type === WorkFlowDocType.INTERNAL) {
+        queryClient.invalidateQueries({
+          queryKey: [api.INTERNAL_DOCUMENT, id]
+        });
+      } else if (type === WorkFlowDocType.INCOMING) {
+        queryClient.invalidateQueries({
+          queryKey: [api.INCOMING_DOCUMENT, id]
+        });
+      }
       queryClient.invalidateQueries({
         queryKey: [api.WORKFLOW, docId, docType]
       });

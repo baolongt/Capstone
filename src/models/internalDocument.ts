@@ -40,6 +40,8 @@ export interface InternalDocument {
   internalPublishInfo: InternalPublishInfo;
   processHistory: ProcessHisstory[];
   registrationStatus: number;
+
+  createdById: number;
 }
 export interface CreateInternalDocument {
   epitomize: string;

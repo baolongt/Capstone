@@ -64,7 +64,8 @@ const convertToIncomingDocumentUploadFormType = (
         url: file.url ?? '',
         needSigned: file.needSigned,
         size: file.fileObj?.size,
-        mimeType: file.fileObj?.type
+        mimeType: file.fileObj?.type,
+        FileGuid: file.fileGuid
       })) ?? [],
     incomingPublishInfo: {
       incomingNotation: createObj.incomingNotation,

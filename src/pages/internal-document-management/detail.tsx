@@ -1,28 +1,43 @@
+import PostAddIcon from '@mui/icons-material/PostAdd';
 import {
   Box,
   Divider,
+  IconButton,
   Paper,
   Stack,
+  Tooltip,
   Typography,
   useTheme
 } from '@mui/material';
 import * as React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
-import { send } from '@/apis';
+import {
+  send,
+  useChangeStatus,
+  useGetWorkFlows,
+  WorkFlowDocType,
+  WorkFlowStatus
+} from '@/apis';
 import { DocTypeEnum } from '@/apis/file/addDocToFile';
 import { useGetOneDocument } from '@/apis/internalDocument/getOneDocument';
+import { useRestartStatus } from '@/apis/work-flow/restart';
 import { CustomButton, Loading } from '@/components/common';
 import AppDocViewer from '@/components/common/document-viewer';
 import PageHeader from '@/components/common/page-header';
 import PageTitle from '@/components/common/page-title';
-import { AddDocToFileDialog } from '@/components/dialogs';
+import {
+  AddDocToFileDialog,
+  WorkflowDiagramDialog
+} from '@/components/dialogs';
 import { DetailAttachmentAccordion } from '@/components/document';
 import DocComment from '@/components/document/comment';
 import {
   DetailDescription,
   DetailTimeline
 } from '@/components/document/internal';
+import { WorkFlowButtonsHandle } from '@/components/document/internal/internal-doc-workflow-buttons-handle';
 import { Attachment } from '@/models';
 import { DocumentType } from '@/models/comment';
 
@@ -34,8 +49,34 @@ const InternalDocumentDetail = () => {
   const [docPreviewData, setDocPreviewData] = React.useState<{ uri: string }[]>(
     []
   );
+  const [openWorkflowDiagram, setOpenWorkflowDiagram] = React.useState(false);
   const [openAddDocToFile, setOpenAddDocToFile] = React.useState(false);
+  const { data: workflow, isLoading: isLoadingWorkflow } = useGetWorkFlows({
+    docId: id ? parseInt(id) : -1,
+    docType: WorkFlowDocType.INTERNAL
+  });
   const navigate = useNavigate();
+
+  const { mutate: changeStatus } = useChangeStatus({
+    id: id ? parseInt(id) : -1,
+    onSuccess: () => {
+      toast.success('Chuyển  thành công');
+    },
+    onError: () => {
+      toast.error('Chuyển thất bại');
+    },
+    type: WorkFlowDocType.INTERNAL
+  });
+  const { mutate: restartStep } = useRestartStatus({
+    id: id ? parseInt(id) : -1,
+    onSuccess: () => {
+      toast.success('Bắt đầu lại quy trình thành công');
+    },
+    onError: () => {
+      toast.error('Bắt đầu lại quy trình thất bại');
+    },
+    type: WorkFlowDocType.INTERNAL
+  });
 
   React.useEffect(() => {
     if (data) {
@@ -69,6 +110,35 @@ const InternalDocumentDetail = () => {
     setDocPreview(true);
   };
 
+  const handleChangeStatus = () => {
+    if (id) {
+      changeStatus({
+        id: id,
+        status: WorkFlowStatus.APPROVED,
+        docType: WorkFlowDocType.INTERNAL
+      });
+    }
+  };
+
+  const handleRejecStep = () => {
+    if (id) {
+      changeStatus({
+        id: id,
+        status: WorkFlowStatus.REJECTED,
+        docType: WorkFlowDocType.INTERNAL
+      });
+    }
+  };
+
+  const handleRestartStep = () => {
+    if (id) {
+      restartStep({
+        id: id,
+        docType: WorkFlowDocType.INTERNAL
+      });
+    }
+  };
+
   const handleAddNumber = async (attachmentId: string, url: string) => {
     navigate(`add-number?attachmentId=${attachmentId}&url=${url}`);
   };
@@ -91,10 +161,23 @@ const InternalDocumentDetail = () => {
               mt: 1
             }}
           >
-            <CustomButton
-              label="Thêm vào sổ công việc"
-              onClick={handleOpenAddDocToFile}
-            />
+            <Tooltip title="Thêm vào sổ công việc">
+              <IconButton color="info" onClick={handleOpenAddDocToFile}>
+                <PostAddIcon />
+              </IconButton>
+            </Tooltip>
+            {workflow && (
+              <WorkFlowButtonsHandle
+                createdById={data.createdById}
+                steps={workflow.steps}
+                isLoadingWorkflow={isLoadingWorkflow}
+                setOpenWorkflowDiagram={setOpenWorkflowDiagram}
+                handleChangeStatus={handleChangeStatus}
+                handleRejecStep={handleRejecStep}
+                handleRestartStep={handleRestartStep}
+                docStatus={data.documentStatus}
+              />
+            )}
           </Stack>
         </PageHeader>
         <Box
@@ -142,6 +225,15 @@ const InternalDocumentDetail = () => {
           />
         </Box>
       </Box>
+      {workflow && workflow?.steps && (
+        <>
+          <WorkflowDiagramDialog
+            steps={workflow.steps}
+            isOpen={openWorkflowDiagram}
+            onClose={() => setOpenWorkflowDiagram(false)}
+          />
+        </>
+      )}
       <AppDocViewer
         docs={docPreviewData}
         open={docPreview}

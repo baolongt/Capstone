@@ -243,17 +243,43 @@ function DragAndDropList({
   };
 
   const handleAddNewItem = () => {
-    setItems((prev) => {
-      return [
-        ...prev,
-        {
-          id: items.length + 1,
-          handlerId: 1,
-          action: workFlow.Action.CONSIDER,
-          deadline: new Date().toISOString()
-        }
-      ];
-    });
+    if (docType === workFlow.DocumentTypeCreate.OUTGOING) {
+      setItems((prev) => {
+        return [
+          ...prev,
+          {
+            id: items.length + 1,
+            handlerId: 1,
+            action: workFlow.Action.CONSIDER,
+            deadline: new Date().toISOString()
+          }
+        ];
+      });
+    } else if (docType === workFlow.DocumentTypeCreate.INCOMING) {
+      setItems((prev) => {
+        return [
+          ...prev,
+          {
+            id: items.length + 1,
+            handlerId: 1,
+            action: workFlow.Action.INCOMING_CONSIDER,
+            deadline: new Date().toISOString()
+          }
+        ];
+      });
+    } else {
+      setItems((prev) => {
+        return [
+          ...prev,
+          {
+            id: items.length + 1,
+            handlerId: 1,
+            action: workFlow.Action.INTERNAL_SEND_TO_HEAD_OFFFICE,
+            deadline: new Date().toISOString()
+          }
+        ];
+      });
+    }
   };
 
   useEffect(() => {
