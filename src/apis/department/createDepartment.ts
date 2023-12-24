@@ -19,6 +19,9 @@ export const useCreateDepartment = ({
       createDepartment(payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [api.DEPARTMENT] });
+      queryClient.invalidateQueries({
+        queryKey: [api.USERS_NOT_HAVE_DEPARTMENT]
+      });
       onSuccess?.();
     },
     onError: () => {

@@ -5,13 +5,13 @@ import dayjs from 'dayjs';
 import _ from 'lodash';
 import { useEffect } from 'react';
 import { Resolver, useForm } from 'react-hook-form';
+import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import { useEditPublishInfo, useGetPublishNumber } from '@/apis';
 import { useListContacts } from '@/apis/contact';
 import { useGetOneDocument } from '@/apis/outgoingDocument/getOneDocument';
 import {
-  CustomButton,
   DatePickerField,
   FieldTitle,
   InputField,
@@ -20,7 +20,7 @@ import {
 } from '@/components/common';
 import AutocompleteInput from '@/components/common/form-control/autocomplete';
 import { addPublishInfoSchema } from '@/components/dialogs/validations';
-import { DEFAULT_PAGE_WIDTH, priorityOptions } from '@/constants';
+import { priorityOptions } from '@/constants';
 
 type EditPublishInfoProps = {
   docId?: number;
@@ -38,7 +38,7 @@ interface PublishInfoPayload {
 
 export const EditPublishInfo = ({ docId }: EditPublishInfoProps) => {
   const { data, isLoading } = useGetOneDocument(docId ? docId : -1);
-
+  const { id } = useParams<{ id: string }>();
   const form = useForm<PublishInfoPayload>({
     defaultValues: {},
     resolver: yupResolver(addPublishInfoSchema) as Resolver<
@@ -87,7 +87,8 @@ export const EditPublishInfo = ({ docId }: EditPublishInfoProps) => {
       },
       onError: () => {
         toast.error('Cập nhật thông tin thất bại');
-      }
+      },
+      id: id || ''
     });
 
   const { data: publishNumber, refetch } = useGetPublishNumber();

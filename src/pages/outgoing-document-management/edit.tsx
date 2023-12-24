@@ -40,7 +40,8 @@ const EditOutgoingDocumentPage = () => {
     },
     onError: () => {
       toast.error('Chỉnh sửa văn bản đi thất bại');
-    }
+    },
+    id: id || ''
   });
 
   const form = useForm({

@@ -20,6 +20,9 @@ export const useDeleteDepartment = ({
     mutationFn: (payload: { id: number }) => deleteDepartment(payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [api.DEPARTMENT] });
+      queryClient.invalidateQueries({
+        queryKey: [api.USERS_NOT_HAVE_DEPARTMENT]
+      });
       onSuccess?.();
     },
     onError: () => {

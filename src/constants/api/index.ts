@@ -24,3 +24,5 @@ export const WORKFLOW_HANDLER = 'workflow-handler';
 export const COMMENT = 'comments';
 export const DOCUMENT_TYPE = 'document-types';
 export const DOCUMENT_FIELD = 'document-fields';
+
+export const USERS_NOT_HAVE_DEPARTMENT = 'users-not-have-department';
