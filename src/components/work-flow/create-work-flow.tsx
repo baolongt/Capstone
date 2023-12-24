@@ -49,7 +49,6 @@ export const CreateWorkFlow = ({
           handlerId: step.handlerId,
           action: step.action,
           stepNumber: index + 1,
-          deadline: step.deadline,
           failStepNumber: step.failStepNumber
         }))
       });

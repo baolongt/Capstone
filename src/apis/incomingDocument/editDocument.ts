@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { DragAndDropBoxValueType } from '@/components/common/form-control/drag-and-drop-box';
 import { api } from '@/constants';
 import { Attachment, common, UploadFile } from '@/models';
-import { EditType } from '@/models/validation/outgoingDocument';
+import { EditType } from '@/models/validation/incomingDocument';
 import { axiosInstance } from '@/utils';
 
 import { uploadFile } from './uploadForm';
@@ -27,9 +27,12 @@ const convertToEditAttachmentPayload = async (
       url: file.url,
       needSigned: needUploadFile[index].needSigned,
       size: String(needUploadFile[index].fileObj?.size || ''),
-      mimeType: needUploadFile[index].fileObj?.type || ''
+      mimeType: needUploadFile[index].fileObj?.type || '',
+      fileGuid: file.fileGuid as string
     });
   });
+
+  console.log('uploadedFilesToAttchment', uploadedFilesToAttchment);
 
   return [...uploadedAttachment, ...uploadedFilesToAttchment];
 };
@@ -38,14 +41,23 @@ export const editDocument = async (
   id: string,
   editObj: EditType
 ): Promise<void> => {
-  const { epitomize, documentField, documentTypeId, files, processDeadline } =
-    editObj;
+  const {
+    epitomize,
+    documentField,
+    documentTypeId,
+    files,
+    processDeadline,
+    documentNotation
+  } = editObj;
   const data = {
     epitomize,
     documentField: documentField.toString(),
     documentTypeId,
-    attachments: await convertToEditAttachmentPayload(files),
-    processDeadline
+    attachments: (await convertToEditAttachmentPayload(files)).map((f) => {
+      return { ...f, FileGuid: f.fileGuid };
+    }),
+    processDeadline,
+    incomingNotation: documentNotation
   };
   const response = await axiosInstance.put(`api/IncomingDocument/${id}`, data);
   return response.data;
@@ -53,14 +65,15 @@ export const editDocument = async (
 
 export const useEditIncomingDocument = ({
   onSuccess,
-  onError
-}: common.useMutationParams) => {
+  onError,
+  id
+}: common.useMutationParams & { id: string }) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({ id, editObj }: { id: string; editObj: EditType }) =>
       editDocument(id, editObj),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [api.INCOMING_DOCUMENT] });
+      queryClient.invalidateQueries({ queryKey: [api.INCOMING_DOCUMENT, id] });
       onSuccess?.();
     },
     onError: () => {

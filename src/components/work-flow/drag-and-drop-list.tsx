@@ -14,17 +14,17 @@ import {
   TextField,
   Typography
 } from '@mui/material';
-import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 
 import { EditStep } from '@/apis';
 import { useGetExampleWorkflow } from '@/apis/work-flow/get-outgoing-doc-example';
-import { TIMEZONE } from '@/constants';
 import { user, workFlow } from '@/models';
-import { ActionOptions, convertActionToString } from '@/models/work-flow';
-
-import DateTimePickerInput from '../common/date-time-picker';
+import {
+  ActionOptions,
+  convertActionToString,
+  StepCreate
+} from '@/models/work-flow';
 
 type DragAndDropListProps = {
   users: user.User[];
@@ -43,17 +43,17 @@ type ListItemProps = {
   handleDeleteItem: (id: number) => void;
   handleUpdateHandler: (id: number, handlerId: number) => void;
   handleUpdateAction: (id: number, action: workFlow.Action) => void;
-  handleUpdateDeadline: (id: number, deadline: string) => void;
-  handleUpdateFailStepNumber: (id: number, failStepNumber: number) => void;
+  handleUpdateFailStepNumber: (id: number, failStepNumber?: number) => void;
   docType: workFlow.DocumentTypeCreate;
-  previewSteps: workFlow.StepCreate[] | EditStep[];
+  previewSteps: (workFlow.StepCreate & EditStep)[];
 };
 
-const convertStepToItem = (step: workFlow.StepCreate | EditStep): string => {
-  if ('stepNumber' in step) {
-    return '' + step?.stepNumber;
-  } else if ('id' in step) {
-    return '' + step?.id;
+const convertStepToItem = (step: workFlow.StepCreate & EditStep): string => {
+  const keys = Object.keys(step);
+  if (keys.includes('stepNumber')) {
+    return '' + step.stepNumber;
+  } else if (keys.includes('id')) {
+    return '' + step.id;
   }
   return '';
 };
@@ -65,12 +65,23 @@ const ListItem = ({
   handleDeleteItem,
   handleUpdateHandler,
   handleUpdateAction,
-  handleUpdateDeadline,
   handleUpdateFailStepNumber,
   docType,
   previewSteps
 }: ListItemProps) => {
   const [isHaveFailStep, setIsHaveFailStep] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (item.failStepNumber) {
+      setIsHaveFailStep(true);
+    }
+  }, [item]);
+
+  useEffect(() => {
+    if (!isHaveFailStep) {
+      handleUpdateFailStepNumber(item.id);
+    }
+  }, [isHaveFailStep]);
 
   return (
     <Draggable draggableId={String(item.id)} index={index}>
@@ -110,7 +121,7 @@ const ListItem = ({
               options={users}
               value={users.filter((user) => user.id === item.handlerId)[0]}
               getOptionLabel={(option) => String(option.name)}
-              sx={{ width: 200, mt: 1 }}
+              sx={{ width: 250, mt: 1 }}
               renderInput={(params) => (
                 <TextField {...params} label="Người xử lý" />
               )}
@@ -135,19 +146,6 @@ const ListItem = ({
               }}
             />
 
-            <DateTimePickerInput
-              value={dayjs(item.deadline).tz(TIMEZONE)}
-              sx={{ ml: 1, width: 270 }}
-              label="Hạn xử lý"
-              onChange={(newValue: string) => {
-                console.log(dayjs(newValue).toISOString());
-                return handleUpdateDeadline(
-                  item.id,
-                  dayjs(newValue).toISOString()
-                );
-              }}
-            />
-
             {index > 0 && !isHaveFailStep && (
               <Box sx={{ mt: 1 }}>
                 <IconButton
@@ -165,9 +163,10 @@ const ListItem = ({
                 <Autocomplete
                   disablePortal
                   size="small"
-                  options={previewSteps as any[]}
+                  options={previewSteps}
+                  value={previewSteps.find((s) => s.id === item.failStepNumber)}
                   getOptionLabel={(option) => convertStepToItem(option)}
-                  sx={{ width: 120, mt: 1, ml: 1 }}
+                  sx={{ width: 180, mt: 1, ml: 1 }}
                   renderInput={(params) => (
                     <TextField {...params} label="Bước quay lại" />
                   )}
@@ -244,17 +243,43 @@ function DragAndDropList({
   };
 
   const handleAddNewItem = () => {
-    setItems((prev) => {
-      return [
-        ...prev,
-        {
-          id: items.length + 1,
-          handlerId: 1,
-          action: workFlow.Action.CONSIDER,
-          deadline: new Date().toISOString()
-        }
-      ];
-    });
+    if (docType === workFlow.DocumentTypeCreate.OUTGOING) {
+      setItems((prev) => {
+        return [
+          ...prev,
+          {
+            id: items.length + 1,
+            handlerId: 1,
+            action: workFlow.Action.CONSIDER,
+            deadline: new Date().toISOString()
+          }
+        ];
+      });
+    } else if (docType === workFlow.DocumentTypeCreate.INCOMING) {
+      setItems((prev) => {
+        return [
+          ...prev,
+          {
+            id: items.length + 1,
+            handlerId: 1,
+            action: workFlow.Action.INCOMING_CONSIDER,
+            deadline: new Date().toISOString()
+          }
+        ];
+      });
+    } else {
+      setItems((prev) => {
+        return [
+          ...prev,
+          {
+            id: items.length + 1,
+            handlerId: 1,
+            action: workFlow.Action.INTERNAL_SEND_TO_HEAD_OFFFICE,
+            deadline: new Date().toISOString()
+          }
+        ];
+      });
+    }
   };
 
   useEffect(() => {
@@ -297,20 +322,7 @@ function DragAndDropList({
     setItems(newItems);
   };
 
-  const handleUpdateDeadline = (id: number, deadline: string) => {
-    const newItems = items.map((item) => {
-      if (item.id === id) {
-        return {
-          ...item,
-          deadline
-        };
-      }
-      return item;
-    });
-    setItems(newItems);
-  };
-
-  const handleUpdateFailStepNumber = (id: number, failStepNumber: number) => {
+  const handleUpdateFailStepNumber = (id: number, failStepNumber?: number) => {
     const newItems = items.map((item) => {
       if (item.id === id) {
         return {
@@ -373,13 +385,14 @@ function DragAndDropList({
                   handleDeleteItem={handleDeleteItem}
                   handleUpdateHandler={handleUpdateHandler}
                   handleUpdateAction={handleUpdateAction}
-                  handleUpdateDeadline={handleUpdateDeadline}
                   handleUpdateFailStepNumber={handleUpdateFailStepNumber}
                   item={item}
                   index={index}
                   users={users}
                   docType={docType}
-                  previewSteps={items.slice(0, index)}
+                  previewSteps={
+                    items.slice(0, index) as (StepCreate & EditStep)[]
+                  }
                 />
               );
             })}

@@ -17,8 +17,15 @@ export type TableSortingParam = {
   order?: 'asc' | 'desc';
 };
 
+export enum StatusFilter {
+  PENDING = 1,
+  EDITING = 2,
+  PUBLISHED = 3
+}
+
 export type TableFilter = {
   dateRange?: DateRageFilter;
+  statusFilter?: StatusFilter;
 };
 
 export type DateRageFilter = {

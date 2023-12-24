@@ -8,6 +8,7 @@ export class UploadFile {
   public url?: string;
   public needSigned: boolean;
   public fileObj?: File;
+  public fileGuid?: string;
 
   constructor({
     name,
@@ -32,8 +33,9 @@ export class UploadFile {
     return this[propName] ? String(this[propName]) : null;
   }
 
-  setNameAndUrl(name: string, url: string) {
+  setNameUrlAndGuid(name: string, url: string, fileGuid: string) {
     this.name = name;
     this.url = url;
+    this.fileGuid = fileGuid;
   }
 }

@@ -12,11 +12,11 @@ import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
+import { useListUserNotBelongToAnyDepartment } from '@/apis/admin/user/listUserNotBelongToAnyDepartment';
 import { useCreateDepartment, useUpdateDepartment } from '@/apis/department';
-import { CustomButton, InputField } from '@/components/common';
+import { CustomButton, InputField, SelectField } from '@/components/common';
 import { department } from '@/models';
 import { UpdatePayload } from '@/models/department';
-import { BaseTableQueryParams } from '@/types';
 
 import { addDepartmentSchema } from './validations';
 
@@ -39,10 +39,7 @@ export const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({
     },
     resolver: yupResolver(addDepartmentSchema)
   });
-  const [queryParams] = React.useState<BaseTableQueryParams>({
-    page: 1,
-    size: 10
-  });
+  const { data: users } = useListUserNotBelongToAnyDepartment();
   const { handleSubmit, reset } = form;
   const { mutate: createDepartmentMutate } = useCreateDepartment({
     onSuccess: () => {
@@ -120,7 +117,7 @@ export const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({
             />
           </Box>
 
-          {/* <Stack direction={'row'} gap={3}>
+          <Stack direction={'row'} gap={3}>
             <Box component="div" mt={2}>
               <Typography>
                 Chọn trưởng phòng
@@ -133,13 +130,13 @@ export const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({
                 name="departmentLeaderID"
                 placeholder="Chọn trưởng phòng"
                 data={
-                  users?.data?.map((user: User) => {
+                  users?.map((user) => {
                     return { title: user.name, value: user.id };
                   }) ?? []
                 }
               />
             </Box>
-          </Stack> */}
+          </Stack>
         </Stack>
       </DialogContent>
       <DialogActions sx={{ p: '0 24px 24px 0' }}>

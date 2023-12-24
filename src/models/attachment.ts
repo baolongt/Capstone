@@ -2,17 +2,18 @@ export class Attachment {
   public readonly id?: number | string;
   public readonly name: string;
   public readonly url: string;
-  public readonly needSigned: boolean;
+  public needSigned: boolean;
   public readonly size: string;
   public readonly mimeType: string;
-
+  public fileGuid: string;
   constructor({
     id,
     name,
     url,
     needSigned = false,
     size,
-    mimeType
+    mimeType,
+    fileGuid
   }: {
     id?: number | string;
     name: string;
@@ -20,6 +21,7 @@ export class Attachment {
     needSigned?: boolean;
     size: string;
     mimeType: string;
+    fileGuid: string;
   }) {
     if (id) {
       this.id = id;
@@ -29,5 +31,6 @@ export class Attachment {
     this.needSigned = needSigned;
     this.size = size;
     this.mimeType = mimeType;
+    this.fileGuid = fileGuid;
   }
 }

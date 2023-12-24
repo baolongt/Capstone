@@ -42,6 +42,7 @@
       async function sendToSignalR(id) {
         if (simpleHubProxy != null) {
           try {
+            console.log("sign file", id);
             const res = await simpleHubProxy.server.send(
               JSON.stringify({
                 llx: 100,

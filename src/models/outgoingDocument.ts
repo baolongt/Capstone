@@ -88,7 +88,7 @@ export const convertDetailToEditForm = (
 ): EditOutgoingDocument => {
   return {
     epitomize: detail.epitomize,
-    documentNotation: detail.documentNotation || '',
+    documentNotation: detail.outgoingPublishInfo?.outgoingNotation || '',
     documentField: parseInt(detail.documentField),
     documentTypeId: parseInt(detail.documentTypeId),
     isRepliedDocument: detail.isRepliedDocument,

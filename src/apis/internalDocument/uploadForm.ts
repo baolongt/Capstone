@@ -40,12 +40,13 @@ type InternalDocumentUploadFormTypeResponse = {
   attachments: AttachmentTypeResponse[];
 };
 
-type NameAndUrlFile = {
+type UploadedFile = {
   name: string;
   url: string;
+  fileGuid: string;
 };
 type UploadFileResponse = {
-  data: NameAndUrlFile[];
+  data: UploadedFile[];
 };
 
 const convertToInternalDocumentUploadFormType = (
@@ -63,7 +64,8 @@ const convertToInternalDocumentUploadFormType = (
         url: file.url ?? '',
         needSigned: file.needSigned,
         size: file.fileObj?.size,
-        mimeType: file.fileObj?.type
+        mimeType: file.fileObj?.type,
+        FileGuid: file.fileGuid
       })) ?? [],
     internalPublishInfo: {
       internalNotation: createObj.internalNotation,
@@ -78,7 +80,7 @@ const convertToInternalDocumentUploadFormType = (
 
 export const uploadFile = async (
   payload: UploadFile[]
-): Promise<NameAndUrlFile[]> => {
+): Promise<UploadedFile[]> => {
   const url = 'api/upload';
 
   const formData = new FormData();
@@ -113,7 +115,11 @@ export const uploadForm = async (
   const uploadedFile = await uploadFile(formFiles);
 
   for (let idx = 0; idx < uploadedFile.length; idx++) {
-    formFiles[idx].setNameAndUrl(uploadedFile[idx].name, uploadedFile[idx].url);
+    formFiles[idx].setNameUrlAndGuid(
+      uploadedFile[idx].name,
+      uploadedFile[idx].url,
+      uploadedFile[idx].fileGuid
+    );
   }
 
   const payload = convertToInternalDocumentUploadFormType(formData);

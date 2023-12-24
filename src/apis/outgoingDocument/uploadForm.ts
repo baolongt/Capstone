@@ -42,12 +42,13 @@ export type OutGoingDocumentUploadFormTypeResponse = {
   attachments: AttachmentTypeResponse[];
 };
 
-type NameAndUrlFile = {
+type UploadedFile = {
   name: string;
   url: string;
+  fileGuid: string;
 };
 type UploadFileResponse = {
-  data: NameAndUrlFile[];
+  data: UploadedFile[];
 };
 
 const convertToOutGoingDocumentUploadFormType = (
@@ -60,6 +61,7 @@ const convertToOutGoingDocumentUploadFormType = (
     processDeadline: createObj.processDeadline,
     attachments:
       createObj.files?.map((file) => ({
+        FileGuid: file.fileGuid,
         name: file.name ?? '',
         url: file.url ?? '',
         needSigned: file.needSigned,
@@ -73,7 +75,7 @@ const convertToOutGoingDocumentUploadFormType = (
 
 export const uploadFile = async (
   payload: UploadFile[]
-): Promise<NameAndUrlFile[]> => {
+): Promise<UploadedFile[]> => {
   const url = 'api/upload';
 
   const formData = new FormData();
@@ -108,7 +110,11 @@ export const uploadForm = async (
   const uploadedFile = await uploadFile(formFiles);
 
   for (let idx = 0; idx < uploadedFile.length; idx++) {
-    formFiles[idx].setNameAndUrl(uploadedFile[idx].name, uploadedFile[idx].url);
+    formFiles[idx].setNameUrlAndGuid(
+      uploadedFile[idx].name,
+      uploadedFile[idx].url,
+      uploadedFile[idx].fileGuid
+    );
   }
 
   const payload = convertToOutGoingDocumentUploadFormType(formData);

@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
-import { Edge, MarkerType, Node, Position } from 'reactflow';
+import { Edge, MarkerType, Node } from 'reactflow';
 
 import { Step } from '@/apis';
 import FlowChart from '@/components/flow-chart';
@@ -28,6 +28,20 @@ const StatusLabel: Record<Status, string> = {
   2: 'Đã hoàn thành',
   3: 'Từ chối',
   [Status.NOT_START]: ''
+};
+
+const convertActionAndDeadlineToEdgeLabel = (
+  action: Action,
+  deadline?: string | null
+): string => {
+  if (!deadline) {
+    return WorkFlowActionDict[action];
+  }
+  return (
+    WorkFlowActionDict[action] +
+    ' - Hạn xử lý ' +
+    dayjs.utc(deadline).tz(TIMEZONE).format('HH:mm DD/MM/YYYY')
+  );
 };
 
 const convertStepsToNodesAndEdges = (steps: Step[]) => {
@@ -97,15 +111,10 @@ const convertStepsToNodesAndEdges = (steps: Step[]) => {
       animated: true,
       ...(convertedNodes[index - 1].step
         ? {
-            label:
-              WorkFlowActionDict[
-                convertedNodes[index - 1].step?.action as Action
-              ] +
-              ' - Hạn xử lý ' +
-              dayjs
-                .utc(convertedNodes[index - 1].step?.deadline)
-                .tz(TIMEZONE)
-                .format('HH:mm DD/MM/YYYY')
+            label: convertActionAndDeadlineToEdgeLabel(
+              convertedNodes[index - 1].step?.action as Action,
+              convertedNodes[index - 1].step?.deadline
+            )
           }
         : {}),
       markerEnd: {
@@ -121,7 +130,7 @@ const convertStepsToNodesAndEdges = (steps: Step[]) => {
         sourceHandle: '' + node.nodeId + '.right',
         target: node.failNodeId,
         targetHandle: node.failNodeId + '.right',
-        type: 'step',
+        type: 'bezier',
         animated: true,
         label: 'Từ chối xử lý',
         markerEnd: {
@@ -178,13 +187,10 @@ const convertStepsToNodesAndEdges = (steps: Step[]) => {
     animated: true,
     ...(convertedNodes[convertedNodes.length - 1].step
       ? {
-          label:
-            WorkFlowActionDict[steps[steps.length - 1].action] +
-            ' - Hạn xử lý ' +
-            dayjs
-              .utc(steps[steps.length - 1].deadline)
-              .tz(TIMEZONE)
-              .format('HH:mm DD/MM/YYYY')
+          label: convertActionAndDeadlineToEdgeLabel(
+            steps[steps.length - 1].action,
+            steps[steps.length - 1].deadline
+          )
         }
       : {}),
 

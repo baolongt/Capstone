@@ -31,6 +31,11 @@ export const adminPaths: Path[] = [
     icon: <DashboardIcon />
   },
   {
+    label: 'Quản lí loại văn bản',
+    path: '/doc-types',
+    icon: <AdminPanelSettings />
+  },
+  {
     label: 'Quản lí nhân viên',
     path: '/users',
     icon: <AdminPanelSettings />
@@ -95,8 +100,9 @@ export const pathDict: PathDict = {
   'contact-list': 'Danh sách liên lạc',
   create: 'Tạo mới',
   edit: 'Chỉnh sửa',
-  'add-number': 'Thêm số',
+  'add-number': 'Đánh số',
   'edit-workflow': 'Chỉnh sửa trình tự xử lý',
   'edit-publish-info': 'Chỉnh sửa thông tin phát hành',
-  template: 'Văn bản mẫu'
+  template: 'Văn bản mẫu',
+  'doc-types': 'Loại văn bản'
 };

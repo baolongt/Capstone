@@ -1,5 +1,5 @@
 import { Box, Paper } from '@mui/material';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import { useEditWorkflow, useListHandlers } from '@/apis/work-flow';
@@ -24,6 +24,8 @@ export const EditWorkFlow = ({
   const { data, isLoading } = useListHandlers();
   const location = useLocation();
   const users = data || [];
+  const navigate = useNavigate();
+  const { id } = useParams<{ id: string }>();
 
   let docType: DocumentTypeCreate | undefined;
   if (location.pathname.includes('outgoing')) {
@@ -40,6 +42,7 @@ export const EditWorkFlow = ({
     useEditWorkflow({
       onSuccess: () => {
         toast.success('Cập nhật trình tự xử lý thành công');
+        navigate(`/outgoing-documents/${id}`);
       },
       onError: () => {
         toast.error('Cập nhật trình tự xử lý thất bại');
@@ -56,7 +59,7 @@ export const EditWorkFlow = ({
           handlerId: step.handlerId,
           action: step.action,
           stepNumber: index + 1,
-          deadline: step.deadline
+          failStepNumber: step.failStepNumber
         }))
       });
     }
@@ -88,7 +91,13 @@ export const EditWorkFlow = ({
         users={users}
         handleCreate={handleUpdate}
         isCreating={isUpdatingWorkflow}
-        initData={initWorkflow}
+        initData={initWorkflow?.map((wf) => ({
+          id: wf.stepNumber,
+          handlerId: wf.handlerId,
+          action: wf.action,
+          deadline: wf.deadline,
+          failStepNumber: wf.failStepNumber
+        }))}
         docType={docType as DocumentTypeCreate}
       />
     </Box>

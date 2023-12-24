@@ -22,7 +22,6 @@ import { useGetOneDocument } from '@/apis/outgoingDocument/getOneDocument';
 import {
   useChangeStatus,
   useGetWorkFlows,
-  useRollback,
   WorkFlowDocType,
   WorkFlowStatus
 } from '@/apis/work-flow';
@@ -35,7 +34,6 @@ import {
   AddDocToFileDialog,
   WorkflowDiagramDialog
 } from '@/components/dialogs';
-import RollbackDialog from '@/components/dialogs/outgoing-doc/roll-back-dialog';
 import { ShareListDialog } from '@/components/dialogs/share-list-dialog';
 import {
   DetailAttachmentAccordion,
@@ -66,7 +64,6 @@ const OutgoingDocumentDetail = () => {
   const [openAddDocToFile, setOpenAddDocToFile] = React.useState(false);
   const [openShareList, setOpenShareList] = React.useState(false);
   const [openWorkflowDiagram, setOpenWorkflowDiagram] = React.useState(false);
-  const [openRollbackDialog, setOpenRollbackDialog] = React.useState(false);
   const navigate = useNavigate();
   const { mutate: changeStatus } = useChangeStatus({
     id: id ? parseInt(id) : -1,
@@ -87,16 +84,6 @@ const OutgoingDocumentDetail = () => {
       toast.error('Bắt đầu lại quy trình thất bại');
     },
     type: WorkFlowDocType.OUTGOING
-  });
-  const { mutate: rollbackStep } = useRollback({
-    id: id ? parseInt(id) : -1,
-    type: WorkFlowDocType.OUTGOING,
-    onSuccess: () => {
-      toast.success('Quay lại thành công');
-    },
-    onError: () => {
-      toast.error('Quay lại thất bại');
-    }
   });
 
   const queryClient = useQueryClient();
@@ -180,22 +167,6 @@ const OutgoingDocumentDetail = () => {
     }
   };
 
-  const handleRollbackStep = ({
-    stepNumber,
-    reason
-  }: {
-    stepNumber: number;
-    reason: string;
-  }) => {
-    if (id && workflow?.id) {
-      rollbackStep({
-        workflowId: workflow?.id,
-        stepNumber,
-        reason
-      });
-    }
-  };
-
   const isNeedAddNumber = () => {
     const step = workflow?.steps.filter(
       (step) => step.status === Status.PENDING
@@ -249,7 +220,6 @@ const OutgoingDocumentDetail = () => {
                 steps={workflow.steps}
                 isLoadingWorkflow={isLoadingWorkflow}
                 setOpenWorkflowDiagram={setOpenWorkflowDiagram}
-                setOpenRollbackDialog={setOpenRollbackDialog}
                 handleChangeStatus={handleChangeStatus}
                 handleRejecStep={handleRejecStep}
                 handleRestartStep={handleRestartStep}
@@ -269,7 +239,17 @@ const OutgoingDocumentDetail = () => {
           }}
           component={Paper}
         >
-          <DetailDescription sx={{ width: '100%' }} data={data} />
+          <DetailDescription
+            sx={{ width: '100%' }}
+            data={{
+              epitomize: data.epitomize,
+              documentNotation:
+                data.outgoingPublishInfo?.outgoingNotation || '',
+              documentField: data.documentField,
+              documentTypeName: data.documentTypeName,
+              createdByName: data.createdByName
+            }}
+          />
           {data.outgoingPublishInfo && (
             <>
               <Divider sx={{ my: 2 }} />
@@ -344,16 +324,6 @@ const OutgoingDocumentDetail = () => {
             steps={workflow.steps}
             isOpen={openWorkflowDiagram}
             onClose={() => setOpenWorkflowDiagram(false)}
-          />
-          <RollbackDialog
-            isOpen={openRollbackDialog}
-            steps={workflow.steps.filter(
-              (step) =>
-                step.status !== Status.NOT_START &&
-                step.status !== Status.PENDING
-            )}
-            handleRollbackStep={handleRollbackStep}
-            onClose={() => setOpenRollbackDialog(false)}
           />
         </>
       )}

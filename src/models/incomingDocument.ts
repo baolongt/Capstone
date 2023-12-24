@@ -34,8 +34,8 @@ export interface IncomingDocument {
   processHistory: ProcessHisstory[];
   incomingPublishInfo: IncomingPublishInfo;
   createdDate: string;
-
   registrationStatus: number;
+  createdById: number;
 }
 
 export interface CreateIncomingDocument {
@@ -49,7 +49,7 @@ export interface CreateIncomingDocument {
   incomingPublishInfo: IncomingPublishInfo;
 }
 
-export interface EditOutgoingDocument {
+export interface EditIncomingDocument {
   epitomize: string;
   documentNotation: string;
   documentField: number;
@@ -63,10 +63,10 @@ export interface EditOutgoingDocument {
 
 export const convertDetailToEditForm = (
   detail: IncomingDocument
-): EditOutgoingDocument => {
+): EditIncomingDocument => {
   return {
     epitomize: detail.epitomize,
-    documentNotation: detail.documentNotation || '',
+    documentNotation: detail.incomingPublishInfo.incomingNotation || '',
     documentField: parseInt(detail.documentField),
     documentTypeId: parseInt(detail.documentTypeId),
     isRepliedDocument: detail.isRepliedDocument,
