@@ -39,7 +39,7 @@ const DeleteDialog = (props: DeleteDialogProps) => {
       </DialogContent>
 
       <DialogActions
-        sx={{ display: 'flex', justifyContent: 'space-evenly', pb: '24px' }}
+        sx={{ display: 'flex', justifyContent: 'center', pb: '24px' }}
       >
         <CustomButton label="Hủy" variant="outlined" onClick={onClose} />
         <CustomButton label="Xoá" onClick={onConfirm} />
