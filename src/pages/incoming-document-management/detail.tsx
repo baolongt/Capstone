@@ -20,6 +20,7 @@ import {
   setUserName,
   useChangeStatus,
   useGetWorkFlows,
+  useWithdraw,
   WorkFlowDocType,
   WorkFlowStatus
 } from '@/apis';
@@ -81,6 +82,16 @@ const IncomingDocumentDetail = () => {
       toast.error('Bắt đầu lại quy trình thất bại');
     },
     type: WorkFlowDocType.INCOMING
+  });
+  const { mutate: withdrawDoc } = useWithdraw({
+    id: id ? parseInt(id) : -1,
+    onSuccess: () => {
+      toast.success('Thu hồi văn bản thành công');
+    },
+    onError: () => {
+      toast.error('Thu hồi văn bản thất bại');
+    },
+    type: WorkFlowDocType.OUTGOING
   });
 
   React.useEffect(() => {
@@ -144,6 +155,15 @@ const IncomingDocumentDetail = () => {
     }
   };
 
+  const handleWithdraw = () => {
+    if (id) {
+      withdrawDoc({
+        id: parseInt(id),
+        docType: WorkFlowDocType.OUTGOING
+      });
+    }
+  };
+
   const handleAddNumber = async (attachmentId: string, url: string) => {
     navigate(`add-number?attachmentId=${attachmentId}&url=${url}`);
   };
@@ -182,6 +202,7 @@ const IncomingDocumentDetail = () => {
 
             {workflow && (
               <WorkFlowButtonsHandle
+                handleWithdraw={handleWithdraw}
                 createdById={data.createdById}
                 steps={workflow.steps}
                 isLoadingWorkflow={isLoadingWorkflow}

@@ -59,3 +59,56 @@ export const useChangeStatus = ({
     }
   });
 };
+
+type WithdrawDocPayload = {
+  id: number;
+  docType: WorkFlowDocType;
+};
+
+const withdrawDoc = async ({ id, docType }: WithdrawDocPayload) => {
+  const url = `/api/workflows/withdraw/${docType}/${id}`;
+  const res = await axiosInstance.put(url);
+  return res;
+};
+
+export const useWithdraw = ({
+  onSuccess,
+  onError,
+  id,
+  type
+}: common.useMutationParams & {
+  id: number;
+  type: WorkFlowDocType;
+}) => {
+  const queryClient = useQueryClient();
+  const docId = id;
+  const docType = type;
+  return useMutation({
+    mutationFn: (payload: WithdrawDocPayload) => withdrawDoc(payload),
+    onSuccess: () => {
+      if (type === WorkFlowDocType.OUTGOING) {
+        queryClient.invalidateQueries({
+          queryKey: [api.OUTGOING_DOCUMENT, id]
+        });
+      } else if (type === WorkFlowDocType.INTERNAL) {
+        queryClient.invalidateQueries({
+          queryKey: [api.INTERNAL_DOCUMENT, id]
+        });
+      } else if (type === WorkFlowDocType.INCOMING) {
+        queryClient.invalidateQueries({
+          queryKey: [api.INCOMING_DOCUMENT, id]
+        });
+      }
+      queryClient.invalidateQueries({
+        queryKey: [api.WORKFLOW, docId, docType]
+      });
+      queryClient.invalidateQueries({
+        queryKey: [api.NOTIFICATION]
+      });
+      onSuccess?.();
+    },
+    onError: () => {
+      onError?.();
+    }
+  });
+};

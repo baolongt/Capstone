@@ -2,6 +2,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import DrawIcon from '@mui/icons-material/Draw';
 import EmailIcon from '@mui/icons-material/Email';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
+import RateReviewIcon from '@mui/icons-material/RateReview';
 import ReplayIcon from '@mui/icons-material/Replay';
 import SchemaIcon from '@mui/icons-material/Schema';
 import UndoIcon from '@mui/icons-material/Undo';
@@ -83,6 +84,7 @@ type WorkFlowButtonsHandleProps = {
   handleChangeStatus: () => void;
   handleRejecStep: () => void;
   handleRestartStep: () => void;
+  handleWithdraw: () => void;
   steps: workFlow.Step[];
   createdById: number;
   docStatus: OutgoingDocumentStatus;
@@ -93,6 +95,7 @@ export const WorkFlowButtonsHandle = ({
   handleChangeStatus,
   handleRejecStep,
   handleRestartStep,
+  handleWithdraw,
   steps,
   createdById,
   docStatus
@@ -183,6 +186,13 @@ export const WorkFlowButtonsHandle = ({
             </IconButton>
           </Tooltip>
         </>
+      )}
+      {isCreatedByUser && docStatus == OutgoingDocumentStatus.PENDING && (
+        <Tooltip title="Thu hồi văn bản">
+          <IconButton color="primary" onClick={handleWithdraw}>
+            <RateReviewIcon />
+          </IconButton>
+        </Tooltip>
       )}
       {currentStep &&
         currentStep.isHandle &&

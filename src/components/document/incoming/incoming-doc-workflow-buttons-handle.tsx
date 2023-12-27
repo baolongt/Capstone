@@ -34,6 +34,7 @@ type WorkFlowButtonsHandleProps = {
   handleChangeStatus: () => void;
   handleRejecStep: () => void;
   handleRestartStep: () => void;
+  handleWithdraw: () => void;
   steps: workFlow.Step[];
   createdById: number;
   docStatus: OutgoingDocumentStatus;
@@ -44,6 +45,7 @@ export const WorkFlowButtonsHandle = ({
   handleChangeStatus,
   handleRejecStep,
   handleRestartStep,
+  handleWithdraw,
   steps,
   createdById,
   docStatus

@@ -17,13 +17,14 @@ import {
   send,
   useChangeStatus,
   useGetWorkFlows,
+  useWithdraw,
   WorkFlowDocType,
   WorkFlowStatus
 } from '@/apis';
 import { DocTypeEnum } from '@/apis/file/addDocToFile';
 import { useGetOneDocument } from '@/apis/internalDocument/getOneDocument';
 import { useRestartStatus } from '@/apis/work-flow/restart';
-import { CustomButton, Loading } from '@/components/common';
+import { Loading } from '@/components/common';
 import AppDocViewer from '@/components/common/document-viewer';
 import PageHeader from '@/components/common/page-header';
 import PageTitle from '@/components/common/page-title';
@@ -76,6 +77,16 @@ const InternalDocumentDetail = () => {
       toast.error('Bắt đầu lại quy trình thất bại');
     },
     type: WorkFlowDocType.INTERNAL
+  });
+  const { mutate: withdrawDoc } = useWithdraw({
+    id: id ? parseInt(id) : -1,
+    onSuccess: () => {
+      toast.success('Thu hồi văn bản thành công');
+    },
+    onError: () => {
+      toast.error('Thu hồi văn bản thất bại');
+    },
+    type: WorkFlowDocType.OUTGOING
   });
 
   React.useEffect(() => {
@@ -139,6 +150,15 @@ const InternalDocumentDetail = () => {
     }
   };
 
+  const handleWithdraw = () => {
+    if (id) {
+      withdrawDoc({
+        id: parseInt(id),
+        docType: WorkFlowDocType.OUTGOING
+      });
+    }
+  };
+
   const handleAddNumber = async (attachmentId: string, url: string) => {
     navigate(`add-number?attachmentId=${attachmentId}&url=${url}`);
   };
@@ -168,6 +188,7 @@ const InternalDocumentDetail = () => {
             </Tooltip>
             {workflow && (
               <WorkFlowButtonsHandle
+                handleWithdraw={handleWithdraw}
                 createdById={data.createdById}
                 steps={workflow.steps}
                 isLoadingWorkflow={isLoadingWorkflow}

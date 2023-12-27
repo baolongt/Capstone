@@ -22,6 +22,7 @@ import { useGetOneDocument } from '@/apis/outgoingDocument/getOneDocument';
 import {
   useChangeStatus,
   useGetWorkFlows,
+  useWithdraw,
   WorkFlowDocType,
   WorkFlowStatus
 } from '@/apis/work-flow';
@@ -82,6 +83,16 @@ const OutgoingDocumentDetail = () => {
     },
     onError: () => {
       toast.error('Bắt đầu lại quy trình thất bại');
+    },
+    type: WorkFlowDocType.OUTGOING
+  });
+  const { mutate: withdrawDoc } = useWithdraw({
+    id: id ? parseInt(id) : -1,
+    onSuccess: () => {
+      toast.success('Thu hồi văn bản thành công');
+    },
+    onError: () => {
+      toast.error('Thu hồi văn bản thất bại');
     },
     type: WorkFlowDocType.OUTGOING
   });
@@ -167,6 +178,15 @@ const OutgoingDocumentDetail = () => {
     }
   };
 
+  const handleWithdraw = () => {
+    if (id) {
+      withdrawDoc({
+        id: parseInt(id),
+        docType: WorkFlowDocType.OUTGOING
+      });
+    }
+  };
+
   const isNeedAddNumber = () => {
     const step = workflow?.steps.filter(
       (step) => step.status === Status.PENDING
@@ -223,6 +243,7 @@ const OutgoingDocumentDetail = () => {
                 handleChangeStatus={handleChangeStatus}
                 handleRejecStep={handleRejecStep}
                 handleRestartStep={handleRestartStep}
+                handleWithdraw={handleWithdraw}
                 docStatus={data.documentStatus}
               />
             )}

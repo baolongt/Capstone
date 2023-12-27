@@ -1,5 +1,6 @@
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import DoDisturbAltRoundedIcon from '@mui/icons-material/DoDisturbAltRounded';
+import RateReviewIcon from '@mui/icons-material/RateReview';
 import ReplayRoundedIcon from '@mui/icons-material/ReplayRounded';
 import UTurnLeftRoundedIcon from '@mui/icons-material/UTurnLeftRounded';
 import Timeline from '@mui/lab/Timeline';
@@ -27,13 +28,10 @@ type BaseTimelineItemProps = {
 
 const translations: Record<string, string> = {
   Consider: 'duyệt',
-  Sign: 'ký',
-  AddNumber: 'thêm số',
-  PrepareEmail: 'chuẩn bị email',
-  Rollback: 'quay lại bước',
   Restart: 'bắt đầu lại quy trình',
   Accepted: 'Đã xử lý',
-  Rejected: 'Từ chối'
+  Rejected: 'Từ chối',
+  Withdraw: 'thu hồi văn bản'
 };
 
 const renderStatusIcon = (status: string) => {
@@ -60,6 +58,12 @@ const renderStatusIcon = (status: string) => {
       return (
         <TimelineDot color="warning" sx={{ color: '#fff' }}>
           <UTurnLeftRoundedIcon />
+        </TimelineDot>
+      );
+    case 'Withdraw':
+      return (
+        <TimelineDot color="warning" sx={{ color: '#fff' }}>
+          <RateReviewIcon />
         </TimelineDot>
       );
     default:
@@ -100,7 +104,11 @@ const BaseTimelineItem: React.FC<BaseTimelineItemProps> = (props) => {
         </TimelineSeparator>
         <TimelineContent>
           <Typography variant="h6">{title}</Typography>
-          <Typography variant="subtitle1">{translations[status]}</Typography>
+          {['Withdraw', 'Restart'].includes(status) ? (
+            <> </>
+          ) : (
+            <Typography variant="subtitle1">{translations[status]}</Typography>
+          )}
         </TimelineContent>
       </>
     );
