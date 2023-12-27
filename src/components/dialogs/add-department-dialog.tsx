@@ -39,8 +39,10 @@ export const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({
     },
     resolver: yupResolver(addDepartmentSchema)
   });
-  const { data: users } = useListUserNotBelongToAnyDepartment();
-  const { handleSubmit, reset } = form;
+  const { data: users, refetch } = useListUserNotBelongToAnyDepartment(
+    data?.id.toString()
+  );
+  const { handleSubmit, reset, getValues } = form;
   const { mutate: createDepartmentMutate } = useCreateDepartment({
     onSuccess: () => {
       toast.success('Thêm phòng ban thành công');
@@ -64,6 +66,20 @@ export const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({
     onClose();
     form.reset();
   };
+
+  useEffect(() => {
+    if (data && data.id) {
+      console.log('Refetch');
+      refetch();
+      reset(
+        {
+          name: getValues().name,
+          departmentLeaderID: data.id
+        },
+        { keepDirty: false }
+      );
+    }
+  }, [data]);
 
   const onSubmit = () => {
     const body = form.getValues();

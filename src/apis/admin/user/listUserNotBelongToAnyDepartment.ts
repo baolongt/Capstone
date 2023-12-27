@@ -6,18 +6,20 @@ import { axiosInstance } from '@/utils';
 
 export type ListUserResponse = user.User[];
 
-const fetchUsers = async (): Promise<ListUserResponse> => {
-  const response: ListUserResponse = await axiosInstance.get(
-    `/api/users/users-not-belong-to-any-department`
-  );
+const fetchUsers = async (departmentId?: string): Promise<ListUserResponse> => {
+  let url = '/api/users/users-available';
+  if (departmentId) {
+    url += `?departmentId=${departmentId}`;
+  }
+  const response: ListUserResponse = await axiosInstance.get(url);
 
   return response;
 };
 
-export const useListUserNotBelongToAnyDepartment = () => {
+export const useListUserNotBelongToAnyDepartment = (departmentId?: string) => {
   return useQuery<ListUserResponse, Error>({
     queryKey: [api.USERS_NOT_HAVE_DEPARTMENT],
-    queryFn: () => fetchUsers(),
+    queryFn: () => fetchUsers(departmentId),
     keepPreviousData: true
   });
 };

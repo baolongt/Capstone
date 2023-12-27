@@ -1,5 +1,6 @@
-import { object, string } from 'yup';
+import { number, object, string } from 'yup';
 
 export const schema = object({
-  name: string().required(`Tên phòng ban là bắt buộc`)
+  name: string().required(`Tên phòng ban là bắt buộc`),
+  departmentLeaderID: number().required('Bắt buộc')
 });
