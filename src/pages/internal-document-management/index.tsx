@@ -115,6 +115,7 @@ const InternalDocumentManagement = () => {
 
             <Box>
               <DateRangePickerInput
+                disableFuture={true}
                 sx={{ width: '300px' }}
                 onChange={handleDateRangeOnChange}
               />

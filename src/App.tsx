@@ -63,6 +63,9 @@ const App = () => {
           <Route path={'/users'} element={<UserManagement />} />
           <Route path={'/departments'} element={<DepartmentManagement />} />
           <Route path={'/doc-types'} element={<DocumentTypeManagement />} />
+          <Route path={'/profile'}>
+            <Route index element={<Profile />} />
+          </Route>
         </Route>
 
         {/* OFFICER pages */}

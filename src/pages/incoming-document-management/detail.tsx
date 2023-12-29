@@ -216,7 +216,14 @@ const IncomingDocumentDetail = () => {
           </Stack>
         </PageHeader>
         <Box
-          sx={{ mx: 'auto', width: '1080px', mt: 3, px: 2, minHeight: '80vh' }}
+          sx={{
+            mx: 'auto',
+            width: '1080px',
+            mt: 3,
+            px: 2,
+            pb: 3,
+            minHeight: '90vh'
+          }}
           component={Paper}
         >
           <DetailDescription

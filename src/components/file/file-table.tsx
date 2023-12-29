@@ -85,7 +85,12 @@ export const FileTable: React.FC<FileTableProps> = ({
     }),
     columnHelper.accessor('status', {
       header: 'Trạng thái',
-      cell: (row) => row.renderValue(),
+      cell: (row) => {
+        const value = row.renderValue();
+        if (value == 'active') return 'Đang mở';
+        if (value == 'inactive') return 'Đã đóng';
+        return '';
+      },
       size: 50
     }),
     columnHelper.accessor('id', {

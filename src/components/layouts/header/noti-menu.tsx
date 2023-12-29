@@ -156,7 +156,7 @@ const NotiMenu = () => {
   return (
     <>
       <Box>
-        <Tooltip title="Notifications">
+        <Tooltip title="Thông báo">
           <IconButton
             size="small"
             sx={{ ml: 2 }}

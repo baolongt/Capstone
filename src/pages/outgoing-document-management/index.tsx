@@ -115,6 +115,7 @@ const OutgoingDocumentManagement = () => {
             <Box>
               <DateRangePickerInput
                 sx={{ width: '300px' }}
+                disableFuture={true}
                 onChange={handleDateRangeOnChange}
               />
             </Box>

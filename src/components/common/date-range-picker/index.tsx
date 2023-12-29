@@ -4,16 +4,37 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
-import { SingleInputDateRangeField } from '@mui/x-date-pickers-pro/SingleInputDateRangeField';
-import dayjs from 'dayjs';
+import {
+  SingleInputDateRangeField,
+  SingleInputDateRangeFieldProps
+} from '@mui/x-date-pickers-pro/SingleInputDateRangeField';
+import dayjs, { Dayjs } from 'dayjs';
 import * as React from 'react';
 
 import { getOneWeekDateRange } from '@/utils';
+
+type FieldComponent = (<TDate>(
+  props: SingleInputDateRangeFieldProps<TDate> &
+    React.RefAttributes<HTMLInputElement>
+) => React.JSX.Element) & { fieldType?: string };
+
+// eslint-disable-next-line react/display-name
+const WrappedSingleInputDateRangeField = React.forwardRef(
+  (
+    props: SingleInputDateRangeFieldProps<Dayjs>,
+    ref: React.Ref<HTMLInputElement>
+  ) => {
+    return <SingleInputDateRangeField size="small" {...props} ref={ref} />;
+  }
+) as FieldComponent;
+
+WrappedSingleInputDateRangeField.fieldType = 'single-input';
 
 export interface DateRangePickerInputProps {
   onChange?: (value: DateRange) => void;
   sx?: SxProps;
   defaultValue?: DateRange;
+  disableFuture?: boolean;
 }
 
 export type DateRange = {
@@ -24,14 +45,12 @@ export type DateRange = {
 export const DateRangePickerInput: React.FC<DateRangePickerInputProps> = (
   props
 ) => {
-  const { onChange, sx, defaultValue } = props;
-  const [dateRange, setDateRange] = React.useState<DateRange>(
-    defaultValue ?? getOneWeekDateRange()
-  );
+  const { onChange, sx, defaultValue, disableFuture } = props;
+  const [dateRange, setDateRange] = React.useState<DateRange>();
   const handleOnChange = (e: any) => {
     if (Array.isArray(e)) {
       e.map((date, idx) => {
-        if (date) {
+        if (date && dayjs(date).isValid()) {
           if (idx == 0) {
             setDateRange({
               ...dateRange,
@@ -57,9 +76,9 @@ export const DateRangePickerInput: React.FC<DateRangePickerInputProps> = (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DemoContainer components={['SingleInputDateRangeField']}>
         <DateRangePicker
-          defaultValue={[dayjs(dateRange.from), dayjs(dateRange.to)]}
+          disableFuture={disableFuture}
           slots={{
-            field: SingleInputDateRangeField
+            field: WrappedSingleInputDateRangeField
           }}
           slotProps={{
             textField: {

@@ -48,7 +48,7 @@ export const ImportFileDialog = (props: ImportFileDialogProps) => {
       }}
       onClose={onClose}
     >
-      <DialogTitle fontWeight={600}>Upload File CSV</DialogTitle>
+      <DialogTitle fontWeight={600}>Thêm bằng file csv</DialogTitle>
 
       <DialogContent>
         <WrappedDragDropFile
