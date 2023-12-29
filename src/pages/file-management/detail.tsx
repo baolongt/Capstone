@@ -75,7 +75,7 @@ const FileDetail = () => {
   const { id } = useParams<{ id: string }>();
   const [queryParams, setQueryParams] = React.useState<BaseTableQueryParams>({
     page: 1,
-    size: 1,
+    size: 10,
     search: ''
   });
   const [openRemoveDoc, setOpenRemoveDoc] = React.useState(false);
