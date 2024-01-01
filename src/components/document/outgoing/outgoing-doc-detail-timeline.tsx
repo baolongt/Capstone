@@ -29,9 +29,11 @@ type BaseTimelineItemProps = {
 const translations: Record<string, string> = {
   Consider: 'duyệt',
   Restart: 'bắt đầu lại quy trình',
+  Withdraw: 'thu hồi văn bản',
+  Sign: 'ký',
+  AddNumber: 'thêm số',
   Accepted: 'Đã xử lý',
-  Rejected: 'Từ chối',
-  Withdraw: 'thu hồi văn bản'
+  Rejected: 'Từ chối'
 };
 
 const renderStatusIcon = (status: string) => {

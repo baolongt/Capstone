@@ -8,13 +8,18 @@ import {
   Stack,
   Typography
 } from '@mui/material';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
 import { useListUserNotBelongToAnyDepartment } from '@/apis/admin/user/listUserNotBelongToAnyDepartment';
 import { useCreateDepartment, useUpdateDepartment } from '@/apis/department';
-import { CustomButton, InputField, SelectField } from '@/components/common';
+import {
+  CustomButton,
+  InputField,
+  Loading,
+  SelectField
+} from '@/components/common';
 import { department } from '@/models';
 import { UpdatePayload } from '@/models/department';
 
@@ -61,6 +66,7 @@ export const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({
       toast.error('Cập nhật phòng ban thất bại');
     }
   });
+  const [defaultValue, setDefaultValue] = useState<number>(0);
 
   const handleClose = () => {
     onClose();
@@ -68,9 +74,10 @@ export const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({
   };
 
   useEffect(() => {
-    if (data && data.id) {
-      console.log('Refetch');
-      refetch();
+    console.log('data', data);
+    refetch();
+    if (data && data.id && mode != 'create') {
+      setDefaultValue(data?.departmentLeaderID);
       reset(
         {
           name: getValues().name,
@@ -79,7 +86,7 @@ export const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({
         { keepDirty: false }
       );
     }
-  }, [data]);
+  }, [data, mode, isOpen]);
 
   const onSubmit = () => {
     const body = form.getValues();
@@ -142,6 +149,7 @@ export const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({
                 </Box>
               </Typography>
               <SelectField
+                defaultValue={defaultValue}
                 form={form}
                 name="departmentLeaderID"
                 placeholder="Chọn trưởng phòng"

@@ -1,6 +1,7 @@
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
 import LoadingButton from '@mui/lab/LoadingButton';
 import {
+  Badge,
   Box,
   IconButton,
   Link,
@@ -15,7 +16,7 @@ import utc from 'dayjs/plugin/utc';
 import React, { useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 
-import { useListNotifications } from '@/apis';
+import { useListNotifications, useReadAllNoti } from '@/apis';
 import { TIMEZONE } from '@/constants';
 import { notification } from '@/models';
 
@@ -115,7 +116,7 @@ const NotiListItems: React.FC<NotiListItems> = ({
 const NotiMenu = () => {
   const [queryParams, setQueryParams] = React.useState({
     page: 1,
-    size: 5
+    size: 10
   });
 
   const { data, hasNextPage, fetchNextPage, isFetching } = useListNotifications(
@@ -150,25 +151,40 @@ const NotiMenu = () => {
     }
   }, [data]);
 
+  const { mutate: readAllNoti } = useReadAllNoti();
+
   useEffect(() => {
     fetchNextPage();
   }, [fetchNextPage, queryParams]);
+
+  useEffect(() => {
+    if (open) {
+      readAllNoti();
+    }
+  }, [anchorEl, open, readAllNoti]);
+
+  const countIsNotReadNoti = () => {
+    return notifications.filter((n) => !n.isRead).length;
+  };
+
   return (
     <>
       <Box>
-        <Tooltip title="Thông báo">
-          <IconButton
-            size="small"
-            sx={{ ml: 2 }}
-            aria-controls={open ? 'account-menu' : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? 'true' : undefined}
-            id="noti-button"
-            onClick={handleClick}
-          >
-            <NotificationsNoneOutlinedIcon sx={{ width: 32, height: 32 }} />
-          </IconButton>
-        </Tooltip>
+        <Badge badgeContent={countIsNotReadNoti()} color="error">
+          <Tooltip title="Thông báo">
+            <IconButton
+              size="small"
+              sx={{ ml: 2 }}
+              aria-controls={open ? 'account-menu' : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? 'true' : undefined}
+              id="noti-button"
+              onClick={handleClick}
+            >
+              <NotificationsNoneOutlinedIcon sx={{ width: 32, height: 32 }} />
+            </IconButton>
+          </Tooltip>
+        </Badge>
       </Box>
       <Menu
         anchorEl={anchorEl}
