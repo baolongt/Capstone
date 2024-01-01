@@ -248,13 +248,13 @@ const BaseTable: React.FC<BaseTableProps<any>> = (props) => {
           <TableFooter>
             <TableRow>
               <TablePagination
-                rowsPerPageOptions={[10, { label: 'All', value: -1 }]}
+                rowsPerPageOptions={[10, { label: 'Tất cả', value: -1 }]}
                 count={metadata.totalItemCount}
                 rowsPerPage={metadata.pageSize}
                 page={metadata.pageNumber - 1}
                 SelectProps={{
                   inputProps: {
-                    'aria-label': 'rows per page'
+                    'aria-label': 'số dòng / trang'
                   },
                   native: true
                 }}
