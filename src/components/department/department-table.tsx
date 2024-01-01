@@ -31,10 +31,6 @@ export const DepartmentTable: React.FC<DepartmentTableProps> = ({
   const [currentDepartment, setCurrentDepartment] =
     React.useState<department.Department | null>(null);
   const columns = [
-    columnHelper.accessor('id', {
-      header: '#',
-      size: 20
-    }),
     columnHelper.accessor('name', {
       header: 'Tên phòng ban',
       cell: (row) => row.renderValue(),
