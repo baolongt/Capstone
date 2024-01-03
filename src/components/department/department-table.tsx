@@ -23,8 +23,7 @@ type DepartmentTableProps = {
 export const DepartmentTable: React.FC<DepartmentTableProps> = ({
   data,
   metadata,
-  handleChangePage,
-  handleUpdateDepartment
+  handleChangePage
 }) => {
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
   const [isOpenUpdate, setIsOpenUpdate] = React.useState<boolean>(false);

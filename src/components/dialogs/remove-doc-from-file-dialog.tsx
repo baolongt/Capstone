@@ -9,7 +9,6 @@ import {
 } from '@mui/material';
 import { toast } from 'react-toastify';
 
-import { DocTypeEnum } from '@/apis/file/addDocToFile';
 import { useRemoveDocFromFile } from '@/apis/file/removeDocFromFile';
 
 interface RemoveDocFromFileDialogProps {

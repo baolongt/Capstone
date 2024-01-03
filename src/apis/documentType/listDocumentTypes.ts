@@ -11,15 +11,18 @@ export type ListDocumentTypesResponse = {
 };
 
 export const ListDocumentTypes = async ({
-  queryParams
+  queryParams,
+  field
 }: {
   queryParams: BaseTableQueryParams;
+  field?: number;
 }): Promise<ListDocumentTypesResponse> => {
   const { page, size } = queryParams;
 
   const params = {
     PageNumber: page,
-    PageSize: size
+    PageSize: size,
+    ...(field ? { DocumentField: field } : {})
   };
 
   const response: ListDocumentTypesResponse = await axiosInstance.get(
@@ -33,14 +36,16 @@ export const ListDocumentTypes = async ({
 
 type UseListDocumentTypesParams = {
   queryParams: BaseTableQueryParams;
+  field?: number;
 };
 
 export const useListDocumentTypes = ({
-  queryParams
+  queryParams,
+  field
 }: UseListDocumentTypesParams) => {
   return useQuery({
-    queryKey: [api.DOCUMENT_TYPE, queryParams],
-    queryFn: () => ListDocumentTypes({ queryParams }),
+    queryKey: [api.DOCUMENT_TYPE, queryParams, field],
+    queryFn: () => ListDocumentTypes({ queryParams, field }),
     keepPreviousData: true
   });
 };

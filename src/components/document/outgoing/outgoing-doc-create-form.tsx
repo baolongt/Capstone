@@ -1,19 +1,20 @@
 import LoadingButton from '@mui/lab/LoadingButton';
 import { Box, Grid, Link, Stack, SxProps, Typography } from '@mui/material';
 import dayjs from 'dayjs';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Accept } from 'react-dropzone';
 import { UseFormReturn } from 'react-hook-form';
 import { Link as RouterLink } from 'react-router-dom';
 
+import { useListDocumentFields } from '@/apis/documentType/listDocumentFields';
+import { useListDocumentTypes } from '@/apis/documentType/listDocumentTypes';
 import {
-  DatePickerField,
+  DateTimePickerField,
   InputField,
   SelectField,
   WrappedDragDropFileBox
 } from '@/components/common';
-import { outgoingDocument, validation } from '@/models';
-import { SelectOption } from '@/types';
+import { validation } from '@/models';
 
 const fileAccpetType: Accept = {
   'image/jpeg': ['.jpg', '.jpeg'],
@@ -28,8 +29,6 @@ const fileAccpetType: Accept = {
   ],
   'application/pdf': ['.pdf']
 };
-
-const { documentFieldOptions, documentTypeOptionsMap } = outgoingDocument;
 
 type createDocumentFormProps = {
   form: UseFormReturn<
@@ -49,26 +48,21 @@ const CreateDocumentForm: React.FC<createDocumentFormProps> = ({
   isSubmitForm,
   sx
 }) => {
-  const [documentTypeOptions, setDocumentTypeOptions] = useState<
-    SelectOption[]
-  >([]);
-
-  const { handleSubmit, watch, setValue } = form;
+  const { handleSubmit, watch } = form;
   const documentField = watch('documentField');
+
+  const { data: fields } = useListDocumentFields();
+  const { data: types } = useListDocumentTypes({
+    queryParams: {
+      page: 1,
+      size: 10_000
+    },
+    field: documentField
+  });
 
   const submitHandler = () => {
     handleSubmitForm();
   };
-
-  useEffect(() => {
-    if (documentTypeOptionsMap[documentField].length === 0) {
-      setValue('documentTypeId', -1);
-    } else {
-      setValue('documentTypeId', 1);
-    }
-
-    setDocumentTypeOptions(documentTypeOptionsMap[documentField]);
-  }, [documentField, setValue]);
 
   return (
     <Stack spacing={1} sx={sx}>
@@ -96,7 +90,14 @@ const CreateDocumentForm: React.FC<createDocumentFormProps> = ({
             </Box>
           </Typography>
           <SelectField
-            data={documentFieldOptions}
+            data={
+              fields?.map((field) => {
+                return {
+                  value: field.id,
+                  title: field.field
+                };
+              }) ?? []
+            }
             form={form}
             name="documentField"
           />
@@ -104,13 +105,18 @@ const CreateDocumentForm: React.FC<createDocumentFormProps> = ({
         <Grid item xs={6}>
           <Typography style={{ marginBottom: '5px' }} fontWeight="bold">
             Loại văn bản
+            <Box component="span" color="error.main">
+              *
+            </Box>
           </Typography>
           <SelectField
-            data={documentTypeOptions}
-            disabled={
-              documentTypeOptions && documentTypeOptions.length === 0
-                ? true
-                : false
+            data={
+              types?.data.map((type) => {
+                return {
+                  value: type.id,
+                  title: type.name
+                };
+              }) ?? []
             }
             form={form}
             name="documentTypeId"
@@ -124,7 +130,7 @@ const CreateDocumentForm: React.FC<createDocumentFormProps> = ({
             </Box>
           </Typography>
 
-          <DatePickerField
+          <DateTimePickerField
             form={form}
             name="processDeadline"
             minDate={dayjs()}
@@ -139,7 +145,7 @@ const CreateDocumentForm: React.FC<createDocumentFormProps> = ({
           </Typography>
           <Link href="#">
             <RouterLink to="/template">
-              <Typography variant="body2">Mẫu văn bản</Typography>
+              <Typography variant="body2">Tải mẫu văn bản</Typography>
             </RouterLink>
           </Link>
           <WrappedDragDropFileBox

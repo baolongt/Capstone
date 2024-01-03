@@ -13,7 +13,17 @@ import { UploadFile } from '@/models';
 import { WrappedDragDropFile } from '../common/form-control/drag-drop-file';
 
 const fileAccpetType: Accept = {
-  'text/csv': ['.csv']
+  'image/jpeg': ['.jpg', '.jpeg'],
+  'image/png': ['.png'],
+  'application/msword': ['.doc'],
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document': [
+    '.docx'
+  ],
+  'application/vnd.ms-excel': ['.xls'],
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': [
+    '.xlsx'
+  ],
+  'application/pdf': ['.pdf']
 };
 
 export interface ImportFileDialogProps {

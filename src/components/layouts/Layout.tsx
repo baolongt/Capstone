@@ -121,13 +121,13 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = () => {
         >
           <Outlet />
         </Content>
-        <Footer
+        {/* <Footer
           sx={{
             bgcolor: '#eee'
           }}
         >
           <DefaultFooter />
-        </Footer>
+        </Footer> */}
       </Root>
     </>
   );

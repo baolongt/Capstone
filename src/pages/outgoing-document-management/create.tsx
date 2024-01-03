@@ -64,7 +64,14 @@ const CreateOutgoingDocumentPage = ({
   return (
     <Box>
       <Box
-        sx={{ mx: 'auto', width: DEFAULT_PAGE_WIDTH, pr: 4, pb: 2 }}
+        sx={{
+          mx: 'auto',
+          width: DEFAULT_PAGE_WIDTH,
+          pr: 4,
+          pb: 2,
+          minHeight: '90vh',
+          maxHeight: '90vh'
+        }}
         component={Paper}
       >
         <CreateDocumentForm

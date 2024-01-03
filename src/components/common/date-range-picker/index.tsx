@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Calendar from '@mui/icons-material/Event';
 import { InputAdornment, SxProps, Typography } from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -10,8 +11,6 @@ import {
 } from '@mui/x-date-pickers-pro/SingleInputDateRangeField';
 import dayjs, { Dayjs } from 'dayjs';
 import * as React from 'react';
-
-import { getOneWeekDateRange } from '@/utils';
 
 type FieldComponent = (<TDate>(
   props: SingleInputDateRangeFieldProps<TDate> &
@@ -45,7 +44,7 @@ export type DateRange = {
 export const DateRangePickerInput: React.FC<DateRangePickerInputProps> = (
   props
 ) => {
-  const { onChange, sx, defaultValue, disableFuture } = props;
+  const { onChange, sx, disableFuture } = props;
   const [dateRange, setDateRange] = React.useState<DateRange>();
   const handleOnChange = (e: any) => {
     if (Array.isArray(e)) {

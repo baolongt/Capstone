@@ -1,4 +1,5 @@
 export * from './date-picker';
+export * from './date-time-picker';
 export { WrappedDragDropFileBox } from './drag-and-drop-box';
 export { DragDropFile } from './drag-drop-file';
 export * from './email-editor';

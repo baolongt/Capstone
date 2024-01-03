@@ -2,11 +2,6 @@
 import 'reactflow/dist/style.css';
 
 import { Box } from '@mui/material';
-import {
-  SmartBezierEdge,
-  SmartStepEdge,
-  SmartStraightEdge
-} from '@tisoap/react-flow-smart-edge';
 import dagre from 'dagre';
 import React, { useEffect } from 'react';
 import ReactFlow, {
@@ -31,11 +26,11 @@ const nodeTypes = {
   rhombusNode: RhombusNode
 };
 
-const edgeTypes = {
-  bezier: SmartBezierEdge,
-  step: SmartStepEdge,
-  straight: SmartStraightEdge
-};
+// const edgeTypes = {
+//   bezier: SmartBezierEdge,
+//   step: SmartStepEdge,
+//   straight: SmartStraightEdge
+// };
 
 type FlowChartProps = {
   nodes: Node[];
