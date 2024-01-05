@@ -17,6 +17,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import { connect, send, setUserName } from '@/apis';
+import { useListDocumentFields } from '@/apis/documentType/listDocumentFields';
 import { DocTypeEnum } from '@/apis/file/addDocToFile';
 import { useGetOneDocument } from '@/apis/outgoingDocument/getOneDocument';
 import {
@@ -66,6 +67,9 @@ const OutgoingDocumentDetail = () => {
   const [openShareList, setOpenShareList] = React.useState(false);
   const [openWorkflowDiagram, setOpenWorkflowDiagram] = React.useState(false);
   const navigate = useNavigate();
+
+  const { data: fields } = useListDocumentFields();
+
   const { mutate: changeStatus } = useChangeStatus({
     id: id ? parseInt(id) : -1,
     onSuccess: () => {
@@ -266,7 +270,9 @@ const OutgoingDocumentDetail = () => {
               epitomize: data.epitomize,
               documentNotation:
                 data.outgoingPublishInfo?.outgoingNotation || '',
-              documentField: data.documentField,
+              documentField:
+                fields?.filter((f) => f.id.toString() == data.documentField)[0]
+                  .field ?? '',
               documentTypeName: data.documentTypeName,
               createdByName: data.createdByName
             }}
