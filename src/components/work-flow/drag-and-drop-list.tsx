@@ -138,7 +138,7 @@ const ListItem = ({
               getOptionLabel={(option) => convertActionToString(option)}
               sx={{ width: 200, mt: 1, ml: 1 }}
               renderInput={(params) => (
-                <TextField {...params} label="Vai trò" />
+                <TextField {...params} label="Hành động" />
               )}
               onChange={(e, newValue) => {
                 if (!newValue) return;

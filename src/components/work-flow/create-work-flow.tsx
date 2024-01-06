@@ -32,6 +32,8 @@ export const CreateWorkFlow = ({
       onError: (error) => {
         if (error.message) {
           toast.error('Lỗi: ' + error.message);
+        } else if (error) {
+          toast.error(error);
         } else {
           toast.error('Tạo trình tự xử lý thất bại');
         }

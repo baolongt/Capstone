@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 
 import { api } from '@/constants';
 import { common } from '@/models';
@@ -64,8 +65,9 @@ export const useCreateWorkflow = ({
       queryClient.invalidateQueries({ queryKey: [api.WORKFLOW] });
       onSuccess?.();
     },
-    onError: (error) => {
-      onError?.(error);
+    onError: (error: AxiosError) => {
+      console.log('error', error?.response?.data);
+      onError?.(error?.response?.data);
     }
   });
 };
