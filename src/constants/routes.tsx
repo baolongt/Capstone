@@ -1,4 +1,5 @@
 import { AdminPanelSettings } from '@mui/icons-material';
+import ArticleIcon from '@mui/icons-material/Article';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import Diversity3Icon from '@mui/icons-material/Diversity3';
 import FolderIcon from '@mui/icons-material/Folder';
@@ -33,7 +34,7 @@ export const adminPaths: Path[] = [
   {
     label: 'Quản lí loại văn bản',
     path: '/doc-types',
-    icon: <AdminPanelSettings />
+    icon: <ArticleIcon />
   },
   {
     label: 'Quản lí nhân viên',

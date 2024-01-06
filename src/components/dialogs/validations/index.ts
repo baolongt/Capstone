@@ -6,3 +6,4 @@ export { schema as addUserSchema } from './add-user-dialog';
 export { schema as createContactSchema } from './create-contact-dialog';
 export { schema as createTemplateSchema } from './create-template-dialog';
 export { schema as createUpdateFileSchema } from './create-update-file-dialog';
+export { schema as updateDocTypeSchema } from './update-doc-types-dialog';

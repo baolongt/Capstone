@@ -8,4 +8,5 @@ export * from './create-template-dialog';
 export * from './import-file-dialog';
 export * from './outgoing-doc';
 export * from './remove-doc-from-file-dialog';
+export * from './update-doc-type-dialog';
 export * from './update-user-department-and-position';

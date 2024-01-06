@@ -5,22 +5,33 @@ import { api } from '@/constants';
 import { common } from '@/models';
 import { axiosInstance } from '@/utils';
 
-export const createDocType = async (data: {
-  name: string;
-  description: string;
-  field: number;
+const updateDocType = async ({
+  id,
+  payload
+}: {
+  id: number;
+  payload: {
+    description: string;
+    field: number;
+  };
 }) => {
-  return await axiosInstance.post(`/api/documenttype/create`, data);
+  return await axiosInstance.put(`/api/documenttype/${id}`, payload);
 };
 
-export const useCreateDocType = ({
+export const useUpdateDocType = ({
   onSuccess,
   onError
 }: common.useMutationParams) => {
   const queryClient = useQueryClient();
+
   return useMutation({
-    mutationFn: (data: { name: string; description: string; field: number }) =>
-      createDocType(data),
+    mutationFn: (input: {
+      id: number;
+      payload: {
+        description: string;
+        field: number;
+      };
+    }) => updateDocType(input),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [api.DOCUMENT_TYPE] });
       onSuccess?.();

@@ -1,14 +1,18 @@
 import { Box } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import { debounce } from 'lodash';
+import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 
 import { useListDocumentTypes } from '@/apis/documentType/listDocumentTypes';
-import { CustomButton } from '@/components/common';
+import { useUpdateDocType } from '@/apis/documentType/updateDocType';
+import { CustomButton, InputSearch, Loading } from '@/components/common';
 import PageHeader from '@/components/common/page-header';
 import PageTitle from '@/components/common/page-title';
+import { UpdateDocTypesDialog } from '@/components/dialogs';
 import AddDocTypesDialog from '@/components/dialogs/add-doc-types-dialog';
 import { DocumentTypeTable } from '@/components/document-type/document-types-table';
 import theme from '@/components/theme/theme';
-import { DEFAULT_PAGE_WIDTH } from '@/constants';
+import { DEBOUND_SEARCH_TIME, DEFAULT_PAGE_WIDTH } from '@/constants';
 import { BaseTableQueryParams } from '@/types';
 
 const DocumentTypeManagement = () => {
@@ -28,12 +32,38 @@ const DocumentTypeManagement = () => {
     setQueryParams((prev) => ({ ...prev, page }));
   };
 
-  const handleUpdateDepartment = (departmentId: number) => {
-    console.log('update', departmentId);
+  const [isUpdate, setIsUpdate] = useState(false);
+  const [selectingDocType, setSelectingDocType] = useState<number>();
+
+  const openUpdateDialog = (id: number) => {
+    setIsUpdate(true);
+    setSelectingDocType(id);
   };
 
+  const { mutate: updateDocType, isLoading: isUpdating } = useUpdateDocType({
+    onSuccess: () => {
+      toast.success('Cập nhật thành công');
+      setIsUpdate(false);
+    },
+    onError: (error) => {
+      toast.error(error ?? 'Cập nhật thất bại');
+    }
+  });
+
+  const handleUpdate = (payload: { description: string; field: number }) => {
+    updateDocType({
+      id: selectingDocType ?? -1,
+      payload
+    });
+  };
+
+  const handleChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    return setQueryParams({ ...queryParams, search: e.target.value });
+  };
+  const debouncedSearch = debounce(handleChangeSearch, DEBOUND_SEARCH_TIME);
+
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
   if (response) {
     const { data, metadata } = response;
@@ -46,6 +76,13 @@ const DocumentTypeManagement = () => {
             component="div"
             sx={{ display: 'flex', justifyContent: 'space-between', mt: 1 }}
           >
+            <Box>
+              <InputSearch
+                sx={{ width: '300px', bgcolor: '#fff' }}
+                placeholder="Tìm kiếm..."
+                onTextChange={debouncedSearch}
+              />
+            </Box>
             <CustomButton
               size="small"
               label="Thêm loại văn bản"
@@ -66,12 +103,19 @@ const DocumentTypeManagement = () => {
             data={data}
             metadata={metadata}
             handleChangePage={handleChangePage}
-            handleUpdateDepartment={handleUpdateDepartment}
-            //handleOpenDeleteDialog={handleOpenDeleteDialog}
+            openUpdateDialog={openUpdateDialog}
           />
         </Box>
 
         <AddDocTypesDialog isOpen={isOpen} onClose={handleClose} />
+        <UpdateDocTypesDialog
+          handleUpdate={handleUpdate}
+          isOpen={isUpdate}
+          isLoading={isUpdating}
+          onClose={() => {
+            setIsUpdate(false);
+          }}
+        />
       </Box>
     );
   }

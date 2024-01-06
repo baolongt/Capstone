@@ -5,22 +5,20 @@ import { api } from '@/constants';
 import { common } from '@/models';
 import { axiosInstance } from '@/utils';
 
-export const createDocType = async (data: {
-  name: string;
-  description: string;
-  field: number;
-}) => {
-  return await axiosInstance.post(`/api/documenttype/create`, data);
+const deleteDocType = async (id: number) => {
+  const res = await axiosInstance.delete(`/api/documenttype/${id}`);
+
+  return res;
 };
 
-export const useCreateDocType = ({
+export const useDeleteDocType = ({
   onSuccess,
   onError
 }: common.useMutationParams) => {
   const queryClient = useQueryClient();
+
   return useMutation({
-    mutationFn: (data: { name: string; description: string; field: number }) =>
-      createDocType(data),
+    mutationFn: (id: number) => deleteDocType(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [api.DOCUMENT_TYPE] });
       onSuccess?.();

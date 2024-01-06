@@ -66,7 +66,6 @@ export const useCreateWorkflow = ({
       onSuccess?.();
     },
     onError: (error: AxiosError) => {
-      console.log('error', error?.response?.data);
       onError?.(error?.response?.data);
     }
   });

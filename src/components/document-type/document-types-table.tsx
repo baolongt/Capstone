@@ -1,14 +1,16 @@
 import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import { Box, IconButton, Tooltip } from '@mui/material';
 import { createColumnHelper } from '@tanstack/react-table';
 import * as React from 'react';
 import { toast } from 'react-toastify';
 
-import { useDeleteDepartment } from '@/apis';
+import { useDeleteDocType } from '@/apis/documentType/deleteDocType';
 import { documentType } from '@/models';
 import { Metadata } from '@/types';
 
 import BaseTable from '../common/base-table';
+import { ConfirmDialog } from '../dialogs';
 
 const columnHelper = createColumnHelper<documentType.DocumentType>();
 
@@ -16,14 +18,26 @@ type DocumentTypesTableProps = {
   data: documentType.DocumentType[];
   metadata: Metadata;
   handleChangePage: (page: number) => void;
-  handleUpdateDepartment: (departmentId: number) => void;
+  openUpdateDialog: (docTypeId: number) => void;
 };
 export const DocumentTypeTable: React.FC<DocumentTypesTableProps> = ({
   data,
   metadata,
-  handleChangePage
+  handleChangePage,
+  openUpdateDialog
 }) => {
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
+  const { mutate: deleteDocType } = useDeleteDocType({
+    onSuccess: () => {
+      toast.success('Xóa loại văn bản thành công');
+      setIsOpen(false);
+    },
+    onError: (err) => {
+      if (err) {
+        toast.error(err);
+      } else toast.error('Xóa loại văn bản thất bại');
+    }
+  });
   const [currentType, setCurrentType] =
     React.useState<documentType.DocumentType | null>(null);
   const columns = [
@@ -51,9 +65,17 @@ export const DocumentTypeTable: React.FC<DocumentTypesTableProps> = ({
       size: 100,
       cell: (row) => (
         <Box component="div" sx={{ display: 'flex', gap: 2 }}>
-          <Tooltip title="Xoá">
+          <Tooltip title="Cập nhật">
             <IconButton
               color="primary"
+              onClick={() => openUpdateDialog(row.getValue())}
+            >
+              <EditIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Xoá">
+            <IconButton
+              color="error"
               onClick={() => handleSelectDocType(row.getValue())}
             >
               <DeleteIcon />
@@ -63,19 +85,9 @@ export const DocumentTypeTable: React.FC<DocumentTypesTableProps> = ({
       )
     })
   ];
-  const { mutate } = useDeleteDepartment({
-    onSuccess: () => {
-      toast.success('Xóa thành công');
-      setIsOpen(false);
-      setCurrentType(null);
-    },
-    onError: () => {
-      toast.error('Xóa thất bại');
-    }
-  });
   const onDelete = () => {
     if (currentType) {
-      mutate({ id: currentType.id });
+      deleteDocType(currentType.id);
     }
   };
   const handleSelectDocType = (id: number, isDelete = true) => {
@@ -97,12 +109,12 @@ export const DocumentTypeTable: React.FC<DocumentTypesTableProps> = ({
             width: '100%'
           }}
         />
-        {/* <ConfirmDialog
+        <ConfirmDialog
           isOpen={isOpen}
           message={<>Bạn muốn xóa ?</>}
           onClose={() => setIsOpen(false)}
           onConfirm={onDelete}
-        /> */}
+        />
       </>
     );
   }

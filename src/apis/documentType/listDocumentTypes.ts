@@ -22,7 +22,8 @@ export const ListDocumentTypes = async ({
   const params = {
     PageNumber: page,
     PageSize: size,
-    ...(field ? { DocumentField: field } : {})
+    ...(field ? { DocumentField: field } : {}),
+    ...(queryParams.search ? { SearchString: queryParams.search } : {})
   };
 
   const response: ListDocumentTypesResponse = await axiosInstance.get(

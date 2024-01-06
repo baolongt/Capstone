@@ -10,47 +10,33 @@ import {
   Typography
 } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
 
-import { useCreateDocType } from '@/apis/documentType/createDocType';
 import { useListDocumentFields } from '@/apis/documentType/listDocumentFields';
-import { documentType } from '@/models';
 
-import {
-  CustomButton,
-  InputField,
-  MultilineTextField,
-  SelectField
-} from '../common';
-import { addDocTypesSchema } from './validations';
+import { CustomButton, MultilineTextField, SelectField } from '../common';
+import { updateDocTypeSchema } from './validations';
 
-export interface AddDocTypesDialogProps {
+export interface UpdateDocTypesDialogProps {
   isOpen: boolean;
   onClose: () => void;
+  isLoading?: boolean;
+  handleUpdate: (payload: { description: string; field: number }) => void;
 }
 
-const AddDocTypesDialog = ({ isOpen, onClose }: AddDocTypesDialogProps) => {
+export const UpdateDocTypesDialog = ({
+  isOpen,
+  onClose,
+  isLoading,
+  handleUpdate
+}: UpdateDocTypesDialogProps) => {
   const form = useForm({
     defaultValues: {},
-    resolver: yupResolver(addDocTypesSchema)
+    resolver: yupResolver(updateDocTypeSchema)
   });
-  const { handleSubmit, reset } = form;
+  const { handleSubmit } = form;
 
-  const { mutate: createDocType, isLoading } = useCreateDocType({
-    onSuccess: () => {
-      toast.success('Thêm loại văn bản thành công');
-      onClose();
-      reset();
-    },
-    onError: (error) => {
-      if (error) {
-        toast.error(error);
-      } else toast.error('Thêm loại văn bản thất bại');
-    }
-  });
   const onSubmit = () => {
-    const body = form.getValues();
-    createDocType(body);
+    handleUpdate(form.getValues());
   };
 
   const { data: fields } = useListDocumentFields();
@@ -68,24 +54,9 @@ const AddDocTypesDialog = ({ isOpen, onClose }: AddDocTypesDialogProps) => {
       <DialogContent>
         <Stack
           component="form"
-          id="add-doc-type-form"
+          id="update-doc-type-form"
           onSubmit={handleSubmit(onSubmit)}
         >
-          <Box component="div">
-            <Typography>
-              Loại văn bản
-              <Box component="span" color="error.main">
-                *
-              </Box>
-            </Typography>
-
-            <InputField
-              form={form}
-              placeholder="Loại văn bản"
-              name="name"
-              label=""
-            />
-          </Box>
           <Box component="div">
             <Typography>
               Lĩnh vực văn bản
@@ -129,13 +100,13 @@ const AddDocTypesDialog = ({ isOpen, onClose }: AddDocTypesDialogProps) => {
           variant="contained"
           type="submit"
           loading={isLoading}
-          form="add-doc-type-form"
+          form="update-doc-type-form"
         >
-          Thêm
+          Cập nhật
         </LoadingButton>
       </DialogActions>
     </Dialog>
   );
 };
 
-export default AddDocTypesDialog;
+export default UpdateDocTypesDialog;
