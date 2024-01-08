@@ -1,5 +1,8 @@
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import DoDisturbAltRoundedIcon from '@mui/icons-material/DoDisturbAltRounded';
+import RateReviewIcon from '@mui/icons-material/RateReview';
+import ReplayRoundedIcon from '@mui/icons-material/ReplayRounded';
+import UTurnLeftRoundedIcon from '@mui/icons-material/UTurnLeftRounded';
 import Timeline from '@mui/lab/Timeline';
 import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineContent from '@mui/lab/TimelineContent';
@@ -24,11 +27,13 @@ type BaseTimelineItemProps = {
 };
 
 const translations: Record<string, string> = {
-  Consider: 'duyệt',
+  Consider: 'xem xét',
   Sign: 'ký',
   AddNumber: 'thêm số',
   Accepted: 'Đã xử lý',
-  Rejected: 'Từ chối'
+  Rejected: 'Từ chối',
+  InternalDocSendHeadDef: 'xem xét',
+  InternalDocSendHeadOffice: 'ban hành'
 };
 
 const renderStatusIcon = (status: string) => {
@@ -45,6 +50,24 @@ const renderStatusIcon = (status: string) => {
           <DoDisturbAltRoundedIcon />
         </TimelineDot>
       );
+    case 'Restart':
+      return (
+        <TimelineDot color="secondary" sx={{ color: '#fff' }}>
+          <ReplayRoundedIcon />
+        </TimelineDot>
+      );
+    case 'Rollback':
+      return (
+        <TimelineDot color="warning" sx={{ color: '#fff' }}>
+          <UTurnLeftRoundedIcon />
+        </TimelineDot>
+      );
+    case 'Withdraw':
+      return (
+        <TimelineDot color="warning" sx={{ color: '#fff' }}>
+          <RateReviewIcon />
+        </TimelineDot>
+      );
     default:
       return (
         <TimelineDot color="success">
@@ -53,7 +76,6 @@ const renderStatusIcon = (status: string) => {
       );
   }
 };
-
 const BaseTimelineItem: React.FC<BaseTimelineItemProps> = (props) => {
   const { time, title, subTitle, isLast } = props;
   const [, status] = subTitle.split(', ');

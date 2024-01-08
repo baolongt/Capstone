@@ -27,14 +27,15 @@ type BaseTimelineItemProps = {
 };
 
 const translations: Record<string, string> = {
-  Consider: 'duyệt',
+  Consider: 'xem xét',
   Restart: 'bắt đầu lại quy trình',
   Withdraw: 'thu hồi văn bản',
   Sign: 'ký',
   PrepareEmail: 'chuẩn bị email',
   AddNumber: 'thêm số',
   Accepted: 'Đã xử lý',
-  Rejected: 'Từ chối'
+  Rejected: 'Từ chối',
+  IncomingDocConsider: 'xem xét'
 };
 
 const renderStatusIcon = (status: string) => {
@@ -138,6 +139,8 @@ export const DetailTimeline: React.FC<DetailTimelineProps> = (props) => {
   if (!processHistory) {
     return <></>;
   }
+
+  console.log('processHistory', processHistory);
 
   return (
     <Box sx={sx} component={Paper} elevation={2}>
