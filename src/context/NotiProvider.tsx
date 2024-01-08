@@ -78,7 +78,7 @@ const openNotification = (message: string, description: string) => {
 };
 
 const NotiProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [token, setToken] = useState(false);
+  const [, setToken] = useState(false);
   const queryClient = useQueryClient();
 
   useEffect(() => {
