@@ -47,16 +47,10 @@ export const editSchema = yup.object().shape({
   documentTypeId: yup.number().required('Loại văn bản là bắt buộc'),
   processDeadline: yup.string().required('Hạn xử lý là bắt buộc'),
   documentNotation: yup.string().required('Ký hiêu văn bản là bắt buộc'),
-
   files: yup
     .array()
     .required('Yêu cầu file đính kèm')
-    .min(1, 'Yêu cầu file đính kèm'),
-  note: yup
-    .string()
-    .trim()
-    .required('Ghi chú là bắt buộc')
-    .min(1, 'Ghi chú là bắt buộc')
+    .min(1, 'Yêu cầu file đính kèm')
 });
 
 export const forwardSchema = yup.object().shape({

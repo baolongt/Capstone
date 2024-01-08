@@ -52,12 +52,7 @@ export const editSchema = yup.object().shape({
   files: yup
     .array()
     .required('Yêu cầu file đính kèm')
-    .min(1, 'Yêu cầu file đính kèm'),
-  note: yup
-    .string()
-    .trim()
-    .required('Ghi chú là bắt buộc')
-    .min(1, 'Ghi chú là bắt buộc')
+    .min(1, 'Yêu cầu file đính kèm')
 });
 
 export const forwardSchema = yup.object().shape({

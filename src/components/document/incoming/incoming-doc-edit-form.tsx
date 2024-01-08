@@ -1,4 +1,4 @@
-import { Grid, Stack, Typography } from '@mui/material';
+import { Box, Grid, Stack, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 import * as React from 'react';
 import { Accept } from 'react-dropzone';
@@ -6,7 +6,7 @@ import { UseFormReturn } from 'react-hook-form';
 
 import {
   CustomButton,
-  DatePickerField,
+  DateTimePickerField,
   InputField,
   SelectField,
   WrappedDragDropFileBox
@@ -54,7 +54,8 @@ const EditForm: React.FC<EditFormProps> = ({
   const {
     watch,
     setValue,
-    formState: { isDirty }
+    formState: { isDirty },
+    handleSubmit
   } = form;
   const documentField = watch('documentField');
 
@@ -72,26 +73,44 @@ const EditForm: React.FC<EditFormProps> = ({
     setDocumentTypeOptions(documentTypeOptionsMap[documentField]);
   }, [documentField, setValue]);
 
+  const submitHandler = () => {
+    handleSave();
+  };
+
   if (data) {
     return (
       <Stack>
-        <Grid container spacing={2} component="form">
+        <Grid
+          container
+          spacing={2}
+          component="form"
+          onSubmit={handleSubmit(submitHandler)}
+        >
           <Grid item xs={12} sm={12}>
             <Typography style={{ marginBottom: '5px' }} fontWeight="bold">
-              Trích yếu
+              Trích yếu{' '}
+              <Box component="span" color="error.main">
+                *
+              </Box>
             </Typography>
             <InputField form={form} label="" name="epitomize" />
           </Grid>
           <Grid item xs={12} sm={6}>
             <Typography style={{ marginBottom: '5px' }} fontWeight="bold">
-              Ký hiệu văn bản
+              Ký hiệu văn bản{' '}
+              <Box component="span" color="error.main">
+                *
+              </Box>
             </Typography>
             <InputField label="" name="documentNotation" form={form} />
           </Grid>
           <Grid item xs={12} sm={6}></Grid>
           <Grid item xs={6}>
             <Typography style={{ marginBottom: '5px' }} fontWeight="bold">
-              Lĩnh vực văn bản
+              Lĩnh vực văn bản{' '}
+              <Box component="span" color="error.main">
+                *
+              </Box>
             </Typography>
             <SelectField
               data={documentFieldOptions}
@@ -101,7 +120,10 @@ const EditForm: React.FC<EditFormProps> = ({
           </Grid>
           <Grid item xs={6}>
             <Typography style={{ marginBottom: '5px' }} fontWeight="bold">
-              Loại văn bản
+              Loại văn bản{' '}
+              <Box component="span" color="error.main">
+                *
+              </Box>
             </Typography>
             <SelectField
               data={documentTypeOptions}
@@ -116,9 +138,12 @@ const EditForm: React.FC<EditFormProps> = ({
           </Grid>
           <Grid item xs={12} sm={6}>
             <Typography style={{ marginBottom: '5px' }} fontWeight="bold">
-              Hạn xử lý
+              Hạn xử lý{' '}
+              <Box component="span" color="error.main">
+                *
+              </Box>
             </Typography>
-            <DatePickerField
+            <DateTimePickerField
               form={form}
               name="processDeadline"
               minDate={dayjs()}
@@ -126,7 +151,10 @@ const EditForm: React.FC<EditFormProps> = ({
           </Grid>
           <Grid item xs={12}>
             <Typography style={{ marginBottom: '5px' }} fontWeight="bold">
-              File đính kèm
+              File đính kèm{' '}
+              <Box component="span" color="error.main">
+                *
+              </Box>
             </Typography>
             <WrappedDragDropFileBox
               fileAccpetType={fileAccpetType}
@@ -142,7 +170,7 @@ const EditForm: React.FC<EditFormProps> = ({
                 disabled={!isDirty}
                 variant="outlined"
                 label="Lưu"
-                onClick={handleSave}
+                type="submit"
               />
             </Stack>
           </Grid>

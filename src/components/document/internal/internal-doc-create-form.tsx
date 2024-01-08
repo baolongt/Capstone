@@ -6,7 +6,7 @@ import { Accept } from 'react-dropzone';
 import { UseFormReturn } from 'react-hook-form';
 
 import {
-  DatePickerField,
+  DateTimePickerField,
   InputField,
   SelectField,
   WrappedDragDropFileBox
@@ -141,7 +141,7 @@ const CreateInternalDocumentForm: React.FC<createDocumentFormProps> = ({
               *
             </Box>
           </Typography>
-          <DatePickerField
+          <DateTimePickerField
             form={form}
             name="processDeadline"
             minDate={dayjs()}
