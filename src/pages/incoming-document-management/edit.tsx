@@ -7,10 +7,12 @@ import { toast } from 'react-toastify';
 
 import { useEditIncomingDocument } from '@/apis/incomingDocument/editDocument';
 import { useGetOneDocument } from '@/apis/incomingDocument/getOneDocument';
+import { Loading } from '@/components/common';
 import AppDocViewer from '@/components/common/document-viewer';
 import PageHeader from '@/components/common/page-header';
 import PageTitle from '@/components/common/page-title';
 import EditForm from '@/components/document/incoming/incoming-doc-edit-form';
+import { OutgoingDocumentStatus } from '@/constants';
 import { incomingDocument, validation } from '@/models';
 import { convertDetailToEditForm } from '@/models/incomingDocument';
 
@@ -69,8 +71,11 @@ const EditIncomingDocumentPage = () => {
   }, [data, form]);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
+
+  if (data?.documentStatus != OutgoingDocumentStatus.EDITING)
+    navigate('/incoming-documents/' + id);
 
   return (
     <>
