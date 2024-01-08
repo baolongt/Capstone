@@ -34,6 +34,7 @@ type DragAndDropListProps = {
   isCreating: boolean;
   docType: workFlow.DocumentTypeCreate;
   isCreatingWorkflow: boolean;
+  isEdit?: boolean;
 };
 
 type ListItemProps = {
@@ -222,7 +223,8 @@ function DragAndDropList({
   sx,
   handleCreate,
   docType,
-  isCreatingWorkflow
+  isCreatingWorkflow,
+  isEdit
 }: DragAndDropListProps) {
   const [items, setItems] = React.useState<workFlow.StepCreate[]>([]);
   const { data } = useGetExampleWorkflow({
@@ -335,6 +337,10 @@ function DragAndDropList({
     setItems(newItems);
   };
 
+  const triggerCreate = () => {
+    handleCreate(items);
+  };
+
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
       <Droppable droppableId="droppable">
@@ -419,9 +425,9 @@ function DragAndDropList({
             variant="contained"
             color="primary"
             loading={isCreatingWorkflow}
-            onClick={() => handleCreate(items)}
+            onClick={() => triggerCreate()}
           >
-            Tạo
+            {isEdit ? 'Lưu' : 'Tạo'}
           </LoadingButton>
         </Box>
       </Box>

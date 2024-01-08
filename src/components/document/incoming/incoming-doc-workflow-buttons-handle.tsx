@@ -10,6 +10,8 @@ import { OutgoingDocumentStatus } from '@/constants';
 import useAuth from '@/hooks/useAuth';
 import { workFlow } from '@/models';
 
+import EditButtonGroup from './incoming-doc-detail-edit-button-group';
+
 const isHandleCurrentStep = ({
   steps,
   userId
@@ -81,17 +83,7 @@ export const WorkFlowButtonsHandle = ({
       </Tooltip>
       {isCreatedByUser && docStatus == OutgoingDocumentStatus.EDITING && (
         <>
-          <Tooltip title="Chỉnh sửa">
-            <IconButton
-              color="info"
-              id="basic-button"
-              onClick={() => {
-                navigate('edit');
-              }}
-            >
-              <EditIcon />
-            </IconButton>
-          </Tooltip>
+          <EditButtonGroup />
           <Tooltip title="Bắt đầu lại quy trình">
             <IconButton color="primary" onClick={handleRestartStep}>
               <ReplayIcon />

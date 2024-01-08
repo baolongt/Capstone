@@ -20,10 +20,12 @@ import IncomingDocumentManagement from './pages/incoming-document-management';
 import IncomingCreateStepsPage from './pages/incoming-document-management/create-steps';
 import IncomingDocumentDetail from './pages/incoming-document-management/detail';
 import EditIncomingDocumentPage from './pages/incoming-document-management/edit';
+import IncomingDocEditWorkFlowPage from './pages/incoming-document-management/edit-workflow';
 import InternalDocumentManagement from './pages/internal-document-management';
 import InternalCreateStepsPage from './pages/internal-document-management/create-steps';
 import InternalDocumentDetail from './pages/internal-document-management/detail';
 import EditInternalDocumentPage from './pages/internal-document-management/edit';
+import InternalDocEditWorkFlowPage from './pages/internal-document-management/edit-workflow';
 import OutgoingDocumentManagement from './pages/outgoing-document-management';
 import AddNumberPage from './pages/outgoing-document-management/add-number';
 import CreateStepsPage from './pages/outgoing-document-management/create-steps';
@@ -102,6 +104,10 @@ const App = () => {
             <Route path=":id">
               <Route index element={<IncomingDocumentDetail />} />
               <Route path="edit" element={<EditIncomingDocumentPage />} />
+              <Route
+                path="edit-workflow"
+                element={<IncomingDocEditWorkFlowPage />}
+              />
             </Route>
           </Route>
           <Route path={'/internal-documents'}>
@@ -110,6 +116,10 @@ const App = () => {
             <Route path=":id">
               <Route index element={<InternalDocumentDetail />} />
               <Route path="edit" element={<EditInternalDocumentPage />} />
+              <Route
+                path="edit-workflow"
+                element={<InternalDocEditWorkFlowPage />}
+              />
             </Route>
           </Route>
           <Route path={'/contact-list'}>

@@ -70,7 +70,7 @@ const OutgoingDocumentManagement = () => {
             <Box>
               <RouterLink to="create">
                 <Button fullWidth variant="contained" startIcon={<AddIcon />}>
-                  Đăng ký văn bản đi
+                  Thêm văn bản đi
                 </Button>
               </RouterLink>
             </Box>

@@ -42,7 +42,15 @@ export const EditWorkFlow = ({
     useEditWorkflow({
       onSuccess: () => {
         toast.success('Cập nhật trình tự xử lý thành công');
-        navigate(`/outgoing-documents/${id}`);
+        if (location.pathname.includes('outgoing')) {
+          navigate(`/outgoing-documents/${id}`);
+        }
+        if (location.pathname.includes('internal')) {
+          navigate(`/internal-documents/${id}`);
+        }
+        if (location.pathname.includes('incoming')) {
+          navigate(`/incoming-documents/${id}`);
+        }
       },
       onError: () => {
         toast.error('Cập nhật trình tự xử lý thất bại');
@@ -99,6 +107,7 @@ export const EditWorkFlow = ({
           failStepNumber: wf.failStepNumber
         }))}
         docType={docType as DocumentTypeCreate}
+        isEdit={true}
       />
     </Box>
   );
