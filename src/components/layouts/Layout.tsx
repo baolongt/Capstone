@@ -3,7 +3,6 @@ import {
   Content,
   EdgeSidebar,
   EdgeTrigger,
-  Footer,
   Header,
   Root,
   SidebarContent
@@ -14,7 +13,6 @@ import { Outlet } from 'react-router-dom';
 import { DEFAULT_PAGE_WIDTH, FOOTER_HEADER_HEIGHT } from '@/constants/common';
 
 import DynamicBreadcrums from './DynamicBreadcrums';
-import DefaultFooter from './footer';
 import DefaultHeader from './header';
 import SidebarItems from './sidebar';
 // import DynamicBreadcrums from './DynamicBreadcrums';

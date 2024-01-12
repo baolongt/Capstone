@@ -1,5 +1,4 @@
 import CheckIcon from '@mui/icons-material/Check';
-import EditIcon from '@mui/icons-material/Edit';
 import RateReviewIcon from '@mui/icons-material/RateReview';
 import ReplayIcon from '@mui/icons-material/Replay';
 import SchemaIcon from '@mui/icons-material/Schema';
