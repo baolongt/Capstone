@@ -58,22 +58,39 @@ export const DocumentStatusPieChart: React.FC<DocumentStatusChartProps> = ({
                 series={[
                   {
                     data,
-                    innerRadius: 90,
+                    innerRadius: 70,
                     paddingAngle: 1,
                     cornerRadius: 5,
                     startAngle: -180,
-                    endAngle: 180,
-                    cx: 140
+                    endAngle: 180
                   }
                 ]}
+                slotProps={{
+                  legend: {
+                    direction: 'row',
+                    position: {
+                      vertical: 'bottom',
+                      horizontal: 'middle'
+                    },
+                    itemMarkWidth: 12,
+                    itemMarkHeight: 4,
+                    markGap: 5,
+                    itemGap: 10,
+                    labelStyle: {
+                      fontSize: 12,
+                      fill: 'black'
+                    }
+                  }
+                }}
                 sx={{
                   [`& .${pieArcClasses.faded}`]: {
                     fill: 'gray'
                   },
-                  '--ChartsLegend-rootOffsetX': '-150px',
-                  '--ChartsLegend-rootOffsetY': '-10px'
+                  '--ChartsLegend-rootOffsetX': '-10px',
+                  '--ChartsLegend-rootOffsetY': '-100px'
                 }}
-                height={250}
+                height={220}
+                margin={{ top: 0, bottom: 40, left: 100 }}
               />
             )}
           </Box>

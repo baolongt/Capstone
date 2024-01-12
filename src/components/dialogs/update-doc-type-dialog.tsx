@@ -9,6 +9,7 @@ import {
   Stack,
   Typography
 } from '@mui/material';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { useListDocumentFields } from '@/apis/documentType/listDocumentFields';
@@ -16,30 +17,44 @@ import { useListDocumentFields } from '@/apis/documentType/listDocumentFields';
 import { CustomButton, MultilineTextField, SelectField } from '../common';
 import { updateDocTypeSchema } from './validations';
 
+export interface DocTypePayload {
+  description: string;
+  field: number;
+}
+
 export interface UpdateDocTypesDialogProps {
+  data: DocTypePayload;
   isOpen: boolean;
   onClose: () => void;
   isLoading?: boolean;
-  handleUpdate: (payload: { description: string; field: number }) => void;
+  handleUpdate: (payload: DocTypePayload) => void;
 }
 
 export const UpdateDocTypesDialog = ({
   isOpen,
   onClose,
   isLoading,
-  handleUpdate
+  handleUpdate,
+  data
 }: UpdateDocTypesDialogProps) => {
   const form = useForm({
     defaultValues: {},
     resolver: yupResolver(updateDocTypeSchema)
   });
-  const { handleSubmit } = form;
-
+  const { handleSubmit, reset } = form;
   const onSubmit = () => {
     handleUpdate(form.getValues());
   };
 
   const { data: fields } = useListDocumentFields();
+
+  useEffect(() => {
+    reset({
+      field: data?.field,
+      description: data?.description
+    });
+  }, [data, reset]);
+
   return (
     <Dialog
       open={isOpen}

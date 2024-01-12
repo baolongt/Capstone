@@ -52,20 +52,22 @@ export const AddUserDialog: React.FC<AddUserDialogProps> = ({
   // Create Part
   const { mutate: createUserMutate } = useCreateUser({
     onSuccess: () => {
-      toast.success('Thêm người dùng thành công');
+      toast.success('Thêm nhân viên thành công');
+      handleClose();
     },
     onError: () => {
-      toast.error('Thêm người dùng thất bại');
+      toast.error('Thêm nhân viên thất bại');
     }
   });
 
   // Update part
   const { mutate: updateUserMutate } = useUpdateUser({
     onSuccess: () => {
-      toast.success('Cập nhật người dùng thành công');
+      toast.success('Cập nhật nhân viên thành công');
+      handleClose();
     },
     onError: () => {
-      toast.error('Cập nhật người dùng thất bại');
+      toast.error('Cập nhật nhân viên thất bại');
     }
   });
 
@@ -85,7 +87,6 @@ export const AddUserDialog: React.FC<AddUserDialogProps> = ({
         updateUserMutate({ id: userProfile.id, payload: body });
       }
     }
-    handleClose();
   };
 
   useEffect(() => {
@@ -108,7 +109,7 @@ export const AddUserDialog: React.FC<AddUserDialogProps> = ({
       onClose={onClose}
     >
       <DialogTitle fontWeight={600}>
-        {mode === 'create' ? 'Thêm người dùng mới' : 'Cập nhật thông tin'}
+        {mode === 'create' ? 'Thêm nhân viên mới' : 'Cập nhật thông tin'}
       </DialogTitle>
 
       <DialogContent>
@@ -119,7 +120,7 @@ export const AddUserDialog: React.FC<AddUserDialogProps> = ({
           onSubmit={handleSubmit(onSubmit)}
         >
           <Box component="div">
-            <FieldTitle isRequired title="Tên người dùng" />
+            <FieldTitle isRequired title="Tên nhân viên" />
             <InputField
               form={form}
               placeholder="Nhập tên người dùng"
