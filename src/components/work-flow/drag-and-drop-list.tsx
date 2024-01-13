@@ -82,7 +82,7 @@ const ListItem = ({
     if (!isHaveFailStep) {
       handleUpdateFailStepNumber(item.id);
     }
-  }, [isHaveFailStep]);
+  }, [handleUpdateFailStepNumber, isHaveFailStep, item.id]);
 
   return (
     <Draggable draggableId={String(item.id)} index={index}>

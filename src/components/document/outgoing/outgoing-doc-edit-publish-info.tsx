@@ -43,6 +43,7 @@ export const EditPublishInfo = ({ docId }: EditPublishInfoProps) => {
     defaultValues: {},
     resolver: yupResolver(addPublishInfoSchema) as Resolver<
       PublishInfoPayload,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       any
     >
   });

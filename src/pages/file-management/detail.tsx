@@ -97,8 +97,6 @@ const FileDetail = () => {
     refetch();
   }, [docType, refetch]);
 
-  useEffect(() => {}, []);
-
   const handleChangePage = (page: number) => {
     setQueryParams((prev) => ({ ...prev, page }));
   };

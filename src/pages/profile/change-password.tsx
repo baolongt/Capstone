@@ -111,7 +111,7 @@ const ChangePasswordPage = () => {
         </Grid>
         <Box sx={{ mt: 2, display: 'flex', justifyContent: 'center' }}>
           <LoadingButton type="submit" variant="contained" loading={isLoading}>
-            Submit
+            Đổi mật khẩu
           </LoadingButton>
         </Box>
       </form>
