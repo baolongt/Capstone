@@ -55,7 +55,7 @@ const EditInternalDocumentPage = () => {
     any
   >;
 
-  const { getValues } = form;
+  const { getValues, handleSubmit } = form;
 
   const handleSave = () => {
     editDocument({

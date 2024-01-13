@@ -55,7 +55,7 @@ const EditOutgoingDocumentPage = () => {
     any
   >;
 
-  const { getValues } = form;
+  const { getValues, handleSubmit } = form;
 
   const handleSave = () => {
     editDocument({
@@ -98,6 +98,7 @@ const EditOutgoingDocumentPage = () => {
         >
           <EditForm
             watchAttachment={watchAttachment}
+            handleSubmit={handleSubmit}
             handleSave={handleSave}
             form={form}
             data={getValues()}
