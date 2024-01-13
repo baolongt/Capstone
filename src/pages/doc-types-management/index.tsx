@@ -8,7 +8,7 @@ import { useUpdateDocType } from '@/apis/documentType/updateDocType';
 import { CustomButton, InputSearch, Loading } from '@/components/common';
 import PageHeader from '@/components/common/page-header';
 import PageTitle from '@/components/common/page-title';
-import { UpdateDocTypesDialog } from '@/components/dialogs';
+import { DocTypePayload, UpdateDocTypesDialog } from '@/components/dialogs';
 import AddDocTypesDialog from '@/components/dialogs/add-doc-types-dialog';
 import { DocumentTypeTable } from '@/components/document-type/document-types-table';
 import theme from '@/components/theme/theme';
@@ -21,6 +21,9 @@ const DocumentTypeManagement = () => {
     size: 10
   });
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [selectedDocType, setSelectedDocType] = useState<
+    DocTypePayload | undefined
+  >(undefined);
 
   const { data: response, isLoading } = useListDocumentTypes({
     queryParams
@@ -38,6 +41,7 @@ const DocumentTypeManagement = () => {
   const openUpdateDialog = (id: number) => {
     setIsUpdate(true);
     setSelectingDocType(id);
+    setSelectedDocType(response?.data.find((type) => type.id === id));
   };
 
   const { mutate: updateDocType, isLoading: isUpdating } = useUpdateDocType({
@@ -109,6 +113,7 @@ const DocumentTypeManagement = () => {
 
         <AddDocTypesDialog isOpen={isOpen} onClose={handleClose} />
         <UpdateDocTypesDialog
+          data={selectedDocType!}
           handleUpdate={handleUpdate}
           isOpen={isUpdate}
           isLoading={isUpdating}

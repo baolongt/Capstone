@@ -28,9 +28,9 @@ const OutgoingStatusChart = () => {
 
   return (
     <DocumentStatusPieChart
-      label="Thống kê văn bản đi"
+      label="Văn bản đi"
       data={convertResponseDataToChartData(odData)}
-      sx={{ width: '60%', p: 3 }}
+      sx={{ width: '100%', px: 1, py: 3 }}
       isLoading={odLoading}
       handleDateRangeOnChange={handleOdDateFilterChange}
     />

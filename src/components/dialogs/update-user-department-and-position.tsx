@@ -100,7 +100,7 @@ export const UserUpdateDepartmentAndPositionDialog = ({
 
   return (
     <Dialog open={isOpen} onClose={handleDialogClose}>
-      <DialogTitle fontWeight={600}>Cập nhật thông tin người dùng</DialogTitle>
+      <DialogTitle fontWeight={600}>Cập nhật thông tin nhân viên</DialogTitle>
       <DialogContent>
         <Stack component="form" gap={2}>
           {isLoading ? (

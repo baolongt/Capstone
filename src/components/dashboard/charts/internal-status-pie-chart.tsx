@@ -25,9 +25,9 @@ const InternalStatusChart = () => {
 
   return (
     <DocumentStatusPieChart
-      label="Thống kê văn bản nội bộ"
+      label="Văn bản nội bộ"
       data={convertResponseDataToChartData(data)}
-      sx={{ width: '60%', p: 3 }}
+      sx={{ width: '100%', px: 1, py: 3 }}
       isLoading={isLoading}
       handleDateRangeOnChange={handleOdDateFilterChange}
     />

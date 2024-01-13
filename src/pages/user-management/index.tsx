@@ -47,11 +47,11 @@ const UserManagement = () => {
   //delete User
   const { mutate: deleteUserMutate } = useDeleteUser({
     onSuccess: () => {
-      toast.success('Xóa người dùng thành công');
+      toast.success('Xóa nhân viên thành công');
       handleCloseDeleteDialog();
     },
     onError: () => {
-      toast.error('Xóa người dùng thất bại');
+      toast.error('Xóa nhân viên thất bại');
     }
   });
   const handleOpenDeleteDialog = (id: number) => {
