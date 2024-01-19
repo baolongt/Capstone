@@ -17,6 +17,7 @@ export const createSchema = yup
     documentTypeId: yup.number().required('Loại văn bản là bắt buộc'),
     status: yup.number().required('Trạng thái là bắt buộc'),
     processDeadline: yup.string().required('Hạn xử lý là bắt buộc'),
+
     files: yup
       .array()
       .required('Yêu cầu file đính kèm')

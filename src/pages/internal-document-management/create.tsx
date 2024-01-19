@@ -25,8 +25,10 @@ const CreateInternalDocumentPage = ({
       toast.success('Tạo văn bản nội bộ thành công');
       handleNextStep?.();
     },
-    onError: () => {
-      toast.error('Tạo văn bản nội bộ thất bại');
+    onError: (err) => {
+      if (err) {
+        toast.error(err);
+      } else toast.error('Tạo văn bản nội bộ thất bại');
     },
     callback: (data) => {
       if (data) {

@@ -25,8 +25,10 @@ const CreateIncomingDocumentPage = ({
       toast.success('Tạo mới văn bản đến thành công');
       handleNextStep?.();
     },
-    onError: () => {
-      toast.error('Tạo mới văn bản đến thất bại');
+    onError: (err) => {
+      if (err) {
+        toast.error(err);
+      } else toast.error('Tạo mới văn bản đến thất bại');
     },
     callback: (data) => {
       if (data) {

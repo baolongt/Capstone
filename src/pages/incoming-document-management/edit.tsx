@@ -40,8 +40,10 @@ const EditIncomingDocumentPage = () => {
       toast.success('Chỉnh sửa văn bản đi thành công');
       navigate('/incoming-documents');
     },
-    onError: () => {
-      toast.error('Chỉnh sửa văn bản đi thất bại');
+    onError: (err) => {
+      if (err) {
+        toast.error(err);
+      } else toast.error('Chỉnh sửa văn bản đi thất bại');
     },
     id: id || ''
   });

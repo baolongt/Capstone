@@ -40,8 +40,10 @@ const EditInternalDocumentPage = () => {
       toast.success('Chỉnh sửa văn bản nội bộ thành công');
       navigate('/internal-documents');
     },
-    onError: () => {
-      toast.error('Chỉnh sửa văn bản nội bộ thất bại');
+    onError: (err) => {
+      if (err) {
+        toast.error(err);
+      } else toast.error('Chỉnh sửa văn bản nội bộ thất bại');
     },
     id: id || ''
   });

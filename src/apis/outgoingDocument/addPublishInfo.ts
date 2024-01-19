@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 
 import { api } from '@/constants';
 import { common } from '@/models';
@@ -34,8 +35,8 @@ export const useAddPublishInfo = ({
       queryClient.invalidateQueries({ queryKey: [api.OUTGOING_DOCUMENT, id] });
       onSuccess && onSuccess(data);
     },
-    onError: () => {
-      onError && onError();
+    onError: (error: AxiosError) => {
+      onError?.(error?.response?.data);
     }
   });
 };

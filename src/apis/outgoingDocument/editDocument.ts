@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 
 import { DragAndDropBoxValueType } from '@/components/common/form-control/drag-and-drop-box';
 import { api } from '@/constants';
@@ -77,8 +78,8 @@ export const useEditDocument = ({
       queryClient.invalidateQueries({ queryKey: [api.OUTGOING_DOCUMENT, id] });
       onSuccess?.();
     },
-    onError: () => {
-      onError?.();
+    onError: (error: AxiosError) => {
+      onError?.(error?.response?.data);
     }
   });
 };

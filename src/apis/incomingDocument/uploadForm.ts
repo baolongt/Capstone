@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import dayjs from 'dayjs';
 
 import { api, TIMEZONE } from '@/constants';
@@ -146,8 +147,8 @@ export const useUploadIncomingForm = ({
       queryClient.invalidateQueries({ queryKey: [api.INCOMING_DOCUMENT] });
       onSuccess?.();
     },
-    onError: () => {
-      onError?.();
+    onError: (error: AxiosError) => {
+      onError?.(error?.response?.data);
     }
   });
 };

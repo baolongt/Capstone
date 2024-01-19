@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 
 import { api } from '@/constants';
 import { common, UploadFile } from '@/models';
@@ -141,8 +142,8 @@ export const useUploadForm = ({
       queryClient.invalidateQueries({ queryKey: [api.DEPARTMENT] });
       onSuccess?.();
     },
-    onError: () => {
-      onError?.();
+    onError: (error: AxiosError) => {
+      onError?.(error?.response?.data);
     }
   });
 };
