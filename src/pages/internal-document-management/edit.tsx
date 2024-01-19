@@ -7,10 +7,12 @@ import { toast } from 'react-toastify';
 
 import { useEditInternalDocument } from '@/apis/internalDocument/editDocument';
 import { useGetOneDocument } from '@/apis/internalDocument/getOneDocument';
+import { Loading } from '@/components/common';
 import AppDocViewer from '@/components/common/document-viewer';
 import PageHeader from '@/components/common/page-header';
 import PageTitle from '@/components/common/page-title';
 import EditForm from '@/components/document/internal/internal-doc-edit-form';
+import { OutgoingDocumentStatus } from '@/constants';
 import { internalDocument, validation } from '@/models';
 import { convertDetailToEditForm } from '@/models/internalDocument';
 
@@ -53,7 +55,7 @@ const EditInternalDocumentPage = () => {
     any
   >;
 
-  const { getValues } = form;
+  const { getValues, handleSubmit } = form;
 
   const handleSave = () => {
     editDocument({
@@ -69,8 +71,11 @@ const EditInternalDocumentPage = () => {
   }, [data, form]);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
+
+  if (data?.documentStatus != OutgoingDocumentStatus.EDITING)
+    navigate('/internal-documents/' + id);
 
   return (
     <>

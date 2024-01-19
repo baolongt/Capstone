@@ -1,3 +1,4 @@
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import {
   Box,
@@ -24,6 +25,7 @@ import {
   WorkFlowDocType,
   WorkFlowStatus
 } from '@/apis';
+import { useListDocumentFields } from '@/apis/documentType/listDocumentFields';
 import { DocTypeEnum } from '@/apis/file/addDocToFile';
 import { useGetOneDocument } from '@/apis/incomingDocument/getOneDocument';
 import { useRestartStatus } from '@/apis/work-flow/restart';
@@ -35,6 +37,7 @@ import {
   AddDocToFileDialog,
   WorkflowDiagramDialog
 } from '@/components/dialogs';
+import { ShareListIncomingDialog } from '@/components/dialogs/share-list-dialog-incoming';
 import {
   DetailAttachmentAccordion,
   DetailDescription,
@@ -58,6 +61,9 @@ const IncomingDocumentDetail = () => {
     docId: id ? parseInt(id) : -1,
     docType: WorkFlowDocType.INCOMING
   });
+  const [openShareList, setOpenShareList] = React.useState(false);
+
+  const { data: fields } = useListDocumentFields();
 
   const [openAddDocToFile, setOpenAddDocToFile] = React.useState(false);
   const navigate = useNavigate();
@@ -100,7 +106,7 @@ const IncomingDocumentDetail = () => {
         navigate('/incoming-documents/create?step=2&&id=' + data.id);
       }
     }
-  }, [data]);
+  }, [data, navigate]);
 
   if (isLoading) {
     return <Loading />;
@@ -199,6 +205,11 @@ const IncomingDocumentDetail = () => {
                 <PostAddIcon />
               </IconButton>
             </Tooltip>
+            <Tooltip title="Chia sẻ">
+              <IconButton color="info" onClick={() => setOpenShareList(true)}>
+                <PersonAddIcon />
+              </IconButton>
+            </Tooltip>
 
             {workflow && (
               <WorkFlowButtonsHandle
@@ -231,7 +242,9 @@ const IncomingDocumentDetail = () => {
             data={{
               epitomize: data.epitomize,
               documentNotation: data.incomingPublishInfo.incomingNotation,
-              documentField: data.documentField,
+              documentField:
+                fields?.filter((f) => f.id.toString() == data.documentField)[0]
+                  .field ?? '',
               documentTypeName: data.documentTypeName,
               createdByName: data.createdByName
             }}
@@ -296,6 +309,10 @@ const IncomingDocumentDetail = () => {
         isOpen={openAddDocToFile}
         docType={DocTypeEnum.INCOMING}
         onClose={handleCloseAddDocToFile}
+      />
+      <ShareListIncomingDialog
+        isOpen={openShareList}
+        onClose={() => setOpenShareList(false)}
       />
     </>
   );

@@ -3,8 +3,9 @@ import { Box, FormHelperText, Typography } from '@mui/material';
 import { indigo } from '@mui/material/colors';
 import { useTheme } from '@mui/material/styles';
 import React, { useState } from 'react';
-import { Accept, useDropzone } from 'react-dropzone';
+import { Accept, FileRejection, useDropzone } from 'react-dropzone';
 import { Controller, UseFormReturn } from 'react-hook-form';
+import { toast } from 'react-toastify';
 
 import { Attachment, UploadFile } from '@/models';
 
@@ -34,7 +35,15 @@ const DragAndDropBox: React.FC<DragAndDropBoxProps> = ({
   const theme = useTheme();
   const [isHovered, setIsHovered] = useState(false);
 
-  const onDrop = (acceptedFiles: File[]) => {
+  const onDrop = (acceptedFiles: File[], fileRejections: FileRejection[]) => {
+    fileRejections.forEach((file) => {
+      console.log('file', file);
+      file.errors.forEach((err) => {
+        if (err.code === 'file-too-large') {
+          toast.error('File quá lớn, vui lòng chọn file nhỏ hơn 25MB');
+        }
+      });
+    });
     const newFiles = acceptedFiles.map((file: File) => {
       const uploadFile: UploadFile = new UploadFile({
         fileObj: file
@@ -69,10 +78,14 @@ const DragAndDropBox: React.FC<DragAndDropBoxProps> = ({
     onChange(files);
   };
 
+  const MAX_SIZE = 26214400;
+
   const { getRootProps, isDragActive } = useDropzone({
     accept: fileAccpetType,
     onDrop,
-    multiple: true
+    multiple: true,
+    minSize: 1,
+    maxSize: MAX_SIZE
   });
 
   return (

@@ -7,7 +7,8 @@ export const schema = yup.object().shape({
   contactListIds: yup
     .array()
     .of(yup.number())
-    .required('Người nhận là bắt buộc'),
+    .required('Người nhận là bắt buộc')
+    .length(1, 'Người nhận là bắt buộc'),
   priority: yup.number().required('Độ ưu tiên là bắt buộc'),
   dueDate: yup.date().required('Hạn xử lý là bắt buộc'),
   issuedAmount: yup.number().required('Số lượng bản phát hành là bắt buộc')

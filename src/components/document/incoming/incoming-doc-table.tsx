@@ -50,7 +50,7 @@ export const IncomingDocumentTable: React.FC<IncomingDocumentTableProps> = ({
       cell: (row) => IncomingDocumentStatusDict[row.getValue()],
       size: 100
     }),
-    columnHelper.accessor('publishDate', {
+    columnHelper.accessor('createdDate', {
       header: 'Ngày soạn',
       cell: (row) => moment(row.getValue()).format('DD/MM/YYYY'),
       size: 100

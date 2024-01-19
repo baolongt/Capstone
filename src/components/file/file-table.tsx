@@ -73,11 +73,6 @@ export const FileTable: React.FC<FileTableProps> = ({
       cell: (row) => row.renderValue(),
       size: 30
     }),
-    columnHelper.accessor('organCode', {
-      header: 'Đơn vị',
-      cell: (row) => row.renderValue(),
-      size: 30
-    }),
     columnHelper.accessor('docTotal', {
       header: 'Số văn bản',
       cell: (row) => row.renderValue(),

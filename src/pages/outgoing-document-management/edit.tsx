@@ -7,10 +7,12 @@ import { toast } from 'react-toastify';
 
 import { useEditDocument } from '@/apis/outgoingDocument/editDocument';
 import { useGetOneDocument } from '@/apis/outgoingDocument/getOneDocument';
+import { Loading } from '@/components/common';
 import AppDocViewer from '@/components/common/document-viewer';
 import PageHeader from '@/components/common/page-header';
 import PageTitle from '@/components/common/page-title';
 import EditForm from '@/components/document/outgoing/outgoing-doc-edit-form';
+import { OutgoingDocumentStatus } from '@/constants';
 import { outgoingDocument, validation } from '@/models';
 import { convertDetailToEditForm } from '@/models/outgoingDocument';
 
@@ -53,7 +55,7 @@ const EditOutgoingDocumentPage = () => {
     any
   >;
 
-  const { getValues } = form;
+  const { getValues, handleSubmit } = form;
 
   const handleSave = () => {
     editDocument({
@@ -69,8 +71,11 @@ const EditOutgoingDocumentPage = () => {
   }, [data, form]);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
+
+  if (data?.documentStatus != OutgoingDocumentStatus.EDITING)
+    navigate('/outgoing-documents/' + id);
 
   return (
     <>
@@ -93,6 +98,7 @@ const EditOutgoingDocumentPage = () => {
         >
           <EditForm
             watchAttachment={watchAttachment}
+            handleSubmit={handleSubmit}
             handleSave={handleSave}
             form={form}
             data={getValues()}

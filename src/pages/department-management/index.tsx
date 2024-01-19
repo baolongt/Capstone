@@ -3,7 +3,7 @@ import { debounce } from 'lodash';
 import React, { useState } from 'react';
 
 import { useListDepartments } from '@/apis/department';
-import { CustomButton, InputSearch } from '@/components/common';
+import { CustomButton, InputSearch, Loading } from '@/components/common';
 import PageHeader from '@/components/common/page-header';
 import PageTitle from '@/components/common/page-title';
 import { DepartmentTable } from '@/components/department/department-table';
@@ -39,7 +39,7 @@ const DepartmentManagement = () => {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
   if (response) {
     const { data, metadata } = response;

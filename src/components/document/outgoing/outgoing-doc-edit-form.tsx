@@ -2,7 +2,7 @@ import { Box, Grid, Stack, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 import * as React from 'react';
 import { Accept } from 'react-dropzone';
-import { UseFormReturn } from 'react-hook-form';
+import { UseFormHandleSubmit, UseFormReturn } from 'react-hook-form';
 
 import {
   CustomButton,
@@ -41,6 +41,8 @@ interface EditFormProps {
   >;
   data?: outgoingDocument.EditOutgoingDocument;
   handleSave: () => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  handleSubmit: UseFormHandleSubmit<any, any>;
   watchAttachment?: (url: string) => void;
   signAttachment?: (id: string) => void;
 }
@@ -48,6 +50,7 @@ interface EditFormProps {
 const EditForm: React.FC<EditFormProps> = ({
   form,
   data,
+  handleSubmit,
   handleSave,
   watchAttachment,
   signAttachment
@@ -76,7 +79,12 @@ const EditForm: React.FC<EditFormProps> = ({
   if (data) {
     return (
       <Stack>
-        <Grid container spacing={2} component="form">
+        <Grid
+          container
+          spacing={2}
+          component="form"
+          onSubmit={handleSubmit(handleSave)}
+        >
           <Grid item xs={12} sm={12}>
             <Typography style={{ marginBottom: '5px' }} fontWeight="bold">
               Trích yếu
@@ -152,7 +160,7 @@ const EditForm: React.FC<EditFormProps> = ({
                 disabled={!isDirty}
                 variant="outlined"
                 label="Lưu"
-                onClick={handleSave}
+                type="submit"
               />
             </Stack>
           </Grid>

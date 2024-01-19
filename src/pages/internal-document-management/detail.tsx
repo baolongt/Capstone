@@ -21,6 +21,7 @@ import {
   WorkFlowDocType,
   WorkFlowStatus
 } from '@/apis';
+import { useListDocumentFields } from '@/apis/documentType/listDocumentFields';
 import { DocTypeEnum } from '@/apis/file/addDocToFile';
 import { useGetOneDocument } from '@/apis/internalDocument/getOneDocument';
 import { useRestartStatus } from '@/apis/work-flow/restart';
@@ -57,6 +58,8 @@ const InternalDocumentDetail = () => {
     docType: WorkFlowDocType.INTERNAL
   });
   const navigate = useNavigate();
+
+  const { data: fields } = useListDocumentFields();
 
   const { mutate: changeStatus } = useChangeStatus({
     id: id ? parseInt(id) : -1,
@@ -95,7 +98,7 @@ const InternalDocumentDetail = () => {
         navigate('/internal-documents/create?step=2&&id=' + data.id);
       }
     }
-  }, [data]);
+  }, [data, navigate]);
 
   if (isLoading) {
     return <Loading />;
@@ -212,7 +215,15 @@ const InternalDocumentDetail = () => {
           }}
           component={Paper}
         >
-          <DetailDescription data={data} sx={{ width: '100%' }} />
+          <DetailDescription
+            data={{
+              ...data,
+              documentField:
+                fields?.filter((f) => f.id.toString() == data.documentField)[0]
+                  .field ?? ''
+            }}
+            sx={{ width: '100%' }}
+          />
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
             <DetailTimeline
               sx={{

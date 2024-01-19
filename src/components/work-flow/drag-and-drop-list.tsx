@@ -82,6 +82,7 @@ const ListItem = ({
     if (!isHaveFailStep) {
       handleUpdateFailStepNumber(item.id);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isHaveFailStep]);
 
   return (
@@ -284,9 +285,9 @@ function DragAndDropList({
     }
   };
 
-  useEffect(() => {
-    console.log('items changed: ', items);
-  }, [items]);
+  // useEffect(() => {
+  //   console.log('items changed: ', items);
+  // }, [items]);
 
   useEffect(() => {
     if (!initData) return;
@@ -385,6 +386,7 @@ function DragAndDropList({
               </Box>
             )}
             {items.map((item, index) => {
+              console.log('item ', item);
               return (
                 <ListItem
                   key={item.id}

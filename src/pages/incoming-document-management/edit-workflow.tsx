@@ -1,19 +1,27 @@
 import { Box, Paper } from '@mui/material';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { useGetWorkFlows, WorkFlowDocType } from '@/apis';
+import { useGetOneDocument } from '@/apis/incomingDocument/getOneDocument';
 import { Loading } from '@/components/common';
 import PageHeader from '@/components/common/page-header';
 import PageTitle from '@/components/common/page-title';
 import { EditWorkFlow } from '@/components/work-flow';
+import { OutgoingDocumentStatus } from '@/constants';
 
 const IncomingDocEditWorkFlowPage = () => {
   const { id } = useParams<{ id: string }>();
+  const { data } = useGetOneDocument(id ? parseInt(id) : -1);
+  const navigate = useNavigate();
   const { data: workflow, isLoading: isLoadingWorkflow } = useGetWorkFlows({
     docId: id ? parseInt(id) : -1,
     docType: WorkFlowDocType.INCOMING
   });
   if (isLoadingWorkflow) return <Loading />;
+
+  if (data?.documentStatus != OutgoingDocumentStatus.EDITING)
+    navigate('/incoming-documents/' + id);
+
   return (
     <>
       <Box>

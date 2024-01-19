@@ -37,9 +37,9 @@ export type CreateType = {
 export const editSchema = yup.object().shape({
   epitomize: yup
     .string()
-    .required('Trích yếu là bắt buộc')
     .trim()
-    .min(1)
+    .required('Trích yếu là bắt buộc')
+    .notOneOf([''], 'Trích yếu không được để trống')
     .nonNullable(),
   documentField: yup.number().required('Lĩnh vực văn bản là bắt buộc'),
   documentTypeId: yup.number().required('Loại văn bản là bắt buộc'),

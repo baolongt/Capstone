@@ -73,41 +73,43 @@ const CreateTemplateDialog: React.FC<CreateTemplateDialogProps> = ({
         {mode === 'create' ? 'Thêm mới' : 'Cập nhật'} văn bản mẫu
       </DialogTitle>
 
-      <DialogContent>
-        <Box component="div" sx={{ width: '100%', mb: 3 }}>
-          <FieldTitle
-            title="Tên văn bản mẫu"
-            isRequired={true}
-            sx={{ fontWeight: 400 }}
-          />
-          <InputField form={form} name="name" />
-        </Box>
-        <Box component="div" sx={{ width: '100%', mb: 3 }}>
-          <FieldTitle
-            title="Nội dung"
-            isRequired={true}
-            sx={{ fontWeight: 400 }}
-          />
-          <MultilineTextField form={form} name="description" minRows={4} />
-        </Box>
-        <Box component="div" sx={{ width: '100%', mb: 3 }}>
-          <FieldTitle
-            title="Văn bản mẫu"
-            isRequired={true}
-            sx={{ fontWeight: 400 }}
-          />
-          <WrappedDragDropFile
-            form={form}
-            name="file"
-            fileAccpetType={fileAccpetType}
-          />
-        </Box>
-      </DialogContent>
+      <Box component="form" onSubmit={form.handleSubmit(handleSubmit)}>
+        <DialogContent>
+          <Box component="div" sx={{ width: '100%', mb: 3 }}>
+            <FieldTitle
+              title="Tên văn bản mẫu"
+              isRequired={true}
+              sx={{ fontWeight: 400 }}
+            />
+            <InputField form={form} name="name" />
+          </Box>
+          <Box component="div" sx={{ width: '100%', mb: 3 }}>
+            <FieldTitle
+              title="Nội dung"
+              isRequired={true}
+              sx={{ fontWeight: 400 }}
+            />
+            <MultilineTextField form={form} name="description" minRows={4} />
+          </Box>
+          <Box component="div" sx={{ width: '100%', mb: 3 }}>
+            <FieldTitle
+              title="Văn bản mẫu"
+              isRequired={true}
+              sx={{ fontWeight: 400 }}
+            />
+            <WrappedDragDropFile
+              form={form}
+              name="file"
+              fileAccpetType={fileAccpetType}
+            />
+          </Box>
+        </DialogContent>
 
-      <DialogActions sx={{ p: '0 24px 24px 0' }}>
-        <CustomButton label="Hủy bỏ" variant="outlined" onClick={onClose} />
-        <CustomButton label="Tạo" onClick={handleSubmit} />
-      </DialogActions>
+        <DialogActions sx={{ p: '0 24px 24px 0' }}>
+          <CustomButton label="Hủy bỏ" variant="outlined" onClick={onClose} />
+          <CustomButton label="Tạo" type="submit" />
+        </DialogActions>
+      </Box>
     </Dialog>
   );
 };

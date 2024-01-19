@@ -23,7 +23,8 @@ const fileAccpetType: Accept = {
   'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': [
     '.xlsx'
   ],
-  'application/pdf': ['.pdf']
+  'application/pdf': ['.pdf'],
+  'text/csv': ['.csv']
 };
 
 export interface ImportFileDialogProps {
@@ -46,6 +47,7 @@ export const ImportFileDialog = (props: ImportFileDialogProps) => {
     const { file } = form.getValues();
     if (file && file.fileObj) {
       onSubmit(file.fileObj);
+      form.reset();
     }
   };
   return (
