@@ -5,7 +5,7 @@ import { common } from '@/models';
 import { axiosInstance } from '@/utils';
 
 export const deleteTemplateDoc = async (id: number) => {
-  return await axiosInstance.delete(`/api/Template/${id}`);
+  return await axiosInstance.delete(`/api/Template?id=${id}`);
 };
 
 export const useDeleteTemplateDoc = ({

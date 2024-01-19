@@ -1,3 +1,4 @@
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import {
   Box,
@@ -36,6 +37,7 @@ import {
   AddDocToFileDialog,
   WorkflowDiagramDialog
 } from '@/components/dialogs';
+import { ShareListIncomingDialog } from '@/components/dialogs/share-list-dialog-incoming';
 import {
   DetailAttachmentAccordion,
   DetailDescription,
@@ -59,6 +61,7 @@ const IncomingDocumentDetail = () => {
     docId: id ? parseInt(id) : -1,
     docType: WorkFlowDocType.INCOMING
   });
+  const [openShareList, setOpenShareList] = React.useState(false);
 
   const { data: fields } = useListDocumentFields();
 
@@ -202,6 +205,11 @@ const IncomingDocumentDetail = () => {
                 <PostAddIcon />
               </IconButton>
             </Tooltip>
+            <Tooltip title="Chia sẻ">
+              <IconButton color="info" onClick={() => setOpenShareList(true)}>
+                <PersonAddIcon />
+              </IconButton>
+            </Tooltip>
 
             {workflow && (
               <WorkFlowButtonsHandle
@@ -301,6 +309,10 @@ const IncomingDocumentDetail = () => {
         isOpen={openAddDocToFile}
         docType={DocTypeEnum.INCOMING}
         onClose={handleCloseAddDocToFile}
+      />
+      <ShareListIncomingDialog
+        isOpen={openShareList}
+        onClose={() => setOpenShareList(false)}
       />
     </>
   );

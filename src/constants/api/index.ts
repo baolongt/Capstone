@@ -15,6 +15,7 @@ export const INTERNAL_DOCUMENT_STATUS_DASHBORD =
 export const LEADER = 'leaders';
 export const TEMPLATE = 'templates';
 export const SHARE_LIST = 'share-lists';
+export const SHARE_LIST_IMCOMING = 'share-lists-incoming';
 export const UNSHARE_LIST = 'unshare-lists';
 export const OUTGOING_DOCUMENT_PUBLISH_NUMBER =
   'outgoing-document-publish-number';
