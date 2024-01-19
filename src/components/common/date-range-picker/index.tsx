@@ -47,22 +47,10 @@ export const DateRangePickerInput: React.FC<DateRangePickerInputProps> = (
   const { onChange, sx, disableFuture } = props;
   const [dateRange, setDateRange] = React.useState<DateRange>();
   const handleOnChange = (e: any) => {
-    if (Array.isArray(e)) {
-      e.map((date, idx) => {
-        if (date && dayjs(date).isValid()) {
-          if (idx == 0) {
-            setDateRange({
-              ...dateRange,
-              from: dayjs(date).startOf('day').toISOString()
-            });
-          }
-          if (idx == 1) {
-            setDateRange({
-              ...dateRange,
-              to: dayjs(date).endOf('day').toISOString()
-            });
-          }
-        }
+    if (Array.isArray(e) && e.length == 2) {
+      setDateRange({
+        from: dayjs(e[0]).startOf('day').toISOString(),
+        to: dayjs(e[1]).endOf('day').toISOString()
       });
     }
   };
