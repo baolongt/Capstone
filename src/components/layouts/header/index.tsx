@@ -11,7 +11,7 @@ const DefaultHeader = () => {
         display: 'flex',
         alignItems: 'flex-start',
         flexDirection: 'row',
-        width: '300px'
+        width: '500px'
       }}
     >
       <NotiMenu />
