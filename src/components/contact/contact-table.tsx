@@ -36,22 +36,22 @@ export const ContactTable: React.FC<ContactTableProps> = ({
     columnHelper.accessor('name', {
       header: 'Tên đơn vị',
       cell: (row) => row.renderValue(),
-      size: 100
+      size: 350
     }),
     columnHelper.accessor('organCode', {
       header: 'Mã đơn vị',
       cell: (row) => row.renderValue(),
-      size: 200
+      size: 100
     }),
     columnHelper.accessor('email', {
       header: 'Email',
       cell: (row) => row.renderValue(),
-      size: 200
+      size: 150
     }),
     columnHelper.accessor('phone', {
       header: 'Điện thoại',
       cell: (row) => row.renderValue(),
-      size: 200
+      size: 100
     }),
     columnHelper.accessor('id', {
       header: '',
