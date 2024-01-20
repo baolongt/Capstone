@@ -58,7 +58,10 @@ export const FileDetailOutgoingDocumentTable: React.FC<
           <Tooltip title="Xoá khỏi sổ công việc">
             <IconButton
               color="error"
-              onClick={() => handleOpenRemoveDoc(Number(row.renderValue()))}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleOpenRemoveDoc(Number(row.renderValue()));
+              }}
             >
               <DeleteIcon />
             </IconButton>
