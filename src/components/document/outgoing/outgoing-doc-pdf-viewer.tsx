@@ -117,10 +117,10 @@ const PDFViewer = ({
                     currentPage.getSize().height / docRef.current.clientHeight;
 
                   // position from top left * scale
-                  const newX = position.x * xScale;
+                  const newX = position.x * xScale + 15;
                   // revert position from bottom left * scale
                   const newY =
-                    currentPage.getSize().height - position.y * yScale - 50; //some number to fix wrong position
+                    currentPage.getSize().height - position.y * yScale - 45; //some number to fix wrong position
 
                   currentPage.drawText(text, {
                     x: newX,
